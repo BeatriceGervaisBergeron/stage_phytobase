@@ -1,0 +1,64 @@
+variables;min_value;max_value;sources;;;;;
+covidence;0;9847;maximum number of articles in the systematic review;;;;;
+year;1980;2022;Limts date of the article research;;;;;
+mat;0;30;;;;;;
+map;50;1000;;;;;;
+om;0.5;8;;;;;;
+oc;;;;;;;;
+clay;5;90;;;;;;
+sand;5;90;;;;;;
+ec;;;;;;;;
+cec;;;;;;;;
+n;;;;;;;;
+p;;;;;;;;
+as_s;0;;;;;;;
+cd_s;0;;;;;;;
+cu_s;0;;;;;;;
+pb_s;0;;;;;;;
+zn_s;0;;;;;;;
+se_s;0;;;;;;;
+ni_s;0;;;;;;;
+mn_s;0;;;;;;;
+cr_s;0;;;;;;;
+n_s;0;10;arbitrary, but more then 10 replicates seems a lot;;;;;
+ba_total;;;;;;;;
+ba_stem;;;;;;;;
+ba_leaf;;;;;;;;
+br;;;;;;;;
+as_ba;0;1000;"All plant values for hyperaccumulation species, so very rare cases. Verify if you found some. Base on van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+";;;;;
+cd_ba;0;100;;;;;;
+cu_ba;0;300;;;;;;
+pb_ba;0;1000;;;;;;
+zn_ba;0;3000;;;;;;
+se_ba;0;100;;;;;;
+ni_ba;0;1000;;;;;;
+co_ba;0;300;;;;;;
+mn_ba;0;10000;;;;;;as_ba
+cr_ba;;300;;;;;;
+hg_ba;;1;;;;;;
+n_te_ba;0;10;arbitrary, but more then 10 replicates seems a lot;;;;;cd_ba
+as_br;0;1000;;;;;;cu_ba
+cd_br;0;100;;;;;;pb_ba
+cu_br;0;300;;;;;;zn_ba
+pb_br;0;1000;;;;;;se_ba
+zn_br;0;3000;;;;;;ni_ba
+se_br;0;100;;;;;;co_ba
+ni_br;0;1000;;;;;;mn_ba
+co_br;0;300;;;;;;
+mn_br;0;10000;;;;;;cr_ba
+cr_br;;300;;;;;;hg_ba
+hg_b1;;1;;;;;;
+n_te_br;0;10;arbitrary, but more then 10 replicates seems a lot;;;;;
+as_ba.1;;1000;;;;;;
+cd_ba.1;0;100;;;;;;
+cu_ba.1;0;300;;;;;;
+pb_ba.1;0;1000;;;;;;
+zn_ba.1;0;3000;;;;;;
+se_ba.1;;100;;;;;;
+ni_ba.1;0;1000;;;;;;
+co_ba.1;0;300;;;;;;
+mn_ba.1;;10000;;;;;;
+cr_ba.1;0;300;;;;;;
+hg_ba.1;;1;;;;;;
+n_te_ba.1;0;10;arbitrary, but more then 10 replicates seems a lot;;;;;

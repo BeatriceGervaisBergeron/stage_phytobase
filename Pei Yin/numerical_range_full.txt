@@ -1,0 +1,70 @@
+variables	min_value	max_value	sources
+covidence	0	9847	maximum number of articles in the systematic review
+year	1980	2022	Limts date of the article research
+expe_t	12	30	
+mat	0	30	
+map	50	1000	
+ph	5	8	
+om	0.5	8	
+oc			
+clay	5	90	
+sand	5	90	
+ec			
+cec			
+n			
+p			
+as_s	0	250	limits values for landfill site in quebec.
+cd_s	0	100	
+cu_s	0	2500	
+pb_s	0	5000	
+zn_s	0	7500	
+se_s	0	50	
+ni_s	0	2500	
+co_s	0	1500	
+mn_s	0	11000	
+cr_s	0	4000	
+hg_s	0	50	
+n_s	0	10	arbitrary, but more then 10 replicates seems a lot
+ba_total			
+ba_stem			
+ba_leaf			
+br			
+as_ba	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_ba	0	100	
+cu_ba	0	300	
+pb_ba	0	1000	
+zn_ba	0	3000	
+se_ba	0	100	
+ni_ba	0	1000	
+co_ba	0	300	
+mn_ba	0	10000	
+cr_ba	0	300	
+hg_ba	0	1	
+n_te_ba	0	10	arbitrary, but more then 10 replicates seems a lot
+as_br	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_br	0	100	
+cu_br	0	300	
+pb_br	0	1000	
+zn_br	0	3000	
+se_br	0	100	
+ni_br	0	1000	
+co_br	0	300	
+mn_br	0	10000	
+cr_br	0	300	
+hg_br	0	1	
+n_te_br	0	10	arbitrary, but more then 10 replicates seems a lot
+as_ba.1	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_ba.1	0	100	
+cu_ba.1	0	300	
+pb_ba.1	0	1000	
+zn_ba.1	0	3000	
+se_ba.1	0	100	
+ni_ba.1	0	1000	
+co_ba.1	0	300	
+mn_ba.1	0	10000	
+cr_ba.1	0	300	
+hg_ba.1	0	1	
+n_te_ba.1	0	10	arbitrary, but more then 10 replicates seems a lot
