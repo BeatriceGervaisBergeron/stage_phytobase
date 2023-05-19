@@ -9,7 +9,7 @@ library(taxize)
 
 
 #### call your data  ####
-data <- read.csv('Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
 
 
@@ -17,6 +17,34 @@ data <- read.csv('Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec
 # make sure there is not comma instead of points
 # already with points
 
+# make sure all column are in the correct forms (character or numerical)
+str(data)
+
+# transform variable that needed
+# Transform data
+data <- data %>%
+  mutate(
+    expe_t = as.numeric(expe_t)
+    , ph = as.numeric(ph)
+    , clay = as.numeric(clay)
+    , co_s = as.numeric(co_s)
+    , mn_s = as.numeric(mn_s)
+    , hg_s = as.numeric(hg_s)
+    , co_ba = as.numeric(co_ba)
+    , hg_ba = as.numeric(hg_ba)
+    , co_br = as.numeric(co_br)
+    , mn_br = as.numeric(mn_br)
+    , hg_br = as.numeric(hg_br)
+    , as_ba.1 = as.numeric(as_ba.1)
+    , zn_ba.1 = as.numeric(zn_ba.1)
+    , se_ba.1 = as.numeric(se_ba.1)
+    , co_ba.1 = as.numeric(co_ba.1)
+    , mn_ba.1 = as.numeric(mn_ba.1)
+    , hg_ba.1 = as.numeric(hg_ba.1))
+# here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
+
+# Verify the mutation
+str(data) # good
 
 
 #### all white space to NA ####
@@ -69,7 +97,7 @@ matches.all$dubl<-''
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
-            "~/Desktop/Stage_H23/stage_phytobase/Pei yin/uni_sp_match_names.txt", 
+            "./Pei yin/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
 
 # open the txt file in excel to make manual corrections
@@ -79,7 +107,7 @@ write.table(matches.all,
 # Save the corrected names in a txt file name, adding _cor to the name of the document
 
 # import back the data 
-uni_sp_cor <- read.table("~/Desktop/Stage_H23/stage_phytobase/Pei yin/uni_sp_match_names_cor.txt", 
+uni_sp_cor <- read.table("./Pei yin/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
 # eliminate duplicates
@@ -97,14 +125,14 @@ salix_sp_cor <- readRDS('Pei yin/salix_sp_cor.rds')
 # Add the new corrected list to the complete on
 list_sp_cor_salix<- bind_rows( salix_sp_cor, list_sp_cor)
 
-#
+# add the corrections to the data
 data <- data %>% 
   left_join(list_sp_cor_salix, by=c('name'= 'user_supplied_name'))
-# new column of the correct names
+# make a new column of the correct names
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 # Keep the corrected column
-data <- data[,-c(100:106)] #100 column
+data <- data[,-c(100:106)] # shoudl have 100 columns
 
 # Check number of sp now
 uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
@@ -112,7 +140,7 @@ uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
 
 
 
-#### uniformize units ####
+#### standardized units ####
 
 # Select all the units column
 units <- data %>%
@@ -211,7 +239,7 @@ data_std <- data_std %>%
 unique(data_std$units_te_ba.1) # only "mg kg−1" "" 
 
 
-#### unify categories terms ####
+#### standardize categories terms ####
 
 # Climate
 unique(data$climate) 
@@ -252,12 +280,43 @@ unique(data_std$organs_ba.1) # only stems
 
 
 
-#### outliers and errors in numerocal data ####
+#### outliers and errors in numerical data #### EN CONSTRUCTION
 
 # see if duplicates data entries
-unique_obs<- data_std[duplicated(data_std)] # 0 duplicates to eliminate
+unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
 
+# list of variables that need to be verify
+num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 66 variables
 
+# make a tables of the normal range for all those variables
+num_range <- as.data.frame(colnames(data_num))
+# add column to enter the ranges
+num_range$min_value <- '' 
+num_range$max_value <- ''
+num_range$sources <- ''
+
+# write it back as a table for manual correction in Excel
+write.table(num_range,
+            "./Pei yin/numerical_range.txt", 
+            sep="\t", row.names = F, quote = F)
+
+# import back the data 
+num_range_full <- read.table("./Pei yin/numerical_range_full.txt", 
+                         sep="\t", header=T, stringsAsFactors = F)
+
+# isolate data that are outside the range # EN CONSTRUCTION
+
+outliers <- data_std %>% 
+  select(ph) %>% 
+  filter(ph < num_range_full$min_value[num_range_full$variable == 'ph'] | ph > num_range_full$max_value[num_range_full$variable == 'ph'] )
+
+for(i in 1:ncol(data_num)) 
+{
+  outliers <- data_num %>% 
+    select(i) %>% 
+    filter(i < num_range_full$min_value[num_range_full$variable == 'i'] | i > num_range_full$max_value[num_range_full$variable == 'i'] )
+}  
 
 
 
