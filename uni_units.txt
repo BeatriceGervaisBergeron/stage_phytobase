@@ -1,0 +1,18 @@
+unique.a.	equivalent_unit	conversion
+%		 
+		 
+g/kg		 
+mS cm−1		 
+meq 100 g−1		 
+meq 100 g−2		 
+meq 100 g−3		 
+cmolc/kg		 
+cmolc kg-1		 
+mmol kg−1		 
+mg kg−1		 
+g m−2		 
+g		 
+mg kg−1		 
+g/plant		 
+t ha−1 yr−1		 
+mg Kg-1		 

@@ -1,0 +1,23 @@
+﻿user_supplied_name,submitted_name,matched_name2,score,implement,alternative,dubl
+(Salix schwerinii √ó Salix viminalis) √ó Salix viminalis,NA,NA,NA,TRUE,(Salix schwerinii x Salix viminalis) x Salix viminalis,FALSE
+Populus maximowiczii √ó Populus nigra,Populus maximowiczii √ó populus nigra,Populus maximowiczii,0.988,TRUE,Populus maximowiczii x Populus nigra,FALSE
+Populus nigra x maximowiczii,Populus nigra x maximowiczii,Populus nigra,0.988,TRUE,Populus nigra x Populus maximowiczii,FALSE
+Quercus infectoria,Quercus infectoria,Quercus infectoria,0.988,TRUE,Quercus infectoria,FALSE
+Salix babylonica (L.) x Salixalba (L.),Salix babylonica (l.) x salixalba (l.),Salix babylonica,0.988,TRUE,Salix babylonica x Salix alba,FALSE
+Salix caprea (L.) x Salix viminalis (L.),Salix caprea (l.) x salix viminalis (l.),Salix caprea,0.988,TRUE,Salix caprea x Salix viminalis,FALSE
+Salix chilensis,Salix chilensis,Salix chilensis,0.988,TRUE,Salix chilensis,FALSE
+Salix dasyclados (Wimm.),Salix dasyclados (wimm.),Salix dasyclados,0.988,TRUE,Salix dasyclados,FALSE
+Salix disperma,Salix disperma,Salix disperma,0.988,TRUE,Salix disperma,FALSE
+Salix fragilis (L.),Salix fragilis (l.),Salix fragilis,0.988,TRUE,Salix fragilis,FALSE
+Salix gmelinii ,Salix gmelinii,Salix gmelinii,0.988,TRUE,Salix gmelinii,FALSE
+Salix matsudana,Salix matsudana,Salix matsudana,0.988,TRUE,Salix matsudana,FALSE
+Salix matsudana (Koidz) x Salix alba (L.),Salix matsudana (koidz) x salix alba (l.),Salix matsudana,0.988,TRUE,Salix matsudana x Salix alba,FALSE
+Salix opaca (Anders Salix ex. Seemen),Salix opaca (anders salix ex. seemen),Salix opaca,0.988,TRUE,Salix opaca,FALSE
+Salix reichardtii,Salix reichardtii,Salix reichardtii,0.988,TRUE,Salix reichardtii,FALSE
+Salix rubens,Salix rubens,Salix rubens,0.988,TRUE,Salix rubens,FALSE
+Salix schwerinii (E. Wolf),Salix schwerinii (e. wolf),Salix schwerinii,0.988,TRUE,Salix schwerinii,FALSE
+Salix smithiana,Salix smithiana,Salix smithiana,0.988,TRUE,Salix smithiana,FALSE
+Salix triandra (L),Salix triandra (l),Salix triandra,0.988,TRUE,Salix triandra,FALSE
+Salix viminalis (L.),Salix viminalis (l.),Salix viminalis,0.988,TRUE,Salix viminalis,FALSE
+Salix viminalis (L),Salix viminalis (l),Salix viminalis,0.988,TRUE,Salix viminalis,TRUE
+,NA,NA,NA,TRUE,NA,FALSE

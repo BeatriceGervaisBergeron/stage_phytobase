@@ -1,0 +1,23 @@
+user_supplied_name	submitted_name	matched_name2	score	implement	alternative	dubl
+Salix viminalis (L)	Salix viminalis (l)	Salix viminalis	0.988			
+Salix opaca (Anders Salix ex. Seemen)	Salix opaca (anders salix ex. seemen)	Salix opaca	0.988			
+Salix caprea (L.) x Salix viminalis (L.)	Salix caprea (l.) x salix viminalis (l.)	Salix caprea	0.988			
+Salix viminalis (L.)	Salix viminalis (l.)	Salix viminalis	0.988			
+Salix schwerinii (E. Wolf)	Salix schwerinii (e. wolf)	Salix schwerinii	0.988			
+Salix disperma	Salix disperma	Salix disperma	0.988			
+Salix dasyclados (Wimm.)	Salix dasyclados (wimm.)	Salix dasyclados	0.988			
+Salix triandra (L)	Salix triandra (l)	Salix triandra	0.988			
+Salix matsudana (Koidz) x Salix alba (L.)	Salix matsudana (koidz) x salix alba (l.)	Salix matsudana	0.988			
+Salix babylonica (L.) x Salixalba (L.)	Salix babylonica (l.) x salixalba (l.)	Salix babylonica	0.988			
+Salix fragilis (L.)	Salix fragilis (l.)	Salix fragilis	0.988			
+Quercus infectoria	Quercus infectoria	Quercus infectoria	0.988			
+Salix gmelinii 	Salix gmelinii	Salix gmelinii	0.988			
+Salix rubens	Salix rubens	Salix rubens	0.988			
+Populus nigra x maximowiczii	Populus nigra x maximowiczii	Populus nigra	0.988			
+Salix smithiana	Salix smithiana	Salix smithiana	0.988			
+Populus maximowiczii × Populus nigra	Populus maximowiczii × populus nigra	Populus maximowiczii	0.988			
+Salix chilensis	Salix chilensis	Salix chilensis	0.988			
+Salix matsudana	Salix matsudana	Salix matsudana	0.988			
+Salix reichardtii	Salix reichardtii	Salix reichardtii	0.988			
+(Salix schwerinii × Salix viminalis) × Salix viminalis	NA	NA	NA			
+	NA	NA	NA			
