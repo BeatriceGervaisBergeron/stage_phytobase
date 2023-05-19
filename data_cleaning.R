@@ -15,6 +15,7 @@ data <- read.csv('Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec
 
 #### decimals ####
 # make sure there is not comma instead of points
+# already with points
 
 
 
@@ -29,7 +30,7 @@ data[data == ''] <- NA
 uni_sp<-as.data.frame(unique(data$name)) # 36 unique species
 colnames(uni_sp) <- c('sp')
 
-# Correcte the name according to the species name corrected from TRY
+# Correct the name according to the species name corrected from TRY
 
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
@@ -96,15 +97,14 @@ salix_sp_cor <- readRDS('Pei yin/salix_sp_cor.rds')
 # Add the new corrected list to the complete on
 list_sp_cor_salix<- bind_rows( salix_sp_cor, list_sp_cor)
 
-# check if duplicates
-dupl_sp <- duplicated(list_sp_cor_salix$user_supplied_name)
+#
 data <- data %>% 
   left_join(list_sp_cor_salix, by=c('name'= 'user_supplied_name'))
 # new column of the correct names
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 # Keep the corrected column
-data <- data[,-c(100:106)]
+data <- data[,-c(100:106)] #100 column
 
 # Check number of sp now
 uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
@@ -183,7 +183,7 @@ unique(units$units_s) # "mg kg−1"
 #"units_b" 
 unique(units$units_b) # "g m−2"       "g"           ""            "mg kg−1"     "g/plant"     "t ha−1 yr−1"
 # the mg mg-1 unit do not make sense, it should be verified for potential mistake
-# since biomass is measure really differently, for the moment ww'll let it like that
+# since biomass is measure really differently, for the moment we'll let it like that
 # 'on hold', to be unify if needed further on
 
 #"units_te_ba" 
@@ -258,3 +258,11 @@ unique(data_std$organs_ba.1) # only stems
 unique_obs<- data_std[duplicated(data_std)] # 0 duplicates to eliminate
 
 
+
+
+
+
+#### add clay and sand % ###
+
+# call conversion table
+# ajuster les % de clay and sand en fonction des % moyen dans ton tableau
