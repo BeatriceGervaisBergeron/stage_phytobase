@@ -325,3 +325,6 @@ for(i in 1:ncol(data_num))
 
 # call conversion table
 # ajuster les % de clay and sand en fonction des % moyen dans ton tableau
+
+
+# test
