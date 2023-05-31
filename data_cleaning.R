@@ -93,7 +93,7 @@ matches.all<-bind_rows(matches, unmatch)
 # ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
 matches.all$implement<-''
 matches.all$alternative<-''
-matches.all$dubl<-''
+matches.all$dupl<-''
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
