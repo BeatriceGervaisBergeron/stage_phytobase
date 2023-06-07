@@ -248,8 +248,7 @@ unique(data$climate)
 # Texture
 unique(data$texture) # NA                "fine sandy loam" "Clay sand silt"  "Loamy"           "Coarse-textured"
 # some categories need to be check and adjust as they are not texture
-# Clay sand silt, seems like the definition of texture, need to be check in the article
-#  "Coarse-textured" is for two classes, need to be check and if not more precise, make a categoty in between for eventual %
+# adjust the name according to the tables in the protocol
 
 # p_density
 unique(data$p_density)
@@ -280,7 +279,7 @@ unique(data_std$organs_ba.1) # only stems
 
 
 
-#### outliers and errors in numerical data #### EN CONSTRUCTION
+#### outliers and errors in numerical data #### 
 
 # see if duplicates data entries
 unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
@@ -298,11 +297,11 @@ num_range$sources <- ''
 
 # write it back as a table for manual correction in Excel
 write.table(num_range,
-            "./Pei yin/numerical_range.txt", 
+            "./Pei yin/numerical_range_variables.txt", 
             sep="\t", row.names = F, quote = F)
 
 # import back the data 
-num_range_full <- read.table("./Pei yin/numerical_range_full.txt", 
+num_range <- read.table("./numerical_range_variables.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
 # isolate data that are outside the range # EN CONSTRUCTION
@@ -310,6 +309,15 @@ num_range_full <- read.table("./Pei yin/numerical_range_full.txt",
 outliers <- data_std %>% 
   select(ph) %>% 
   filter(ph < num_range_full$min_value[num_range_full$variable == 'ph'] | ph > num_range_full$max_value[num_range_full$variable == 'ph'] )
+
+fn <- function(column){
+  data_std %>% 
+    select(column) %>% 
+    filter(column < num_range_full$min_value[num_range_full$variable == 'column']| column > num_range_full$max_value[num_range_full$variable == 'column'] )
+}
+
+outliers <- lapply(data_num, fn)
+
 
 for(i in 1:ncol(data_num)) 
 {
@@ -320,6 +328,14 @@ for(i in 1:ncol(data_num))
 
 
 
+# write it back as a table for manual correction in Excel
+write.table(outliers,
+            "./outliers.txt", 
+            sep="\t", row.names = F, quote = F)
+
+# import back the data once corrected
+num_range <- read.table("./outliers_cor.txt", 
+                        sep="\t", header=T, stringsAsFactors = F)
 
 #### add clay and sand % ###
 
