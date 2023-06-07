@@ -1,0 +1,107 @@
+variables	min_value	max_value	sources
+covidence	0	9847	maximum number of articles in the systematic review
+year	1980	2022	Limits date of the article research
+expe_t	17	27	optimal mean temperature for plant experiement
+mat	2	25	from -11 C to 30 C according to https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
+map	50	3000	from 18 to 3200 on https://en.wikipedia.org/wiki/List_of_countries_by_average_annual_precipitation
+ph	3.5	8.5	(Asensio et al., 2013)
+om	0	15	20 % are peat moss, source:https://www.sare.org/publications/building-soils-for-better-crops/amount-of-organic-matter-in-soils/#temperatures
+oc	24	60	Asensio, V., Guala, S. d., Vega, F. A., & Covelo, E. F. (2013). A soil quality index for reclaimed mine soils. Environmental Toxicology and Chemistry, 32(10), 2240?2248. https://doi.org/10.1002/etc.2315
+clay	5	90	Derived from limited class texture
+sand	5	90	Derived from limited class texture
+ec	0	16	https://www.nrcs.usda.gov/sites/default/files/2022-10/Soil%20Electrical%20Conductivity.pdf
+cec	2	35	https://www.alcanada.com/pdf/technical/soil/Soil_Analysis_Guide.pdf
+n	10	1500	Asensio, V., Guala, S. d., Vega, F. A., & Covelo, E. F. (2013). A soil quality index for reclaimed mine soils. Environmental Toxicology and Chemistry, 32(10), 2240?2248. https://doi.org/10.1002/etc.2315
+p	5	100	mg/kg with lower average from https://www.canr.msu.edu/foodsystems/uploads/files/soil_test_interpretation.pdf
+as_s	0	250	Limits values for landfill site in quebec.
+cd_s	0	100	Limits values for landfill site in quebec.
+cu_s	0	2500	Limits values for landfill site in quebec.
+pb_s	0	5000	Limits values for landfill site in quebec.
+zn_s	0	7500	Limits values for landfill site in quebec.
+se_s	0	50	Limits values for landfill site in quebec.
+ni_s	0	2500	Limits values for landfill site in quebec.
+co_s	0	1500	Limits values for landfill site in quebec.
+mn_s	0	11000	Limits values for landfill site in quebec.
+cr_s	0	4000	Limits values for landfill site in quebec.
+hg_s	0	50	Limits values for landfill site in quebec.
+n_s	0	10	arbitrary, but more then 10 replicates seems a lot
+ba_total	NA	NA	On hold for now
+ba_stem	NA	NA	On hold for now
+ba_leaf	NA	NA	On hold for now
+br	NA	NA	On hold for now
+as_ba	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_ba	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cu_ba	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+pb_ba	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+zn_ba	0	3000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+se_ba	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+ni_ba	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+co_ba	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+mn_ba	0	10000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cr_ba	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+hg_ba	0	1	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+n_te_ba	0	20	arbitrary, but more then 20 replicates seems a lot
+as_br	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_br	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cu_br	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+pb_br	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+zn_br	0	3000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+se_br	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+ni_br	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+co_br	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+mn_br	0	10000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cr_br	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+hg_br	0	1	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+n_te_br	0	20	arbitrary, but more then 20 replicates seems a lot
+as_ba.1	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cd_ba.1	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cu_ba.1	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+pb_ba.1	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+zn_ba.1	0	3000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+se_ba.1	0	100	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+ni_ba.1	0	1000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+co_ba.1	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+mn_ba.1	0	10000	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+cr_ba.1	0	300	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+hg_ba.1	0	1	"Value for hyperaccumulator, which is really rare. van der Ent A, Joseph Pollard A, Echevarria G, et al (2021) Exceptional uptake and accumulation of chemical elements in plants: extending the hyperaccumulation paradigm. In: van der Ent A, Baker AJM, Echevarria G, et al. (eds) Agromining: Farming for metals: Extracting unconventional resources using lants. Springer International Publishing, Cham, pp 99?131
+"
+n_te_ba.1	0	20	arbitrary, but more then 20 replicates seems a lot
+			
+			
+			
+			
+			
+			
+			
