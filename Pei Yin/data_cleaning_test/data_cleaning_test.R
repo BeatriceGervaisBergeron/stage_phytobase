@@ -21,7 +21,7 @@ library(dplyr)
 
 
 #### call your data  ####
-data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Pei Yin/data_cleaning_test/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
 
 
