@@ -103,8 +103,21 @@ matches.all<-bind_rows(matches, unmatch)
 # ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
 # ‘alternative’ - write an alternative name here
 # ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
+
 matches.all$implement <- 'TRUE'
-matches.all$implement[3 & 9 & 10 & 15 & 17 & 21 & 22] <- 'FALSE'
+
+matches.all$implement[3] <- 'FALSE'
+matches.all$implement[9] <- 'FALSE'
+matches.all$implement[10] <- 'FALSE'
+matches.all$implement[15] <- 'FALSE'
+matches.all$implement[17] <- 'FALSE'
+matches.all$implement[21] <- 'FALSE'
+matches.all$implement[22] <- 'FALSE'
+
+matches.all$implement[3 & 9 & 10 & 15 & 17 & 21 & 22] <- 'FALSE' # this didn't work and had an error:
+# Error in matches.all$implement[3, 9, 10, 15, 17, 21, 22] <- "FALSE" : 
+#     incorrect number of subscripts
+
 
 matches.all$alternative<-''
 matches.all$dupl<-''
