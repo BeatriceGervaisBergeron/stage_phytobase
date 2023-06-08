@@ -263,7 +263,7 @@ unique(data$climate)
 unique(data$texture) # NA                "fine sandy loam" "Clay sand silt"  "Loamy"           "Coarse-textured"
 # some categories need to be check and adjust as they are not texture
 # Clay sand silt, seems like the definition of texture, need to be check in the article
-#  "Coarse-textured" is for two classes, need to be check and if not more precise, make a categoty in between for eventual %
+#  "Coarse-textured" is for two classes, need to be check and if not more precise, make a category in between for eventual %
 
 # p_density
 unique(data$p_density)
@@ -294,7 +294,7 @@ unique(data_std$organs_ba.1) # only stems
 
 
 
-#### outliers and errors in numerical data #### EN CONSTRUCTION
+#### outliers and errors in numerical data (EN CONSTRUCTION) #### 
 
 # see if duplicates data entries
 unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
@@ -335,7 +335,7 @@ for(i in 1:ncol(data_num))
 
 
 
-#### add clay and sand % ###
+#### add clay and sand % ####
 
 # call conversion table
 # ajuster les % de clay and sand en fonction des % moyen dans ton tableau
