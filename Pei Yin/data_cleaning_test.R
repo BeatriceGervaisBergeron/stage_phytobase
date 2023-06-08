@@ -21,7 +21,7 @@ library(dplyr)
 
 
 #### call your data  ####
-data <- read.csv('C:/Users/Pei Yin/PEI_YIN_LI/5-Université/UdeM - sciences bio/Session 2.5 (E-2023)/BIO 2050 (Stage bio computat IRBV)/Analyses_stats_Phytobase/stage_phytobase/Pei Yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
 
 
@@ -111,7 +111,7 @@ matches.all$dupl <-'' # add the column "dupl"
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
-            "C:/Users/Pei Yin/PEI_YIN_LI/5-Université/UdeM - sciences bio/Session 2.5 (E-2023)/BIO 2050 (Stage bio computat IRBV)/Analyses_stats_Phytobase/stage_phytobase/Pei Yin/uni_sp_match_names.txt", 
+            "./Pei yin/uni_sp_match_names_2.txt", 
             sep="\t", row.names = F, quote = F)
 
 # open the txt file in excel to make manual corrections
