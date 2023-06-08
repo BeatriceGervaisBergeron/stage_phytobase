@@ -104,8 +104,9 @@ matches.all<-bind_rows(matches, unmatch)
 # ‘alternative’ - write an alternative name here
 # ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
 
-matches.all$implement <- 'TRUE'
+matches.all$implement <- 'TRUE'  # to put "TRUE" in the whole column "implement"
 
+#changing to "FALSE" for the names that shouldn't be changed
 matches.all$implement[3] <- 'FALSE'
 matches.all$implement[9] <- 'FALSE'
 matches.all$implement[10] <- 'FALSE'
