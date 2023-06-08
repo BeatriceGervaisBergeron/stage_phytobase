@@ -90,7 +90,7 @@ matches <- match.name %>%
   distinct()
 
 # Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 20 sp, so 2 sp were not taken into acount
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 20 sp, so 2 sp were not taken into account
 colnames(uni_sp_2) <- c('sp')
 
 # which are not included
