@@ -7,9 +7,20 @@ library(stringr)
 library(taxize)
 
 
+## remove and reinstall the packages because of error messages:
+
+# Error: package or namespace load failed for ‘dplyr’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), 
+# versionCheck = vI[[j]]): namespace ‘vctrs’ 0.4.1 is being loaded, but >= 0.6.0 is required
+# In addition: Warning message:
+#  package ‘dplyr’ was built under R version 4.2.3 
+
+remove.packages("dplyr")
+install.packages("dplyr")
+library(dplyr)
+
 
 #### call your data  ####
-data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('C:/Users/Pei Yin/PEI_YIN_LI/5-Université/UdeM - sciences bio/Session 2.5 (E-2023)/BIO 2050 (Stage bio computat IRBV)/Analyses_stats_Phytobase/stage_phytobase/Pei Yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
 
 
@@ -327,4 +338,4 @@ for(i in 1:ncol(data_num))
 # ajuster les % de clay and sand en fonction des % moyen dans ton tableau
 
 
-# test
+
