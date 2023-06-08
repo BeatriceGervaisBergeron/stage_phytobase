@@ -103,7 +103,7 @@ matches.all<-bind_rows(matches, unmatch)
 # ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
 # ‘alternative’ - write an alternative name here
 # ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
-matches.all$implement<-''
+matches.all$implement[1-22 | 3 & 9 & 10 & 15 & 17 & 21 & 22, ] <-''
 matches.all$alternative<-''
 matches.all$dupl<-''
 
