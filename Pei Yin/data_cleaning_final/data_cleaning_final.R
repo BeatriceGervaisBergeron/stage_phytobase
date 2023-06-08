@@ -10,7 +10,8 @@ library(taxize)
 
 #### call your data  ####
 
-data <- read.csv('./data_cleaning_final/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin.csv', sep=',', header = T, dec = '.', fileEncoding = "UTF-8")
+data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin.csv', sep=',', header = T, dec = '.')
 
 
 #### decimals ####
