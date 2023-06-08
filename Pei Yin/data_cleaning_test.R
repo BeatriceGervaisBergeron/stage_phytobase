@@ -326,6 +326,25 @@ outliers <- data_std %>%
   filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
 # 0 line, so no outliers
 
+# outliers for list[3] = expe_t 
+outliers <- data_std %>% 
+  filter(data_num[,3] < num_range$min_value[3] | data_num[,3] > num_range$max_value[3] )
+# 0 line, so no outliers
+
+# outliers for list[4] = mat 
+outliers <- data_std %>% 
+  filter(data_num[,4] < num_range$min_value[4] | data_num[,4] > num_range$max_value[4] )
+# 0 line, so no outliers
+
+
+
+
+
+
+
+
+
+
 
 # outliers for list[13] = n 
 outliers <- data_std %>% 
