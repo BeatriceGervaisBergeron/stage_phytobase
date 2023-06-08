@@ -368,6 +368,85 @@ data_std <- data_std %>%
 # now all the textural class should be add in % in the clay and sand column
  
 
-#### visualisation of the data ####
+##### visualisation of the data ##### EN construction
+
+#### normality ######
+
+### histograms ####
+
+#LA
+par(mfrow=c(4,2))
+hist(LA$LA)
+hist(log(LA$LA)) #best
+hist(log10(LA$LA))
+hist(sqrt(LA$LA))
+hist(decostand(LA$LA, method='log', MARGIN=2))
+hist(LA$LA^(1/3))
+hist(decostand(LA$LA, method='standardize', MARGIN=2))
+hist(log2(LA$LA))
+
+#SLA
+par(mfrow=c(4,2))
+hist(SLA$SLA)
+hist(log(SLA$SLA)) #best
+hist(log10(SLA$SLA))
+hist(sqrt(SLA$SLA))
+hist(decostand(SLA$SLA, method='log', MARGIN=2))
+hist(SLA$SLA^(1/3))
+hist(decostand(SLA$SLA, method='standardize', MARGIN=2))
+hist(log2(SLA$SLA))
 
 
+#LDMC
+par(mfrow=c(4,2))
+hist(LDMC$LDMC)
+#hist(log(LDMC$LDMC)) 
+hist(log10(LDMC$LDMC))
+hist(sqrt(LDMC$LDMC))
+hist(decostand(LDMC$LDMC, method='log', MARGIN=2))
+hist(LDMC$LDMC^(1/3))
+hist(log2(LDMC$LDMC))
+hist(asin(sqrt(LDMC$LDMC)))
+hist(logit(LDMC$LDMC))
+
+#### homosclecasity ####
+
+
+#### colinarity ######
+
+
+
+
+
+##### PCA of willows vs all species ####
+## 3 traits
+# Join tables
+traits <- inner_join(LA,SLA,by='sp')#15204
+traits <- inner_join(traits,LDMC,by='sp')#19060
+# sp with the five traits
+traits3_GHD <- left_join(traits, GHD, by = 'sp') 
+traits3_GHD[is.na(traits3_GHD)] <- 1
+traits3_GHD %>% group_by(HA) %>% count()# 20 / 4523
+traits3_GHD <-traits3_GHD %>% arrange(HA)
+
+# standardized the data
+traits3.s<-decostand(traits3_GHD[,2:4], method='standardize', MARGIN=2)
+
+# PCA 3 full
+pca <- rda(traits3.s)
+library(RColorBrewer)
+palette(c('#99999940','#00009998','#CC000098'))
+plot(pca
+     , type = 'n'
+     ,xlab='PC 1 (35%)'
+     ,ylab='PC 2 (20%)'
+     ,scaling= 2)
+text(scores(pca, display="species", choices=c(1), scaling=2),
+     scores(pca, display="species", choices=c(2), scaling=2),
+     labels=rownames(scores(pca, display="species", scaling=2)),
+     col="black", cex=0.8)       
+fleche<-scores(pca,choices=1:2,scaling=2,display="sp")
+arrows(0,0,fleche[,1]*0.92,fleche[,2]*0.92,length=0, col='black')
+points(scores(pca, display="sites", choices=c(1), scaling=2),
+       scores(pca, display="sites", choices=c(2), scaling=2),
+       col=traits3_GHD$HA, cex=0.5, pch=16)
