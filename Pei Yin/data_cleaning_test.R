@@ -317,7 +317,7 @@ outliers <- data_std %>%
 # if the outliers has 0 lines, it indicate not apparent outliers
 
 # you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
-outliers <- data_std %>% 
+outliers <- data_num %>% 
   filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
 
 
@@ -325,6 +325,13 @@ outliers <- data_std %>%
 outliers <- data_std %>% 
   filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
 # 0 line, so no outliers
+
+
+# outliers for list[13] = n 
+outliers <- data_std %>% 
+  filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
+# 10 line, so 10 outliers
+
 
 # if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
 # if the data still appear high, Write a note in the 'journal de bord'
