@@ -336,10 +336,25 @@ outliers <- data_std %>%
   filter(data_num[,4] < num_range$min_value[4] | data_num[,4] > num_range$max_value[4] )
 # 0 line, so no outliers
 
+# outliers for list[5] = map
+outliers <- data_std %>% 
+  filter(data_num[,5] < num_range$min_value[5] | data_num[,5] > num_range$max_value[5] )
+# 0 line, so no outliers
 
+# outliers for list[6] = ph
+outliers <- data_std %>% 
+  filter(data_num[,6] < num_range$min_value[6] | data_num[,6] > num_range$max_value[6] )
+# 0 line, so no outliers
 
+# outliers for list[7] = om
+outliers <- data_std %>% 
+  filter(data_num[,7] < num_range$min_value[7] | data_num[,7] > num_range$max_value[7] )
+# 0 line, so no outliers
 
-
+# outliers for list[8] = oc
+outliers <- data_std %>% 
+  filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
+# 28 line, so 28 outliers
 
 
 
