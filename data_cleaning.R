@@ -8,6 +8,7 @@ library(taxize)
 
 
 
+
 #### call your data  ####
 data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
@@ -288,59 +289,85 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to 
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
 data_num <- data_std[ , num_cols]  # keep only numerical data, so 66 variables
 
-# make a tables of the normal range for all those variables
-num_range <- as.data.frame(colnames(data_num))
-# add column to enter the ranges
-num_range$min_value <- '' 
-num_range$max_value <- ''
-num_range$sources <- ''
-
-# write it back as a table for manual correction in Excel
-write.table(num_range,
-            "./Pei yin/numerical_range_variables.txt", 
-            sep="\t", row.names = F, quote = F)
-
-# import back the data 
+# import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
-# isolate data that are outside the range # EN CONSTRUCTION
+# for each of the 66 variables, isolate data that are outside the range
+# here are the 66 variables
+list <-colnames(data_num)
 
+# isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
-  select(ph) %>% 
-  filter(ph < num_range_full$min_value[num_range_full$variable == 'ph'] | ph > num_range_full$max_value[num_range_full$variable == 'ph'] )
+  filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
+# if the outliers has 0 lines, it indicate not apparent outliers
 
-fn <- function(column){
-  data_std %>% 
-    select(column) %>% 
-    filter(column < num_range_full$min_value[num_range_full$variable == 'column']| column > num_range_full$max_value[num_range_full$variable == 'column'] )
-}
-
-outliers <- lapply(data_num, fn)
+# you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
+outliers <- data_std %>% 
+    filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
 
 
-for(i in 1:ncol(data_num)) 
-{
-  outliers <- data_num %>% 
-    select(i) %>% 
-    filter(i < num_range_full$min_value[num_range_full$variable == 'i'] | i > num_range_full$max_value[num_range_full$variable == 'i'] )
-}  
+# outliers for list[2] = year 
+outliers <- data_std %>% 
+  filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
+# 0 line, so no outliers
+
+# if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
+# if the data still appear high, Write a note in the 'journal de bord'
+
+## CONTINU with all the 66 variables
 
 
 
-# write it back as a table for manual correction in Excel
-write.table(outliers,
-            "./outliers.txt", 
-            sep="\t", row.names = F, quote = F)
 
-# import back the data once corrected
-num_range <- read.table("./outliers_cor.txt", 
-                        sep="\t", header=T, stringsAsFactors = F)
-
-#### add clay and sand % ###
+#### Add clay and sand % according to textural class of soils###
 
 # call conversion table
-# ajuster les % de clay and sand en fonction des % moyen dans ton tableau
+txt_table <- read.table("./textural_class_average.txt", 
+                        sep="\t", header=T, stringsAsFactors = F)
+#textural class list
+txt_list <-txt_table$texture
+
+# Add the % if needed
+data_std <- data_std %>%
+  filter(is.na(clay)|is.na(sand)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[3] , txt_table$clay[3], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[5] , txt_table$clay[5], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[6] , txt_table$clay[6], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[7] , txt_table$clay[7], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[8] , txt_table$clay[8], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[9] , txt_table$clay[9], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[10] , txt_table$clay[10], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[11] , txt_table$clay[11], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[12] , txt_table$clay[12], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[13] , txt_table$clay[13], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[14] , txt_table$clay[14], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[15] , txt_table$clay[15], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[16] , txt_table$clay[16], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
+# now all the textural class should be add in % in the clay and sand column
+ 
+
+#### visualisation of the data ####
 
 
-# test
