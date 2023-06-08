@@ -146,7 +146,7 @@ data <- data %>%
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 # Keep the corrected column
-data <- data[,-c(100:106)] # shoudl have 100 columns
+data <- data[,-c(100:106)] # should have 100 columns
 
 # Check number of sp now
 uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
