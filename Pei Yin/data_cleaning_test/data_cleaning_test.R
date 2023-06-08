@@ -358,9 +358,6 @@ outliers <- data_std %>%
 
 
 
-
-
-
 # outliers for list[13] = n 
 outliers <- data_std %>% 
   filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
