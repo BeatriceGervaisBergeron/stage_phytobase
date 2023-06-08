@@ -99,33 +99,19 @@ colnames(unmatch) <- c('user_supplied_name')
 # add them to the end of the match list
 matches.all<-bind_rows(matches, unmatch)
 
+
 # Insert three new columns (change names as you like) and insert text:
 # ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
 # ‘alternative’ - write an alternative name here
 # ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
 
-matches.all$implement <- 'TRUE'  # to put "TRUE" in the whole column "implement"
-
-#changing to "FALSE" for the names that shouldn't be changed
-matches.all$implement[3] <- 'FALSE'
-matches.all$implement[9] <- 'FALSE'
-matches.all$implement[10] <- 'FALSE'
-matches.all$implement[15] <- 'FALSE'
-matches.all$implement[17] <- 'FALSE'
-matches.all$implement[21] <- 'FALSE'
-matches.all$implement[22] <- 'FALSE'
-
-matches.all$implement[3 & 9 & 10 & 15 & 17 & 21 & 22] <- 'FALSE' # this didn't work and had an error:
-# Error in matches.all$implement[3, 9, 10, 15, 17, 21, 22] <- "FALSE" : 
-#     incorrect number of subscripts
-
-
-matches.all$alternative<-''
-matches.all$dupl<-''
+matches.all$implement <- ''  # add the column "implement"
+matches.all$alternative <- '' # add the column "alternative"
+matches.all$dupl <-'' # add the column "dupl"
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
-            "./Pei yin/uni_sp_match_names.txt", 
+            "C:/Users/Pei Yin/PEI_YIN_LI/5-Université/UdeM - sciences bio/Session 2.5 (E-2023)/BIO 2050 (Stage bio computat IRBV)/Analyses_stats_Phytobase/stage_phytobase/Pei Yin/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
 
 # open the txt file in excel to make manual corrections
