@@ -10,7 +10,7 @@ library(taxize)
 
 
 #### call your data  ####
-data <- read.csv('./Pei yin/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Pei yin/data_cleaning_test/soil_sp_database_Pei_Yin.csv', sep=',',header = T, dec = '.')
 
 
 
@@ -26,6 +26,7 @@ str(data)
 data <- data %>%
   mutate(
     expe_t = as.numeric(expe_t)
+    , country = as.factor(country)
     , ph = as.numeric(ph)
     , clay = as.numeric(clay)
     , co_s = as.numeric(co_s)
@@ -368,85 +369,83 @@ data_std <- data_std %>%
 # now all the textural class should be add in % in the clay and sand column
  
 
-##### visualisation of the data ##### EN construction
+#### join the traits to your data ####
+
+traits <- readRDS('./complete_data.rds')
+data_std <- left_join(data_std , traits, by=c('AccSpeciesName_cor'='sp'))
+
+
+
+##### visualization of the data ##### EN construction
 
 #### normality ######
 
-### histograms ####
+# histograms of database
 
-#LA
 par(mfrow=c(4,2))
-hist(LA$LA)
-hist(log(LA$LA)) #best
-hist(log10(LA$LA))
-hist(sqrt(LA$LA))
-hist(decostand(LA$LA, method='log', MARGIN=2))
-hist(LA$LA^(1/3))
-hist(decostand(LA$LA, method='standardize', MARGIN=2))
-hist(log2(LA$LA))
-
-#SLA
-par(mfrow=c(4,2))
-hist(SLA$SLA)
-hist(log(SLA$SLA)) #best
-hist(log10(SLA$SLA))
-hist(sqrt(SLA$SLA))
-hist(decostand(SLA$SLA, method='log', MARGIN=2))
-hist(SLA$SLA^(1/3))
-hist(decostand(SLA$SLA, method='standardize', MARGIN=2))
-hist(log2(SLA$SLA))
-
-
-#LDMC
-par(mfrow=c(4,2))
-hist(LDMC$LDMC)
-#hist(log(LDMC$LDMC)) 
-hist(log10(LDMC$LDMC))
-hist(sqrt(LDMC$LDMC))
-hist(decostand(LDMC$LDMC, method='log', MARGIN=2))
-hist(LDMC$LDMC^(1/3))
-hist(log2(LDMC$LDMC))
-hist(asin(sqrt(LDMC$LDMC)))
-hist(logit(LDMC$LDMC))
-
-#### homosclecasity ####
-
+hist(data_std$ph)
+hist(data_std$om)
+hist(data_std$oc)
+hist(data_std$SLA)
+hist(data_std$LDMC)
+hist(data_std$LA)
+hist(data_std$cd_ba)
+hist(data_std$zn_ba)
 
 #### colinarity ######
+# is there colinearity between some variables
+HH::vif( ph ~ om +oc + LA +SLA + LDMC + cd_ba + zn_ba, data=data_std)
 
 
+# normality of the traits
+
+# is LA normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$LA)
+hist(log(traits$LA)) #best
+hist(log10(traits$LA))
+hist(sqrt(traits$LA))
+hist(decostand(traits$LA, method='log', MARGIN=2))
+hist(traits$LA^(1/3))
+hist(decostand(traits$LA, method='standardize', MARGIN=2))
+hist(log2(traits$LA))
+
+# is SLA normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$SLA)
+hist(log(traits$SLA)) #best
+hist(log10(traits$SLA))
+hist(sqrt(traits$SLA))
+hist(decostand(traits$SLA, method='log', MARGIN=2))
+hist(traits$SLA^(1/3))
+hist(decostand(traits$SLA, method='standardize', MARGIN=2))
+hist(log2(traits$SLA))
+
+# is LDMC normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$LDMC)
+hist(log(traits$LDMC)) 
+hist(log10(traits$LDMC))
+hist(sqrt(traits$LDMC))
+hist(decostand(traits$LDMC, method='log', MARGIN=2))
+hist(traits$LDMC^(1/3))
+hist(decostand(traits$LDMC, method='standardize', MARGIN=2))
+hist(logit(traits$LDMC)) #best
+
+#so we can log transform LA and SLA and logit transform LDMC
 
 
+# visualize your sp with your traits
+sp_traits <- na.omit(data_std[,c('LA' , 'SLA' ,'LDMC' )])
+# standardized the data to make them comparable
+sp_traits.s<-decostand(sp_traits[,c('LA','SLA','LDMC')], method='standardize', MARGIN=2)
 
-##### PCA of willows vs all species ####
-## 3 traits
-# Join tables
-traits <- inner_join(LA,SLA,by='sp')#15204
-traits <- inner_join(traits,LDMC,by='sp')#19060
-# sp with the five traits
-traits3_GHD <- left_join(traits, GHD, by = 'sp') 
-traits3_GHD[is.na(traits3_GHD)] <- 1
-traits3_GHD %>% group_by(HA) %>% count()# 20 / 4523
-traits3_GHD <-traits3_GHD %>% arrange(HA)
+pca <-rda(sp_traits.s)
+plot(pca)
 
-# standardized the data
-traits3.s<-decostand(traits3_GHD[,2:4], method='standardize', MARGIN=2)
+#### save your corrected and standardize data ####
 
-# PCA 3 full
-pca <- rda(traits3.s)
-library(RColorBrewer)
-palette(c('#99999940','#00009998','#CC000098'))
-plot(pca
-     , type = 'n'
-     ,xlab='PC 1 (35%)'
-     ,ylab='PC 2 (20%)'
-     ,scaling= 2)
-text(scores(pca, display="species", choices=c(1), scaling=2),
-     scores(pca, display="species", choices=c(2), scaling=2),
-     labels=rownames(scores(pca, display="species", scaling=2)),
-     col="black", cex=0.8)       
-fleche<-scores(pca,choices=1:2,scaling=2,display="sp")
-arrows(0,0,fleche[,1]*0.92,fleche[,2]*0.92,length=0, col='black')
-points(scores(pca, display="sites", choices=c(1), scaling=2),
-       scores(pca, display="sites", choices=c(2), scaling=2),
-       col=traits3_GHD$HA, cex=0.5, pch=16)
+write.table(data_std,
+            "./Pei yin/data_std.txt", 
+            sep=",", row.names = F, quote = F)
+
