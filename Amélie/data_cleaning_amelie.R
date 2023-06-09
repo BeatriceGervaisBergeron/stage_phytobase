@@ -5,7 +5,7 @@ library(stringr)
 library(taxize)
 
 #### call your data  ####
-data <- read.csv('./Amélie/test/soil_sp_database_Amélie.csv', sep=',',header = T, dec = '.')
+data <- read.csv('./Amélie/soil_sp_database_Amélie.csv', sep=',',header = T, dec = '.')
 
 #### decimals ####
 # make sure there is not comma instead of points
