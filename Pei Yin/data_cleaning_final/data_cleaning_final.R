@@ -44,7 +44,7 @@ data <- data %>%
     , mn_br.1 = as.numeric(mn_br.1)
     , cr_br.1 = as.numeric(cr_br.1)
     , hg_br.1 = as.numeric(hg_br.1)
-    
+
     , as_br.2 = as.numeric(as_br.2)
     , cd_br.2 = as.numeric(cd_br.2)
     
