@@ -105,8 +105,6 @@ data[data == ''] <- NA
 
 uni_sp<-as.data.frame(unique(data$name)) # 42 unique species
 
-uni_sp<-as.data.frame(unique(data$name)) # 36 unique species
-
 colnames(uni_sp) <- c('sp')
 
 # Correct the name according to the species name corrected from TRY
