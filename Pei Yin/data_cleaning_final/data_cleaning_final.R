@@ -121,6 +121,47 @@ match.name <- to.be.cor$sp %>%
   gnr_resolve(data_source_ids = c(1,150,165,167), 
               with_canonical_ranks=T)
 
+# provide a short summary table
+matches <- match.name %>%
+  select(user_supplied_name,submitted_name, matched_name2, score)%>% # 19 matches
+  distinct()
+
+# Are all species considered in the correction
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 19 sp, so 1 sp was not taken into account
+colnames(uni_sp_2) <- c('sp')
+
+# which are not included
+unmatch <- to.be.cor %>% filter(!sp %in% uni_sp_2$sp)
+colnames(unmatch) <- c('user_supplied_name')
+# add them to the end of the match list
+matches.all<-bind_rows(matches, unmatch)
+
+
+# Insert three new columns (change names as you like) and insert text:
+# ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
+# ‘alternative’ - write an alternative name here
+# ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
+
+matches.all$implement <- ''  # add the column "implement"
+matches.all$alternative <- '' # add the column "alternative"
+matches.all$dupl <-'' # add the column "dupl"
+
+
+# write it back as a table for manual correction in Excel
+write.table(matches.all,
+            "./Pei yin/uni_sp_match_names_2.txt", 
+            sep="\t", row.names = F, quote = F)
+
+# open the txt file in excel to make manual corrections
+# All in () content should be remove
+# For all hybrids (with x) both name should be keep
+
+# Save the corrected names in a txt file name, adding _cor to the name of the document
+
+# import back the data 
+uni_sp_cor <- read.table("./Pei yin/uni_sp_match_names_cor.txt", 
+                         sep="\t", header=T, stringsAsFactors = F)
+
 
 
 
