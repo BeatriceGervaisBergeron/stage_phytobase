@@ -163,11 +163,33 @@ uni_sp_cor <- read.table("./Pei Yin/data_cleaning_final/uni_sp_match_names_cor.t
                          sep="\t", header=T, stringsAsFactors = F)
 
 # eliminate duplicates
-uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
-uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T) # no duplicates in the first column
+uni_sp_cor$dupl <- duplicated(uni_sp_cor$user_supplied_name)
+uni_sp_cor <- uni_sp_cor %>%  filter(!dupl ==T) # no duplicates in the first column
 
 # Save the final corrected list in an rds object
-saveRDS(uni_sp_cor, file='Pei yin/salix_sp_cor.rds')
+saveRDS(uni_sp_cor, file='Pei Yin/data_cleaning_final/salix_sp_cor.rds')
+
+
+#### Join list of corrected names ####
+
+# call the newly corrected list
+salix_sp_cor <- readRDS('Pei yin/salix_sp_cor.rds')
+
+# Add the new corrected list to the complete on
+list_sp_cor_salix<- bind_rows( salix_sp_cor, list_sp_cor)
+
+# add the corrections to the data
+data <- data %>% 
+  left_join(list_sp_cor_salix, by=c('name'= 'user_supplied_name'))
+# make a new column of the correct names
+data <- data %>% 
+  mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
+# Keep the corrected column
+data <- data[,-c(100:106)] # should have 100 columns
+
+# Check number of sp now
+uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
+# 3 species less, if you return to the uni_sp with 36 sp, you see indeed 3 lines with redundant names
 
 
 
