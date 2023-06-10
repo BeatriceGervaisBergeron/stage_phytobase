@@ -149,7 +149,7 @@ matches.all$dupl <-'' # add the column "dupl"
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
-            "./Pei yin/uni_sp_match_names_2.txt", 
+            "./Pei Yin/data_cleaning_final/uni_sp_match_names_2.txt", 
             sep="\t", row.names = F, quote = F)
 
 # open the txt file in excel to make manual corrections
