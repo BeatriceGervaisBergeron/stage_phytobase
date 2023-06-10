@@ -10,7 +10,7 @@ library(taxize)
 
 #### call your data  ####
 
-data_2 <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
+data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
 
 
 #### decimals ####
@@ -18,7 +18,7 @@ data_2 <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.
 # already with points
 
 # make sure all column are in the correct forms (character or numerical)
-str(data_2)
+str(data)
 
 
 # transform variable that needed
@@ -96,6 +96,19 @@ str(data) # good
 
 #### all white space to NA ####
 data[data == ''] <- NA
+
+
+
+#### species names cleaning  ####
+
+# check unique sp list in your database
+uni_sp<-as.data.frame(unique(data$name)) # 36 unique species
+colnames(uni_sp) <- c('sp')
+
+# Correct the name according to the species name corrected from TRY
+
+# list_sp_cor already corrected
+list_sp_cor <-readRDS('list_sp_cor.rds')
 
 
 
