@@ -162,6 +162,13 @@ write.table(matches.all,
 uni_sp_cor <- read.table("./Pei Yin/data_cleaning_final/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
+# eliminate duplicates
+uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
+uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T) # no duplicates in the first column
+
+# Save the final corrected list in an rds object
+saveRDS(uni_sp_cor, file='Pei yin/salix_sp_cor.rds')
+
 
 
 
