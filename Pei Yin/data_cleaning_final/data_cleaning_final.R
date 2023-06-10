@@ -10,7 +10,7 @@ library(taxize)
 
 #### call your data  ####
 
-data_2 <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
+data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
 
 
 #### decimals ####
@@ -18,7 +18,7 @@ data_2 <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.
 # already with points
 
 # make sure all column are in the correct forms (character or numerical)
-str(data_2)
+str(data)
 
 
 # transform variable that needed
@@ -97,6 +97,27 @@ str(data) # good
 #### all white space to NA ####
 data[data == ''] <- NA
 
+
+
+#### species names cleaning  ####
+
+# check unique sp list in your database
+uni_sp<-as.data.frame(unique(data$name)) # 42 unique species
+colnames(uni_sp) <- c('sp')
+
+# Correct the name according to the species name corrected from TRY
+
+# list_sp_cor already corrected
+list_sp_cor <-readRDS('list_sp_cor.rds')
+
+# sp not present in the list
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 20 species not on the corrected list, so need to be corrected
+
+# Resolve the unmatched name with the 4 databases selected:
+# "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
+match.name <- to.be.cor$sp %>%
+  gnr_resolve(data_source_ids = c(1,150,165,167), 
+              with_canonical_ranks=T)
 
 
 
