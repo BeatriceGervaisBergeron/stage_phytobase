@@ -36,13 +36,26 @@ data <- data %>%
     , hg_ba = as.numeric(hg_ba)
     , co_br = as.numeric(co_br)
     , hg_br = as.numeric(hg_br)
+    , cu_br.1 = as.numeric(cu_br.1)
+    , zn_br.1 = as.numeric(zn_br.1)
+    , se_br.1 = as.numeric(se_br.1)
+    , ni_br.1 = as.numeric(ni_br.1)
+    , co_br.1 = as.numeric(co_br.1)
+    , mn_br.1 = as.numeric(mn_br.1)
+    , cr_br.1 = as.numeric(cr_br.1)
+    , hg_br.1 = as.numeric(hg_br.1)
+    
+    , as_br.2 = as.numeric(as_br.2)
+    , cd_br.2 = as.numeric(cd_br.2)
+    
     , cu_ba.1 = as.numeric(cu_ba.1)
     , zn_ba.1 = as.numeric(zn_ba.1)
     , se_ba.1 = as.numeric(se_ba.1)
     , ni_ba.1 = as.numeric(ni_ba.1)
     , co_ba.1 = as.numeric(co_ba.1)
     , mn_ba.1 = as.numeric(mn_ba.1)
-    , hg_ba.1 = as.numeric(hg_ba.1))
+    , hg_ba.1 = as.numeric(hg_ba.1)
+    , as_ba.1 = as.numeric(hg_ba.1))
 # here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
 
 # Verify the mutation
