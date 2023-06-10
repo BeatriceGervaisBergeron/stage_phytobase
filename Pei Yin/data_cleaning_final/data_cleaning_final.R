@@ -21,7 +21,7 @@ data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.cs
 str(data)
 
 
-# transform variable that needed
+#### transform variable that needed ####
 # Transform data
 data <- data %>%
   mutate(
@@ -102,7 +102,11 @@ data[data == ''] <- NA
 #### species names cleaning  ####
 
 # check unique sp list in your database
+
 uni_sp<-as.data.frame(unique(data$name)) # 42 unique species
+
+uni_sp<-as.data.frame(unique(data$name)) # 36 unique species
+
 colnames(uni_sp) <- c('sp')
 
 # Correct the name according to the species name corrected from TRY
