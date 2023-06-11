@@ -194,6 +194,24 @@ uni_salix_cor <- unique(data$AccSpeciesName_cor) # 42 sp
 # same number of sp, if you return to the uni_sp with 42 sp, so no lines with redundant names
 
 
+#### standardized units ####
+
+# Select all the units column
+units <- data %>%
+  select(contains('unit'))
+# check unit conversion for every unit column
+colnames(units)
+
+#"om_units"
+unique(units$om_units) # "%" "" "g kg-1" 
+# need to convert g kg-1 to % (/10)
+data_std <- data %>%
+  mutate(om = ifelse(om_units == 'g kg-1', om/10, om)) %>% # divide per 10 all the om data that have g kg-1 units
+  mutate(om_units = ifelse(om_units == 'g kg-1', '%', om_units)) # replace all g kg-1 units per %
+# verify
+unique(data_std$om_units) # only "%" and ""
+
+
 
 
 
