@@ -121,7 +121,7 @@ write.table(matches.all,
 # Save the corrected names in a txt file name, adding _cor to the name of the document
 
 # import back the data 
-uni_sp_cor <- read.table("./Pei yin/uni_sp_match_names_cor.txt", 
+uni_sp_cor <- read.table("./Pei Yin/data_cleaning_test/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
 # eliminate duplicates
@@ -134,7 +134,7 @@ saveRDS(uni_sp_cor, file='Pei yin/salix_sp_cor.rds')
 #### Join list of corrected names ####
 
 # call the newly corrected list
-salix_sp_cor <- readRDS('Pei yin/salix_sp_cor.rds')
+salix_sp_cor <- readRDS('Pei Yin/data_cleaning_test/salix_sp_cor.rds')
 
 # Add the new corrected list to the complete on
 list_sp_cor_salix<- bind_rows( salix_sp_cor, list_sp_cor)
