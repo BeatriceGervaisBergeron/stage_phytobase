@@ -173,7 +173,7 @@ saveRDS(uni_sp_cor, file='Pei Yin/data_cleaning_final/salix_sp_cor.rds')
 #### Join list of corrected names ####
 
 # call the newly corrected list
-salix_sp_cor <- readRDS('Pei yin/salix_sp_cor.rds')
+salix_sp_cor <- readRDS('Pei Yin/data_cleaning_final/salix_sp_cor.rds')
 
 # Add the new corrected list to the complete on
 list_sp_cor_salix<- bind_rows( salix_sp_cor, list_sp_cor)
