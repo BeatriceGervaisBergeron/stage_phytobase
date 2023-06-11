@@ -211,6 +211,14 @@ data_std <- data %>%
 # verify
 unique(data_std$om_units) # only "%" and ""
 
+#"oc_units" 
+unique(units$oc_units) # ""     "g/kg" "%"  
+# need to convert g/Kg to % (/10)
+data_std <- data %>%
+  mutate(oc = ifelse(oc_units == 'g/kg', oc/10, oc)) %>% # divide per 10 all the oc data that have g/kg units
+  mutate(oc_units = ifelse(oc_units == 'g/kg', '%', oc_units)) # replace all g/kg units per %
+# verify
+unique(data_std$oc_units) # only "%" 
 
 
 
