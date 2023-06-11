@@ -121,7 +121,7 @@ write.table(matches.all,
 # Save the corrected names in a txt file name, adding _cor to the name of the document
 
 # import back the data 
-uni_sp_cor <- read.table("./Pei yin/uni_sp_match_names_cor.txt", 
+uni_sp_cor <- read.table("./Pei Yin/data_cleaning_test/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
 # eliminate duplicates
