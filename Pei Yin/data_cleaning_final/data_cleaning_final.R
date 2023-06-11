@@ -187,11 +187,13 @@ data <- data %>%
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 
 # Keep the corrected column
-data <- data[,-c(100:106)] # should have 100 columns
+data <- data[,-c(162:168)] # should have 162 columns
 
 # Check number of sp now
-uni_salix_cor <-unique(data$AccSpeciesName_cor)# 33 sp
-# 3 species less, if you return to the uni_sp with 36 sp, you see indeed 3 lines with redundant names
+uni_salix_cor <- unique(data$AccSpeciesName_cor) # 42 sp
+# same number of sp, if you return to the uni_sp with 42 sp, so no lines with redundant names
+
+
 
 
 
