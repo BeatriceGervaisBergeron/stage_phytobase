@@ -211,6 +211,7 @@ data_std <- data %>%
 # verify
 unique(data_std$om_units) # only "%" and ""
 
+
 #"oc_units"   ***A SUIVRE***
 unique(units$oc_units) # ""     "g/kg"    "%"    "mg l-1"  
 # need to convert g/kg to % (/10)
@@ -232,8 +233,6 @@ unique(units$sand_units) #  "%" ""
 #"ec_units"
 unique(units$ec_units) # ""  "mS cm−1"
 # no need for conversion if only mS cm−1 
-
-
 
 
 
