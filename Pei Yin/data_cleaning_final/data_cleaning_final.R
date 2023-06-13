@@ -259,6 +259,8 @@ data_std <- data_std %>%
 #verify
 unique(data_std$cec_units)# only cmolc kg-1
 
+#"n_units" 
+unique(units$n_units) # "%" "" 
 
 
 
