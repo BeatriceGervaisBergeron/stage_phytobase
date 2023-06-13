@@ -242,7 +242,7 @@ data_std <- data_std %>%
 # replace 'cmolc/kg' by 'cmolc kg-1'
 data_std <- data_std %>%
   mutate(cec_units = ifelse(cec_units == 'cmolc/kg', 'cmolc kg-1', cec_units)) # replace all 'cmolc/kg' units by 'cmolc kg-1'
-# need to convert mmol kg-1 to cmolc kg-1 (/10)  ***A VERIFIER***
+# need to convert mmol kg-1 to cmolc kg-1 (/10)     ***A VERIFIER***
 data_std <- data_std %>%
   mutate(cec = ifelse(cec_units == 'mmol kg-1', cec/10, cec)) %>% # divide per 10 all the cec data that have mmol/kg units
   mutate(cec_units = ifelse(cec_units == 'mmol kg-1', 'cmolc kg-1', cec_units)) # replace all 'mmol kg-1' units by 'cmolc kg-1'
@@ -259,7 +259,30 @@ data_std <- data_std %>%
 #verify
 unique(data_std$cec_units)# only cmolc kg-1
 
+#"N_units"             ****A VERIFIER SI ON GARDE LES UNITES 'mg l-1'****
+unique(units$N_units) # "%"   ""    "mg l-1"   "mg kg-1"
+# need to convert % to mg kg-1 (*10000)
+data_std <- data_std %>%
+  mutate(n = ifelse(n_units == '%', n*10000, n)) %>% # multiply per 10000 all the n data that have % units
+  mutate(n_units = ifelse(n_units == '%', 'mg kg−1', n_units)) # replace all % per g/kg units 
+#verify
+unique(data_std$n_units)# only mg kg-1
 
+#"P_units"   
+unique(units$P_units) # "mg kg−1"    ""  
+# no need for conversion if only mg kg−1 
+
+#"units_s"   
+unique(units$units_s) # "mg kg−1"
+# no need for conversion if only mg kg−1 
+
+#"units_b" 
+unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha"   "g/pot" 
+# since biomass is measure really differently, for the moment we'll let it like that
+# 'on hold', to be unify if needed further on
+
+#"units_te_ba" 
+unique(units$units_te_ba)
 
 
 
