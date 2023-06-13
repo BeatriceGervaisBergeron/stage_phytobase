@@ -212,13 +212,12 @@ data_std <- data %>%
 unique(data_std$om_units) # only "%" and ""
 
 
-#"oc_units"   ***A SUIVRE***
-unique(units$oc_units) # ""     "g/kg"    "%"    "mg l-1"  
+#"oc_units"
+unique(units$oc_units) # ""     "g/kg"    "%"
 # need to convert g/kg to % (/10)
 data_std <- data %>%
   mutate(oc = ifelse(oc_units == 'g/kg', oc/10, oc)) %>% # divide per 10 all the oc data that have g/kg units
   mutate(oc_units = ifelse(oc_units == 'g/kg', '%', oc_units)) # replace all g/kg units per %
-# need to convert "mg l-1" to % (***A SUIVRE***)
 # verify
 unique(data_std$oc_units) # only "%" 
 
@@ -236,17 +235,30 @@ unique(units$ec_units) # ""  "mS cm−1"
 
 #"cec_units"
 unique(units$cec_units) # "meq 100 g-1" "cmolc/kg"  "NA"  "mmol kg-1"  "cmol/kg"  "mmol(+)/kg"  "cmol kg-1"
+## need to convert all units to "cmolc kg-1"
 # no need for conversion for "meq 100 g−1"
 convert <- c("meq 100 g−1")
 data_std <- data_std %>%
-  mutate(cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)) # replace all g/kg units per %
+  mutate(cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)) # replace all 'meq 100 g−1' units by 'cmolc kg-1'
+# replace 'cmolc/kg' by 'cmolc kg-1'
+data_std <- data_std %>%
+  mutate(cec_units = ifelse(cec_units == 'cmolc/kg', 'cmolc kg-1', cec_units)) # replace all 'cmolc/kg' units by 'cmolc kg-1'
 # need to convert mmol kg−1 to cmolc kg-1 (/10)
 data_std <- data_std %>%
-  mutate(cec = ifelse(cec_units == 'mmol kg−1', cec/10, cec)) %>% # divide per 10 all the cec data that have g/kg units
-  mutate(cec_units = ifelse(cec_units == 'mmol kg−1', 'cmolc kg-1', cec_units)) # replace all g/kg units per %
-# 
+  mutate(cec = ifelse(cec_units == 'mmol kg−1', cec/10, cec)) %>% # divide per 10 all the cec data that have mmol/kg units
+  mutate(cec_units = ifelse(cec_units == 'mmol kg−1', 'cmolc kg-1', cec_units)) # replace all 'mmol kg-1' units by 'cmolc kg-1'
+# replace 'cmol/kg' by 'cmolc kg-1'
+data_std <- data_std %>%
+  mutate(cec_units = ifelse(cec_units == 'cmol/kg', 'cmolc kg-1', cec_units)) # replace all 'cmol/kg' units by 'cmolc kg-1'
+# need to convert 'mmol(+)/kg' to 'cmolc kg-1'
+data_std <- data_std %>%
+  mutate(cec = ifelse(cec_units == 'mmol(+)/kg', cec/10, cec)) %>% # divide per 10 all the cec data that have 'mmol(+)/kg' units
+  mutate(cec_units = ifelse(cec_units == 'mmol(+)/kg', 'cmolc kg-1', cec_units)) # replace all 'mmol(+)/kg' units by 'cmolc kg-1'
+# replace 'cmol kg-1' by 'cmolc kg-1'
+data_std <- data_std %>%
+  mutate(cec_units = ifelse(cec_units == 'cmol kg-1', 'cmolc kg-1', cec_units)) # replace all 'cmol kg-1' units by 'cmolc kg-1'
 #verify
-unique(data_std$cec_units)# only cmolc kg-1
+unique(data_std$cec_units)# only cmolc kg-1  ***A VERIFIER***
 
 
 
