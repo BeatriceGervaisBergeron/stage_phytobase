@@ -290,12 +290,21 @@ unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha" 
 # 'on hold', to be unify if needed further on
 
 #"units_te_ba"  ***A CONTINUER*** 
-unique(units$units_te_ba) # "mg kg−1" "mg Kg-1"
-# conversion of only mg kg−1 
+unique(units$units_te_ba) # "mg kg-1" "?g g-1"
+# replace '?g g-1' by 'mg kg-1'
 data_std <- data_std %>%
-  mutate(units_te_ba = ifelse(units_te_ba == 'mg Kg-1' , 'mg kg−1', units_te_ba)) # replace all mg Kg-1 to mg kg−1
+  mutate(units_te_ba = ifelse(units_te_ba == '?g g-1' , 'mg kg-1', units_te_ba)) # replace all mg Kg-1 to mg kg−1
 # verify
-unique(data_std$units_te_ba) # only "mg kg−1" "" 
+unique(data_std$units_te_ba) # only "mg kg-1"
+
+#"units_te_br"   
+unique(units$units_te_br) # "mg kg-1"    NA    "?g g-1"
+# replace '?g g-1' by 'mg kg-1'
+data_std <- data_std %>%
+  mutate(units_te_br = ifelse(units_te_br == '?g g-1' , 'mg kg-1', units_te_br)) # replace all mg Kg-1 to mg kg−1
+# verify
+unique(data_std$units_te_br) # only "mg kg-1" "" 
+
 
 
 
