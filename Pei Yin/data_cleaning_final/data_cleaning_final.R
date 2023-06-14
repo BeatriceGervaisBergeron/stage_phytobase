@@ -219,11 +219,11 @@ data_std <- data %>%
   mutate(oc = ifelse(oc_units == 'g/kg', oc/10, oc)) %>% # divide per 10 all the oc data that have g/kg units
   mutate(oc_units = ifelse(oc_units == 'g/kg', '%', oc_units)) # replace all g/kg units per %
 # verify
-unique(data_std$oc_units) # only "%" 
+unique(data_std$oc_units) # only "%"
 
 #"clay_units" 
 unique(units$clay_units) # "%" "" 
-# no need for conversion if only % 
+# no need for conversion if only %
 
 #"sand_units" 
 unique(units$sand_units) #  "%" "" 
@@ -242,7 +242,7 @@ data_std <- data_std %>%
 # replace 'cmolc/kg' by 'cmolc kg-1'
 data_std <- data_std %>%
   mutate(cec_units = ifelse(cec_units == 'cmolc/kg', 'cmolc kg-1', cec_units)) # replace all 'cmolc/kg' units by 'cmolc kg-1'
-# need to convert mmol kg-1 to cmolc kg-1 (/10)     ***A VERIFIER***
+# need to convert mmol kg-1 to cmolc kg-1 (/10)
 data_std <- data_std %>%
   mutate(cec = ifelse(cec_units == 'mmol kg-1', cec/10, cec)) %>% # divide per 10 all the cec data that have mmol/kg units
   mutate(cec_units = ifelse(cec_units == 'mmol kg-1', 'cmolc kg-1', cec_units)) # replace all 'mmol kg-1' units by 'cmolc kg-1'
@@ -257,16 +257,16 @@ data_std <- data_std %>%
 data_std <- data_std %>%
   mutate(cec_units = ifelse(cec_units == 'cmol kg-1', 'cmolc kg-1', cec_units)) # replace all 'cmol kg-1' units by 'cmolc kg-1'
 #verify
-unique(data_std$cec_units)# only cmolc kg-1
+unique(data_std$cec_units)# only 'cmolc kg-1'
 
-#"N_units"             ****A VERIFIER SI ON GARDE LES UNITES 'mg l-1'****
-unique(units$N_units) # "%"   ""    "mg l-1"   "mg kg-1"
+#"N_units"
+unique(units$N_units) # "%"   ""    "mg kg-1"
 # need to convert % to mg kg-1 (*10000)
 data_std <- data_std %>%
-  mutate(n = ifelse(n_units == '%', n*10000, n)) %>% # multiply per 10000 all the n data that have % units
-  mutate(n_units = ifelse(n_units == '%', 'mg kg−1', n_units)) # replace all % per g/kg units 
+  mutate(N = ifelse(N_units == '%', N*10000, N)) %>% # multiply per 10000 all the n data that have % units
+  mutate(N_units = ifelse(N_units == '%', 'mg kg-1', N_units)) # replace all % per g/kg units 
 #verify
-unique(data_std$n_units)# only mg kg-1
+unique(data_std$N_units) # only mg kg-1
 
 #"P_units"   
 unique(units$P_units) # "mg kg−1"    ""  
