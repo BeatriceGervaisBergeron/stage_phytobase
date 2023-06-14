@@ -269,20 +269,33 @@ data_std <- data_std %>%
 unique(data_std$N_units) # only mg kg-1
 
 #"P_units"   
-unique(units$P_units) # "mg kg−1"    ""  
-# no need for conversion if only mg kg−1 
+unique(units$P_units) # "mg kg−1"    "" 
+# replace 'mg kg−1' by 'mg kg-1'
+data_std <- data_std %>%
+  mutate(P_units = ifelse(P_units == 'mg kg−1' , 'mg kg-1', P_units))
+# verify
+unique(data_std$P_units) # only "mg kg-1" "" 
 
 #"units_s"   
 unique(units$units_s) # "mg kg−1"
-# no need for conversion if only mg kg−1 
+# replace 'mg kg−1' by 'mg kg-1'
+data_std <- data_std %>%
+  mutate(units_s = ifelse(units_s == 'mg kg−1' , 'mg kg-1', units_s))
+# verify
+unique(data_std$units_s) # only "mg kg-1" "" 
 
 #"units_b" 
 unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha"   "g/pot" 
 # since biomass is measure really differently, for the moment we'll let it like that
 # 'on hold', to be unify if needed further on
 
-#"units_te_ba" 
-unique(units$units_te_ba)
+#"units_te_ba"  ***A CONTINUER***
+unique(units$units_te_ba) # "mg kg−1" "mg Kg-1"
+# conversion of only mg kg−1 
+data_std <- data_std %>%
+  mutate(units_te_ba = ifelse(units_te_ba == 'mg Kg-1' , 'mg kg−1', units_te_ba)) # replace all mg Kg-1 to mg kg−1
+# verify
+unique(data_std$units_te_ba) # only "mg kg−1" "" 
 
 
 
