@@ -289,7 +289,7 @@ unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha" 
 # since biomass is measure really differently, for the moment we'll let it like that
 # 'on hold', to be unify if needed further on
 
-#"units_te_ba"         ***A CONTINUER (FAIRE RUN LE CODE)
+#"units_te_ba"
 unique(units$units_te_ba) # "mg kg-1" "?g g-1"
 # replace '?g g-1' by 'mg kg-1'
 data_std <- data_std %>%
@@ -341,7 +341,17 @@ unique(data$climate) # "temperate"  "transfer-featured climate between continent
 # 'on hold', to be unify if needed further on
 
 # Texture
-unique(data$texture) # 
+unique(data$texture) # ""   "fine sandy loam"   "Clay sand silt"    "Loamy"   "Coarse-textured, low content of clay"   "Clay"
+#  "Coarse-textured" is for two classes, need to be checked and if not more precise, make a category in between for eventual %
+
+# p_density
+unique(data$p_density..ind..m2.or.pots.)
+# 'on hold', to be unify if needed further on
+
+# organs_ba and organs_ba.1
+unique(data_std$organs_ba) # 
+
+
 
 
 
