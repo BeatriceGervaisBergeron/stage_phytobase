@@ -289,22 +289,59 @@ unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha" 
 # since biomass is measure really differently, for the moment we'll let it like that
 # 'on hold', to be unify if needed further on
 
-#"units_te_ba"  ***A CONTINUER*** 
+#"units_te_ba"         ***A CONTINUER (FAIRE RUN LE CODE)
 unique(units$units_te_ba) # "mg kg-1" "?g g-1"
 # replace '?g g-1' by 'mg kg-1'
 data_std <- data_std %>%
-  mutate(units_te_ba = ifelse(units_te_ba == '?g g-1' , 'mg kg-1', units_te_ba)) # replace all mg Kg-1 to mg kg−1
+  mutate(units_te_ba = ifelse(units_te_ba == '?g g-1' , 'mg kg-1', units_te_ba))
 # verify
 unique(data_std$units_te_ba) # only "mg kg-1"
 
-#"units_te_br"   
+# "units_te_br"   
 unique(units$units_te_br) # "mg kg-1"    NA    "?g g-1"
 # replace '?g g-1' by 'mg kg-1'
 data_std <- data_std %>%
-  mutate(units_te_br = ifelse(units_te_br == '?g g-1' , 'mg kg-1', units_te_br)) # replace all mg Kg-1 to mg kg−1
+  mutate(units_te_br = ifelse(units_te_br == '?g g-1' , 'mg kg-1', units_te_br))
 # verify
 unique(data_std$units_te_br) # only "mg kg-1" "" 
 
+# "units_te_br.1"
+unique(units$units_te_br.1) # "mg kg-1"    NA
+# no need for conversion if only mg kg-1
+
+# "units_te_br.2"
+unique(units$units_te_br.2) # "mg kg-1"    NA
+# no need for conversion if only mg kg-1
+
+# "units_te_br.3"
+unique(units$units_te_br.3) # "mg kg-1"    NA
+# no need for conversion if only mg kg-1
+
+#"units_te_ba.2"
+unique(units$units_te_ba.2) # "mg kg-1" "?g g-1"
+# replace '?g g-1' by 'mg kg-1'
+data_std <- data_std %>%
+  mutate(units_te_ba.2 = ifelse(units_te_ba.2 == '?g g-1' , 'mg kg-1', units_te_ba.2))
+# verify
+unique(data_std$units_te_ba.2) # only "mg kg-1"
+
+#"units_te_ba.1"
+unique(units$units_te_ba.1) # "mg kg-1" "?g g-1"
+# replace '?g g-1' by 'mg kg-1'
+data_std <- data_std %>%
+  mutate(units_te_ba.1 = ifelse(units_te_ba.1 == '?g g-1' , 'mg kg-1', units_te_ba.1))
+# verify
+unique(data_std$units_te_ba.1) # only "mg kg-1"
+
+
+#### standardize categories terms ####
+
+# Climate
+unique(data$climate) # "temperate"  "transfer-featured climate between continental climate and temperate climate"  "humid subtropical"
+# 'on hold', to be unify if needed further on
+
+# Texture
+unique(data$texture) # 
 
 
 
