@@ -348,10 +348,25 @@ unique(data$texture) # ""   "fine sandy loam"   "Clay sand silt"    "Loamy"   "C
 unique(data$p_density..ind..m2.or.pots.)
 # 'on hold', to be unify if needed further on
 
-# organs_ba and organs_ba.1
-unique(data_std$organs_ba) # 
+# organs_ba, organs_ba.1 and organs_ba.2
+unique(data_std$organs_ba) # "Shoots"  "leaf"   "leaves"   "Stems"    "leaves and shoots"
+unique(data_std$organs_ba.1) # "Wood"
+unique(data_std$organs_ba.2) # "Stalks" "Twigs"  "Stems"
+# conversion for only shoots or leaves or stems    ***A CONTINUER***
+syn_shoots <- c("Shoots")
+syn_stems <- c("Stalks", "Twigs" , "Stems")
+syn_leaves <- c("leaf", "Leaves")
 
-
+data_std <- data_std %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% # replace all by shoots 
+  mutate(organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)) %>% # replace all by stems
+  mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>% # replace all by leaves
+  mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_shoots , 'shoots', organs_ba.1)) %>% # replace all by shoots 
+  mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_stems , 'stems', organs_ba.1)) %>% # replace all by stems
+  mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_leaves , 'leaves', organs_ba.1)) # replace all by leaves
+# verify
+unique(data_std$organs_ba) # only shoots or leaves or stems
+unique(data_std$organs_ba.1) # only stems
 
 
 
