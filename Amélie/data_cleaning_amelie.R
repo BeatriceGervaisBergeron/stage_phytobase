@@ -1,24 +1,22 @@
+setwd("C:/Users/User/Documents/Scolaire/UDEM/Maîtrise/Hiver 2023/Stage phyto/stage_phytobase")
 # DATA CLEANING
 ## LIBRARY
 library(dplyr)
 library(stringr)
 library(taxize)
-
 #### call your data  ####
-data <- read.csv('./Amélie/soil_sp_database_Amélie.csv', sep=',',header = T, dec = '.')
-
+data <- read.csv('./Amélie/soil_sp_database_Amelie.csv', sep=';',header = T, dec = '.')
 #### decimals ####
 # make sure there is not comma instead of points
 # already with points
 # make sure all column are in the correct forms (character or numerical)
 str(data)
-
 # transform variable that needed
 # Transform data
 data <- data %>%
   mutate(
-    year = as.numeric(year)
-    , expe_t= as.numeric(expe_t)
+    expe_t = as.numeric(expe_t)
+    , country = as.factor(country)
     , ph = as.numeric(ph)
     , clay = as.numeric(clay)
     , co_s = as.numeric(co_s)
@@ -29,56 +27,43 @@ data <- data %>%
     , co_br = as.numeric(co_br)
     , mn_br = as.numeric(mn_br)
     , hg_br = as.numeric(hg_br)
-    , as_ba.1 = as.numeric(as_ba_1)
-    , zn_ba.1 = as.numeric(zn_ba_1)
-    , se_ba.1 = as.numeric(se_ba_1)
-    , co_ba.1 = as.numeric(co_ba_1)
-    , mn_ba.1 = as.numeric(mn_ba_1)
-    , hg_ba.1 = as.numeric(hg_ba_1))
-
+    , as_ba_1 = as.numeric(as_ba_1)
+    , zn_ba_1 = as.numeric(zn_ba_1)
+    , se_ba_1 = as.numeric(se_ba_1)
+    , co_ba_1 = as.numeric(co_ba_1)
+    , mn_ba_1 = as.numeric(mn_ba_1)
+    , hg_ba_1 = as.numeric(hg_ba_1))
+# all value for expe_t, ph, clay, co_s, mn_s, hg_s, co_ba, hg_ba, mn_br are not only numerical, so Na were introduced.
 # Verify the mutation
-str(data)
-
-
+str(data)#good
 #### all white space to NA ####
 data[data == ''] <- NA
-
-
 #### species names cleaning  ####
-
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name))
-colnames(uni_sp) <- c('sp')
-
+uni_sp<-as.data.frame(unique(data$name)) # 395 unique species
+colnames(uni_sp) <- c('sp') 
 # Correct the name according to the species name corrected from TRY
-
 # list_sp_cor already corrected
-list_sp_cor <-readRDS('list_sp_cor_3traits.rds')
-
+list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
-to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name'))
-
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 125 species not on the corrected list, so need to be corrected
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
 match.name <- to.be.cor$sp %>%
   gnr_resolve(data_source_ids = c(1,150,165,167), 
               with_canonical_ranks=T)
-
 # provide a short summary table
 matches <- match.name %>%
   select(user_supplied_name,submitted_name, matched_name2, score)%>% #add original value
   distinct()
-
 # Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name))
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 121 sp
 colnames(uni_sp_2) <- c('sp')
-
 # which are not included
 unmatch <- to.be.cor %>% filter(!sp %in% uni_sp_2$sp)
 colnames(unmatch) <- c('user_supplied_name')
 # add them to the end of the match list
 matches.all<-bind_rows(matches, unmatch)
-
 # Insert three new columns (change names as you like) and insert text:
 # ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
 # ‘alternative’ - write an alternative name here
@@ -86,22 +71,22 @@ matches.all<-bind_rows(matches, unmatch)
 matches.all$implement<-''
 matches.all$alternative<-''
 matches.all$dupl<-''
-
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
             "./Amélie/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
-
 # open the txt file in excel to make manual corrections
-# All in () content should be remove
 # For all hybrids (with x) both name should be keep
-
 # Save the corrected names in a txt file name, adding _cor to the name of the document
+
+
+
+
+
 
 # import back the data 
 uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
-
 # eliminate duplicates
 uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
 uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T) # no duplicates in the first column
@@ -115,7 +100,7 @@ saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
 cu_sp_cor <- readRDS('Amélie/cu_sp_cor.rds')
 
 # Add the new corrected list to the complete on
-list_sp_cor_cu<- bind_rows( cu_sp_cor, list_sp_cor)
+list_sp_cor_cu<- bind_rows(cu_sp_cor, list_sp_cor)
 
 # add the corrections to the data
 data <- data %>% 
@@ -124,7 +109,7 @@ data <- data %>%
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 # Keep the corrected column
-data <- data[,-c(100:106)] # shoudl have 100 columns
+data <- data[,-c(100:106)] # should have 100 columns
 
 # Check number of sp now
 uni_cu_cor <-unique(data$AccSpeciesName_cor)
