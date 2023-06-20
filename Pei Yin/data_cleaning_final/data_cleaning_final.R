@@ -104,7 +104,6 @@ data[data == ''] <- NA
 # check unique sp list in your database
 
 uni_sp<-as.data.frame(unique(data$name)) # 42 unique species
-
 colnames(uni_sp) <- c('sp')
 
 # Correct the name according to the species name corrected from TRY
@@ -269,20 +268,12 @@ data_std <- data_std %>%
 unique(data_std$N_units) # only mg kg-1
 
 #"P_units"   
-unique(units$P_units) # "mg kg−1"    "" 
-# replace 'mg kg−1' by 'mg kg-1'
-data_std <- data_std %>%
-  mutate(P_units = ifelse(P_units == 'mg kg−1' , 'mg kg-1', P_units))
-# verify
-unique(data_std$P_units) # only "mg kg-1" "" 
+unique(units$P_units) # "mg kg-1"    ""
+# no need for conversion if only 'mg kg-1'
 
 #"units_s"   
-unique(units$units_s) # "mg kg−1"
-# replace 'mg kg−1' by 'mg kg-1'
-data_std <- data_std %>%
-  mutate(units_s = ifelse(units_s == 'mg kg−1' , 'mg kg-1', units_s))
-# verify
-unique(data_std$units_s) # only "mg kg-1" "" 
+unique(units$units_s) # "mg kg-1"
+# no need for conversion if only 'mg kg-1'
 
 #"units_b" 
 unique(units$units_b) # "g m-2"   "g"   ""    "g/plant"  " t ha-1 yr-1" "kg/ha"   "g/pot" 
@@ -349,13 +340,13 @@ unique(data$p_density..ind..m2.or.pots.)
 # 'on hold', to be unify if needed further on
 
 # organs_ba, organs_ba.1 and organs_ba.2
-unique(data_std$organs_ba) # "Shoots"  "leaf"   "leaves"   "Stems"    "leaves and shoots"
+unique(data_std$organs_ba) # "Shoots"  "leaf"   "leaves"   "Stems"
 unique(data_std$organs_ba.1) # "Wood"
 unique(data_std$organs_ba.2) # "Stalks" "Twigs"  "Stems"
-# conversion for only shoots or leaves or stems    ***A CONTINUER***
+# conversion for only shoots or leaves or stems    
 syn_shoots <- c("Shoots")
 syn_stems <- c("Stalks", "Twigs" , "Stems")
-syn_leaves <- c("leaf", "Leaves")
+syn_leaves <- c("leaf", "leaves")
 
 data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% # replace all by shoots 
@@ -363,12 +354,22 @@ data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>% # replace all by leaves
   mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_shoots , 'shoots', organs_ba.1)) %>% # replace all by shoots 
   mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_stems , 'stems', organs_ba.1)) %>% # replace all by stems
-  mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_leaves , 'leaves', organs_ba.1)) # replace all by leaves
+  mutate(organs_ba.1 = ifelse(organs_ba.1 %in% syn_leaves , 'leaves', organs_ba.1)) %>% # replace all by leaves
+  mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_shoots , 'shoots', organs_ba.2)) %>% # replace all by shoots 
+  mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_stems , 'stems', organs_ba.2)) %>% # replace all by stems
+  mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_leaves , 'leaves', organs_ba.2)) # replace all by leaves
 # verify
 unique(data_std$organs_ba) # only shoots or leaves or stems
-unique(data_std$organs_ba.1) # only stems
+unique(data_std$organs_ba.1) # wood            ***TO CONTINUE***
+unique(data_std$organs_ba.2) # only stems
 
 
+# organs_br, organs_br.1, organs_br.2 and organs_br.3
+
+unique(data_std$organs_br) # 
+unique(data_std$organs_br.1) # 
+unique(data_std$organs_br.2) # 
+unique(data_std$organs_br.3) # 
 
 
 
