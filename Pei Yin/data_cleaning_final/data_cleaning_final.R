@@ -459,7 +459,7 @@ str(data_num)
 # data_num has 112 variables for now
 
 # remove the columns "season_exposure" and "day_exposure", 
-# since no data of "min_value" or "max_value" to compare to, in "num_range"
+# since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
 data_num <- data_num[,-c(6:7)] # should have 110 columns
 
 
@@ -503,6 +503,21 @@ outliers <- data_num %>%
 # outliers for list[6] = ph
 outliers <- data_num %>% 
   filter(data_num[,6] < num_range$min_value[6] | data_num[,6] > num_range$max_value[6] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[7] = om
+outliers <- data_num %>% 
+  filter(data_num[,7] < num_range$min_value[7] | data_num[,7] > num_range$max_value[7] )
+# 0 line/0 obs, so no outliers
+
+#   *** TO CONTINUE WITH LINE 8 (OC) ***
+
+
+
+
+
+
+
 # 55 lines/55 obs, so 55 outliers to verify
 
 
