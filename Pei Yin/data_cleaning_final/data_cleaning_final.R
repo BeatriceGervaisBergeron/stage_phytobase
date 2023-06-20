@@ -360,7 +360,7 @@ data_std <- data_std %>%
   mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_leaves , 'leaves', organs_ba.2)) # replace all by leaves
 # verify
 unique(data_std$organs_ba) # only shoots or leaves or stems
-unique(data_std$organs_ba.1) # wood                  *** TO CONTINUE FOR "WOOD" ***
+unique(data_std$organs_ba.1) # wood             ***TO CONTINUE***
 unique(data_std$organs_ba.2) # only stems
 
 
@@ -379,11 +379,7 @@ data_std <- data_std %>%
 unique(data_std$organs_br) # "roots"
 
 
-
 #### outliers and errors in numerical data ####
-
-
-
 
 
 
