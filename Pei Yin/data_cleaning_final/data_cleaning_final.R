@@ -392,6 +392,36 @@ data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
+
+# decimals
+
+# make sure there is no comma instead of points
+# the values of "2,4" and "6,0" of the 8th line "oc" are with commas
+num_range[8,2] # "2,4"
+num_range[8,3] # "6,0"
+
+# need to change the commas to points
+num_range[8,2] <- "2.4"
+num_range[8,3] <- "6.0"
+# verify
+num_range[8,2] # "2.4"
+num_range[8,3] # "6.0"
+
+
+# check data type of columns "min_value" and "max_value"
+str(num_range$min_value) # chr
+str(num_range$max_value) # chr
+
+# transform num_range as numeric
+num_range <- num_range %>%
+  mutate(
+    min_value = as.numeric(min_value)
+    , max_value = as.numeric(max_value))
+# verify
+str(num_range$min_value) # num
+str(num_range$max_value) # num
+
+
 # for each of the 112 variables, isolate data that are outside the range
 # here are the 112 variables
 list <-colnames(data_num)
@@ -419,12 +449,18 @@ outliers <- data_num %>%
 # outliers for list[4] = mat..C.
 outliers <- data_num %>% 
   filter(data_num[,4] < num_range$min_value[4] | data_num[,4] > num_range$max_value[4] )
-# 49 lines/49 obs, so 49 outliers to verify     ***TO VERIFY***
+# 0 line/0 obs, so no outliers
 
 # outliers for list[5] = map..mm.
 outliers <- data_num %>% 
   filter(data_num[,5] < num_range$min_value[5] | data_num[,5] > num_range$max_value[5] )
-# 58 lines/58 obs, so 58 outliers to verify     ***TO VERIFY***
+# 0 line/0 obs, so no outliers
+
+# outliers for list[6] = ph
+outliers <- data_num %>% 
+  filter(data_num[,6] < num_range$min_value[6] | data_num[,6] > num_range$max_value[6] )
+# 55 lines/55 obs, so 55 outliers to verify
+
 
 
 
