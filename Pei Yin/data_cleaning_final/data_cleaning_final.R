@@ -513,7 +513,7 @@ outliers <- data_num %>%
 # outliers for list[8] = oc
 outliers <- data_num %>% 
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
-# 47 lines/47 obs, so 47 outliers to verify
+# 47 lines/47 obs, so 47 outliers to verify      **** TO VERIFY ****
 
 
 
