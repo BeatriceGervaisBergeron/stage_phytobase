@@ -437,10 +437,19 @@ str(data_num)
 # Transform the data in "data_num" as numeric
 data_num <- data_num %>%
   mutate(
-    Experiment_T = as.numeric(Experiment_T)   # TO ADJUST/MODIFY
-    , pb_s = as.numeric(pb_s)                 # TO ADJUST/MODIFY
-    , mn_s = as.numeric(mn_s)                 # TO ADJUST/MODIFY
-    , hg_s = as.numeric(hg_s))                # TO ADJUST/MODIFY
+    covidence = as.numeric(covidence)
+    , year = as.numeric(year)
+    , n_s = as.numeric(n_s)
+    , n_te_ba = as.numeric(n_te_ba)
+    , n_te_br = as.numeric(n_te_br)
+    , n_te_br.1 = as.numeric(n_te_br.1)
+    , n_te_br.2 = as.numeric(n_te_br.2)
+    , n_te_br.3 = as.numeric(n_te_br.3)
+    , n_te_ba.2 = as.numeric(n_te_ba.2)
+    , n_te_ba.1 = as.numeric(n_te_ba.1))
+
+# verify
+str(data_num)
 
 
 
