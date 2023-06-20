@@ -412,16 +412,19 @@ outliers <- data_num %>%
 # 0 line/0 obs, so no outliers
 
 # outliers for list[3] = Experiment_T 
-outliers <- data_std %>% 
+outliers <- data_num %>% 
   filter(data_num[,3] < num_range$min_value[3] | data_num[,3] > num_range$max_value[3] )
 # 0 line/0 obs, so no outliers
 
 # outliers for list[4] = mat..C.
-outliers <- data_std %>% 
+outliers <- data_num %>% 
   filter(data_num[,4] < num_range$min_value[4] | data_num[,4] > num_range$max_value[4] )
-# 49 lines/49 obs, so 49 outliers to verify
+# 49 lines/49 obs, so 49 outliers to verify     ***TO VERIFY***
 
-
+# outliers for list[5] = map..mm.
+outliers <- data_num %>% 
+  filter(data_num[,5] < num_range$min_value[5] | data_num[,5] > num_range$max_value[5] )
+# 58 lines/58 obs, so 58 outliers to verify     ***TO VERIFY***
 
 
 
