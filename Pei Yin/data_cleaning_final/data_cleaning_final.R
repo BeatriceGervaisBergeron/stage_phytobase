@@ -510,17 +510,15 @@ outliers <- data_num %>%
   filter(data_num[,7] < num_range$min_value[7] | data_num[,7] > num_range$max_value[7] )
 # 0 line/0 obs, so no outliers
 
-#   *** TO CONTINUE WITH LINE 8 (OC) ***
+# outliers for list[8] = oc
+outliers <- data_num %>% 
+  filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
+# 47 lines/47 obs, so 47 outliers to verify
 
 
 
 
-
-
-
-# 55 lines/55 obs, so 55 outliers to verify
-
-
+#   *** TO CONTINUE WITH LINE 9 (clay) ***
 
 
 
