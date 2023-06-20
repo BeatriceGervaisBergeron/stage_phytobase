@@ -1,0 +1,131 @@
+user_supplied_name	submitted_name	matched_name2	score	implement	alternative	dupl
+Zygophyllum fabago 	Zygophyllum fabago	Zygophyllum fabago	0.988			
+Axonopus  affinis	Axonopus  affinis	Axonopus affinis	0.988			
+Paspalum  plicatulum	Paspalum  plicatulum	Paspalum plicatulum	0.988			
+Hordeum disticum	Hordeum disticum	Hordeum distichum	0.75			
+Festuca  arundinacea	Festuca  arundinacea	Festuca arundinacea	0.988			
+Erica andevalensis	Erica andevalensis	Erica andevalensis	0.988			
+Sarcoconia fruticosa	Sarcoconia fruticosa	Sarcocornia fruticosa	0.75			
+Frankenia corymbosa	Frankenia corymbosa	Frankenia corymbosa	0.988			
+Cleome Africana	Cleome africana	Cleome africana	0.988			
+Forsskalea tenacissima	Forsskalea tenacissima	Forsskaolea tenacissima	0.75			
+Helianthus  annuus	Helianthus  annuus	Helianthus annuus	0.988			
+Nicotiana  tabaccum	Nicotiana  tabaccum	Nicotiana tabaccum	0.988			
+Astragalus aureus	Astragalus aureus	Astragalus aureus	0.988			
+Astragalus uraniolimneus	Astragalus uraniolimneus	Astragalus uraniolimneus	0.988			
+Sedum caucasicum	Sedum caucasicum	Sedum caucasicum	0.988			
+Salix eriocephala Michx	Salix eriocephala michx	Salix eriocephala	0.988			
+Eucalyptus camadulensis	Eucalyptus camadulensis	Eucalyptus camaldulensis	0.75			
+Citrus x limon	Citrus x limon	Citrus limon	0.988			
+Tamarix tetragyna	Tamarix tetragyna	Tamarix tetragyna	0.988			
+Dodonea viscosa	Dodonea viscosa	Dodonaea viscosa	0.75			
+Inula viscosa	Inula viscosa	Inula viscosa	0.988			
+Pinus bruttia	Pinus bruttia	Pinus bruttia	0.988			
+Acacia cyanophylla	Acacia cyanophylla	Acacia cyanophylla	0.988			
+Helianthus annus	Helianthus annus	Helianthus annuus	0.75			
+Chloris  gayana	Chloris  gayana	Chloris gayana	0.988			
+Bosea cypria	Bosea cypria	Bosea cypria	0.988			
+Salix smithiana	Salix smithiana	Salix smithiana	0.988			
+Tilia grandifolia	Tilia grandifolia	Tilia grandifolia	0.988			
+Vaccinium vitis-idaea	Vaccinium vitis-idaea	Vaccinium vitis-idaea	0.988			
+Urtica doica	Urtica doica	Urtica dioica	0.75			
+Triticum  durum	Triticum  durum	Triticum durum	0.988			
+Bouteloua gracilis	Bouteloua gracilis	Bouteloua gracilis	0.988			
+Bouteloua scorpioides	Bouteloua scorpioides	Bouteloua scorpioides	0.988			
+Benincasa hispida	Benincasa hispida	Benincasa hispida	0.988			
+Solidago decurrens	Solidago decurrens	Solidago decurrens	0.988			
+Polygonum hydropiper	Polygonum hydropiper	Polygonum hydropiper	0.988			
+Astragalus verus	Astragalus verus	Astragalus verus	0.988			
+Chenopodium botrys	Chenopodium botrys	Chenopodium botrys	0.988			
+Cousinia bijarensis	Cousinia bijarensis	Cousinia bijarensis	0.988			
+Cirsium congestum	Cirsium congestum	Cirsium congestum	0.988			
+Scariola orientalis	Scariola orientalis	Scariola orientalis	0.988			
+Chondrila juncea	Chondrila juncea	Chondrilla juncea	0.75			
+Melica jacquemontii	Melica jacquemontii	Melica jacquemontii	0.988			
+Aloe barbadensis	Aloe barbadensis	Aloe barbadensis	0.988			
+Tribulus Terrestris	Tribulus terrestris	Tribulus terrestris	0.988			
+Adhatoda vasica	Adhatoda vasica	Adhatoda vasica	0.988			
+Ocimum sanctum	Ocimum sanctum	Ocimum sanctum	0.988			
+Andrographics peniculata	Andrographics peniculata	Andrographis paniculata	0.75			
+Azadirachta Indica	Azadirachta indica	Azadirachta indica	0.988			
+Raphanus sativus	Raphanus sativus	Raphanus sativus	0.988			
+Myrtus comunnis	Myrtus comunnis	Myrtus communis	0.75			
+Pistacea lentiscus	Pistacea lentiscus	Pistacia lentiscus	0.75			
+Cardaminopsis arenosa	Cardaminopsis arenosa	Cardaminopsis arenosa	0.988			
+Eryngium ilicifolium	Eryngium ilicifolium	Eryngium ilicifolium	0.988			
+Eryngium triquetrum	Eryngium triquetrum	Eryngium triquetrum	0.988			
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis subsp. caulescens	0.54			
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis var. caulescens	0.54			
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis f. caulescens	0.54			
+Cladanthus arabicus	Cladanthus arabicus	Cladanthus arabicus	0.988			
+Echinops spinosus	Echinops spinosus	Echinops spinosus	0.988			
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidulus	0.75			
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidus	0.75			
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispanicus	0.75			
+Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare var. hirtum	0.999			
+Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare subsp. hirtum	0.999			
+Dolichos lablab	Dolichos lablab	Dolichos lablab	0.988			
+Duranta repens	Duranta repens	Duranta repens	0.988			
+Malva rotundifolia	Malva rotundifolia	Malva rotundifolia	0.988			
+Solanum nigrum	Solanum nigrum	Solanum nigrum	0.988			
+Festuca rubrics	Festuca rubrics	Festuca	0.75			
+Amaranthus paniculatus	Amaranthus paniculatus	Amaranthus paniculatus	0.988			
+Pinus duranguensis	Pinus duranguensis	Pinus durangensis	0.75			
+Fraximus excelsior	Fraximus excelsior	Fraxinus excelsior	0.75			
+Sorbus mougeotii	Sorbus mougeotii	Sorbus mougeotii	0.988			
+Rapahanus sativus	Rapahanus sativus	Raphanus sativus	0.75			
+Tilia	Tilia	Tilia	0.75			
+Betula pendula 	Betula pendula	Betula pendula	0.988			
+Microchloa altera	Microchloa altera	Microchloa altera	0.988			
+Rendlia altera 	Rendlia altera	Rendlia altera	0.988			
+Alnus viridis	Alnus viridis	Alnus viridis	0.988			
+Sorbus aucuparia 	Sorbus aucuparia	Sorbus aucuparia	0.988			
+Atriplex leucoclada	Atriplex leucoclada	Atriplex leucoclada	0.988			
+Gingko biloba	Gingko biloba	Gingko	0.75			
+Lycopersicum esculentum	Lycopersicum esculentum	Lycopersicum esculentum	0.988			
+Solanum melongena 	Solanum melongena	Solanum melongena	0.988			
+Brassica Chinensis	Brassica chinensis	Brassica chinensis	0.988			
+Lactuca sativ	Lactuca sativ	Lactuca sativa	0.75			
+Brassica campestr	Brassica campestr	Brassica campestris	0.75			
+Suaeda nigra	Suaeda nigra	Suaeda nigra	0.988			
+Olea europea	Olea europea	Olea europaea	0.75			
+Miscanthus floridulus 	Miscanthus floridulus	Miscanthus floridulus	0.988			
+Conyza canadensis	Conyza canadensis	Conyza canadensis	0.988			
+Cyclosorus acuminatus	Cyclosorus acuminatus	Cyclosorus acuminatus	0.988			
+Polygonum capitatum	Polygonum capitatum	Polygonum capitatum	0.988			
+Ficus tikoua	Ficus tikoua	Ficus tikoua	0.988			
+Gonostegia hirta	Gonostegia hirta	Gonostegia hirta	0.988			
+Selaginella uncinata	Selaginella uncinata	Selaginella uncinata	0.988			
+Microsorium fortunei	Microsorium fortunei	Microsorium fortunei	0.988			
+Sedum emarginatum	Sedum emarginatum	Sedum emarginatum	0.988			
+Arachniodes speciosa	Arachniodes speciosa	Arachniodes speciosa	0.988			
+Artemisia hedinii	Artemisia hedinii	Artemisia hedinii	0.988			
+Chenopodium serotinum	Chenopodium serotinum	Chenopodium serotinum	0.988			
+Conyza bonariensis	Conyza bonariensis	Conyza bonariensis	0.988			
+Conyza japonica	Conyza japonica	Conyza japonica	0.988			
+Cynanchum bungei	Cynanchum bungei	Cynanchum bungei	0.988			
+Dendranthema indicum	Dendranthema indicum	Dendranthema indicum	0.988			
+Dicranostigma leptopodum	Dicranostigma leptopodum	Dicranostigma leptopodum	0.988			
+Humulus japonicus	Humulus japonicus	Humulus japonicus	0.988			
+Mentha haplocalyx	Mentha haplocalyx	Mentha haplocalyx	0.988			
+Pharbitis nil	Pharbitis nil	Pharbitis nil	0.988			
+Roegneria kamoji	Roegneria kamoji	Roegneria kamoji	0.988			
+Viola verecunda	Viola verecunda	Viola verecunda	0.988			
+Chrysanthemum coronarium	Chrysanthemum coronarium	Chrysanthemum coronarium	0.988			
+Fetuca arundinacea	Fetuca arundinacea	Festuca arundinacea	0.75			
+Chenopodium ambrosioides	Chenopodium ambrosioides	Chenopodium ambrosioides	0.988			
+Sambucus chinensis	Sambucus chinensis	Sambucus chinensis	0.988			
+Helianthus tuberosus 	Helianthus tuberosus	Helianthus tuberosus	0.988			
+Aster baccharoides	Aster baccharoides	Aster baccharoides	0.988			
+Fagopyrum dibotrys	Fagopyrum dibotrys	Fagopyrum dibotrys	0.988			
+Patrinia villosa	Patrinia villosa	Patrinia villosa	0.988			
+Eupatorium coelestinum	Eupatorium coelestinum	Eupatorium coelestinum	0.988			
+Pterocypsela indica	Pterocypsela indica	Pterocypsela indica	0.988			
+Polygonum lapathifolium	Polygonum lapathifolium	Polygonum lapathifolium	0.988			
+Neyraudia reynaudian	Neyraudia reynaudian	Neyraudia reynaudiana	0.75			
+Vetiveria zizanioides	Vetiveria zizanioides	Vetiveria zizanioides	0.988			
+Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988			
+Arachishypogaea	NA	NA	NA			
+Lycopersiconesculantum	NA	NA	NA			
+Setariaplicata	NA	NA	NA			
+NA	NA	NA	NA			
