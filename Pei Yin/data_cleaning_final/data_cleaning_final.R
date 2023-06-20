@@ -515,10 +515,40 @@ outliers <- data_num %>%
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
 # 47 lines/47 obs, so 47 outliers to verify
 
+# outliers for list[9] = clay
+outliers <- data_num %>% 
+  filter(data_num[,9] < num_range$min_value[9] | data_num[,9] > num_range$max_value[9] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[10] = sand
+outliers <- data_num %>% 
+  filter(data_num[,10] < num_range$min_value[10] | data_num[,10] > num_range$max_value[10] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[11] = ec..dsm.1.
+outliers <- data_num %>% 
+  filter(data_num[,11] < num_range$min_value[11] | data_num[,11] > num_range$max_value[11] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[12] = cec
+outliers <- data_num %>% 
+  filter(data_num[,12] < num_range$min_value[12] | data_num[,12] > num_range$max_value[12] )
+# 3 line/3 obs, so 3 outliers
+
+# outliers for list[11] = N
+outliers <- data_num %>% 
+  filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
+# 11 line/11 obs, so 11 outliers
+
+# outliers for list[11] = P
+outliers <- data_num %>% 
+  filter(data_num[,14] < num_range$min_value[14] | data_num[,14] > num_range$max_value[14] )
+# 31 line/31 obs, so 31 outliers      *** TO VERIFY ***
 
 
 
-#   *** TO CONTINUE WITH LINE 9 (clay) ***
+
+
 
 
 
