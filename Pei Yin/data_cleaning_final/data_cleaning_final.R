@@ -396,6 +396,8 @@ num_range <- read.table("./numerical_range_variables.txt",
 # decimals
 
 # make sure there is no comma instead of points
+# open "num_range" and look at the decimals
+
 # the values of "2,4" and "6,0" of the 8th line "oc" are with commas
 num_range[8,2] # "2,4"
 num_range[8,3] # "6,0"
@@ -421,6 +423,7 @@ str(num_range$min_value) # chr
 str(num_range$max_value) # chr
 
 # transform "min_value" and "max_value" as numeric
+
 num_range <- num_range %>%
   mutate(
     min_value = as.numeric(min_value)
