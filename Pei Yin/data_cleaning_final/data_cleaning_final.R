@@ -421,6 +421,7 @@ str(num_range$min_value) # chr
 str(num_range$max_value) # chr
 
 # transform "min_value" and "max_value" as numeric
+
 num_range <- num_range %>%
   mutate(
     min_value = as.numeric(min_value)
