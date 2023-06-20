@@ -381,5 +381,49 @@ unique(data_std$organs_br) # "roots"
 
 #### outliers and errors in numerical data ####
 
+# see if duplicates data entries
+unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
+
+# list of variables that need to be verify
+num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
+
+# import the data normal range
+num_range <- read.table("./numerical_range_variables.txt", 
+                        sep="\t", header=T, stringsAsFactors = F)
+
+# for each of the 112 variables, isolate data that are outside the range
+# here are the 112 variables
+list <-colnames(data_num)
+
+# isolate the outliers lines for the variable 'covidence'
+outliers <- data_std %>% 
+  filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
+# if the outliers has 0 lines, it indicate not apparent outliers
+
+# you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
+outliers <- data_num %>% 
+  filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[2] = year 
+outliers <- data_num %>% 
+  filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[3] = Experiment_T 
+outliers <- data_std %>% 
+  filter(data_num[,3] < num_range$min_value[3] | data_num[,3] > num_range$max_value[3] )
+# 0 line/0 obs, so no outliers
+
+# outliers for list[4] = mat..C.
+outliers <- data_std %>% 
+  filter(data_num[,4] < num_range$min_value[4] | data_num[,4] > num_range$max_value[4] )
+# 49 lines/49 obs, so 49 outliers to verify
+
+
+
+
+
 
 
