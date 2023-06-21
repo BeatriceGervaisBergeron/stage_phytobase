@@ -543,9 +543,12 @@ outliers <- data_num %>%
 # outliers for list[14] = P
 outliers <- data_num %>% 
   filter(data_num[,14] < num_range$min_value[14] | data_num[,14] > num_range$max_value[14] )
-# 31 line/31 obs, so 31 outliers      *** TO VERIFY ***
+# 31 line/31 obs, so 31 outliers
 
-
+# outliers for list[15] = as_s
+outliers <- data_num %>% 
+  filter(data_num[,15] < num_range$min_value[15] | data_num[,15] > num_range$max_value[15] )
+# 12 line/12 obs, so 12 outliers     *** TO VERIFY ***
 
 
 
