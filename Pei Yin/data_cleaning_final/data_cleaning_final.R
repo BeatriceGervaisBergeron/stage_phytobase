@@ -680,7 +680,10 @@ outliers <- data_num %>%
   filter(data_num[,46] < num_range$min_value[43] | data_num[,46] > num_range$max_value[43] )
 # 13 line/13 obs, so 13 outliers
 
-
+# outliers for list[44] = cd_br
+outliers <- data_num %>% 
+  filter(data_num[,47] < num_range$min_value[44] | data_num[,47] > num_range$max_value[44] )
+# 6 line/6 obs, so 6 outliers
 
 
 
