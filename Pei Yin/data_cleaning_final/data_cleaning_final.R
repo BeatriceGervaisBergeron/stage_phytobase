@@ -620,6 +620,31 @@ outliers <- data_num %>%
   filter(data_num[,34] < num_range$min_value[31] | data_num[,34] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
+# outliers for list[32] = cd_ba
+outliers <- data_num %>% 
+  filter(data_num[,35] < num_range$min_value[32] | data_num[,35] > num_range$max_value[32] )
+# 3 line/3 obs, so 3 outliers
+
+# outliers for list[33] = cu_ba
+outliers <- data_num %>% 
+  filter(data_num[,36] < num_range$min_value[33] | data_num[,35] > num_range$max_value[33] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[34] = pb_ba
+outliers <- data_num %>% 
+  filter(data_num[,37] < num_range$min_value[34] | data_num[,37] > num_range$max_value[34] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[35] = zn_ba
+outliers <- data_num %>% 
+  filter(data_num[,38] < num_range$min_value[35] | data_num[,38] > num_range$max_value[35] )
+# 2 line/2 obs, so 2 outliers
+
+# outliers for list[36] = se_ba
+outliers <- data_num %>% 
+  filter(data_num[,39] < num_range$min_value[36] | data_num[,39] > num_range$max_value[36] )
+# 0 line/0 obs, so 0 outliers
+
 
 
 
