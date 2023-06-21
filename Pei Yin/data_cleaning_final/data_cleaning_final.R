@@ -513,7 +513,7 @@ outliers <- data_num %>%
 # outliers for list[8] = oc
 outliers <- data_num %>% 
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
-# 47 lines/47 obs, so 47 outliers to verify      **** TO VERIFY ****
+# 47 lines/47 obs, so 47 outliers to verify
 
 # outliers for list[9] = clay
 outliers <- data_num %>% 
@@ -548,7 +548,58 @@ outliers <- data_num %>%
 # outliers for list[15] = as_s
 outliers <- data_num %>% 
   filter(data_num[,15] < num_range$min_value[15] | data_num[,15] > num_range$max_value[15] )
-# 12 line/12 obs, so 12 outliers     *** TO VERIFY ***
+# 12 line/12 obs, so 12 outliers
+
+# outliers for list[16] = cd_s
+outliers <- data_num %>% 
+  filter(data_num[,16] < num_range$min_value[16] | data_num[,16] > num_range$max_value[16] )
+# 12 line/12 obs, so 12 outliers
+# after verification, the outliers are all NA values of cd_s
+
+# outliers for list[17] = cu_s
+outliers <- data_num %>% 
+  filter(data_num[,17] < num_range$min_value[17] | data_num[,17] > num_range$max_value[17] )
+# 6 line/6 obs, so 6 outliers
+
+# outliers for list[18] = pb_s
+outliers <- data_num %>% 
+  filter(data_num[,18] < num_range$min_value[18] | data_num[,18] > num_range$max_value[18] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[19] = zn_s
+outliers <- data_num %>% 
+  filter(data_num[,19] < num_range$min_value[19] | data_num[,19] > num_range$max_value[19] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[20] = se_s
+outliers <- data_num %>% 
+  filter(data_num[,20] < num_range$min_value[20] | data_num[,20] > num_range$max_value[20] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[21] = ni_s
+outliers <- data_num %>% 
+  filter(data_num[,21] < num_range$min_value[21] | data_num[,21] > num_range$max_value[21] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[22] = co_s
+outliers <- data_num %>% 
+  filter(data_num[,22] < num_range$min_value[22] | data_num[,22] > num_range$max_value[22] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[23] = mn_s
+outliers <- data_num %>% 
+  filter(data_num[,23] < num_range$min_value[23] | data_num[,23] > num_range$max_value[23] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[24] = cr_s
+outliers <- data_num %>% 
+  filter(data_num[,24] < num_range$min_value[24] | data_num[,24] > num_range$max_value[24] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[25] = hg_s
+outliers <- data_num %>% 
+  filter(data_num[,25] < num_range$min_value[25] | data_num[,25] > num_range$max_value[25] )
+# 0 line/0 obs, so 0 outliers
 
 
 
