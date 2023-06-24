@@ -804,6 +804,90 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,71] < num_range$min_value[44] | data_num[,71] > num_range$max_value[44] )
 # 1 line/1 obs, so 1 outliers
+outliers[,71]
+
+# outliers for list[72] = cu_br.2
+outliers <- data_num %>% 
+  filter(data_num[,72] < num_range$min_value[45] | data_num[,72] > num_range$max_value[45] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[73] = pb_br.2
+outliers <- data_num %>% 
+  filter(data_num[,73] < num_range$min_value[46] | data_num[,73] > num_range$max_value[46] )
+# 1 line/1 obs, so 1 outliers
+outliers[,73]
+
+# outliers for list[74] = zn_br.2
+outliers <- data_num %>% 
+  filter(data_num[,74] < num_range$min_value[47] | data_num[,74] > num_range$max_value[47] )
+# 1 line/1 obs, so 1 outliers
+outliers[,74]
+
+# outliers for list[75] = se_br.2
+outliers <- data_num %>% 
+  filter(data_num[,75] < num_range$min_value[48] | data_num[,75] > num_range$max_value[48] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[76] = ni_br.2
+outliers <- data_num %>% 
+  filter(data_num[,76] < num_range$min_value[49] | data_num[,76] > num_range$max_value[49] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[77] = co_br.2
+outliers <- data_num %>% 
+  filter(data_num[,77] < num_range$min_value[50] | data_num[,77] > num_range$max_value[50] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[78] = mn_br.2
+outliers <- data_num %>% 
+  filter(data_num[,78] < num_range$min_value[51] | data_num[,78] > num_range$max_value[51] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[79] = cr_br.2
+outliers <- data_num %>% 
+  filter(data_num[,79] < num_range$min_value[52] | data_num[,79] > num_range$max_value[52] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[80] = hg_br.2
+outliers <- data_num %>% 
+  filter(data_num[,80] < num_range$min_value[53] | data_num[,80] > num_range$max_value[53] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[81] = n_te_br.2
+outliers <- data_num %>% 
+  filter(data_num[,81] < num_range$min_value[54] | data_num[,81] > num_range$max_value[54] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[82] = as_br.3
+outliers <- data_num %>% 
+  filter(data_num[,82] < num_range$min_value[43] | data_num[,82] > num_range$max_value[43] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[83] = cd_br.3
+outliers <- data_num %>% 
+  filter(data_num[,83] < num_range$min_value[44] | data_num[,83] > num_range$max_value[44] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[84] = cu_br.3
+outliers <- data_num %>% 
+  filter(data_num[,84] < num_range$min_value[45] | data_num[,84] > num_range$max_value[45] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[85] = pb_br.3
+outliers <- data_num %>% 
+  filter(data_num[,85] < num_range$min_value[46] | data_num[,85] > num_range$max_value[46] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[86] = zn_br.3
+outliers <- data_num %>% 
+  filter(data_num[,86] < num_range$min_value[47] | data_num[,86] > num_range$max_value[47] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[87] = se_br.3
+outliers <- data_num %>% 
+  filter(data_num[,87] < num_range$min_value[48] | data_num[,87] > num_range$max_value[48] )
+# 0 line/0 obs, so 0 outliers
+
 
 
 
