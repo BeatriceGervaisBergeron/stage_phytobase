@@ -755,7 +755,55 @@ outliers <- data_num %>%
   filter(data_num[,61] < num_range$min_value[46] | data_num[,61] > num_range$max_value[46] )
 # 0 line/0 obs, so 0 outliers
 
+# outliers for list[62] = zn_br.1
+outliers <- data_num %>% 
+  filter(data_num[,62] < num_range$min_value[47] | data_num[,62] > num_range$max_value[47] )
+# 0 line/0 obs, so 0 outliers
 
+# outliers for list[63] = se_br.1
+outliers <- data_num %>% 
+  filter(data_num[,63] < num_range$min_value[48] | data_num[,63] > num_range$max_value[48] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[64] = ni_br.1
+outliers <- data_num %>% 
+  filter(data_num[,64] < num_range$min_value[49] | data_num[,64] > num_range$max_value[49] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[65] = co_br.1
+outliers <- data_num %>% 
+  filter(data_num[,65] < num_range$min_value[50] | data_num[,65] > num_range$max_value[50] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[66] = mn_br.1
+outliers <- data_num %>% 
+  filter(data_num[,66] < num_range$min_value[51] | data_num[,66] > num_range$max_value[51] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[67] = cr_br.1
+outliers <- data_num %>% 
+  filter(data_num[,67] < num_range$min_value[52] | data_num[,67] > num_range$max_value[52] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[68] = hg_br.1
+outliers <- data_num %>% 
+  filter(data_num[,68] < num_range$min_value[53] | data_num[,68] > num_range$max_value[53] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[69] = n_te_br.1
+outliers <- data_num %>% 
+  filter(data_num[,69] < num_range$min_value[54] | data_num[,69] > num_range$max_value[54] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[70] = as_br.2
+outliers <- data_num %>% 
+  filter(data_num[,70] < num_range$min_value[43] | data_num[,70] > num_range$max_value[43] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[71] = cd_br.2
+outliers <- data_num %>% 
+  filter(data_num[,71] < num_range$min_value[44] | data_num[,71] > num_range$max_value[44] )
+# 1 line/1 obs, so 1 outliers
 
 
 
