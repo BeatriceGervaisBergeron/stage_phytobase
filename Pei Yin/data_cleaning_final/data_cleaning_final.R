@@ -888,6 +888,42 @@ outliers <- data_num %>%
   filter(data_num[,87] < num_range$min_value[48] | data_num[,87] > num_range$max_value[48] )
 # 0 line/0 obs, so 0 outliers
 
+# outliers for list[88] = ni_br.3
+outliers <- data_num %>% 
+  filter(data_num[,88] < num_range$min_value[49] | data_num[,88] > num_range$max_value[49] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[89] = co_br.3
+outliers <- data_num %>% 
+  filter(data_num[,89] < num_range$min_value[50] | data_num[,89] > num_range$max_value[50] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[90] = mn_br.3
+outliers <- data_num %>% 
+  filter(data_num[,90] < num_range$min_value[51] | data_num[,90] > num_range$max_value[51] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[91] = cr_br.3
+outliers <- data_num %>% 
+  filter(data_num[,91] < num_range$min_value[52] | data_num[,91] > num_range$max_value[52] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[92] = hg_br.3
+outliers <- data_num %>% 
+  filter(data_num[,92] < num_range$min_value[53] | data_num[,92] > num_range$max_value[53] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[93] = n_te_br.3
+outliers <- data_num %>% 
+  filter(data_num[,93] < num_range$min_value[54] | data_num[,93] > num_range$max_value[54] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[94] = cd_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,94] < num_range$min_value[55] | data_num[,94] > num_range$max_value[55] )
+# 0 line/0 obs, so 0 outliers
+
+
 
 
 
