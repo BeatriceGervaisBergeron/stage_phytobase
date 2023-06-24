@@ -685,6 +685,31 @@ outliers <- data_num %>%
   filter(data_num[,47] < num_range$min_value[44] | data_num[,47] > num_range$max_value[44] )
 # 6 line/6 obs, so 6 outliers
 
+# outliers for list[45] = cu_br
+outliers <- data_num %>% 
+  filter(data_num[,48] < num_range$min_value[45] | data_num[,48] > num_range$max_value[45] )
+# 8 line/8 obs, so 8 outliers
+
+# outliers for list[46] = pb_br
+outliers <- data_num %>% 
+  filter(data_num[,49] < num_range$min_value[46] | data_num[,49] > num_range$max_value[46] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[47] = zn_br
+outliers <- data_num %>% 
+  filter(data_num[,50] < num_range$min_value[47] | data_num[,50] > num_range$max_value[47] )
+# 1 line/1 obs, so 1 outliers
+
+# outliers for list[48] = se_br
+outliers <- data_num %>% 
+  filter(data_num[,51] < num_range$min_value[48] | data_num[,51] > num_range$max_value[48] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[49] = ni_br
+outliers <- data_num %>% 
+  filter(data_num[,52] < num_range$min_value[49] | data_num[,52] > num_range$max_value[49] )
+# 0 line/0 obs, so 0 outliers
+
 
 
 
