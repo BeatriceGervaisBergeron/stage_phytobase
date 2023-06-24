@@ -1004,6 +1004,16 @@ outliers <- data_num %>%
 # 0 line/0 obs, so 0 outliers
 
 
+# if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
+# if the data still appear high, Write a note in the 'journal de bord'
+
+## Repeat with all the 110 variables
+
+
+#### Add clay and sand % according to textural class of soils ####
+
+
+
 
 
 
