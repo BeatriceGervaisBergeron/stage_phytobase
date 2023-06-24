@@ -948,6 +948,63 @@ outliers <- data_num %>%
   filter(data_num[,99] < num_range$min_value[36] | data_num[,99] > num_range$max_value[36] )
 # 0 line/0 obs, so 0 outliers
 
+# outliers for list[100] = ni_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,100] < num_range$min_value[37] | data_num[,100] > num_range$max_value[37] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[101] = co_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,101] < num_range$min_value[38] | data_num[,101] > num_range$max_value[38] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[102] = mn_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,102] < num_range$min_value[39] | data_num[,102] > num_range$max_value[39] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[103] = cr_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,103] < num_range$min_value[40] | data_num[,103] > num_range$max_value[40] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[104] = hg_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,104] < num_range$min_value[41] | data_num[,104] > num_range$max_value[41] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[105] = n_te_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,105] < num_range$min_value[42] | data_num[,105] > num_range$max_value[42] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[106] = as_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,106] < num_range$min_value[31] | data_num[,106] > num_range$max_value[31] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[107] = cd_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,107] < num_range$min_value[32] | data_num[,107] > num_range$max_value[32] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[108] = pb_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,108] < num_range$min_value[34] | data_num[,108] > num_range$max_value[34] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[109] = zn_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,109] < num_range$min_value[35] | data_num[,109] > num_range$max_value[35] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[110] = n_te_ba.2
+outliers <- data_num %>% 
+  filter(data_num[,110] < num_range$min_value[42] | data_num[,110] > num_range$max_value[42] )
+# 0 line/0 obs, so 0 outliers
+
+
+
 
 
 
