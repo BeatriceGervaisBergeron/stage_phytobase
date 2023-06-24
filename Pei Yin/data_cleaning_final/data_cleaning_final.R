@@ -918,11 +918,35 @@ outliers <- data_num %>%
   filter(data_num[,93] < num_range$min_value[54] | data_num[,93] > num_range$max_value[54] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[94] = cd_ba.2
+# outliers for list[94] = as_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,94] < num_range$min_value[55] | data_num[,94] > num_range$max_value[55] )
+  filter(data_num[,94] < num_range$min_value[31] | data_num[,94] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
+# outliers for list[95] = cd_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,95] < num_range$min_value[32] | data_num[,95] > num_range$max_value[32] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[96] = cu_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,96] < num_range$min_value[33] | data_num[,96] > num_range$max_value[33] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[97] = pb_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,97] < num_range$min_value[34] | data_num[,97] > num_range$max_value[34] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[98] = zn_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,98] < num_range$min_value[35] | data_num[,98] > num_range$max_value[35] )
+# 0 line/0 obs, so 0 outliers
+
+# outliers for list[99] = se_ba.1
+outliers <- data_num %>% 
+  filter(data_num[,99] < num_range$min_value[36] | data_num[,99] > num_range$max_value[36] )
+# 0 line/0 obs, so 0 outliers
 
 
 
