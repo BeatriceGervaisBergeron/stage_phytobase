@@ -1,0 +1,18 @@
+texture	clay	sand
+Sand	5	93
+Loamy sand	7.5	78
+Sandy loam	10	60
+Loam	17	37.5
+Silty loam	13.5	35
+Silt	6	10
+Clay loam	33.5	32.5
+Sandy clay loam	27.5	62.5
+Silty clay loam	33.5	10
+Sandy clay	45	55
+Silty clay	50	10
+Clay	70	22.5
+Coarse texture	7.5	85
+Moderately coarse texture	10	60
+Medium texture	13.5	26
+Moderately fine texture	32.5	40
+Fine texture	67.5	32.5
