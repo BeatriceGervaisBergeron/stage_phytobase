@@ -1020,10 +1020,32 @@ saveRDS(data_std, file='Pei Yin/data_cleaning_final/data_std_v1.rds')
 
 #### Add clay and sand % according to textural class of soils ####
 
+# create backup files in case the conversion of textural classes doesn't work at first
+
+data_std_backup <- data_std
+data_num_backup <- data_num
+
+# check for unique terms in 'texture'
+unique(data_std$texture) 
+# NA  "fine sandy loam"   "Clay sand silt"   "Loamy"  "Coarse-textured, low content of clay"   "Clay"
+
+# standardize textural terms
+data_std <- data_std %>%
+  mutate(texture = ifelse(texture == 'fine sandy loam' , 'Sandy loam', texture)) %>% # replace 'fine sandy loam' by 'Sandy loam'
+  mutate(texture = ifelse(texture == 'Clay sand silt' , 'Clay', texture)) %>% # replace 'Clay sand silt' by 'Clay'
+  mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
+  mutate(texture = ifelse(texture == 'Coarse-textured, low content of clay' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
+
+# verify the conversion worked
+unique(data_std$texture)
+# NA  "Sandy loam"  "Clay"  "Loam"  "Coarse texture"
+
+
 # call conversion table
 txt_table <- read.table("./textural_class_average.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
-#textural class list
+
+# textural class list
 txt_list <-txt_table$texture
 
 # Add the % if needed             *** TO CONTINUE***
