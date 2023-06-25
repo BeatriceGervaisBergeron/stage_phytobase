@@ -382,7 +382,7 @@ unique(data_std$organs_br) # "roots"
 #### outliers and errors in numerical data ####
 
 # see if duplicates data entries
-unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
+unique_obs <- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
@@ -1008,6 +1008,14 @@ outliers <- data_num %>%
 # if the data still appear high, Write a note in the 'journal de bord'
 
 ## Repeat with all the 110 variables
+
+
+# Save the corrected file 'data_num' in an rds object
+saveRDS(data_num, file='Pei Yin/data_cleaning_final/data_num_v1.rds')
+
+# Save the corrected file 'data_std' in an rds object
+saveRDS(data_std, file='Pei Yin/data_cleaning_final/data_std_v1.rds')
+
 
 
 #### Add clay and sand % according to textural class of soils ####
