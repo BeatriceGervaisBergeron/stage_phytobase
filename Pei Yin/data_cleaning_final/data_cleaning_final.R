@@ -1055,12 +1055,14 @@ data_std_textures <- data_std
 # Add the % if needed
 
 data_std_textures <- data_std %>%
-  filter(is.na(clay)|is.na(sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand))
+  if(texture == txt_table$texture[4]) {
+    mutate(clay = txt_table$clay[4])
+  }
+
 
 
 data_std_textures <- data_std %>%
+  filter(is.na(clay)|is.na(sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
   mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
@@ -1096,9 +1098,9 @@ data_std_textures <- data_std %>%
   mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
 
+
 # now all the textural class should be add in % in the clay and sand column
 
-filter(is.na(data_std$clay)|is.na(data_std$sand))
-str(data_std$sand)
+
 
 
