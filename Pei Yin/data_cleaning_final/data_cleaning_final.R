@@ -1014,7 +1014,7 @@ outliers <- data_num %>%
 saveRDS(data_num, file='Pei Yin/data_cleaning_final/data_num_v1.rds')
 
 # Save the corrected file 'data_std' in an rds object
-saveRDS(data_std, file='Pei Yin/data_cleaning_final/data_std_v1.rds')
+saveRDS(data_std, file = 'Pei Yin/data_cleaning_final/data_std_v1.rds')
 
 
 
@@ -1045,64 +1045,26 @@ txt_table <- read.table("./textural_class_average.txt",
 # textural class list
 txt_list <- txt_table$texture
 
+
 # Add the % if needed
 
 data_std_textures <- data_std %>%
-  filter(is.na(clay)|is.na(sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
-  mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[3] , txt_table$clay[3], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[5] , txt_table$clay[5], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[6] , txt_table$clay[6], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[7] , txt_table$clay[7], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[8] , txt_table$clay[8], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[9] , txt_table$clay[9], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[10] , txt_table$clay[10], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[11] , txt_table$clay[11], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[12] , txt_table$clay[12], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[13] , txt_table$clay[13], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[14] , txt_table$clay[14], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[15] , txt_table$clay[15], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[16] , txt_table$clay[16], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
-
-# since the previous code with "ifelse" (with filter) removed the lines that didn't have values to be replaced
-# without filter, it replaces the values correctly, but it removes the other values that weren't supposed to change
-# and it replaces them with NA
-
-
-# trying to use the function "if" instead of "ifelse" 
-
-data_std_textures <- data_std %>%
-  if(texture == txt_table$texture[4]) {
-    mutate(clay = txt_table$clay[4])
-  }
-
-
-# reset the data if it doesn't work
-data_std_textures <- data_std
-
+  mutate(clay = replace(clay, texture == txt_table$texture[3], txt_table$clay[3])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[3], txt_table$sand[3])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[4], txt_table$clay[4])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[4], txt_table$sand[4])) %>%
+  # the 'Clay' (12th) line in txt_table should not be used for all the 'data_std_textures' table
+  # since article no 2514 (author - Yang) already has 'clay' & 'sand' values, 
+  # and also has 'Clay' in texture, we need to keep the article's original 'clay' and 'sand' values
+  mutate(clay = replace(clay, texture == txt_table$texture[13], txt_table$clay[13])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[13], txt_table$sand[13])) %>%
+  # only replace the clay & sand values of 'Clay' (12th line) for the article of 'Cicek' (author)
+  mutate(clay = replace(clay, author == 'Cicek', txt_table$clay[12])) %>%
+  mutate(sand = replace(sand, author == 'Cicek', txt_table$sand[12]))
 
 # now all the textural class should be add in % in the clay and sand column
 
-
+# Save the final corrected file with textural classes in an rds object
+saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_textures.rds')
 
 
