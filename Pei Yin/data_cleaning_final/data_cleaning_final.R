@@ -1037,7 +1037,7 @@ txt_table <- read.table("./textural_class_average.txt",
 # textural class list
 txt_list <- txt_table$texture
 
-# Add the % if needed
+# Add the values of 'clay' & 'sand' if needed
 data_std_textures <- data_std %>%
   mutate(clay = replace(clay, texture == txt_table$texture[3], txt_table$clay[3])) %>% 
   mutate(sand = replace(sand, texture == txt_table$texture[3], txt_table$sand[3])) %>%
@@ -1052,9 +1052,13 @@ data_std_textures <- data_std %>%
   mutate(clay = replace(clay, author == 'Cicek', txt_table$clay[12])) %>%
   mutate(sand = replace(sand, author == 'Cicek', txt_table$sand[12]))
 
-# now all the textural class should be add in % in the clay and sand column
+# now all the textural class should be add in the clay and sand column
 
 # Save the final corrected file with textural classes in an rds object
 saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_textures.rds')
 
+# save the final corrected file as txt file
+write.table(data_std_textures,
+            "./Pei Yin/data_cleaning_final/data_std_cleaned.txt", 
+            sep="\t", row.names = F, quote = F)
 
