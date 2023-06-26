@@ -360,7 +360,7 @@ data_std <- data_std %>%
   mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_leaves , 'leaves', organs_ba.2)) # replace all by leaves
 # verify
 unique(data_std$organs_ba) # only shoots or leaves or stems
-unique(data_std$organs_ba.1) # wood             ***TO CONTINUE***
+unique(data_std$organs_ba.1) # wood
 unique(data_std$organs_ba.2) # only stems
 
 
@@ -1038,8 +1038,6 @@ unique(data_std$texture)
 # create a backup file in case the conversion of textural classes doesn't work at first
 data_std_backup <- data_std
 
-
-
 # call conversion table
 txt_table <- read.table("./textural_class_average.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
@@ -1047,19 +1045,7 @@ txt_table <- read.table("./textural_class_average.txt",
 # textural class list
 txt_list <- txt_table$texture
 
-
-
-
-data_std_textures <- data_std
-
 # Add the % if needed
-
-data_std_textures <- data_std %>%
-  if(texture == txt_table$texture[4]) {
-    mutate(clay = txt_table$clay[4])
-  }
-
-
 
 data_std_textures <- data_std %>%
   filter(is.na(clay)|is.na(sand)) %>%
@@ -1097,6 +1083,22 @@ data_std_textures <- data_std %>%
   mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
+
+# since the previous code with "ifelse" (with filter) removed the lines that didn't have values to be replaced
+# without filter, it replaces the values correctly, but it removes the other values that weren't supposed to change
+# and it replaces them with NA
+
+
+# trying to use the function "if" instead of "ifelse" 
+
+data_std_textures <- data_std %>%
+  if(texture == txt_table$texture[4]) {
+    mutate(clay = txt_table$clay[4])
+  }
+
+
+# reset the data if it doesn't work
+data_std_textures <- data_std
 
 
 # now all the textural class should be add in % in the clay and sand column
