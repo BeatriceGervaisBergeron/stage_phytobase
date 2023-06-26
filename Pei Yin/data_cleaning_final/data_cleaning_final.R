@@ -1010,14 +1010,6 @@ outliers <- data_num %>%
 ## Repeat with all the 110 variables
 
 
-# Save the corrected file 'data_num' in an rds object
-saveRDS(data_num, file='Pei Yin/data_cleaning_final/data_num_v1.rds')
-
-# Save the corrected file 'data_std' in an rds object
-saveRDS(data_std, file = 'Pei Yin/data_cleaning_final/data_std_v1.rds')
-
-
-
 #### Add clay and sand % according to textural class of soils ####
 
 # check for unique terms in 'texture'
@@ -1045,9 +1037,7 @@ txt_table <- read.table("./textural_class_average.txt",
 # textural class list
 txt_list <- txt_table$texture
 
-
 # Add the % if needed
-
 data_std_textures <- data_std %>%
   mutate(clay = replace(clay, texture == txt_table$texture[3], txt_table$clay[3])) %>% 
   mutate(sand = replace(sand, texture == txt_table$texture[3], txt_table$sand[3])) %>%
