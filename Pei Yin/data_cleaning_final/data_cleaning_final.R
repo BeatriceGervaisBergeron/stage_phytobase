@@ -1020,11 +1020,6 @@ saveRDS(data_std, file='Pei Yin/data_cleaning_final/data_std_v1.rds')
 
 #### Add clay and sand % according to textural class of soils ####
 
-# create backup files in case the conversion of textural classes doesn't work at first
-
-data_std_backup <- data_std
-data_num_backup <- data_num
-
 # check for unique terms in 'texture'
 unique(data_std$texture) 
 # NA  "fine sandy loam"   "Clay sand silt"   "Loamy"  "Coarse-textured, low content of clay"   "Clay"
@@ -1040,17 +1035,32 @@ data_std <- data_std %>%
 unique(data_std$texture)
 # NA  "Sandy loam"  "Clay"  "Loam"  "Coarse texture"
 
+# create a backup file in case the conversion of textural classes doesn't work at first
+data_std_backup <- data_std
+
+
 
 # call conversion table
 txt_table <- read.table("./textural_class_average.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
 # textural class list
-txt_list <-txt_table$texture
+txt_list <- txt_table$texture
 
-# Add the % if needed             *** TO CONTINUE***
-data_std <- data_std %>%
-  filter(is.na(clay)|is.na(sand)) %>% 
+
+
+
+data_std_textures <- data_std
+
+# Add the % if needed
+
+data_std_textures <- data_std %>%
+  filter(is.na(clay)|is.na(sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand))
+
+
+data_std_textures <- data_std %>%
   mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
   mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
@@ -1088,6 +1098,7 @@ data_std <- data_std %>%
 
 # now all the textural class should be add in % in the clay and sand column
 
-
+filter(is.na(data_std$clay)|is.na(data_std$sand))
+str(data_std$sand)
 
 
