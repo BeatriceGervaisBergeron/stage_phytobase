@@ -364,12 +364,60 @@ unique(data_std$organs_ba.1) # wood
 unique(data_std$organs_ba.2) # only stems
 
 
+# organs_br.2 "Fine roots"
+
+# For article no 607 (author - Vondrackova), 
+# the roots are separated into "Coarse roots", "Fine roots" and "Stump"
+# Only use the "Fine roots" data as "roots", 
+# since they have the highest TE concentrations among the 3 categories (coarse roots, fine roots & stump)
+
+# Replace all "Fine roots" (organs_br.2) values by "roots" (organs_br) 
+# the article no 607's data are in lines 146 and 147 after verifying 'data_std' table
+
+
+# replacing as_br with as_br.2
+
+data_std$as_br[146] # NA
+data_std$as_br.2[146] # 84
+data_std$as_br[146] <- data_std$as_br.2[146]  # replacing the NA value by 84
+data_std$as_br[146] # verify - 84
+
+data_std$as_br[147] # NA
+data_std$as_br.2[147] # 791
+data_std$as_br[147] <- data_std$as_br.2[147]  # replacing the NA value by 791
+data_std$as_br[147] # verify - 791
+
+# replacing cd_br with cd_br.2
+
+data_std$cd_br[146] # NA
+data_std$cd_br.2[146] # 119.3
+data_std$cd_br[146] <- data_std$cd_br.2[146]  # replacing the NA value by 119.3
+data_std$cd_br[146] # verify - 119.3
+
+data_std$cd_br[147] # NA
+data_std$cd_br.2[147] # 25.2
+data_std$cd_br[147] <- data_std$cd_br.2[147]  # replacing the NA value by 25.2
+data_std$cd_br[147] # verify - 25.2
+
+# replacing pb_br with pb_br.2
+
+data_std$pb_br[146] # NA
+data_std$pb_br.2[146] # 1065
+data_std$pb_br[146] <- data_std$pb_br.2[146]  # replacing the NA value by 1065
+data_std$pb_br[146] # verify - 1065
+
+data_std$pb_br[147] # NA
+data_std$pb_br.2[147] # 51
+data_std$pb_br[147] <- data_std$pb_br.2[147]  # replacing the NA value by 51
+data_std$pb_br[147] # verify - 51
+
+
 # organs_br, organs_br.1, organs_br.2 and organs_br.3
 
 unique(data_std$organs_br) # "Roots"
-unique(data_std$organs_br.1) # "Coarse roots"          *** TO CONTINUE ***
-unique(data_std$organs_br.2) # "Fine roots"           *** TO CONTINUE ***
-unique(data_std$organs_br.3) # "Stump"               *** TO CONTINUE ***
+unique(data_std$organs_br.1) # "Coarse roots"
+unique(data_std$organs_br.2) # "Fine roots"
+unique(data_std$organs_br.3) # "Stump"
 # conversion for only roots
 syn_roots <- c("Roots")
 
