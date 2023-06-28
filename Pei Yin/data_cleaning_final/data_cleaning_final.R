@@ -411,6 +411,52 @@ data_std$pb_br.2[147] # 51
 data_std$pb_br[147] <- data_std$pb_br.2[147]  # replacing the NA value by 51
 data_std$pb_br[147] # verify - 51
 
+# replacing zn_br with zn_br.2
+
+data_std$zn_br[146] # NA
+data_std$zn_br.2[146] # 5749
+data_std$zn_br[146] <- data_std$zn_br.2[146]  # replacing the NA value by 5749
+data_std$zn_br[146] # verify - 5749
+
+data_std$zn_br[147] # NA
+data_std$zn_br.2[147] # 1283
+data_std$zn_br[147] <- data_std$zn_br.2[147]  # replacing the NA value by 1283
+data_std$zn_br[147] # verify - 1283
+
+# replacing units_te_br with units_te_br.2
+
+data_std$units_te_br[146] # NA
+data_std$units_te_br.2[146] # "mg kg-1"
+data_std$units_te_br[146] <- data_std$units_te_br.2[146]  # replacing the NA value by "mg kg-1"
+data_std$units_te_br[146] # verify - "mg kg-1"
+
+data_std$units_te_br[147] # NA
+data_std$units_te_br.2[147] # "mg kg-1"
+data_std$units_te_br[147] <- data_std$units_te_br.2[147]  # replacing the NA value by "mg kg-1"
+data_std$units_te_br[147] # verify - "mg kg-1"
+
+# replacing n_te_br with n_te_br.2
+
+data_std$n_te_br[146] # NA
+data_std$n_te_br.2[146] # 4
+data_std$n_te_br[146] <- data_std$n_te_br.2[146]  # replacing the NA value by 4
+data_std$n_te_br[146] # verify - 4
+
+data_std$n_te_br[147] # NA
+data_std$n_te_br.2[147] # 4
+data_std$n_te_br[147] <- data_std$n_te_br.2[147]  # replacing the NA value by 4
+data_std$n_te_br[147] # verify - 4
+
+# replacing organs_br with "Roots"
+
+data_std$organs_br[146] # NA
+data_std$organs_br[146] <- "Roots"  # replacing the NA value by "Roots"
+data_std$organs_br[146] # verify - "Roots"
+
+data_std$organs_br[147] # NA
+data_std$organs_br[147] <- "Roots"  # replacing the NA value by "Roots"
+data_std$organs_br[147] # verify - "Roots"
+
 
 # organs_br, organs_br.1, organs_br.2 and organs_br.3
 
