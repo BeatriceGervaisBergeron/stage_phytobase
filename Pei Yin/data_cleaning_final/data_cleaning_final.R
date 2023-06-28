@@ -1146,10 +1146,58 @@ data_std_textures <- data_std %>%
   mutate(clay = replace(clay, author == 'Cicek', txt_table$clay[12])) %>%
   mutate(sand = replace(sand, author == 'Cicek', txt_table$sand[12]))
 
-# now all the textural class should be add in the clay and sand column
+# now all the textural class should be added in the clay and sand column
+
+
+# need to add the % in clay_units and sand_units for lines 4-18 and 20-87
+
+# change clay_units for lines 4-18
+unique(data_std_textures$clay_units[4:18]) # NA
+
+data_std_textures$clay_units[4] <- "%"
+data_std_textures$clay_units[5] <- "%"
+data_std_textures$clay_units[6] <- "%"
+data_std_textures$clay_units[7] <- "%"
+data_std_textures$clay_units[8] <- "%"
+data_std_textures$clay_units[9] <- "%"
+data_std_textures$clay_units[10] <- "%"
+data_std_textures$clay_units[11] <- "%"
+data_std_textures$clay_units[12] <- "%"
+data_std_textures$clay_units[13] <- "%"
+data_std_textures$clay_units[14] <- "%"
+data_std_textures$clay_units[15] <- "%"
+data_std_textures$clay_units[16] <- "%"
+data_std_textures$clay_units[17] <- "%"
+data_std_textures$clay_units[18] <- "%"
+
+# verify
+unique(data_std_textures$clay_units[4:18]) # "%"
+
+
+# change clay_units for lines 20-87
+unique(data_std_textures$clay_units[20:87]) # NA
+
+data_std_textures$clay_units[20]
+data_std_textures$clay_units[21]
+data_std_textures$clay_units[22]
+
+
+
+# change sand_units for lines 4-18
+
+
+
+
+
+# change sand_units for lines 20-87
+
+
+
+
+
 
 # Save the final corrected file with textural classes in an rds object
-saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_textures.rds')
+saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_cleaned.rds')
 
 # save the final corrected file as txt file
 write.table(data_std_textures,
