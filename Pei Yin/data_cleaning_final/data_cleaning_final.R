@@ -1104,7 +1104,7 @@ outliers <- data_num %>%
 ## Repeat with all the 110 variables
 
 
-#### Add clay and sand % according to textural class of soils ####
+#### Add clay and sand % values according to textural class of soils ####
 
 # check for unique terms in 'texture'
 unique(data_std$texture) 
@@ -1149,7 +1149,11 @@ data_std_textures <- data_std %>%
 # now all the textural class should be added in the clay and sand column
 
 
-# need to add the % in clay_units and sand_units for lines 4-18 and 20-87
+#### Add the % in clay_units and sand_units for the clay & sand values that had been added ####
+
+# verify in 'data_std_textures' which lines of clay_units & sand_units need to have "%" unit added
+# after verifying, it's the lines 4-18 and 20-87
+
 
 # change clay_units for lines 4-18
 unique(data_std_textures$clay_units[4:18]) # NA
@@ -1177,27 +1181,183 @@ unique(data_std_textures$clay_units[4:18]) # "%"
 # change clay_units for lines 20-87
 unique(data_std_textures$clay_units[20:87]) # NA
 
-data_std_textures$clay_units[20]
-data_std_textures$clay_units[21]
-data_std_textures$clay_units[22]
+data_std_textures$clay_units[20] <- "%"
+data_std_textures$clay_units[21] <- "%"
+data_std_textures$clay_units[22] <- "%"
+data_std_textures$clay_units[23] <- "%"
+data_std_textures$clay_units[24] <- "%"
+data_std_textures$clay_units[25] <- "%"
+data_std_textures$clay_units[26] <- "%"
+data_std_textures$clay_units[27] <- "%"
+data_std_textures$clay_units[28] <- "%"
+data_std_textures$clay_units[29] <- "%"
+data_std_textures$clay_units[30] <- "%"
+data_std_textures$clay_units[31] <- "%"
+data_std_textures$clay_units[32] <- "%"
+data_std_textures$clay_units[33] <- "%"
+data_std_textures$clay_units[34] <- "%"
+data_std_textures$clay_units[35] <- "%"
+data_std_textures$clay_units[36] <- "%"
+data_std_textures$clay_units[37] <- "%"
+data_std_textures$clay_units[38] <- "%"
+data_std_textures$clay_units[39] <- "%"
+data_std_textures$clay_units[40] <- "%"
+data_std_textures$clay_units[41] <- "%"
+data_std_textures$clay_units[42] <- "%"
+data_std_textures$clay_units[43] <- "%"
+data_std_textures$clay_units[44] <- "%"
+data_std_textures$clay_units[45] <- "%"
+data_std_textures$clay_units[46] <- "%"
+data_std_textures$clay_units[47] <- "%"
+data_std_textures$clay_units[48] <- "%"
+data_std_textures$clay_units[49] <- "%"
+data_std_textures$clay_units[50] <- "%"
+data_std_textures$clay_units[51] <- "%"
+data_std_textures$clay_units[52] <- "%"
+data_std_textures$clay_units[53] <- "%"
+data_std_textures$clay_units[54] <- "%"
+data_std_textures$clay_units[55] <- "%"
+data_std_textures$clay_units[56] <- "%"
+data_std_textures$clay_units[57] <- "%"
+data_std_textures$clay_units[58] <- "%"
+data_std_textures$clay_units[59] <- "%"
+data_std_textures$clay_units[60] <- "%"
+data_std_textures$clay_units[61] <- "%"
+data_std_textures$clay_units[62] <- "%"
+data_std_textures$clay_units[63] <- "%"
+data_std_textures$clay_units[64] <- "%"
+data_std_textures$clay_units[65] <- "%"
+data_std_textures$clay_units[66] <- "%"
+data_std_textures$clay_units[67] <- "%"
+data_std_textures$clay_units[68] <- "%"
+data_std_textures$clay_units[69] <- "%"
+data_std_textures$clay_units[70] <- "%"
+data_std_textures$clay_units[71] <- "%"
+data_std_textures$clay_units[72] <- "%"
+data_std_textures$clay_units[73] <- "%"
+data_std_textures$clay_units[74] <- "%"
+data_std_textures$clay_units[75] <- "%"
+data_std_textures$clay_units[76] <- "%"
+data_std_textures$clay_units[77] <- "%"
+data_std_textures$clay_units[78] <- "%"
+data_std_textures$clay_units[79] <- "%"
+data_std_textures$clay_units[80] <- "%"
+data_std_textures$clay_units[81] <- "%"
+data_std_textures$clay_units[82] <- "%"
+data_std_textures$clay_units[83] <- "%"
+data_std_textures$clay_units[84] <- "%"
+data_std_textures$clay_units[85] <- "%"
+data_std_textures$clay_units[86] <- "%"
+data_std_textures$clay_units[87] <- "%"
 
+# verify
+unique(data_std_textures$clay_units[20:87]) # "%"
 
 
 # change sand_units for lines 4-18
 
+unique(data_std_textures$sand_units[4:18]) # NA
 
+data_std_textures$sand_units[4] <- "%"
+data_std_textures$sand_units[5] <- "%"
+data_std_textures$sand_units[6] <- "%"
+data_std_textures$sand_units[7] <- "%"
+data_std_textures$sand_units[8] <- "%"
+data_std_textures$sand_units[9] <- "%"
+data_std_textures$sand_units[10] <- "%"
+data_std_textures$sand_units[11] <- "%"
+data_std_textures$sand_units[12] <- "%"
+data_std_textures$sand_units[13] <- "%"
+data_std_textures$sand_units[14] <- "%"
+data_std_textures$sand_units[15] <- "%"
+data_std_textures$sand_units[16] <- "%"
+data_std_textures$sand_units[17] <- "%"
+data_std_textures$sand_units[18] <- "%"
 
+# verify
+unique(data_std_textures$sand_units[4:18]) # "%"
 
 
 # change sand_units for lines 20-87
 
+unique(data_std_textures$sand_units[20:87]) # NA
 
+data_std_textures$sand_units[20] <- "%"
+data_std_textures$sand_units[21] <- "%"
+data_std_textures$sand_units[22] <- "%"
+data_std_textures$sand_units[23] <- "%"
+data_std_textures$sand_units[24] <- "%"
+data_std_textures$sand_units[25] <- "%"
+data_std_textures$sand_units[26] <- "%"
+data_std_textures$sand_units[27] <- "%"
+data_std_textures$sand_units[28] <- "%"
+data_std_textures$sand_units[29] <- "%"
+data_std_textures$sand_units[30] <- "%"
+data_std_textures$sand_units[31] <- "%"
+data_std_textures$sand_units[32] <- "%"
+data_std_textures$sand_units[33] <- "%"
+data_std_textures$sand_units[34] <- "%"
+data_std_textures$sand_units[35] <- "%"
+data_std_textures$sand_units[36] <- "%"
+data_std_textures$sand_units[37] <- "%"
+data_std_textures$sand_units[38] <- "%"
+data_std_textures$sand_units[39] <- "%"
+data_std_textures$sand_units[40] <- "%"
+data_std_textures$sand_units[41] <- "%"
+data_std_textures$sand_units[42] <- "%"
+data_std_textures$sand_units[43] <- "%"
+data_std_textures$sand_units[44] <- "%"
+data_std_textures$sand_units[45] <- "%"
+data_std_textures$sand_units[46] <- "%"
+data_std_textures$sand_units[47] <- "%"
+data_std_textures$sand_units[48] <- "%"
+data_std_textures$sand_units[49] <- "%"
+data_std_textures$sand_units[50] <- "%"
+data_std_textures$sand_units[51] <- "%"
+data_std_textures$sand_units[52] <- "%"
+data_std_textures$sand_units[53] <- "%"
+data_std_textures$sand_units[54] <- "%"
+data_std_textures$sand_units[55] <- "%"
+data_std_textures$sand_units[56] <- "%"
+data_std_textures$sand_units[57] <- "%"
+data_std_textures$sand_units[58] <- "%"
+data_std_textures$sand_units[59] <- "%"
+data_std_textures$sand_units[60] <- "%"
+data_std_textures$sand_units[61] <- "%"
+data_std_textures$sand_units[62] <- "%"
+data_std_textures$sand_units[63] <- "%"
+data_std_textures$sand_units[64] <- "%"
+data_std_textures$sand_units[65] <- "%"
+data_std_textures$sand_units[66] <- "%"
+data_std_textures$sand_units[67] <- "%"
+data_std_textures$sand_units[68] <- "%"
+data_std_textures$sand_units[69] <- "%"
+data_std_textures$sand_units[70] <- "%"
+data_std_textures$sand_units[71] <- "%"
+data_std_textures$sand_units[72] <- "%"
+data_std_textures$sand_units[73] <- "%"
+data_std_textures$sand_units[74] <- "%"
+data_std_textures$sand_units[75] <- "%"
+data_std_textures$sand_units[76] <- "%"
+data_std_textures$sand_units[77] <- "%"
+data_std_textures$sand_units[78] <- "%"
+data_std_textures$sand_units[79] <- "%"
+data_std_textures$sand_units[80] <- "%"
+data_std_textures$sand_units[81] <- "%"
+data_std_textures$sand_units[82] <- "%"
+data_std_textures$sand_units[83] <- "%"
+data_std_textures$sand_units[84] <- "%"
+data_std_textures$sand_units[85] <- "%"
+data_std_textures$sand_units[86] <- "%"
+data_std_textures$sand_units[87] <- "%"
 
-
+# verify
+unique(data_std_textures$clay_units[20:87]) # "%"
 
 
 # Save the final corrected file with textural classes in an rds object
 saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_cleaned.rds')
+
 
 # save the final corrected file as txt file
 write.table(data_std_textures,
