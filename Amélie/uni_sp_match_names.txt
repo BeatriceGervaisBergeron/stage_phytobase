@@ -128,4 +128,3 @@ Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988
 Arachishypogaea	NA	NA	NA			
 Lycopersiconesculantum	NA	NA	NA			
 Setariaplicata	NA	NA	NA			
-NA	NA	NA	NA			
