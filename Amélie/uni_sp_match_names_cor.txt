@@ -1,131 +1,131 @@
 user_supplied_name	submitted_name	matched_name2	score	implement	alternative	dupl
-Zygophyllum fabago 	Zygophyllum fabago	Zygophyllum fabago	0.988			
-Axonopus  affinis	Axonopus  affinis	Axonopus affinis	0.988			
-Paspalum  plicatulum	Paspalum  plicatulum	Paspalum plicatulum	0.988			
-Hordeum disticum	Hordeum disticum	Hordeum distichum	0.75			
-Festuca  arundinacea	Festuca  arundinacea	Festuca arundinacea	0.988			
-Erica andevalensis	Erica andevalensis	Erica andevalensis	0.988			
-Sarcoconia fruticosa	Sarcoconia fruticosa	Sarcocornia fruticosa	0.75			
-Frankenia corymbosa	Frankenia corymbosa	Frankenia corymbosa	0.988			
-Cleome Africana	Cleome africana	Cleome africana	0.988			
-Forsskalea tenacissima	Forsskalea tenacissima	Forsskaolea tenacissima	0.75			
-Helianthus  annuus	Helianthus  annuus	Helianthus annuus	0.988			
-Nicotiana  tabaccum	Nicotiana  tabaccum	Nicotiana tabaccum	0.988			
-Astragalus aureus	Astragalus aureus	Astragalus aureus	0.988			
-Astragalus uraniolimneus	Astragalus uraniolimneus	Astragalus uraniolimneus	0.988			
-Sedum caucasicum	Sedum caucasicum	Sedum caucasicum	0.988			
-Salix eriocephala Michx	Salix eriocephala michx	Salix eriocephala	0.988			
-Eucalyptus camadulensis	Eucalyptus camadulensis	Eucalyptus camaldulensis	0.75			
-Citrus limon	Citrus limon	Citrus limon	0.988			
-Tamarix tetragyna	Tamarix tetragyna	Tamarix tetragyna	0.988			
-Dodonea viscosa	Dodonea viscosa	Dodonaea viscosa	0.75			
-Inula viscosa	Inula viscosa	Inula viscosa	0.988			
-Pinus bruttia	Pinus bruttia	Pinus bruttia	0.988			
-Acacia cyanophylla	Acacia cyanophylla	Acacia cyanophylla	0.988			
-Helianthus annus	Helianthus annus	Helianthus annuus	0.75			
-Chloris  gayana	Chloris  gayana	Chloris gayana	0.988			
-Bosea cypria	Bosea cypria	Bosea cypria	0.988			
-Salix smithiana	Salix smithiana	Salix smithiana	0.988			
-Tilia grandifolia	Tilia grandifolia	Tilia grandifolia	0.988			
-Vaccinium vitis-idaea	Vaccinium vitis-idaea	Vaccinium vitis-idaea	0.988			
-Urtica doica	Urtica doica	Urtica dioica	0.75			
-Triticum  durum	Triticum  durum	Triticum durum	0.988			
-Bouteloua gracilis	Bouteloua gracilis	Bouteloua gracilis	0.988			
-Bouteloua scorpioides	Bouteloua scorpioides	Bouteloua scorpioides	0.988			
-Benincasa hispida	Benincasa hispida	Benincasa hispida	0.988			
-Solidago decurrens	Solidago decurrens	Solidago decurrens	0.988			
-Polygonum hydropiper	Polygonum hydropiper	Polygonum hydropiper	0.988			
-Astragalus verus	Astragalus verus	Astragalus verus	0.988			
-Chenopodium botrys	Chenopodium botrys	Chenopodium botrys	0.988			
-Cousinia bijarensis	Cousinia bijarensis	Cousinia bijarensis	0.988			
-Cirsium congestum	Cirsium congestum	Cirsium congestum	0.988			
-Scariola orientalis	Scariola orientalis	Scariola orientalis	0.988			
-Chondrila juncea	Chondrila juncea	Chondrilla juncea	0.75			
-Melica jacquemontii	Melica jacquemontii	Melica jacquemontii	0.988			
-Aloe barbadensis	Aloe barbadensis	Aloe barbadensis	0.988			
-Tribulus Terrestris	Tribulus terrestris	Tribulus terrestris	0.988			
-Adhatoda vasica	Adhatoda vasica	Adhatoda vasica	0.988			
-Ocimum sanctum	Ocimum sanctum	Ocimum sanctum	0.988			
-Andrographics peniculata	Andrographics peniculata	Andrographis paniculata	0.75			
-Azadirachta Indica	Azadirachta indica	Azadirachta indica	0.988			
-Raphanus sativus	Raphanus sativus	Raphanus sativus	0.988			
-Myrtus comunnis	Myrtus comunnis	Myrtus communis	0.75			
-Pistacea lentiscus	Pistacea lentiscus	Pistacia lentiscus	0.75			
-Cardaminopsis arenosa	Cardaminopsis arenosa	Cardaminopsis arenosa	0.988			
-Eryngium ilicifolium	Eryngium ilicifolium	Eryngium ilicifolium	0.988			
-Eryngium triquetrum	Eryngium triquetrum	Eryngium triquetrum	0.988			
-Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis subsp. caulescens	0.54			
-Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis var. caulescens	0.54			
-Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis f. caulescens	0.54			
-Cladanthus arabicus	Cladanthus arabicus	Cladanthus arabicus	0.988			
-Echinops spinosus	Echinops spinosus	Echinops spinosus	0.988			
-Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidulus	0.75			
-Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidus	0.75			
-Leontodon hispidilus	Leontodon hispidilus	Leontodon hispanicus	0.75			
-Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare var. hirtum	0.999			
-Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare subsp. hirtum	0.999			
-Dolichos lablab	Dolichos lablab	Dolichos lablab	0.988			
-Duranta repens	Duranta repens	Duranta repens	0.988			
-Malva rotundifolia	Malva rotundifolia	Malva rotundifolia	0.988			
-Solanum nigrum	Solanum nigrum	Solanum nigrum	0.988			
-Festuca rubrics	Festuca rubrics	Festuca	0.75			
-Amaranthus paniculatus	Amaranthus paniculatus	Amaranthus paniculatus	0.988			
-Pinus duranguensis	Pinus duranguensis	Pinus durangensis	0.75			
-Fraximus excelsior	Fraximus excelsior	Fraxinus excelsior	0.75			
-Sorbus mougeotii	Sorbus mougeotii	Sorbus mougeotii	0.988			
-Rapahanus sativus	Rapahanus sativus	Raphanus sativus	0.75			
-Tilia	Tilia	Tilia	0.75			
-Betula pendula 	Betula pendula	Betula pendula	0.988			
-Microchloa altera	Microchloa altera	Microchloa altera	0.988			
-Rendlia altera 	Rendlia altera	Rendlia altera	0.988			
-Alnus viridis	Alnus viridis	Alnus viridis	0.988			
-Sorbus aucuparia 	Sorbus aucuparia	Sorbus aucuparia	0.988			
-Atriplex leucoclada	Atriplex leucoclada	Atriplex leucoclada	0.988			
-Gingko biloba	Gingko biloba	Gingko	0.75			
-Lycopersicum esculentum	Lycopersicum esculentum	Lycopersicum esculentum	0.988			
-Solanum melongena 	Solanum melongena	Solanum melongena	0.988			
-Brassica Chinensis	Brassica chinensis	Brassica chinensis	0.988			
-Lactuca sativ	Lactuca sativ	Lactuca sativa	0.75			
-Brassica campestr	Brassica campestr	Brassica campestris	0.75			
-Suaeda nigra	Suaeda nigra	Suaeda nigra	0.988			
-Olea europea	Olea europea	Olea europaea	0.75			
-Miscanthus floridulus 	Miscanthus floridulus	Miscanthus floridulus	0.988			
-Conyza canadensis	Conyza canadensis	Conyza canadensis	0.988			
-Cyclosorus acuminatus	Cyclosorus acuminatus	Cyclosorus acuminatus	0.988			
-Polygonum capitatum	Polygonum capitatum	Polygonum capitatum	0.988			
-Ficus tikoua	Ficus tikoua	Ficus tikoua	0.988			
-Gonostegia hirta	Gonostegia hirta	Gonostegia hirta	0.988			
-Selaginella uncinata	Selaginella uncinata	Selaginella uncinata	0.988			
-Microsorium fortunei	Microsorium fortunei	Microsorium fortunei	0.988			
-Sedum emarginatum	Sedum emarginatum	Sedum emarginatum	0.988			
-Arachniodes speciosa	Arachniodes speciosa	Arachniodes speciosa	0.988			
-Artemisia hedinii	Artemisia hedinii	Artemisia hedinii	0.988			
-Chenopodium serotinum	Chenopodium serotinum	Chenopodium serotinum	0.988			
-Conyza bonariensis	Conyza bonariensis	Conyza bonariensis	0.988			
-Conyza japonica	Conyza japonica	Conyza japonica	0.988			
-Cynanchum bungei	Cynanchum bungei	Cynanchum bungei	0.988			
-Dendranthema indicum	Dendranthema indicum	Dendranthema indicum	0.988			
-Dicranostigma leptopodum	Dicranostigma leptopodum	Dicranostigma leptopodum	0.988			
-Humulus japonicus	Humulus japonicus	Humulus japonicus	0.988			
-Mentha haplocalyx	Mentha haplocalyx	Mentha haplocalyx	0.988			
-Pharbitis nil	Pharbitis nil	Pharbitis nil	0.988			
-Roegneria kamoji	Roegneria kamoji	Roegneria kamoji	0.988			
-Viola verecunda	Viola verecunda	Viola verecunda	0.988			
-Chrysanthemum coronarium	Chrysanthemum coronarium	Chrysanthemum coronarium	0.988			
-Fetuca arundinacea	Fetuca arundinacea	Festuca arundinacea	0.75			
-Chenopodium ambrosioides	Chenopodium ambrosioides	Chenopodium ambrosioides	0.988			
-Sambucus chinensis	Sambucus chinensis	Sambucus chinensis	0.988			
-Helianthus tuberosus 	Helianthus tuberosus	Helianthus tuberosus	0.988			
-Aster baccharoides	Aster baccharoides	Aster baccharoides	0.988			
-Fagopyrum dibotrys	Fagopyrum dibotrys	Fagopyrum dibotrys	0.988			
-Patrinia villosa	Patrinia villosa	Patrinia villosa	0.988			
-Eupatorium coelestinum	Eupatorium coelestinum	Eupatorium coelestinum	0.988			
-Pterocypsela indica	Pterocypsela indica	Pterocypsela indica	0.988			
-Polygonum lapathifolium	Polygonum lapathifolium	Polygonum lapathifolium	0.988			
-Neyraudia reynaudian	Neyraudia reynaudian	Neyraudia reynaudiana	0.75			
-Vetiveria zizanioides	Vetiveria zizanioides	Vetiveria zizanioides	0.988			
-Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988			
-Arachishypogaea	NA	NA	NA			
-Lycopersiconesculantum	NA	NA	NA			
-Setariaplicata	NA	NA	NA			
-NA	NA	NA	NA			
+Zygophyllum fabago 	Zygophyllum fabago	Zygophyllum fabago	0.988	TRUE	Zygophyllum fabago	FALSE
+Axonopus  affinis	Axonopus  affinis	Axonopus affinis	0.988	TRUE	Axonopus affinis	FALSE
+Paspalum  plicatulum	Paspalum  plicatulum	Paspalum plicatulum	0.988	TRUE	Paspalum plicatulum	FALSE
+Hordeum disticum	Hordeum disticum	Hordeum distichum	0.75	TRUE	Hordeum distichum	FALSE
+Festuca  arundinacea	Festuca  arundinacea	Festuca arundinacea	0.988	TRUE	Festuca arundinacea	FALSE
+Erica andevalensis	Erica andevalensis	Erica andevalensis	0.988	TRUE	Erica andevalensis	FALSE
+Sarcoconia fruticosa	Sarcoconia fruticosa	Sarcocornia fruticosa	0.75	TRUE	Sarcocornia fruticosa	FALSE
+Frankenia corymbosa	Frankenia corymbosa	Frankenia corymbosa	0.988	TRUE	Frankenia corymbosa	FALSE
+Cleome Africana	Cleome africana	Cleome africana	0.988	TRUE	Cleome africana	FALSE
+Forsskalea tenacissima	Forsskalea tenacissima	Forsskaolea tenacissima	0.75	TRUE	Forsskaolea tenacissima	FALSE
+Helianthus  annuus	Helianthus  annuus	Helianthus annuus	0.988	TRUE	Helianthus annuus	FALSE
+Nicotiana  tabaccum	Nicotiana  tabaccum	Nicotiana tabaccum	0.988	TRUE	Nicotiana tabaccum	FALSE
+Astragalus aureus	Astragalus aureus	Astragalus aureus	0.988	TRUE	Astragalus aureus	FALSE
+Astragalus uraniolimneus	Astragalus uraniolimneus	Astragalus uraniolimneus	0.988	TRUE	Astragalus uraniolimneus	FALSE
+Sedum caucasicum	Sedum caucasicum	Sedum caucasicum	0.988	TRUE	Sedum caucasicum	FALSE
+Salix eriocephala Michx	Salix eriocephala michx	Salix eriocephala	0.988	TRUE	Salix eriocephala	FALSE
+Eucalyptus camadulensis	Eucalyptus camadulensis	Eucalyptus camaldulensis	0.75	TRUE	Eucalyptus camaldulensis	FALSE
+Citrus x limon	Citrus x limon	Citrus limon	0.988	TRUE	Citrus limon	FALSE
+Tamarix tetragyna	Tamarix tetragyna	Tamarix tetragyna	0.988	TRUE	Tamarix tetragyna	FALSE
+Dodonea viscosa	Dodonea viscosa	Dodonaea viscosa	0.75	TRUE	Dodonaea viscosa	FALSE
+Inula viscosa	Inula viscosa	Inula viscosa	0.988	TRUE	Inula viscosa	FALSE
+Pinus bruttia	Pinus bruttia	Pinus bruttia	0.988	TRUE	Pinus bruttia	FALSE
+Acacia cyanophylla	Acacia cyanophylla	Acacia cyanophylla	0.988	TRUE	Acacia cyanophylla	FALSE
+Helianthus annus	Helianthus annus	Helianthus annuus	0.75	TRUE	Helianthus annuus	FALSE
+Chloris  gayana	Chloris  gayana	Chloris gayana	0.988	TRUE	Chloris gayana	FALSE
+Bosea cypria	Bosea cypria	Bosea cypria	0.988	TRUE	Bosea cypria	FALSE
+Salix smithiana	Salix smithiana	Salix smithiana	0.988	TRUE	Salix smithiana	FALSE
+Tilia grandifolia	Tilia grandifolia	Tilia grandifolia	0.988	TRUE	Tilia grandifolia	FALSE
+Vaccinium vitis-idaea	Vaccinium vitis-idaea	Vaccinium vitis-idaea	0.988	TRUE	Vaccinium vitis-idaea	FALSE
+Urtica doica	Urtica doica	Urtica dioica	0.75	TRUE	Urtica dioica	FALSE
+Triticum  durum	Triticum  durum	Triticum durum	0.988	TRUE	Triticum durum	FALSE
+Bouteloua gracilis	Bouteloua gracilis	Bouteloua gracilis	0.988	TRUE	Bouteloua gracilis	FALSE
+Bouteloua scorpioides	Bouteloua scorpioides	Bouteloua scorpioides	0.988	TRUE	Bouteloua scorpioides	FALSE
+Benincasa hispida	Benincasa hispida	Benincasa hispida	0.988	TRUE	Benincasa hispida	FALSE
+Solidago decurrens	Solidago decurrens	Solidago decurrens	0.988	TRUE	Solidago decurrens	FALSE
+Polygonum hydropiper	Polygonum hydropiper	Polygonum hydropiper	0.988	TRUE	Polygonum hydropiper	FALSE
+Astragalus verus	Astragalus verus	Astragalus verus	0.988	TRUE	Astragalus verus	FALSE
+Chenopodium botrys	Chenopodium botrys	Chenopodium botrys	0.988	TRUE	Chenopodium botrys	FALSE
+Cousinia bijarensis	Cousinia bijarensis	Cousinia bijarensis	0.988	TRUE	Cousinia bijarensis	FALSE
+Cirsium congestum	Cirsium congestum	Cirsium congestum	0.988	TRUE	Cirsium congestum	FALSE
+Scariola orientalis	Scariola orientalis	Scariola orientalis	0.988	TRUE	Scariola orientalis	FALSE
+Chondrila juncea	Chondrila juncea	Chondrilla juncea	0.75	TRUE	Chondrilla juncea	FALSE
+Melica jacquemontii	Melica jacquemontii	Melica jacquemontii	0.988	TRUE	Melica jacquemontii	FALSE
+Aloe barbadensis	Aloe barbadensis	Aloe barbadensis	0.988	TRUE	Aloe barbadensis	FALSE
+Tribulus Terrestris	Tribulus terrestris	Tribulus terrestris	0.988	TRUE	Tribulus terrestris	FALSE
+Adhatoda vasica	Adhatoda vasica	Adhatoda vasica	0.988	TRUE	Adhatoda vasica	FALSE
+Ocimum sanctum	Ocimum sanctum	Ocimum sanctum	0.988	TRUE	Ocimum sanctum	FALSE
+Andrographics peniculata	Andrographics peniculata	Andrographis paniculata	0.75	TRUE	Andrographis paniculata	FALSE
+Azadirachta Indica	Azadirachta indica	Azadirachta indica	0.988	TRUE	Azadirachta indica	FALSE
+Raphanus sativus	Raphanus sativus	Raphanus sativus	0.988	TRUE	Raphanus sativus	FALSE
+Myrtus comunnis	Myrtus comunnis	Myrtus communis	0.75	TRUE	Myrtus communis	FALSE
+Pistacea lentiscus	Pistacea lentiscus	Pistacia lentiscus	0.75	TRUE	Pistacia lentiscus	FALSE
+Cardaminopsis arenosa	Cardaminopsis arenosa	Cardaminopsis arenosa	0.988	TRUE	Cardaminopsis arenosa	FALSE
+Eryngium ilicifolium	Eryngium ilicifolium	Eryngium ilicifolium	0.988	TRUE	Eryngium ilicifolium	FALSE
+Eryngium triquetrum	Eryngium triquetrum	Eryngium triquetrum	0.988	TRUE	Eryngium triquetrum	FALSE
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis subsp. caulescens	0.54	TRUE	Carlina acaulis subsp. caulescens	FALSE
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis var. caulescens	0.54	FALSE	Carlina acaulis subsp. caulescens	TRUE
+Carlina acaulia subsp caulescens	Carlina acaulia subsp caulescens	Carlina acaulis f. caulescens	0.54	FALSE	Carlina acaulis subsp. caulescens	TRUE
+Cladanthus arabicus	Cladanthus arabicus	Cladanthus arabicus	0.988	TRUE	Cladanthus arabicus	FALSE
+Echinops spinosus	Echinops spinosus	Echinops spinosus	0.988	TRUE	Echinops spinosus	FALSE
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidulus	0.75	FALSE	Leontodon hispidus	TRUE
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispidus	0.75	TRUE	Leontodon hispidus	FALSE
+Leontodon hispidilus	Leontodon hispidilus	Leontodon hispanicus	0.75	FALSE	Leontodon hispidus	TRUE
+Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare var. hirtum	0.999	FALSE	Origanum vulgare subsp. hirtum	TRUE
+Origanum vulgare subsp.hirtum	Origanum vulgare subsp.hirtum	Origanum vulgare subsp. hirtum	0.999	TRUE	Origanum vulgare subsp. hirtum	FALSE
+Dolichos lablab	Dolichos lablab	Dolichos lablab	0.988	TRUE	Dolichos lablab	FALSE
+Duranta repens	Duranta repens	Duranta repens	0.988	TRUE	Duranta repens	FALSE
+Malva rotundifolia	Malva rotundifolia	Malva rotundifolia	0.988	TRUE	Malva rotundifolia	FALSE
+Solanum nigrum	Solanum nigrum	Solanum nigrum	0.988	TRUE	Solanum nigrum	FALSE
+Festuca rubrics	Festuca rubrics	Festuca	0.75	TRUE	Festuca rubra	FALSE
+Amaranthus paniculatus	Amaranthus paniculatus	Amaranthus paniculatus	0.988	TRUE	Amaranthus paniculatus	FALSE
+Pinus duranguensis	Pinus duranguensis	Pinus durangensis	0.75	TRUE	Pinus durangensis	FALSE
+Fraximus excelsior	Fraximus excelsior	Fraxinus excelsior	0.75	TRUE	Fraxinus excelsior	FALSE
+Sorbus mougeotii	Sorbus mougeotii	Sorbus mougeotii	0.988	TRUE	Sorbus mougeotii	FALSE
+Rapahanus sativus	Rapahanus sativus	Raphanus sativus	0.75	TRUE	Raphanus sativus	FALSE
+Tilia	Tilia	Tilia	0.75	FALSE	Tilia	FALSE
+Betula pendula 	Betula pendula	Betula pendula	0.988	TRUE	Betula pendula	FALSE
+Microchloa altera	Microchloa altera	Microchloa altera	0.988	TRUE	Microchloa altera	FALSE
+Rendlia altera 	Rendlia altera	Rendlia altera	0.988	TRUE	Rendlia altera	FALSE
+Alnus viridis	Alnus viridis	Alnus viridis	0.988	TRUE	Alnus viridis	FALSE
+Sorbus aucuparia 	Sorbus aucuparia	Sorbus aucuparia	0.988	TRUE	Sorbus aucuparia	FALSE
+Atriplex leucoclada	Atriplex leucoclada	Atriplex leucoclada	0.988	TRUE	Atriplex leucoclada	FALSE
+Gingko biloba	Gingko biloba	Gingko	0.75	TRUE	Gingko biloba	FALSE
+Lycopersicum esculentum	Lycopersicum esculentum	Lycopersicum esculentum	0.988	TRUE	Lycopersicum esculentum	FALSE
+Solanum melongena 	Solanum melongena	Solanum melongena	0.988	TRUE	Solanum melongena	FALSE
+Brassica Chinensis	Brassica chinensis	Brassica chinensis	0.988	TRUE	Brassica chinensis	FALSE
+Lactuca sativ	Lactuca sativ	Lactuca sativa	0.75	TRUE	Lactuca sativa	FALSE
+Brassica campestr	Brassica campestr	Brassica campestris	0.75	TRUE	Brassica campestris	FALSE
+Suaeda nigra	Suaeda nigra	Suaeda nigra	0.988	TRUE	Suaeda nigra	FALSE
+Olea europea	Olea europea	Olea europaea	0.75	TRUE	Olea europaea	FALSE
+Miscanthus floridulus 	Miscanthus floridulus	Miscanthus floridulus	0.988	TRUE	Miscanthus floridulus	FALSE
+Conyza canadensis	Conyza canadensis	Conyza canadensis	0.988	TRUE	Conyza canadensis	FALSE
+Cyclosorus acuminatus	Cyclosorus acuminatus	Cyclosorus acuminatus	0.988	TRUE	Cyclosorus acuminatus	FALSE
+Polygonum capitatum	Polygonum capitatum	Polygonum capitatum	0.988	TRUE	Polygonum capitatum	FALSE
+Ficus tikoua	Ficus tikoua	Ficus tikoua	0.988	TRUE	Ficus tikoua	FALSE
+Gonostegia hirta	Gonostegia hirta	Gonostegia hirta	0.988	TRUE	Gonostegia hirta	FALSE
+Selaginella uncinata	Selaginella uncinata	Selaginella uncinata	0.988	TRUE	Selaginella uncinata	FALSE
+Microsorium fortunei	Microsorium fortunei	Microsorium fortunei	0.988	TRUE	Microsorium fortunei	FALSE
+Sedum emarginatum	Sedum emarginatum	Sedum emarginatum	0.988	TRUE	Sedum emarginatum	FALSE
+Arachniodes speciosa	Arachniodes speciosa	Arachniodes speciosa	0.988	TRUE	Arachniodes speciosa	FALSE
+Artemisia hedinii	Artemisia hedinii	Artemisia hedinii	0.988	TRUE	Artemisia hedinii	FALSE
+Chenopodium serotinum	Chenopodium serotinum	Chenopodium serotinum	0.988	TRUE	Chenopodium serotinum	FALSE
+Conyza bonariensis	Conyza bonariensis	Conyza bonariensis	0.988	TRUE	Conyza bonariensis	FALSE
+Conyza japonica	Conyza japonica	Conyza japonica	0.988	TRUE	Conyza japonica	FALSE
+Cynanchum bungei	Cynanchum bungei	Cynanchum bungei	0.988	TRUE	Cynanchum bungei	FALSE
+Dendranthema indicum	Dendranthema indicum	Dendranthema indicum	0.988	TRUE	Dendranthema indicum	FALSE
+Dicranostigma leptopodum	Dicranostigma leptopodum	Dicranostigma leptopodum	0.988	TRUE	Dicranostigma leptopodum	FALSE
+Humulus japonicus	Humulus japonicus	Humulus japonicus	0.988	TRUE	Humulus japonicus	FALSE
+Mentha haplocalyx	Mentha haplocalyx	Mentha haplocalyx	0.988	TRUE	Mentha haplocalyx	FALSE
+Pharbitis nil	Pharbitis nil	Pharbitis nil	0.988	TRUE	Pharbitis nil	FALSE
+Roegneria kamoji	Roegneria kamoji	Roegneria kamoji	0.988	TRUE	Roegneria kamoji	FALSE
+Viola verecunda	Viola verecunda	Viola verecunda	0.988	TRUE	Viola verecunda	FALSE
+Chrysanthemum coronarium	Chrysanthemum coronarium	Chrysanthemum coronarium	0.988	TRUE	Chrysanthemum coronarium	FALSE
+Fetuca arundinacea	Fetuca arundinacea	Festuca arundinacea	0.75	TRUE	Festuca arundinacea	FALSE
+Chenopodium ambrosioides	Chenopodium ambrosioides	Chenopodium ambrosioides	0.988	TRUE	Chenopodium ambrosioides	FALSE
+Sambucus chinensis	Sambucus chinensis	Sambucus chinensis	0.988	TRUE	Sambucus chinensis	FALSE
+Helianthus tuberosus 	Helianthus tuberosus	Helianthus tuberosus	0.988	TRUE	Helianthus tuberosus	FALSE
+Aster baccharoides	Aster baccharoides	Aster baccharoides	0.988	TRUE	Aster baccharoides	FALSE
+Fagopyrum dibotrys	Fagopyrum dibotrys	Fagopyrum dibotrys	0.988	TRUE	Fagopyrum dibotrys	FALSE
+Patrinia villosa	Patrinia villosa	Patrinia villosa	0.988	TRUE	Patrinia villosa	FALSE
+Eupatorium coelestinum	Eupatorium coelestinum	Eupatorium coelestinum	0.988	TRUE	Eupatorium coelestinum	FALSE
+Pterocypsela indica	Pterocypsela indica	Pterocypsela indica	0.988	TRUE	Pterocypsela indica	FALSE
+Polygonum lapathifolium	Polygonum lapathifolium	Polygonum lapathifolium	0.988	TRUE	Polygonum lapathifolium	FALSE
+Neyraudia reynaudian	Neyraudia reynaudian	Neyraudia reynaudiana	0.75	TRUE	Neyraudia reynaudiana	FALSE
+Vetiveria zizanioides	Vetiveria zizanioides	Vetiveria zizanioides	0.988	TRUE	Vetiveria zizanioides	FALSE
+Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988	TRUE	Pinus pallasiana	FALSE
+Arachishypogaea	NA	NA	NA 	TRUE	Arachis hypogaea	FALSE
+Lycopersiconesculantum	NA	NA	NA 	TRUE	Lycopersicon esculentum	FALSE
+Setariaplicata	NA	NA	NA 	TRUE	Setaria plicata	FALSE
+NA	NA	NA	NA 	FALSE	NA	FALSE
