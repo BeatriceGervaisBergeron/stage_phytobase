@@ -275,19 +275,7 @@ unique(units$units_te_br) # "mg kg-1"    NA    "?g g-1"
 data_std <- data_std %>%
   mutate(units_te_br = ifelse(units_te_br == '?g g-1' , 'mg kg-1', units_te_br))
 # verify
-unique(data_std$units_te_br) # only "mg kg-1" "" 
-
-# "units_te_br.1"
-unique(units$units_te_br.1) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
-
-# "units_te_br.2"
-unique(units$units_te_br.2) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
-
-# "units_te_br.3"
-unique(units$units_te_br.3) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
+unique(data_std$units_te_br) # only "mg kg-1" ""
 
 #"units_te_ba.2"
 unique(units$units_te_ba.2) # "mg kg-1" "?g g-1"
