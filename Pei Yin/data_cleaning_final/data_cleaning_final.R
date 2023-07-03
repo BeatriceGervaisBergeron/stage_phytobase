@@ -87,7 +87,17 @@ data <- data %>%
     , co_ba.1 = as.numeric(co_ba.1)
     , mn_ba.1 = as.numeric(mn_ba.1)
     , cr_ba.1 = as.numeric(cr_ba.1)
-    , hg_ba.1 = as.numeric(hg_ba.1))
+    , hg_ba.1 = as.numeric(hg_ba.1)
+    , covidence = as.numeric(covidence)
+    , year = as.numeric(year)
+    , n_s = as.numeric(n_s)
+    , n_te_ba = as.numeric(n_te_ba)
+    , n_te_br = as.numeric(n_te_br)
+    , n_te_br.1 = as.numeric(n_te_br.1)
+    , n_te_br.2 = as.numeric(n_te_br.2)
+    , n_te_br.3 = as.numeric(n_te_br.3)
+    , n_te_ba.2 = as.numeric(n_te_ba.2)
+    , n_te_ba.1 = as.numeric(n_te_ba.1))
 # here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
 
 
@@ -492,23 +502,6 @@ data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-# decimals
-
-# make sure there is no comma instead of points
-# open "num_range" and look at the decimals
-
-# the values of "2,4" and "6,0" of the 8th line "oc" are with commas
-num_range[8,2] # "2,4"
-num_range[8,3] # "6,0"
-
-# need to change the commas to points
-num_range[8,2] <- "2.4"
-num_range[8,3] <- "6.0"
-# verify
-num_range[8,2] # "2.4"
-num_range[8,3] # "6.0"
-
-###BEA: you can delete that, I change the comma on the original dataset
 
 # data types of "num_range"
 
@@ -519,9 +512,6 @@ str(num_range)
 # sources  : chr
 
 # so the data type of columns "min_value" and "max_value" are chr
-str(num_range$min_value) # chr
-str(num_range$max_value) # chr
-## these two lines are redundant, with the first (str), you do not need them
 
 # transform "min_value" and "max_value" as numeric
 
@@ -557,6 +547,8 @@ str(data_num)
 
 ### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
+
+### OK I added these as.numeric changes to the beginning (lines 91-100), the lines 527-551 can now be removed
 
 
 # data_num has 112 variables for now
@@ -1136,7 +1128,16 @@ data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
   mutate(texture = ifelse(texture == 'Coarse-textured, low content of clay' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
 
-###BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+### BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+
+### Je suis retourner dans l'article, il mentionne un sol "heavy clay". Donc il contiendrait >40%-50% de clay.
+### Je pense que "Clay sand silt" désigne l'ordre decroissant de la quantite de chaque composante. 
+### Dans l'article, la texture "Clay sand silt" est pour le sol en surface, et aussi pour le sol a 0-30 cm de profondeur. 
+### Pour les profondeurs de 30-60 cm et 60-90 cm du meme sol, la texture est "Clay sand". 
+### Probablement qu'en surface, le silt est en faible quantite, et qu'il diminuerait en quantite a mesure 
+### que l'on descend en profondeur dans le sol ?
+### Si c'est le cas, il y aurait >40-50% de clay, et plus de sand que de silt.
+### C'est pour cela que j'ai remplacer "Clay sand silt" par "Clay"
 
 # verify the conversion worked
 unique(data_std$texture)
