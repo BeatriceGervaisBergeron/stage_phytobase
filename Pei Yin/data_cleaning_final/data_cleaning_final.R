@@ -492,23 +492,6 @@ data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-# decimals
-
-# make sure there is no comma instead of points
-# open "num_range" and look at the decimals
-
-# the values of "2,4" and "6,0" of the 8th line "oc" are with commas
-num_range[8,2] # "2,4"
-num_range[8,3] # "6,0"
-
-# need to change the commas to points
-num_range[8,2] <- "2.4"
-num_range[8,3] <- "6.0"
-# verify
-num_range[8,2] # "2.4"
-num_range[8,3] # "6.0"
-
-###BEA: you can delete that, I change the comma on the original dataset
 
 # data types of "num_range"
 
@@ -519,9 +502,6 @@ str(num_range)
 # sources  : chr
 
 # so the data type of columns "min_value" and "max_value" are chr
-str(num_range$min_value) # chr
-str(num_range$max_value) # chr
-## these two lines are redundant, with the first (str), you do not need them
 
 # transform "min_value" and "max_value" as numeric
 
@@ -1136,7 +1116,16 @@ data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
   mutate(texture = ifelse(texture == 'Coarse-textured, low content of clay' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
 
-###BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+### BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+
+### Je suis retourner dans l'article, il mentionne un sol "heavy clay". Donc il contiendrait >40%-50% de clay.
+### Je pense que "Clay sand silt" désigne l'ordre decroissant de la quantite de chaque composante. 
+### Dans l'article, la texture "Clay sand silt" est pour le sol en surface, et aussi pour le sol a 0-30 cm de profondeur. 
+### Pour les profondeurs de 30-60 cm et 60-90 cm du meme sol, la texture est "Clay sand". 
+### Probablement qu'en surface, le silt est en faible quantite, et qu'il diminuerait en quantite a mesure 
+### que l'on descend en profondeur dans le sol ?
+### Si c'est le cas, il y aurait >40-50% de clay, et plus de sand que de silt.
+### C'est pour cela que j'ai remplacer "Clay sand silt" par "Clay"
 
 # verify the conversion worked
 unique(data_std$texture)
