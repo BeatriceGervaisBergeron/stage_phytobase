@@ -87,7 +87,17 @@ data <- data %>%
     , co_ba.1 = as.numeric(co_ba.1)
     , mn_ba.1 = as.numeric(mn_ba.1)
     , cr_ba.1 = as.numeric(cr_ba.1)
-    , hg_ba.1 = as.numeric(hg_ba.1))
+    , hg_ba.1 = as.numeric(hg_ba.1)
+    , covidence = as.numeric(covidence)
+    , year = as.numeric(year)
+    , n_s = as.numeric(n_s)
+    , n_te_ba = as.numeric(n_te_ba)
+    , n_te_br = as.numeric(n_te_br)
+    , n_te_br.1 = as.numeric(n_te_br.1)
+    , n_te_br.2 = as.numeric(n_te_br.2)
+    , n_te_br.3 = as.numeric(n_te_br.3)
+    , n_te_ba.2 = as.numeric(n_te_ba.2)
+    , n_te_ba.1 = as.numeric(n_te_ba.1))
 # here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
 
 
@@ -537,6 +547,8 @@ str(data_num)
 
 ### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
+
+### OK I added these as.numeric changes to the beginning (lines 91-100), the lines 527-551 can now be removed
 
 
 # data_num has 112 variables for now
