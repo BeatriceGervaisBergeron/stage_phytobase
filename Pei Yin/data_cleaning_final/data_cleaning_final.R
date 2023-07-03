@@ -36,36 +36,6 @@ data <- data %>%
     , hg_ba = as.numeric(hg_ba)
     , co_br = as.numeric(co_br)
     , hg_br = as.numeric(hg_br)
-    , cu_br.1 = as.numeric(cu_br.1)
-    , zn_br.1 = as.numeric(zn_br.1)
-    , se_br.1 = as.numeric(se_br.1)
-    , ni_br.1 = as.numeric(ni_br.1)
-    , co_br.1 = as.numeric(co_br.1)
-    , mn_br.1 = as.numeric(mn_br.1)
-    , cr_br.1 = as.numeric(cr_br.1)
-    , hg_br.1 = as.numeric(hg_br.1)
-    , as_br.2 = as.numeric(as_br.2)
-    , cd_br.2 = as.numeric(cd_br.2)
-    , cu_br.2 = as.numeric(cu_br.2)
-    , pb_br.2 = as.numeric(pb_br.2)
-    , zn_br.2 = as.numeric(zn_br.2)
-    , se_br.2 = as.numeric(se_br.2)
-    , ni_br.2 = as.numeric(ni_br.2)
-    , co_br.2 = as.numeric(co_br.2)
-    , mn_br.2 = as.numeric(mn_br.2)
-    , cr_br.2 = as.numeric(cr_br.2)
-    , hg_br.2 = as.numeric(hg_br.2)
-    , as_br.3 = as.numeric(as_br.3)
-    , cd_br.3 = as.numeric(cd_br.3)
-    , cu_br.3 = as.numeric(cu_br.3)
-    , pb_br.3 = as.numeric(pb_br.3)
-    , zn_br.3 = as.numeric(zn_br.3)
-    , se_br.3 = as.numeric(se_br.3)
-    , ni_br.3 = as.numeric(ni_br.3)
-    , co_br.3 = as.numeric(co_br.3)
-    , mn_br.3 = as.numeric(mn_br.3)
-    , cr_br.3 = as.numeric(cr_br.3)
-    , hg_br.3 = as.numeric(hg_br.3)
     , as_ba = as.numeric(as_ba)
     , cd_ba = as.numeric(cd_ba)
     , cu_ba = as.numeric(cu_ba)
@@ -305,19 +275,7 @@ unique(units$units_te_br) # "mg kg-1"    NA    "?g g-1"
 data_std <- data_std %>%
   mutate(units_te_br = ifelse(units_te_br == '?g g-1' , 'mg kg-1', units_te_br))
 # verify
-unique(data_std$units_te_br) # only "mg kg-1" "" 
-
-# "units_te_br.1"
-unique(units$units_te_br.1) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
-
-# "units_te_br.2"
-unique(units$units_te_br.2) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
-
-# "units_te_br.3"
-unique(units$units_te_br.3) # "mg kg-1"    NA
-# no need for conversion if only mg kg-1
+unique(data_std$units_te_br) # only "mg kg-1" ""
 
 #"units_te_ba.2"
 unique(units$units_te_ba.2) # "mg kg-1" "?g g-1"
@@ -548,7 +506,7 @@ str(data_num)
 ### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
 
-### OK I added these as.numeric changes to the beginning (lines 91-100), the lines 527-551 can now be removed
+### OK I added these as.numeric changes to the beginning (lines 61-70), the lines 497-521 can now be removed
 
 
 # data_num has 112 variables for now
