@@ -310,10 +310,10 @@ unique(data$p_density..ind..m2.or.pots.)
 # 'on hold', to be unify if needed further on
 
 # organs_ba, organs_ba.1 and organs_ba.2
-unique(data_std$organs_ba) # "Shoots"  "leaf"   "leaves"   "Stems"
-unique(data_std$organs_ba.1) #  "Stalks" "Twigs"  "Stems"
-unique(data_std$organs_ba.2) # "Wood"
-# conversion for only shoots or leaves or stems    
+unique(data_std$organs_ba) # "leaf"   "leaves"
+unique(data_std$organs_ba.1) # "Stalks" "Twigs"  "Stems"
+unique(data_std$organs_ba.2) # "Shoots" 
+# conversion for only shoots or leaves or stems
 syn_shoots <- c("Shoots")
 syn_stems <- c("Stalks", "Twigs" , "Stems")
 syn_leaves <- c("leaf", "leaves")
@@ -329,9 +329,9 @@ data_std <- data_std %>%
   mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_stems , 'stems', organs_ba.2)) %>% # replace all by stems
   mutate(organs_ba.2 = ifelse(organs_ba.2 %in% syn_leaves , 'leaves', organs_ba.2)) # replace all by leaves
 # verify
-unique(data_std$organs_ba) # only shoots or leaves or stems
+unique(data_std$organs_ba) # only leaves
 unique(data_std$organs_ba.1) #  only stems 
-unique(data_std$organs_ba.2) # wood
+unique(data_std$organs_ba.2) # only shoots
 
 
 # organs_br.2 "Fine roots"
