@@ -4,6 +4,7 @@ setwd("C:/Users/User/Documents/Scolaire/UDEM/Maîtrise/Hiver 2023/Stage phyto/st
 library(dplyr)
 library(stringr)
 library(taxize)
+library(vegan)
 #### call your data  ####
 data <- read.csv('./Amélie/soil_sp_database_Amelie.csv', sep=';',header = T, dec = '.')
 #### decimals ####
@@ -794,16 +795,16 @@ unique(data_std$organs_ba)
 unique(data$organs_ba_1) 
 # conversion for only shoots or leaves or stems
 syn_shoots <- c("Shoots", "shoots","Shoot","shoot")
-syn_stems <- c("Stalks", "Twigs" , "Stems","stems")
-syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs")
+syn_stems <- c("Stalks", "Twigs" , "Stems","stems","stem","Stem","stalk","Twig","Branch","branch","Lower stems","Culms")
+syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage")
 
 data_std <- data_std %>%
-  mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% # replace all by shoots 
-  mutate(organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)) %>% # replace all by stems
-  mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>% # replace all by leaves
-  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)) %>% # replace all by shoots 
-  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)) %>% # replace all by stems
-  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)) # replace all by leaves
+  mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% 
+  mutate(organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)) %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1))
 
 # verify
 unique(data_std$organs_ba) 
@@ -821,14 +822,14 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to 
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # keep only numerical data, so 66 variables
+data_num <- data_std[ , num_cols]  # 55 variables
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-# for each of the 66 variables, isolate data that are outside the range
-# here are the 66 variables
+# for each of the 55 variables, isolate data that are outside the range
+# here are the 55 variables
 list <-colnames(data_num)
 
 # isolate the outliers lines for the variable 'covidence'
@@ -916,6 +917,7 @@ data_std <- left_join(data_std , traits, by=c('AccSpeciesName_cor'='sp'))
 # histograms of database
 
 par(mfrow=c(4,2))
+par(mar=c(2,2,1,1)) # Ajuster les marges
 hist(data_std$ph)
 hist(data_std$om)
 hist(data_std$oc)
@@ -934,8 +936,9 @@ HH::vif( ph ~ om +oc + LA +SLA + LDMC + cd_ba + zn_ba, data=data_std)
 
 # is LA normally distributed ad is there a transformation that make it more normal?
 par(mfrow=c(4,2))
+par(mar=c(2,2,1,1)) # Ajuster les marges
 hist(traits$LA)
-hist(log(traits$LA)) #best
+hist(log(traits$LA))
 hist(log10(traits$LA))
 hist(sqrt(traits$LA))
 hist(decostand(traits$LA, method='log', MARGIN=2))
