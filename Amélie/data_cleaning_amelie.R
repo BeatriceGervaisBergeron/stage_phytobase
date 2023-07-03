@@ -774,70 +774,210 @@ data_std <- data %>%
 unique(data_std$units_te_ba_1) # need to convert "mg plant-1" "uM/g DW" in mg kg-1
 
 
+
+
 #### standardize categories terms ####
+
 # Climate
 unique(data$climate) 
 # 'on hold', to be unify if needed further on
+
 # Texture
-unique(data$texture) # NA                "fine sandy loam" "Clay sand silt"  "Loamy"           "Coarse-textured"
-# some categories need to be check and adjust as they are not texture
-# Clay sand silt, seems like the definition of texture, need to be check in the article
-#  "Coarse-textured" is for two classes, need to be check and if not more precise, make a categoty in between for eventual %
+unique(data$texture) 
+
 # p_density
 unique(data$p_density)
 # 'on hold', to be unify if needed further on
+
 # organs_ba and organs_ba_1
-unique(data$organs_ba)
-unique(data$organs_ba_1) # NULL????
-# conversion for only shoots or leaves or stems
-syn_shoots <- c("Shoots", "shoots","shoot","Shoot")
-syn_stems <- c("Stalks", "stalks", "Twigs","twigs", "Stems", "stems", "Stem", "stem")
-syn_leaves <- c("leaf", "Leaves", "Leaf","Leafs")
-data_std <- data_std %>%
-  mutate(
-    organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)
-    ,organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)
-    ,organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)
-    ,organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)
-    ,organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)
-    ,organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)
-)
-# verify
 unique(data_std$organs_ba)
+unique(data$organs_ba_1) 
+# conversion for only shoots or leaves or stems
+syn_shoots <- c("Shoots", "shoots","Shoot","shoot")
+syn_stems <- c("Stalks", "Twigs" , "Stems","stems")
+syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs")
+
+data_std <- data_std %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% # replace all by shoots 
+  mutate(organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)) %>% # replace all by stems
+  mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>% # replace all by leaves
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)) %>% # replace all by shoots 
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)) %>% # replace all by stems
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)) # replace all by leaves
+
+# verify
+unique(data_std$organs_ba) 
 unique(data_std$organs_ba_1)
+
 # organs_br
 # make same thing as for organ_ba
-#### outliers and errors in numerical data #### EN CONSTRUCTION
-# see if duplicates data entries
-unique_obs<- data_std[duplicated(data_std)]
-# list of variables that need to be verify
-num_cols <- unlist(lapply(data_std, is.numeric))  
-data_num <- data_std[ , num_cols]
 
-# make a tables of the normal range for all those variables
-num_range <- as.data.frame(colnames(data_num))
-# add column to enter the ranges
-num_range$min_value <- '' 
-num_range$max_value <- ''
-num_range$sources <- ''
-# write it back as a table for manual correction in Excel
-write.table(num_range,
-            "./Amélie/numerical_range.txt", 
-            sep="\t", row.names = F, quote = F)
-# import back the data 
-num_range_full <- read.table("./Amélie/numerical_range_full.txt", 
-                             sep="\t", header=T, stringsAsFactors = F)
-# isolate data that are outside the range # EN CONSTRUCTION
+
+
+#### outliers and errors in numerical data #### 
+
+# see if duplicates data entries
+unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
+
+# list of variables that need to be verify
+num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 66 variables
+
+# import the data normal range
+num_range <- read.table("./numerical_range_variables.txt", 
+                        sep="\t", header=T, stringsAsFactors = F)
+
+# for each of the 66 variables, isolate data that are outside the range
+# here are the 66 variables
+list <-colnames(data_num)
+
+# isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
-  select(ph) %>% 
-  filter(ph < num_range_full$min_value[num_range_full$variable == 'ph'] | ph > num_range_full$max_value[num_range_full$variable == 'ph'] )
-for(i in 1:ncol(data_num)) 
-{
-  outliers <- data_num %>% 
-    select(i) %>% 
-    filter(i < num_range_full$min_value[num_range_full$variable == 'i'] | i > num_range_full$max_value[num_range_full$variable == 'i'] )
-}  
-#### add clay and sand % ###
+  filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
+# if the outliers has 0 lines, it indicate not apparent outliers
+
+# you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
+outliers <- data_std %>% 
+  filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
+
+
+# outliers for list[2] = year 
+outliers <- data_std %>% 
+  filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
+# 0 line, so no outliers
+
+# if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
+# if the data still appear high, Write a note in the 'journal de bord'
+
+## CONTINU with all the 66 variables
+
+
+
+
+#### Add clay and sand % according to textural class of soils###
+
 # call conversion table
-# ajuster les % de clay and sand en fonction des % moyen dans ton tableau
-# test
+txt_table <- read.table("./textural_class_average.txt", 
+                        sep="\t", header=T, stringsAsFactors = F)
+#textural class list
+txt_list <-txt_table$texture
+
+# Add the % if needed
+data_std <- data_std %>%
+  filter(is.na(clay)|is.na(sand)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[3] , txt_table$clay[3], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[5] , txt_table$clay[5], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[6] , txt_table$clay[6], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[7] , txt_table$clay[7], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[8] , txt_table$clay[8], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[9] , txt_table$clay[9], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[10] , txt_table$clay[10], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[11] , txt_table$clay[11], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[12] , txt_table$clay[12], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[13] , txt_table$clay[13], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[14] , txt_table$clay[14], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[15] , txt_table$clay[15], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[16] , txt_table$clay[16], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
+# now all the textural class should be add in % in the clay and sand column
+
+
+#### join the traits to your data ####
+
+traits <- readRDS('./complete_data.rds')
+data_std <- left_join(data_std , traits, by=c('AccSpeciesName_cor'='sp'))
+
+
+
+##### visualization of the data ##### EN construction
+
+#### normality ######
+
+# histograms of database
+
+par(mfrow=c(4,2))
+hist(data_std$ph)
+hist(data_std$om)
+hist(data_std$oc)
+hist(data_std$SLA)
+hist(data_std$LDMC)
+hist(data_std$LA)
+hist(data_std$cd_ba)
+hist(data_std$zn_ba)
+
+#### colinarity ######
+# is there colinearity between some variables
+HH::vif( ph ~ om +oc + LA +SLA + LDMC + cd_ba + zn_ba, data=data_std)
+
+
+# normality of the traits
+
+# is LA normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$LA)
+hist(log(traits$LA)) #best
+hist(log10(traits$LA))
+hist(sqrt(traits$LA))
+hist(decostand(traits$LA, method='log', MARGIN=2))
+hist(traits$LA^(1/3))
+hist(decostand(traits$LA, method='standardize', MARGIN=2))
+hist(log2(traits$LA))
+
+# is SLA normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$SLA)
+hist(log(traits$SLA)) #best
+hist(log10(traits$SLA))
+hist(sqrt(traits$SLA))
+hist(decostand(traits$SLA, method='log', MARGIN=2))
+hist(traits$SLA^(1/3))
+hist(decostand(traits$SLA, method='standardize', MARGIN=2))
+hist(log2(traits$SLA))
+
+# is LDMC normally distributed ad is there a transformation that make it more normal?
+par(mfrow=c(4,2))
+hist(traits$LDMC)
+hist(log(traits$LDMC)) 
+hist(log10(traits$LDMC))
+hist(sqrt(traits$LDMC))
+hist(decostand(traits$LDMC, method='log', MARGIN=2))
+hist(traits$LDMC^(1/3))
+hist(decostand(traits$LDMC, method='standardize', MARGIN=2))
+hist(logit(traits$LDMC)) #best
+
+#so we can log transform LA and SLA and logit transform LDMC
+
+
+# visualize your sp with your traits
+sp_traits <- na.omit(data_std[,c('LA' , 'SLA' ,'LDMC' )])
+# standardized the data to make them comparable
+sp_traits.s<-decostand(sp_traits[,c('LA','SLA','LDMC')], method='standardize', MARGIN=2)
+
+pca <-rda(sp_traits.s)
+plot(pca)
+
+#### save your corrected and standardize data ####
+
+write.table(data_std,
+            "./Amélie/data_std.txt", 
+            sep=",", row.names = F, quote = F)
