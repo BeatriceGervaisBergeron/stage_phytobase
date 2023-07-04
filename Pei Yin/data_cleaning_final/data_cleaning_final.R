@@ -159,12 +159,13 @@ list_sp_cor_salix <- bind_rows(salix_sp_cor, list_sp_cor)
 data <- data %>% 
   left_join(list_sp_cor_salix, by=c('name'= 'user_supplied_name'))
 
+
 # make a new column of the correct names
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 
 # Keep the corrected column
-data <- data[,-c(162:168)] # should have 162 columns
+data <- data[,-c(117:123)] # it had 124 columns, now it should have 117 columns
 
 # Check number of sp now
 uni_salix_cor <- unique(data$AccSpeciesName_cor) # 42 sp
