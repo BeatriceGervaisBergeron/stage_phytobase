@@ -391,15 +391,16 @@ str(data_num)
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
-data_num <- data_num[,-c(6:7)] # should have 110 columns
+data_num <- data_num[,-c(6:7)] # should have 62 columns
 
 
 
 # check outliers
 
-# for each of the 112 variables, isolate data that are outside the range
-# here are the 112 variables
+# for each of the 62 variables, isolate data that are outside the range
+# here are the 62 variables
 list <-colnames(data_num)
+list
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_num %>% 
