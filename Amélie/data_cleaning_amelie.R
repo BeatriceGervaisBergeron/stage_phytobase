@@ -791,14 +791,14 @@ unique(data$texture)
 unique(data$p_density)
 # 'on hold', to be unify if needed further on
 
-# organs_ba and organs_ba_1
-unique(data_std$organs_ba)
-unique(data_std$organs_ba_1)
-unique(data_std$organs_ba_2)
-unique(data_std$organs_ba_3)
-# conversion for only shoots or leaves or stems
-syn_shoots <- c("Shoots", "shoots","Shoot","shoot")
-syn_stems <- c("Stalks", "Twigs" , "Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches","Lower stems","Culms","Bark","Stubble")
+# organs_ba, organs_ba_1
+unique(data$organs_ba)
+unique(data$organs_ba_1)
+unique(data$organs_ba_2)
+unique(data$organs_ba_3)
+# conversion
+syn_shoots <- c("Shoots","shoots","Shoot","shoot")
+syn_stems <- c("Stalks","Twigs","Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches","Lower stems","Culms","Bark","Stubble")
 syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum")
 syn_flowers <- c("flowers","Heads","Head","Spikelets")
 syn_fruits <- c("Berry","Edible parts")                
@@ -808,15 +808,23 @@ data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% 
   mutate(organs_ba = ifelse(organs_ba %in% syn_stems , 'stems', organs_ba)) %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_flowers , 'flowers', organs_ba)) %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_fruits , 'fruits', organs_ba)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_flowers , 'flowers', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_fruits , 'fruits', organs_ba_1)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_shoots , 'shoots', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_stems , 'stems', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_leaves , 'leaves', organs_ba_2)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_flowers , 'flowers', organs_ba_2)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_fruits , 'fruits', organs_ba_2)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_shoots , 'shoots', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_stems , 'stems', organs_ba_3)) %>%
-  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_leaves , 'leaves', organs_ba_3))
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_leaves , 'leaves', organs_ba_3)) %>%
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_flowers , 'flowers', organs_ba_3)) %>%
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_fruits , 'fruits', organs_ba_3))
 
 # verify
 unique(data_std$organs_ba) 
