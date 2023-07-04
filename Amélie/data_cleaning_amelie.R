@@ -856,7 +856,7 @@ list <-colnames(data_num)
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
-  filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
+  filter(covidence. < num_range$min_value[num_range$variables == 'covidence.'] | covidence. > num_range$max_value[num_range$variables == 'covidence.'] )
 # if the outliers has 0 lines, it indicate not apparent outliers
 
 # you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
@@ -872,7 +872,7 @@ outliers <- data_std %>%
 # if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
 # if the data still appear high, Write a note in the 'journal de bord'
 
-## CONTINUE with all the 66 variables
+## CONTINUE with all the 55 variables
 
 
 
@@ -970,8 +970,9 @@ hist(log2(traits$LA))
 
 # is SLA normally distributed ad is there a transformation that make it more normal?
 par(mfrow=c(4,2))
+par(mar=c(2,2,1,1)) # Ajuster les marges
 hist(traits$SLA)
-hist(log(traits$SLA)) #best
+hist(log(traits$SLA))
 hist(log10(traits$SLA))
 hist(sqrt(traits$SLA))
 hist(decostand(traits$SLA, method='log', MARGIN=2))
@@ -981,6 +982,7 @@ hist(log2(traits$SLA))
 
 # is LDMC normally distributed ad is there a transformation that make it more normal?
 par(mfrow=c(4,2))
+par(mar=c(2,2,1,1)) # Ajuster les marges
 hist(traits$LDMC)
 hist(log(traits$LDMC)) 
 hist(log10(traits$LDMC))
@@ -988,7 +990,7 @@ hist(sqrt(traits$LDMC))
 hist(decostand(traits$LDMC, method='log', MARGIN=2))
 hist(traits$LDMC^(1/3))
 hist(decostand(traits$LDMC, method='standardize', MARGIN=2))
-hist(logit(traits$LDMC)) #best
+hist(logit(traits$LDMC))
 
 #so we can log transform LA and SLA and logit transform LDMC
 
