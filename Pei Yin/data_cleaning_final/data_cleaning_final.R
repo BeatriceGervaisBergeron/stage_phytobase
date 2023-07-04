@@ -63,9 +63,6 @@ data <- data %>%
     , n_s = as.numeric(n_s)
     , n_te_ba = as.numeric(n_te_ba)
     , n_te_br = as.numeric(n_te_br)
-    , n_te_br.1 = as.numeric(n_te_br.1)
-    , n_te_br.2 = as.numeric(n_te_br.2)
-    , n_te_br.3 = as.numeric(n_te_br.3)
     , n_te_ba.2 = as.numeric(n_te_ba.2)
     , n_te_ba.1 = as.numeric(n_te_ba.1))
 # here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
@@ -334,106 +331,9 @@ unique(data_std$organs_ba.1) #  only stems
 unique(data_std$organs_ba.2) # only shoots
 
 
-# organs_br.2 "Fine roots"
-
-# For article no 607 (author - Vondrackova), 
-# the roots are separated into "Coarse roots", "Fine roots" and "Stump"
-# Only use the "Fine roots" data as "roots", 
-# since they have the highest TE concentrations among the 3 categories (coarse roots, fine roots & stump)
-
-# Replace all "Fine roots" (organs_br.2) values by "roots" (organs_br) 
-# the article no 607's data are in lines 146 and 147 after verifying 'data_std' table
-
-
-# replacing as_br with as_br.2
-
-data_std$as_br[146] # NA
-data_std$as_br.2[146] # 84
-data_std$as_br[146] <- data_std$as_br.2[146]  # replacing the NA value by 84
-data_std$as_br[146] # verify - 84
-
-data_std$as_br[147] # NA
-data_std$as_br.2[147] # 791
-data_std$as_br[147] <- data_std$as_br.2[147]  # replacing the NA value by 791
-data_std$as_br[147] # verify - 791
-
-# replacing cd_br with cd_br.2
-
-data_std$cd_br[146] # NA
-data_std$cd_br.2[146] # 119.3
-data_std$cd_br[146] <- data_std$cd_br.2[146]  # replacing the NA value by 119.3
-data_std$cd_br[146] # verify - 119.3
-
-data_std$cd_br[147] # NA
-data_std$cd_br.2[147] # 25.2
-data_std$cd_br[147] <- data_std$cd_br.2[147]  # replacing the NA value by 25.2
-data_std$cd_br[147] # verify - 25.2
-
-# replacing pb_br with pb_br.2
-
-data_std$pb_br[146] # NA
-data_std$pb_br.2[146] # 1065
-data_std$pb_br[146] <- data_std$pb_br.2[146]  # replacing the NA value by 1065
-data_std$pb_br[146] # verify - 1065
-
-data_std$pb_br[147] # NA
-data_std$pb_br.2[147] # 51
-data_std$pb_br[147] <- data_std$pb_br.2[147]  # replacing the NA value by 51
-data_std$pb_br[147] # verify - 51
-
-# replacing zn_br with zn_br.2
-
-data_std$zn_br[146] # NA
-data_std$zn_br.2[146] # 5749
-data_std$zn_br[146] <- data_std$zn_br.2[146]  # replacing the NA value by 5749
-data_std$zn_br[146] # verify - 5749
-
-data_std$zn_br[147] # NA
-data_std$zn_br.2[147] # 1283
-data_std$zn_br[147] <- data_std$zn_br.2[147]  # replacing the NA value by 1283
-data_std$zn_br[147] # verify - 1283
-
-# replacing units_te_br with units_te_br.2
-
-data_std$units_te_br[146] # NA
-data_std$units_te_br.2[146] # "mg kg-1"
-data_std$units_te_br[146] <- data_std$units_te_br.2[146]  # replacing the NA value by "mg kg-1"
-data_std$units_te_br[146] # verify - "mg kg-1"
-
-data_std$units_te_br[147] # NA
-data_std$units_te_br.2[147] # "mg kg-1"
-data_std$units_te_br[147] <- data_std$units_te_br.2[147]  # replacing the NA value by "mg kg-1"
-data_std$units_te_br[147] # verify - "mg kg-1"
-
-# replacing n_te_br with n_te_br.2
-
-data_std$n_te_br[146] # NA
-data_std$n_te_br.2[146] # 4
-data_std$n_te_br[146] <- data_std$n_te_br.2[146]  # replacing the NA value by 4
-data_std$n_te_br[146] # verify - 4
-
-data_std$n_te_br[147] # NA
-data_std$n_te_br.2[147] # 4
-data_std$n_te_br[147] <- data_std$n_te_br.2[147]  # replacing the NA value by 4
-data_std$n_te_br[147] # verify - 4
-
-# replacing organs_br with "Roots"
-
-data_std$organs_br[146] # NA
-data_std$organs_br[146] <- "Roots"  # replacing the NA value by "Roots"
-data_std$organs_br[146] # verify - "Roots"
-
-data_std$organs_br[147] # NA
-data_std$organs_br[147] <- "Roots"  # replacing the NA value by "Roots"
-data_std$organs_br[147] # verify - "Roots"
-
-
-# organs_br, organs_br.1, organs_br.2 and organs_br.3
-
+# organs_br
 unique(data_std$organs_br) # "Roots"
-unique(data_std$organs_br.1) # "Coarse roots"
-unique(data_std$organs_br.2) # "Fine roots"
-unique(data_std$organs_br.3) # "Stump"
+
 # conversion for only roots
 syn_roots <- c("Roots")
 
@@ -446,6 +346,8 @@ unique(data_std$organs_br) # "roots"
 #Soit tu les élimines de la base de données, puisque on ne les prendra pas en compte, 
 #soit tu les gardes comme ça.Ce ne sont pas les même catégories.
 
+### OK j'ai eliminer les coarse roots, fine roots and stump de la base de donnees
+
 
 #### outliers and errors in numerical data ####
 
@@ -454,36 +356,14 @@ unique_obs <- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 64 variables
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-
-# data types of "num_range"
-
-str(num_range) 
-# variables: chr
-# min_value: chr
-# max_value: chr
-# sources  : chr
-
-# so the data type of columns "min_value" and "max_value" are chr
-
-# transform "min_value" and "max_value" as numeric
-
-num_range <- num_range %>%
-  mutate(
-    min_value = as.numeric(min_value)
-    , max_value = as.numeric(max_value))
-# verify
-str(num_range$min_value) # num
-str(num_range$max_value) # num
-
-
+### to delete ###
 # data types of "data_num"
-
 str(data_num)
 
 # Transform the data in "data_num" as numeric
@@ -494,9 +374,6 @@ data_num <- data_num %>%
     , n_s = as.numeric(n_s)
     , n_te_ba = as.numeric(n_te_ba)
     , n_te_br = as.numeric(n_te_br)
-    , n_te_br.1 = as.numeric(n_te_br.1)
-    , n_te_br.2 = as.numeric(n_te_br.2)
-    , n_te_br.3 = as.numeric(n_te_br.3)
     , n_te_ba.2 = as.numeric(n_te_ba.2)
     , n_te_ba.1 = as.numeric(n_te_ba.1))
 
@@ -506,10 +383,11 @@ str(data_num)
 ### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
 
-### OK I added these as.numeric changes to the beginning (lines 61-70), the lines 497-521 can now be removed
+### OK I added these as.numeric changes to the beginning (lines 61-70)
 
 
-# data_num has 112 variables for now
+
+# data_num has 64 variables for now
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
