@@ -357,13 +357,15 @@ unique_obs <- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # keep only numerical data, so 64 variables
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 77 variables
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-### to delete ###
+
+### to delete: ###
+
 # data types of "data_num"
 str(data_num)
 
@@ -392,7 +394,7 @@ str(data_num)
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
-data_num <- data_num[,-c(6:7)] # should have 62 columns
+data_num <- data_num[,-c(6:7)] # should have 75 columns
 
 
 
@@ -448,8 +450,12 @@ outliers <- data_num %>%
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
 # 47 lines/47 obs, so 47 outliers to verify
 
-###BEA: did you went to verified the data?
-
+### BEA: did you went to verified the data?
+### Yes, the articles were: 
+### no 2560 (oc = 63 g/kg in the article = 6.30%, which is slightly above the max. of 6.0)
+### no 671 (oc = 0.8% in the article, which is a lot less than the min. of 2.4%, so I added a note in the journal de bord)
+### no 2140 (oc = 1.93% in the article, which is under the min. of 2.4%)
+### no 1008 (oc = 2.1% and 1.8% in the article, which are under the min. of 2.4%)
 
 # outliers for list[9] = clay
 outliers <- data_num %>% 
@@ -470,6 +476,8 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,12] < num_range$min_value[12] | data_num[,12] > num_range$max_value[12] )
 # 3 line/3 obs, so 3 outliers
+### it's the article no 63 (cec = 47 meq 100 g−1 in the article = 47 cmolc kg-1)
+### it's a little higher than the range of 2.0 - 35.0 cmolc kg-1
 
 # outliers for list[13] = N
 outliers <- data_num %>% 
