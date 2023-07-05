@@ -627,55 +627,69 @@ outliers <- data_num %>%
   filter(data_num[,40] < num_range$min_value[40] | data_num[,40] > num_range$max_value[40] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[44] = hg_ba
+# outliers for list[41] = hg_ba
 outliers <- data_num %>% 
-  filter(data_num[,44] < num_range$min_value[41] | data_num[,44] > num_range$max_value[41] )
+  filter(data_num[,41] < num_range$min_value[41] | data_num[,41] > num_range$max_value[41] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[45] = n_te_ba
+# outliers for list[42] = n_te_ba
 outliers <- data_num %>% 
-  filter(data_num[,45] < num_range$min_value[42] | data_num[,45] > num_range$max_value[42] )
+  filter(data_num[,42] < num_range$min_value[42] | data_num[,42] > num_range$max_value[42] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[46] = as_br
+# outliers for list[43] = as_br
 outliers <- data_num %>% 
-  filter(data_num[,46] < num_range$min_value[43] | data_num[,46] > num_range$max_value[43] )
+  filter(data_num[,43] < num_range$min_value[43] | data_num[,43] > num_range$max_value[43] )
 # 13 line/13 obs, so 13 outliers
+### there is one article: no 253
+### [as_br] = from 1150.602 to 4012.195 mg/kg in the article, which are a lot higher than the range of 0-1000 mg/kg
+### I added a note in the journal de bord
 
-# outliers for list[47] = cd_br
+# outliers for list[44] = cd_br
 outliers <- data_num %>% 
-  filter(data_num[,47] < num_range$min_value[44] | data_num[,47] > num_range$max_value[44] )
+  filter(data_num[,44] < num_range$min_value[44] | data_num[,44] > num_range$max_value[44] )
 # 6 line/6 obs, so 6 outliers
+### there are 2 articles:
+### article no 1008 ([cd_br] = 111 and 128 mg/kg in the article, which are a little higher than the range of 0-100 mg/kg)
+### article no 2514 (4 values, [cd_br] = from 101.9653 to 136.3584 mg/kg, which are also a little higher than the range)
 
-###BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
+### BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
+### Pour ma part, j'ai eu 6 observations, mais j'ai bel et bien vérifié les outliers
 
-# outliers for list[48] = cu_br
+# outliers for list[45] = cu_br
 outliers <- data_num %>% 
-  filter(data_num[,48] < num_range$min_value[45] | data_num[,48] > num_range$max_value[45] )
+  filter(data_num[,45] < num_range$min_value[45] | data_num[,45] > num_range$max_value[45] )
 # 8 line/8 obs, so 8 outliers
+### there are 2 articles:
+### article no 63 ([cu_br] = 1354.32 and 687.35 mg/kg in the article, which are a lot higher than the range of 0-300 mg/kg)
+### article no 2514 ([cu_br] = from 1026.316 to 1736.842 mg/kg in the article, which are higher than the range of 0-300 mg/kg)
+### I added a note in the journal de bord for both articles
 
-# outliers for list[49] = pb_br
+# outliers for list[46] = pb_br
 outliers <- data_num %>% 
-  filter(data_num[,49] < num_range$min_value[46] | data_num[,49] > num_range$max_value[46] )
+  filter(data_num[,46] < num_range$min_value[46] | data_num[,46] > num_range$max_value[46] )
 # 0 line/0 obs, so 0 outliers
 
 ### BEA: ici j'ai 1 outilers
+### Pour ma part, j'ai toujours 0 outlier ici
 
-# outliers for list[50] = zn_br
+# outliers for list[47] = zn_br
 outliers <- data_num %>% 
-  filter(data_num[,50] < num_range$min_value[47] | data_num[,50] > num_range$max_value[47] )
+  filter(data_num[,47] < num_range$min_value[47] | data_num[,47] > num_range$max_value[47] )
 # 1 line/1 obs, so 1 outliers
+### it's article no 1008 ([zn_br] = 3216 mg/kg in the article, which is slightly above the range of 0-3000 mg/kg)
 
-###BEA: ici j'ai 2 outliers
+### BEA: ici j'ai 2 outliers
+### Pour ma part, j'ai toujours 1 outlier ici
 
-# outliers for list[51] = se_br
+# outliers for list[48] = se_br
 outliers <- data_num %>% 
-  filter(data_num[,51] < num_range$min_value[48] | data_num[,51] > num_range$max_value[48] )
+  filter(data_num[,48] < num_range$min_value[48] | data_num[,48] > num_range$max_value[48] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[52] = ni_br
+# outliers for list[49] = ni_br
 outliers <- data_num %>% 
-  filter(data_num[,52] < num_range$min_value[49] | data_num[,52] > num_range$max_value[49] )
+  filter(data_num[,49] < num_range$min_value[49] | data_num[,49] > num_range$max_value[49] )
 # 0 line/0 obs, so 0 outliers
 
 # outliers for list[53] = co_br
