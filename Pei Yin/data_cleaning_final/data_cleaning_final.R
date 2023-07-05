@@ -7,7 +7,6 @@ library(stringr)
 library(taxize)
 
 
-
 #### call your data  ####
 
 data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
@@ -477,33 +476,43 @@ outliers <- data_num %>%
   filter(data_num[,12] < num_range$min_value[12] | data_num[,12] > num_range$max_value[12] )
 # 3 line/3 obs, so 3 outliers
 ### it's the article no 63 (cec = 47 meq 100 g−1 in the article = 47 cmolc kg-1)
-### it's a little higher than the range of 2.0 - 35.0 cmolc kg-1
+### it's higher than the range of 2-35 cmolc kg-1
 
 # outliers for list[13] = N
 outliers <- data_num %>% 
   filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
 # 11 line/11 obs, so 11 outliers
+### there are 2 articles:
+### article no 63 (N = 0.18% in the article = 1800 mg/kg, which is a bit higher than the range of 10-1500 mg/kg)
+### article no 1645 (N = 0.57% in the article = 5700 mg/kg, which is a lot higher than the range, so I added a note in the journal de bord)
 
 # outliers for list[14] = P
 outliers <- data_num %>% 
   filter(data_num[,14] < num_range$min_value[14] | data_num[,14] > num_range$max_value[14] )
 # 31 line/31 obs, so 31 outliers
+### there are 3 articles:
+### article 2392 & 255 (soil infos are from article 255) (P = 133, 118 and 1042 mg/kg in article 255) 
+### (1042 mg/kg is lot higher than the range of 5-100 mg/kg, so I added a note in the journal de bord)
+### article 1645 (P = 2829 mg/kg, which is a lot higher than the max range of 100 mg/kg)
 
 # outliers for list[15] = as_s
 outliers <- data_num %>% 
   filter(data_num[,15] < num_range$min_value[15] | data_num[,15] > num_range$max_value[15] )
 # 12 line/12 obs, so 12 outliers
+### there is one article: no 253 ([As_s] = 1593; 440.9; 561; 949.3; 1119.7 and 1436.1 mg/kg in the article)
+### the values are a lot higher than the range of 0-250 mg/kg, so I added a note in the journal de bord)
 
 # outliers for list[16] = cd_s
 outliers <- data_num %>% 
   filter(data_num[,16] < num_range$min_value[16] | data_num[,16] > num_range$max_value[16] )
-# 12 line/12 obs, so 12 outliers
-# after verification, the outliers are all NA values of cd_s
+# 0 line/0 obs, so 0 outliers
 
 # outliers for list[17] = cu_s
 outliers <- data_num %>% 
   filter(data_num[,17] < num_range$min_value[17] | data_num[,17] > num_range$max_value[17] )
 # 6 line/6 obs, so 6 outliers
+### article no 2514 ([Cu_s] = 5162.3 mg/kg in the article,
+### which is double the range of 0-2500 mg/kg, so I added a note in the journal de bord)
 
 # outliers for list[18] = pb_s
 outliers <- data_num %>% 
@@ -549,64 +558,73 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,26] < num_range$min_value[26] | data_num[,26] > num_range$max_value[26] )
 # 23 line/23 obs, so 23 outliers
+### there are 4 articles:
+### article no 63 (n_s = 32, which is accurate after verification in the article)
+### article no 83 (n_s = 50, which is accurate after verification in the article)
+### article no 2140 (n_s = 32, which is accurate after verification in the article)
+### article no 21 (n_s = 27, which is accurate after verification in the article)
 
 # outliers for list[27] = ba_total - on hold for now
 # outliers for list[28] = ba_stem - on hold for now
 # outliers for list[29] = ba_leaf - on hold for now
 # outliers for list[30] = br - on hold for now
 
-# no comparison for outliers for list[31] = br_coarse
-# no comparison for outliers for list[32] = br_fine
-# no comparison for outliers for list[33] = br_stump
-
-# outliers for list[34] = as_ba
+# outliers for list[31] = as_ba
 outliers <- data_num %>% 
-  filter(data_num[,34] < num_range$min_value[31] | data_num[,34] > num_range$max_value[31] )
+  filter(data_num[,31] < num_range$min_value[31] | data_num[,31] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[35] = cd_ba
+# outliers for list[32] = cd_ba
 outliers <- data_num %>% 
-  filter(data_num[,35] < num_range$min_value[32] | data_num[,35] > num_range$max_value[32] )
+  filter(data_num[,32] < num_range$min_value[32] | data_num[,32] > num_range$max_value[32] )
 # 3 line/3 obs, so 3 outliers
+### there are 2 articles:
+### article no 1008 ([Cd_ba] = 163 mg/kg in the article, which is higher than the range of 0-100 mg/kg)
+### article no 2514 ([Cd_ba] = 127.4809 and 171.1 mg/kg, which are also higher than the range)
+### I added a note in the journal de bord for both articles
 
-# outliers for list[36] = cu_ba
+# outliers for list[33] = cu_ba
 outliers <- data_num %>% 
-  filter(data_num[,36] < num_range$min_value[33] | data_num[,35] > num_range$max_value[33] )
+  filter(data_num[,33] < num_range$min_value[33] | data_num[,33] > num_range$max_value[33] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[37] = pb_ba
+# outliers for list[34] = pb_ba
 outliers <- data_num %>% 
-  filter(data_num[,37] < num_range$min_value[34] | data_num[,37] > num_range$max_value[34] )
+  filter(data_num[,34] < num_range$min_value[34] | data_num[,34] > num_range$max_value[34] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[38] = zn_ba
+# outliers for list[35] = zn_ba
 outliers <- data_num %>% 
-  filter(data_num[,38] < num_range$min_value[35] | data_num[,38] > num_range$max_value[35] )
+  filter(data_num[,35] < num_range$min_value[35] | data_num[,35] > num_range$max_value[35] )
 # 2 line/2 obs, so 2 outliers
+### there are 2 articles:
+### article no 1008 ([Zn_ba] = 3991 mg/kg in the article, which is higher than the range of 0-3000 mg/kg)
+### article no 607 ([Zn_ba] = 3092 mg/kg in the article, which is slightly higher than the range of 0-3000 mg/kg)
+### I added a note in the journal de bord for the value of 3991 mg/kg (article no 1008)
 
-# outliers for list[39] = se_ba
+# outliers for list[36] = se_ba
 outliers <- data_num %>% 
-  filter(data_num[,39] < num_range$min_value[36] | data_num[,39] > num_range$max_value[36] )
+  filter(data_num[,36] < num_range$min_value[36] | data_num[,36] > num_range$max_value[36] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[40] = ni_ba
+# outliers for list[37] = ni_ba
 outliers <- data_num %>% 
-  filter(data_num[,40] < num_range$min_value[37] | data_num[,40] > num_range$max_value[37] )
+  filter(data_num[,37] < num_range$min_value[37] | data_num[,37] > num_range$max_value[37] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[41] = co_ba
+# outliers for list[38] = co_ba
 outliers <- data_num %>% 
-  filter(data_num[,41] < num_range$min_value[38] | data_num[,41] > num_range$max_value[38] )
+  filter(data_num[,38] < num_range$min_value[38] | data_num[,38] > num_range$max_value[38] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[42] = mn_ba
+# outliers for list[39] = mn_ba
 outliers <- data_num %>% 
-  filter(data_num[,42] < num_range$min_value[39] | data_num[,42] > num_range$max_value[39] )
+  filter(data_num[,39] < num_range$min_value[39] | data_num[,39] > num_range$max_value[39] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[43] = cr_ba
+# outliers for list[40] = cr_ba
 outliers <- data_num %>% 
-  filter(data_num[,43] < num_range$min_value[40] | data_num[,43] > num_range$max_value[40] )
+  filter(data_num[,40] < num_range$min_value[40] | data_num[,40] > num_range$max_value[40] )
 # 0 line/0 obs, so 0 outliers
 
 # outliers for list[44] = hg_ba
