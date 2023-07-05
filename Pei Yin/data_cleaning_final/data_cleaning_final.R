@@ -7,7 +7,6 @@ library(stringr)
 library(taxize)
 
 
-
 #### call your data  ####
 
 data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
@@ -477,17 +476,24 @@ outliers <- data_num %>%
   filter(data_num[,12] < num_range$min_value[12] | data_num[,12] > num_range$max_value[12] )
 # 3 line/3 obs, so 3 outliers
 ### it's the article no 63 (cec = 47 meq 100 g−1 in the article = 47 cmolc kg-1)
-### it's a little higher than the range of 2.0 - 35.0 cmolc kg-1
+### it's higher than the range of 2-35 cmolc kg-1
 
 # outliers for list[13] = N
 outliers <- data_num %>% 
   filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
 # 11 line/11 obs, so 11 outliers
+### there are 2 articles:
+### article no 63 (N = 0.18% in the article = 1800 mg/kg, which is a bit higher than the range of 10-1500 mg/kg)
+### article no 1645 (N = 0.57% in the article = 5700 mg/kg, which is a lot higher than the range, so I added a note in the journal de bord)
 
 # outliers for list[14] = P
 outliers <- data_num %>% 
   filter(data_num[,14] < num_range$min_value[14] | data_num[,14] > num_range$max_value[14] )
 # 31 line/31 obs, so 31 outliers
+### there are 3 articles:
+### article 2392 & 255 (soil infos are from article 255) (P = 133, 118 and 1042 mg/kg in article 255) 
+### (1042 mg/kg is lot higher than the range of 5-100 mg/kg, so I added a note in the journal de bord)
+### article 1645 (P = 2829 mg/kg, which is a lot higher than the max range of 100 mg/kg)
 
 # outliers for list[15] = as_s
 outliers <- data_num %>% 
