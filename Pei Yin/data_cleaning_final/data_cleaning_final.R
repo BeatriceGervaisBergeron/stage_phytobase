@@ -822,7 +822,7 @@ data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
   mutate(texture = ifelse(texture == 'Coarse-textured, low content of clay' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
 
-### BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+### BEA: why did you replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
 
 ### Je suis retourner dans l'article, il mentionne un sol "heavy clay". Donc il contiendrait >40%-50% de clay.
 ### Je pense que "Clay sand silt" désigne l'ordre decroissant de la quantite de chaque composante. 
@@ -871,7 +871,7 @@ data_std_textures <- data_std %>%
 # after verifying, it's the lines 4-18 and 20-87
 
 ### BEA: can you find a way to avoid writing all those line to replace a units? Try with the function Filter
-
+### OK I used the replace function for that
 
 # create a backup file in case the replacement doesn't work at first
 data_std_textures_b <- data_std_textures
