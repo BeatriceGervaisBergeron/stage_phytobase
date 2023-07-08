@@ -7,7 +7,6 @@ library(stringr)
 library(taxize)
 
 
-
 #### call your data  ####
 
 data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
@@ -63,9 +62,6 @@ data <- data %>%
     , n_s = as.numeric(n_s)
     , n_te_ba = as.numeric(n_te_ba)
     , n_te_br = as.numeric(n_te_br)
-    , n_te_br.1 = as.numeric(n_te_br.1)
-    , n_te_br.2 = as.numeric(n_te_br.2)
-    , n_te_br.3 = as.numeric(n_te_br.3)
     , n_te_ba.2 = as.numeric(n_te_ba.2)
     , n_te_ba.1 = as.numeric(n_te_ba.1))
 # here all value for ph and clay are not only numerical, so Na were introduced. Those column need to be adjusted
@@ -162,12 +158,13 @@ list_sp_cor_salix <- bind_rows(salix_sp_cor, list_sp_cor)
 data <- data %>% 
   left_join(list_sp_cor_salix, by=c('name'= 'user_supplied_name'))
 
+
 # make a new column of the correct names
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 
 # Keep the corrected column
-data <- data[,-c(162:168)] # should have 162 columns
+data <- data[,-c(117:123)] # it had 124 columns, now it should have 117 columns
 
 # Check number of sp now
 uni_salix_cor <- unique(data$AccSpeciesName_cor) # 42 sp
@@ -334,106 +331,9 @@ unique(data_std$organs_ba.1) #  only stems
 unique(data_std$organs_ba.2) # only shoots
 
 
-# organs_br.2 "Fine roots"
-
-# For article no 607 (author - Vondrackova), 
-# the roots are separated into "Coarse roots", "Fine roots" and "Stump"
-# Only use the "Fine roots" data as "roots", 
-# since they have the highest TE concentrations among the 3 categories (coarse roots, fine roots & stump)
-
-# Replace all "Fine roots" (organs_br.2) values by "roots" (organs_br) 
-# the article no 607's data are in lines 146 and 147 after verifying 'data_std' table
-
-
-# replacing as_br with as_br.2
-
-data_std$as_br[146] # NA
-data_std$as_br.2[146] # 84
-data_std$as_br[146] <- data_std$as_br.2[146]  # replacing the NA value by 84
-data_std$as_br[146] # verify - 84
-
-data_std$as_br[147] # NA
-data_std$as_br.2[147] # 791
-data_std$as_br[147] <- data_std$as_br.2[147]  # replacing the NA value by 791
-data_std$as_br[147] # verify - 791
-
-# replacing cd_br with cd_br.2
-
-data_std$cd_br[146] # NA
-data_std$cd_br.2[146] # 119.3
-data_std$cd_br[146] <- data_std$cd_br.2[146]  # replacing the NA value by 119.3
-data_std$cd_br[146] # verify - 119.3
-
-data_std$cd_br[147] # NA
-data_std$cd_br.2[147] # 25.2
-data_std$cd_br[147] <- data_std$cd_br.2[147]  # replacing the NA value by 25.2
-data_std$cd_br[147] # verify - 25.2
-
-# replacing pb_br with pb_br.2
-
-data_std$pb_br[146] # NA
-data_std$pb_br.2[146] # 1065
-data_std$pb_br[146] <- data_std$pb_br.2[146]  # replacing the NA value by 1065
-data_std$pb_br[146] # verify - 1065
-
-data_std$pb_br[147] # NA
-data_std$pb_br.2[147] # 51
-data_std$pb_br[147] <- data_std$pb_br.2[147]  # replacing the NA value by 51
-data_std$pb_br[147] # verify - 51
-
-# replacing zn_br with zn_br.2
-
-data_std$zn_br[146] # NA
-data_std$zn_br.2[146] # 5749
-data_std$zn_br[146] <- data_std$zn_br.2[146]  # replacing the NA value by 5749
-data_std$zn_br[146] # verify - 5749
-
-data_std$zn_br[147] # NA
-data_std$zn_br.2[147] # 1283
-data_std$zn_br[147] <- data_std$zn_br.2[147]  # replacing the NA value by 1283
-data_std$zn_br[147] # verify - 1283
-
-# replacing units_te_br with units_te_br.2
-
-data_std$units_te_br[146] # NA
-data_std$units_te_br.2[146] # "mg kg-1"
-data_std$units_te_br[146] <- data_std$units_te_br.2[146]  # replacing the NA value by "mg kg-1"
-data_std$units_te_br[146] # verify - "mg kg-1"
-
-data_std$units_te_br[147] # NA
-data_std$units_te_br.2[147] # "mg kg-1"
-data_std$units_te_br[147] <- data_std$units_te_br.2[147]  # replacing the NA value by "mg kg-1"
-data_std$units_te_br[147] # verify - "mg kg-1"
-
-# replacing n_te_br with n_te_br.2
-
-data_std$n_te_br[146] # NA
-data_std$n_te_br.2[146] # 4
-data_std$n_te_br[146] <- data_std$n_te_br.2[146]  # replacing the NA value by 4
-data_std$n_te_br[146] # verify - 4
-
-data_std$n_te_br[147] # NA
-data_std$n_te_br.2[147] # 4
-data_std$n_te_br[147] <- data_std$n_te_br.2[147]  # replacing the NA value by 4
-data_std$n_te_br[147] # verify - 4
-
-# replacing organs_br with "Roots"
-
-data_std$organs_br[146] # NA
-data_std$organs_br[146] <- "Roots"  # replacing the NA value by "Roots"
-data_std$organs_br[146] # verify - "Roots"
-
-data_std$organs_br[147] # NA
-data_std$organs_br[147] <- "Roots"  # replacing the NA value by "Roots"
-data_std$organs_br[147] # verify - "Roots"
-
-
-# organs_br, organs_br.1, organs_br.2 and organs_br.3
-
+# organs_br
 unique(data_std$organs_br) # "Roots"
-unique(data_std$organs_br.1) # "Coarse roots"
-unique(data_std$organs_br.2) # "Fine roots"
-unique(data_std$organs_br.3) # "Stump"
+
 # conversion for only roots
 syn_roots <- c("Roots")
 
@@ -446,6 +346,8 @@ unique(data_std$organs_br) # "roots"
 #Soit tu les élimines de la base de données, puisque on ne les prendra pas en compte, 
 #soit tu les gardes comme ça.Ce ne sont pas les même catégories.
 
+### OK j'ai eliminer les coarse roots, fine roots and stump de la base de donnees
+
 
 #### outliers and errors in numerical data ####
 
@@ -454,36 +356,16 @@ unique_obs <- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # keep only numerical data, so 112 variables
+data_num <- data_std[ , num_cols]  # keep only numerical data, so 77 variables
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
 
-# data types of "num_range"
-
-str(num_range) 
-# variables: chr
-# min_value: chr
-# max_value: chr
-# sources  : chr
-
-# so the data type of columns "min_value" and "max_value" are chr
-
-# transform "min_value" and "max_value" as numeric
-
-num_range <- num_range %>%
-  mutate(
-    min_value = as.numeric(min_value)
-    , max_value = as.numeric(max_value))
-# verify
-str(num_range$min_value) # num
-str(num_range$max_value) # num
-
+### to delete lines 366-391: ###
 
 # data types of "data_num"
-
 str(data_num)
 
 # Transform the data in "data_num" as numeric
@@ -494,9 +376,6 @@ data_num <- data_num %>%
     , n_s = as.numeric(n_s)
     , n_te_ba = as.numeric(n_te_ba)
     , n_te_br = as.numeric(n_te_br)
-    , n_te_br.1 = as.numeric(n_te_br.1)
-    , n_te_br.2 = as.numeric(n_te_br.2)
-    , n_te_br.3 = as.numeric(n_te_br.3)
     , n_te_ba.2 = as.numeric(n_te_ba.2)
     , n_te_ba.1 = as.numeric(n_te_ba.1))
 
@@ -506,22 +385,24 @@ str(data_num)
 ### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
 
-### OK I added these as.numeric changes to the beginning (lines 61-70), the lines 497-521 can now be removed
+### OK I added these as.numeric changes to the beginning (lines 61-70)
 
 
-# data_num has 112 variables for now
+
+# data_num has 64 variables for now
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
-data_num <- data_num[,-c(6:7)] # should have 110 columns
+data_num <- data_num[,-c(6:7)] # should have 75 columns
 
 
 
 # check outliers
 
-# for each of the 112 variables, isolate data that are outside the range
-# here are the 112 variables
+# for each of the 62 variables, isolate data that are outside the range
+# here are the 62 variables
 list <-colnames(data_num)
+list
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_num %>% 
@@ -568,8 +449,12 @@ outliers <- data_num %>%
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
 # 47 lines/47 obs, so 47 outliers to verify
 
-###BEA: did you went to verified the data?
-
+### BEA: did you went to verified the data?
+### Yes, the articles were: 
+### no 2560 (oc = 63 g/kg in the article = 6.30%, which is slightly above the max. of 6.0)
+### no 671 (oc = 0.8% in the article, which is a lot less than the min. of 2.4%, so I added a note in the journal de bord)
+### no 2140 (oc = 1.93% in the article, which is under the min. of 2.4%)
+### no 1008 (oc = 2.1% and 1.8% in the article, which are under the min. of 2.4%)
 
 # outliers for list[9] = clay
 outliers <- data_num %>% 
@@ -590,32 +475,44 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,12] < num_range$min_value[12] | data_num[,12] > num_range$max_value[12] )
 # 3 line/3 obs, so 3 outliers
+### it's the article no 63 (cec = 47 meq 100 g−1 in the article = 47 cmolc kg-1)
+### it's higher than the range of 2-35 cmolc kg-1
 
 # outliers for list[13] = N
 outliers <- data_num %>% 
   filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
 # 11 line/11 obs, so 11 outliers
+### there are 2 articles:
+### article no 63 (N = 0.18% in the article = 1800 mg/kg, which is a bit higher than the range of 10-1500 mg/kg)
+### article no 1645 (N = 0.57% in the article = 5700 mg/kg, which is a lot higher than the range, so I added a note in the journal de bord)
 
 # outliers for list[14] = P
 outliers <- data_num %>% 
   filter(data_num[,14] < num_range$min_value[14] | data_num[,14] > num_range$max_value[14] )
 # 31 line/31 obs, so 31 outliers
+### there are 3 articles:
+### article 2392 & 255 (soil infos are from article 255) (P = 133, 118 and 1042 mg/kg in article 255) 
+### (1042 mg/kg is lot higher than the range of 5-100 mg/kg, so I added a note in the journal de bord)
+### article 1645 (P = 2829 mg/kg, which is a lot higher than the max range of 100 mg/kg)
 
 # outliers for list[15] = as_s
 outliers <- data_num %>% 
   filter(data_num[,15] < num_range$min_value[15] | data_num[,15] > num_range$max_value[15] )
 # 12 line/12 obs, so 12 outliers
+### there is one article: no 253 ([As_s] = 1593; 440.9; 561; 949.3; 1119.7 and 1436.1 mg/kg in the article)
+### the values are a lot higher than the range of 0-250 mg/kg, so I added a note in the journal de bord)
 
 # outliers for list[16] = cd_s
 outliers <- data_num %>% 
   filter(data_num[,16] < num_range$min_value[16] | data_num[,16] > num_range$max_value[16] )
-# 12 line/12 obs, so 12 outliers
-# after verification, the outliers are all NA values of cd_s
+# 0 line/0 obs, so 0 outliers
 
 # outliers for list[17] = cu_s
 outliers <- data_num %>% 
   filter(data_num[,17] < num_range$min_value[17] | data_num[,17] > num_range$max_value[17] )
 # 6 line/6 obs, so 6 outliers
+### article no 2514 ([Cu_s] = 5162.3 mg/kg in the article,
+### which is double the range of 0-2500 mg/kg, so I added a note in the journal de bord)
 
 # outliers for list[18] = pb_s
 outliers <- data_num %>% 
@@ -661,416 +558,255 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,26] < num_range$min_value[26] | data_num[,26] > num_range$max_value[26] )
 # 23 line/23 obs, so 23 outliers
+### there are 4 articles:
+### article no 63 (n_s = 32, which is accurate after verification in the article)
+### article no 83 (n_s = 50, which is accurate after verification in the article)
+### article no 2140 (n_s = 32, which is accurate after verification in the article)
+### article no 21 (n_s = 27, which is accurate after verification in the article)
 
 # outliers for list[27] = ba_total - on hold for now
 # outliers for list[28] = ba_stem - on hold for now
 # outliers for list[29] = ba_leaf - on hold for now
 # outliers for list[30] = br - on hold for now
 
-# no comparison for outliers for list[31] = br_coarse
-# no comparison for outliers for list[32] = br_fine
-# no comparison for outliers for list[33] = br_stump
-
-# outliers for list[34] = as_ba
+# outliers for list[31] = as_ba
 outliers <- data_num %>% 
-  filter(data_num[,34] < num_range$min_value[31] | data_num[,34] > num_range$max_value[31] )
+  filter(data_num[,31] < num_range$min_value[31] | data_num[,31] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[35] = cd_ba
+# outliers for list[32] = cd_ba
 outliers <- data_num %>% 
-  filter(data_num[,35] < num_range$min_value[32] | data_num[,35] > num_range$max_value[32] )
+  filter(data_num[,32] < num_range$min_value[32] | data_num[,32] > num_range$max_value[32] )
 # 3 line/3 obs, so 3 outliers
+### there are 2 articles:
+### article no 1008 ([Cd_ba] = 163 mg/kg in the article, which is higher than the range of 0-100 mg/kg)
+### article no 2514 ([Cd_ba] = 127.4809 and 171.1 mg/kg, which are also higher than the range)
+### I added a note in the journal de bord for both articles
 
-# outliers for list[36] = cu_ba
+# outliers for list[33] = cu_ba
 outliers <- data_num %>% 
-  filter(data_num[,36] < num_range$min_value[33] | data_num[,35] > num_range$max_value[33] )
+  filter(data_num[,33] < num_range$min_value[33] | data_num[,33] > num_range$max_value[33] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[37] = pb_ba
+# outliers for list[34] = pb_ba
 outliers <- data_num %>% 
-  filter(data_num[,37] < num_range$min_value[34] | data_num[,37] > num_range$max_value[34] )
+  filter(data_num[,34] < num_range$min_value[34] | data_num[,34] > num_range$max_value[34] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[38] = zn_ba
+# outliers for list[35] = zn_ba
 outliers <- data_num %>% 
-  filter(data_num[,38] < num_range$min_value[35] | data_num[,38] > num_range$max_value[35] )
+  filter(data_num[,35] < num_range$min_value[35] | data_num[,35] > num_range$max_value[35] )
 # 2 line/2 obs, so 2 outliers
+### there are 2 articles:
+### article no 1008 ([Zn_ba] = 3991 mg/kg in the article, which is higher than the range of 0-3000 mg/kg)
+### article no 607 ([Zn_ba] = 3092 mg/kg in the article, which is slightly higher than the range of 0-3000 mg/kg)
+### I added a note in the journal de bord for the value of 3991 mg/kg (article no 1008)
 
-# outliers for list[39] = se_ba
+# outliers for list[36] = se_ba
 outliers <- data_num %>% 
-  filter(data_num[,39] < num_range$min_value[36] | data_num[,39] > num_range$max_value[36] )
+  filter(data_num[,36] < num_range$min_value[36] | data_num[,36] > num_range$max_value[36] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[40] = ni_ba
+# outliers for list[37] = ni_ba
 outliers <- data_num %>% 
-  filter(data_num[,40] < num_range$min_value[37] | data_num[,40] > num_range$max_value[37] )
+  filter(data_num[,37] < num_range$min_value[37] | data_num[,37] > num_range$max_value[37] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[41] = co_ba
+# outliers for list[38] = co_ba
 outliers <- data_num %>% 
-  filter(data_num[,41] < num_range$min_value[38] | data_num[,41] > num_range$max_value[38] )
+  filter(data_num[,38] < num_range$min_value[38] | data_num[,38] > num_range$max_value[38] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[42] = mn_ba
+# outliers for list[39] = mn_ba
 outliers <- data_num %>% 
-  filter(data_num[,42] < num_range$min_value[39] | data_num[,42] > num_range$max_value[39] )
+  filter(data_num[,39] < num_range$min_value[39] | data_num[,39] > num_range$max_value[39] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[43] = cr_ba
+# outliers for list[40] = cr_ba
 outliers <- data_num %>% 
-  filter(data_num[,43] < num_range$min_value[40] | data_num[,43] > num_range$max_value[40] )
+  filter(data_num[,40] < num_range$min_value[40] | data_num[,40] > num_range$max_value[40] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[44] = hg_ba
+# outliers for list[41] = hg_ba
 outliers <- data_num %>% 
-  filter(data_num[,44] < num_range$min_value[41] | data_num[,44] > num_range$max_value[41] )
+  filter(data_num[,41] < num_range$min_value[41] | data_num[,41] > num_range$max_value[41] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[45] = n_te_ba
+# outliers for list[42] = n_te_ba
 outliers <- data_num %>% 
-  filter(data_num[,45] < num_range$min_value[42] | data_num[,45] > num_range$max_value[42] )
+  filter(data_num[,42] < num_range$min_value[42] | data_num[,42] > num_range$max_value[42] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[46] = as_br
+# outliers for list[43] = as_br
 outliers <- data_num %>% 
-  filter(data_num[,46] < num_range$min_value[43] | data_num[,46] > num_range$max_value[43] )
+  filter(data_num[,43] < num_range$min_value[43] | data_num[,43] > num_range$max_value[43] )
 # 13 line/13 obs, so 13 outliers
+### there is one article: no 253
+### [as_br] = from 1150.602 to 4012.195 mg/kg in the article, which are a lot higher than the range of 0-1000 mg/kg
+### I added a note in the journal de bord
 
-# outliers for list[47] = cd_br
+# outliers for list[44] = cd_br
 outliers <- data_num %>% 
-  filter(data_num[,47] < num_range$min_value[44] | data_num[,47] > num_range$max_value[44] )
+  filter(data_num[,44] < num_range$min_value[44] | data_num[,44] > num_range$max_value[44] )
 # 6 line/6 obs, so 6 outliers
+### there are 2 articles:
+### article no 1008 ([cd_br] = 111 and 128 mg/kg in the article, which are a little higher than the range of 0-100 mg/kg)
+### article no 2514 (4 values, [cd_br] = from 101.9653 to 136.3584 mg/kg, which are also a little higher than the range)
 
-###BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
+### BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
+### Pour ma part, j'ai eu 6 observations, mais j'ai bel et bien vérifié les outliers
 
-# outliers for list[48] = cu_br
+# outliers for list[45] = cu_br
 outliers <- data_num %>% 
-  filter(data_num[,48] < num_range$min_value[45] | data_num[,48] > num_range$max_value[45] )
+  filter(data_num[,45] < num_range$min_value[45] | data_num[,45] > num_range$max_value[45] )
 # 8 line/8 obs, so 8 outliers
+### there are 2 articles:
+### article no 63 ([cu_br] = 1354.32 and 687.35 mg/kg in the article, which are a lot higher than the range of 0-300 mg/kg)
+### article no 2514 ([cu_br] = from 1026.316 to 1736.842 mg/kg in the article, which are higher than the range of 0-300 mg/kg)
+### I added a note in the journal de bord for both articles
 
-# outliers for list[49] = pb_br
+# outliers for list[46] = pb_br
 outliers <- data_num %>% 
-  filter(data_num[,49] < num_range$min_value[46] | data_num[,49] > num_range$max_value[46] )
+  filter(data_num[,46] < num_range$min_value[46] | data_num[,46] > num_range$max_value[46] )
 # 0 line/0 obs, so 0 outliers
 
 ### BEA: ici j'ai 1 outilers
+### Pour ma part, j'ai toujours 0 outlier ici
 
-# outliers for list[50] = zn_br
+# outliers for list[47] = zn_br
 outliers <- data_num %>% 
-  filter(data_num[,50] < num_range$min_value[47] | data_num[,50] > num_range$max_value[47] )
+  filter(data_num[,47] < num_range$min_value[47] | data_num[,47] > num_range$max_value[47] )
 # 1 line/1 obs, so 1 outliers
+### it's article no 1008 ([zn_br] = 3216 mg/kg in the article, which is slightly above the range of 0-3000 mg/kg)
 
-###BEA: ici j'ai 2 outliers
+### BEA: ici j'ai 2 outliers
+### Pour ma part, j'ai toujours 1 outlier ici
 
-# outliers for list[51] = se_br
+# outliers for list[48] = se_br
 outliers <- data_num %>% 
-  filter(data_num[,51] < num_range$min_value[48] | data_num[,51] > num_range$max_value[48] )
+  filter(data_num[,48] < num_range$min_value[48] | data_num[,48] > num_range$max_value[48] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[52] = ni_br
+# outliers for list[49] = ni_br
 outliers <- data_num %>% 
-  filter(data_num[,52] < num_range$min_value[49] | data_num[,52] > num_range$max_value[49] )
+  filter(data_num[,49] < num_range$min_value[49] | data_num[,49] > num_range$max_value[49] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[53] = co_br
+# outliers for list[50] = co_br
 outliers <- data_num %>% 
-  filter(data_num[,53] < num_range$min_value[50] | data_num[,53] > num_range$max_value[50] )
+  filter(data_num[,50] < num_range$min_value[50] | data_num[,50] > num_range$max_value[50] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[54] = mn_br
+# outliers for list[51] = mn_br
 outliers <- data_num %>% 
-  filter(data_num[,54] < num_range$min_value[51] | data_num[,54] > num_range$max_value[51] )
+  filter(data_num[,51] < num_range$min_value[51] | data_num[,51] > num_range$max_value[51] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[55] = cr_br
+# outliers for list[52] = cr_br
 outliers <- data_num %>% 
-  filter(data_num[,55] < num_range$min_value[52] | data_num[,55] > num_range$max_value[52] )
+  filter(data_num[,52] < num_range$min_value[52] | data_num[,52] > num_range$max_value[52] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[56] = hg_br
+# outliers for list[53] = hg_br
 outliers <- data_num %>% 
-  filter(data_num[,56] < num_range$min_value[53] | data_num[,56] > num_range$max_value[53] )
+  filter(data_num[,53] < num_range$min_value[53] | data_num[,53] > num_range$max_value[53] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[57] = n_te_br
+# outliers for list[54] = n_te_br
 outliers <- data_num %>% 
-  filter(data_num[,57] < num_range$min_value[54] | data_num[,57] > num_range$max_value[54] )
+  filter(data_num[,54] < num_range$min_value[54] | data_num[,54] > num_range$max_value[54] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[58] = as_br.1
+# outliers for list[55] = as_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,58] < num_range$min_value[43] | data_num[,58] > num_range$max_value[43] )
+  filter(data_num[,55] < num_range$min_value[31] | data_num[,55] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[59] = cd_br.1
+# outliers for list[56] = cd_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,59] < num_range$min_value[44] | data_num[,59] > num_range$max_value[44] )
+  filter(data_num[,56] < num_range$min_value[32] | data_num[,56] > num_range$max_value[32] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[60] = cu_br.1
+# outliers for list[57] = cu_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,60] < num_range$min_value[45] | data_num[,60] > num_range$max_value[45] )
+  filter(data_num[,57] < num_range$min_value[33] | data_num[,57] > num_range$max_value[33] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[61] = pb_br.1
+# outliers for list[58] = pb_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,61] < num_range$min_value[46] | data_num[,61] > num_range$max_value[46] )
+  filter(data_num[,58] < num_range$min_value[34] | data_num[,58] > num_range$max_value[34] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[62] = zn_br.1
+# outliers for list[59] = zn_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,62] < num_range$min_value[47] | data_num[,62] > num_range$max_value[47] )
+  filter(data_num[,59] < num_range$min_value[35] | data_num[,59] > num_range$max_value[35] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[63] = se_br.1
+# outliers for list[60] = se_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,63] < num_range$min_value[48] | data_num[,63] > num_range$max_value[48] )
+  filter(data_num[,60] < num_range$min_value[36] | data_num[,60] > num_range$max_value[36] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[64] = ni_br.1
+# outliers for list[61] = ni_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,64] < num_range$min_value[49] | data_num[,64] > num_range$max_value[49] )
+  filter(data_num[,61] < num_range$min_value[37] | data_num[,61] > num_range$max_value[37] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[65] = co_br.1
+# outliers for list[62] = co_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,65] < num_range$min_value[50] | data_num[,65] > num_range$max_value[50] )
+  filter(data_num[,62] < num_range$min_value[38] | data_num[,62] > num_range$max_value[38] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[66] = mn_br.1
+# outliers for list[63] = mn_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,66] < num_range$min_value[51] | data_num[,66] > num_range$max_value[51] )
+  filter(data_num[,63] < num_range$min_value[39] | data_num[,63] > num_range$max_value[39] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[67] = cr_br.1
+# outliers for list[64] = cr_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,67] < num_range$min_value[52] | data_num[,67] > num_range$max_value[52] )
+  filter(data_num[,64] < num_range$min_value[40] | data_num[,64] > num_range$max_value[40] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[68] = hg_br.1
+# outliers for list[65] = hg_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,68] < num_range$min_value[53] | data_num[,68] > num_range$max_value[53] )
+  filter(data_num[,65] < num_range$min_value[41] | data_num[,65] > num_range$max_value[41] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[69] = n_te_br.1
+# outliers for list[66] = n_te_ba.1
 outliers <- data_num %>% 
-  filter(data_num[,69] < num_range$min_value[54] | data_num[,69] > num_range$max_value[54] )
+  filter(data_num[,66] < num_range$min_value[42] | data_num[,66] > num_range$max_value[42] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[70] = as_br.2
+# outliers for list[67] = as_ba.2
 outliers <- data_num %>% 
-  filter(data_num[,70] < num_range$min_value[43] | data_num[,70] > num_range$max_value[43] )
+  filter(data_num[,67] < num_range$min_value[31] | data_num[,67] > num_range$max_value[31] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[71] = cd_br.2
+# outliers for list[68] = cd_ba.2
 outliers <- data_num %>% 
-  filter(data_num[,71] < num_range$min_value[44] | data_num[,71] > num_range$max_value[44] )
-# 1 line/1 obs, so 1 outliers
-outliers[,71]
-
-
-# outliers for list[72] = cu_br.2
-outliers <- data_num %>% 
-  filter(data_num[,72] < num_range$min_value[45] | data_num[,72] > num_range$max_value[45] )
+  filter(data_num[,68] < num_range$min_value[32] | data_num[,68] > num_range$max_value[32] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[73] = pb_br.2
+# outliers for list[69] = pb_ba.2
 outliers <- data_num %>% 
-  filter(data_num[,73] < num_range$min_value[46] | data_num[,73] > num_range$max_value[46] )
-# 1 line/1 obs, so 1 outliers
-outliers[,73]
-
-# outliers for list[74] = zn_br.2
-outliers <- data_num %>% 
-  filter(data_num[,74] < num_range$min_value[47] | data_num[,74] > num_range$max_value[47] )
-# 1 line/1 obs, so 1 outliers
-outliers[,74]
-
-# outliers for list[75] = se_br.2
-outliers <- data_num %>% 
-  filter(data_num[,75] < num_range$min_value[48] | data_num[,75] > num_range$max_value[48] )
+  filter(data_num[,69] < num_range$min_value[34] | data_num[,69] > num_range$max_value[34] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[76] = ni_br.2
+# outliers for list[70] = zn_ba.2
 outliers <- data_num %>% 
-  filter(data_num[,76] < num_range$min_value[49] | data_num[,76] > num_range$max_value[49] )
+  filter(data_num[,70] < num_range$min_value[35] | data_num[,70] > num_range$max_value[35] )
 # 0 line/0 obs, so 0 outliers
 
-# outliers for list[77] = co_br.2
+# outliers for list[71] = n_te_ba.2
 outliers <- data_num %>% 
-  filter(data_num[,77] < num_range$min_value[50] | data_num[,77] > num_range$max_value[50] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[78] = mn_br.2
-outliers <- data_num %>% 
-  filter(data_num[,78] < num_range$min_value[51] | data_num[,78] > num_range$max_value[51] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[79] = cr_br.2
-outliers <- data_num %>% 
-  filter(data_num[,79] < num_range$min_value[52] | data_num[,79] > num_range$max_value[52] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[80] = hg_br.2
-outliers <- data_num %>% 
-  filter(data_num[,80] < num_range$min_value[53] | data_num[,80] > num_range$max_value[53] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[81] = n_te_br.2
-outliers <- data_num %>% 
-  filter(data_num[,81] < num_range$min_value[54] | data_num[,81] > num_range$max_value[54] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[82] = as_br.3
-outliers <- data_num %>% 
-  filter(data_num[,82] < num_range$min_value[43] | data_num[,82] > num_range$max_value[43] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[83] = cd_br.3
-outliers <- data_num %>% 
-  filter(data_num[,83] < num_range$min_value[44] | data_num[,83] > num_range$max_value[44] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[84] = cu_br.3
-outliers <- data_num %>% 
-  filter(data_num[,84] < num_range$min_value[45] | data_num[,84] > num_range$max_value[45] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[85] = pb_br.3
-outliers <- data_num %>% 
-  filter(data_num[,85] < num_range$min_value[46] | data_num[,85] > num_range$max_value[46] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[86] = zn_br.3
-outliers <- data_num %>% 
-  filter(data_num[,86] < num_range$min_value[47] | data_num[,86] > num_range$max_value[47] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[87] = se_br.3
-outliers <- data_num %>% 
-  filter(data_num[,87] < num_range$min_value[48] | data_num[,87] > num_range$max_value[48] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[88] = ni_br.3
-outliers <- data_num %>% 
-  filter(data_num[,88] < num_range$min_value[49] | data_num[,88] > num_range$max_value[49] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[89] = co_br.3
-outliers <- data_num %>% 
-  filter(data_num[,89] < num_range$min_value[50] | data_num[,89] > num_range$max_value[50] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[90] = mn_br.3
-outliers <- data_num %>% 
-  filter(data_num[,90] < num_range$min_value[51] | data_num[,90] > num_range$max_value[51] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[91] = cr_br.3
-outliers <- data_num %>% 
-  filter(data_num[,91] < num_range$min_value[52] | data_num[,91] > num_range$max_value[52] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[92] = hg_br.3
-outliers <- data_num %>% 
-  filter(data_num[,92] < num_range$min_value[53] | data_num[,92] > num_range$max_value[53] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[93] = n_te_br.3
-outliers <- data_num %>% 
-  filter(data_num[,93] < num_range$min_value[54] | data_num[,93] > num_range$max_value[54] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[94] = as_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,94] < num_range$min_value[31] | data_num[,94] > num_range$max_value[31] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[95] = cd_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,95] < num_range$min_value[32] | data_num[,95] > num_range$max_value[32] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[96] = cu_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,96] < num_range$min_value[33] | data_num[,96] > num_range$max_value[33] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[97] = pb_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,97] < num_range$min_value[34] | data_num[,97] > num_range$max_value[34] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[98] = zn_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,98] < num_range$min_value[35] | data_num[,98] > num_range$max_value[35] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[99] = se_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,99] < num_range$min_value[36] | data_num[,99] > num_range$max_value[36] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[100] = ni_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,100] < num_range$min_value[37] | data_num[,100] > num_range$max_value[37] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[101] = co_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,101] < num_range$min_value[38] | data_num[,101] > num_range$max_value[38] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[102] = mn_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,102] < num_range$min_value[39] | data_num[,102] > num_range$max_value[39] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[103] = cr_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,103] < num_range$min_value[40] | data_num[,103] > num_range$max_value[40] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[104] = hg_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,104] < num_range$min_value[41] | data_num[,104] > num_range$max_value[41] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[105] = n_te_ba.1
-outliers <- data_num %>% 
-  filter(data_num[,105] < num_range$min_value[42] | data_num[,105] > num_range$max_value[42] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[106] = as_ba.2
-outliers <- data_num %>% 
-  filter(data_num[,106] < num_range$min_value[31] | data_num[,106] > num_range$max_value[31] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[107] = cd_ba.2
-outliers <- data_num %>% 
-  filter(data_num[,107] < num_range$min_value[32] | data_num[,107] > num_range$max_value[32] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[108] = pb_ba.2
-outliers <- data_num %>% 
-  filter(data_num[,108] < num_range$min_value[34] | data_num[,108] > num_range$max_value[34] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[109] = zn_ba.2
-outliers <- data_num %>% 
-  filter(data_num[,109] < num_range$min_value[35] | data_num[,109] > num_range$max_value[35] )
-# 0 line/0 obs, so 0 outliers
-
-# outliers for list[110] = n_te_ba.2
-outliers <- data_num %>% 
-  filter(data_num[,110] < num_range$min_value[42] | data_num[,110] > num_range$max_value[42] )
+  filter(data_num[,71] < num_range$min_value[42] | data_num[,71] > num_range$max_value[42] )
 # 0 line/0 obs, so 0 outliers
 
 
 # if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
 # if the data still appear high, Write a note in the 'journal de bord'
 
-## Repeat with all the 110 variables
+## Repeat with all the 71 variables
 
 
 #### Add clay and sand % values according to textural class of soils ####
@@ -1086,7 +822,7 @@ data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
   mutate(texture = ifelse(texture == 'Coarse-textured, low content of clay' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
 
-### BEA: why di dyou replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
+### BEA: why did you replace clay and silt by clay? did you when back to the article? If so, I would replace it by 'silty clay'
 
 ### Je suis retourner dans l'article, il mentionne un sol "heavy clay". Donc il contiendrait >40%-50% de clay.
 ### Je pense que "Clay sand silt" désigne l'ordre decroissant de la quantite de chaque composante. 
@@ -1135,210 +871,35 @@ data_std_textures <- data_std %>%
 # after verifying, it's the lines 4-18 and 20-87
 
 ### BEA: can you find a way to avoid writing all those line to replace a units? Try with the function Filter
+### OK I used the replace function for that
 
-# change clay_units for lines 4-18
-unique(data_std_textures$clay_units[4:18]) # NA
+# create a backup file in case the replacement doesn't work at first
+data_std_textures_b <- data_std_textures
 
-data_std_textures$clay_units[4] <- "%"
-data_std_textures$clay_units[5] <- "%"
-data_std_textures$clay_units[6] <- "%"
-data_std_textures$clay_units[7] <- "%"
-data_std_textures$clay_units[8] <- "%"
-data_std_textures$clay_units[9] <- "%"
-data_std_textures$clay_units[10] <- "%"
-data_std_textures$clay_units[11] <- "%"
-data_std_textures$clay_units[12] <- "%"
-data_std_textures$clay_units[13] <- "%"
-data_std_textures$clay_units[14] <- "%"
-data_std_textures$clay_units[15] <- "%"
-data_std_textures$clay_units[16] <- "%"
-data_std_textures$clay_units[17] <- "%"
-data_std_textures$clay_units[18] <- "%"
+# Add the % unit if needed
+data_std_textures <- data_std_textures %>%
+  mutate(clay_units = replace(clay_units, texture == "Sandy loam", "%")) %>% # add "%" unit to clay_units where texture is "Sandy loam"
+  mutate(sand_units = replace(sand_units, texture == "Sandy loam", "%")) %>% # add "%" unit to sand_units where texture is "Sandy loam"
+  mutate(clay_units = replace(clay_units, texture == "Clay", "%")) %>% # add "%" unit to clay_units where texture is "Clay"
+  mutate(sand_units = replace(sand_units, texture == "Clay", "%")) %>% # add "%" unit to sand_units where texture is "Clay"
+  mutate(clay_units = replace(clay_units, texture == "Loam", "%")) %>% # add "%" unit to clay_units where texture is "Loam"
+  mutate(sand_units = replace(sand_units, texture == "Loam", "%")) %>% # add "%" unit to sand_units where texture is "Loam"
+  mutate(clay_units = replace(clay_units, texture == "Coarse texture", "%")) %>% # add "%" unit to clay_units where texture is "Coarse texture"
+  mutate(sand_units = replace(sand_units, texture == "Coarse texture", "%")) # add "%" unit to sand_units where texture is "Coarse texture"
 
-# verify
+# verify for clay_units
 unique(data_std_textures$clay_units[4:18]) # "%"
-
-
-# change clay_units for lines 20-87
-unique(data_std_textures$clay_units[20:87]) # NA
-
-data_std_textures$clay_units[20] <- "%"
-data_std_textures$clay_units[21] <- "%"
-data_std_textures$clay_units[22] <- "%"
-data_std_textures$clay_units[23] <- "%"
-data_std_textures$clay_units[24] <- "%"
-data_std_textures$clay_units[25] <- "%"
-data_std_textures$clay_units[26] <- "%"
-data_std_textures$clay_units[27] <- "%"
-data_std_textures$clay_units[28] <- "%"
-data_std_textures$clay_units[29] <- "%"
-data_std_textures$clay_units[30] <- "%"
-data_std_textures$clay_units[31] <- "%"
-data_std_textures$clay_units[32] <- "%"
-data_std_textures$clay_units[33] <- "%"
-data_std_textures$clay_units[34] <- "%"
-data_std_textures$clay_units[35] <- "%"
-data_std_textures$clay_units[36] <- "%"
-data_std_textures$clay_units[37] <- "%"
-data_std_textures$clay_units[38] <- "%"
-data_std_textures$clay_units[39] <- "%"
-data_std_textures$clay_units[40] <- "%"
-data_std_textures$clay_units[41] <- "%"
-data_std_textures$clay_units[42] <- "%"
-data_std_textures$clay_units[43] <- "%"
-data_std_textures$clay_units[44] <- "%"
-data_std_textures$clay_units[45] <- "%"
-data_std_textures$clay_units[46] <- "%"
-data_std_textures$clay_units[47] <- "%"
-data_std_textures$clay_units[48] <- "%"
-data_std_textures$clay_units[49] <- "%"
-data_std_textures$clay_units[50] <- "%"
-data_std_textures$clay_units[51] <- "%"
-data_std_textures$clay_units[52] <- "%"
-data_std_textures$clay_units[53] <- "%"
-data_std_textures$clay_units[54] <- "%"
-data_std_textures$clay_units[55] <- "%"
-data_std_textures$clay_units[56] <- "%"
-data_std_textures$clay_units[57] <- "%"
-data_std_textures$clay_units[58] <- "%"
-data_std_textures$clay_units[59] <- "%"
-data_std_textures$clay_units[60] <- "%"
-data_std_textures$clay_units[61] <- "%"
-data_std_textures$clay_units[62] <- "%"
-data_std_textures$clay_units[63] <- "%"
-data_std_textures$clay_units[64] <- "%"
-data_std_textures$clay_units[65] <- "%"
-data_std_textures$clay_units[66] <- "%"
-data_std_textures$clay_units[67] <- "%"
-data_std_textures$clay_units[68] <- "%"
-data_std_textures$clay_units[69] <- "%"
-data_std_textures$clay_units[70] <- "%"
-data_std_textures$clay_units[71] <- "%"
-data_std_textures$clay_units[72] <- "%"
-data_std_textures$clay_units[73] <- "%"
-data_std_textures$clay_units[74] <- "%"
-data_std_textures$clay_units[75] <- "%"
-data_std_textures$clay_units[76] <- "%"
-data_std_textures$clay_units[77] <- "%"
-data_std_textures$clay_units[78] <- "%"
-data_std_textures$clay_units[79] <- "%"
-data_std_textures$clay_units[80] <- "%"
-data_std_textures$clay_units[81] <- "%"
-data_std_textures$clay_units[82] <- "%"
-data_std_textures$clay_units[83] <- "%"
-data_std_textures$clay_units[84] <- "%"
-data_std_textures$clay_units[85] <- "%"
-data_std_textures$clay_units[86] <- "%"
-data_std_textures$clay_units[87] <- "%"
-
-# verify
 unique(data_std_textures$clay_units[20:87]) # "%"
 
-
-# change sand_units for lines 4-18
-
-unique(data_std_textures$sand_units[4:18]) # NA
-
-data_std_textures$sand_units[4] <- "%"
-data_std_textures$sand_units[5] <- "%"
-data_std_textures$sand_units[6] <- "%"
-data_std_textures$sand_units[7] <- "%"
-data_std_textures$sand_units[8] <- "%"
-data_std_textures$sand_units[9] <- "%"
-data_std_textures$sand_units[10] <- "%"
-data_std_textures$sand_units[11] <- "%"
-data_std_textures$sand_units[12] <- "%"
-data_std_textures$sand_units[13] <- "%"
-data_std_textures$sand_units[14] <- "%"
-data_std_textures$sand_units[15] <- "%"
-data_std_textures$sand_units[16] <- "%"
-data_std_textures$sand_units[17] <- "%"
-data_std_textures$sand_units[18] <- "%"
-
-# verify
+# verify for sand_units
 unique(data_std_textures$sand_units[4:18]) # "%"
-
-
-# change sand_units for lines 20-87
-
-unique(data_std_textures$sand_units[20:87]) # NA
-
-data_std_textures$sand_units[20] <- "%"
-data_std_textures$sand_units[21] <- "%"
-data_std_textures$sand_units[22] <- "%"
-data_std_textures$sand_units[23] <- "%"
-data_std_textures$sand_units[24] <- "%"
-data_std_textures$sand_units[25] <- "%"
-data_std_textures$sand_units[26] <- "%"
-data_std_textures$sand_units[27] <- "%"
-data_std_textures$sand_units[28] <- "%"
-data_std_textures$sand_units[29] <- "%"
-data_std_textures$sand_units[30] <- "%"
-data_std_textures$sand_units[31] <- "%"
-data_std_textures$sand_units[32] <- "%"
-data_std_textures$sand_units[33] <- "%"
-data_std_textures$sand_units[34] <- "%"
-data_std_textures$sand_units[35] <- "%"
-data_std_textures$sand_units[36] <- "%"
-data_std_textures$sand_units[37] <- "%"
-data_std_textures$sand_units[38] <- "%"
-data_std_textures$sand_units[39] <- "%"
-data_std_textures$sand_units[40] <- "%"
-data_std_textures$sand_units[41] <- "%"
-data_std_textures$sand_units[42] <- "%"
-data_std_textures$sand_units[43] <- "%"
-data_std_textures$sand_units[44] <- "%"
-data_std_textures$sand_units[45] <- "%"
-data_std_textures$sand_units[46] <- "%"
-data_std_textures$sand_units[47] <- "%"
-data_std_textures$sand_units[48] <- "%"
-data_std_textures$sand_units[49] <- "%"
-data_std_textures$sand_units[50] <- "%"
-data_std_textures$sand_units[51] <- "%"
-data_std_textures$sand_units[52] <- "%"
-data_std_textures$sand_units[53] <- "%"
-data_std_textures$sand_units[54] <- "%"
-data_std_textures$sand_units[55] <- "%"
-data_std_textures$sand_units[56] <- "%"
-data_std_textures$sand_units[57] <- "%"
-data_std_textures$sand_units[58] <- "%"
-data_std_textures$sand_units[59] <- "%"
-data_std_textures$sand_units[60] <- "%"
-data_std_textures$sand_units[61] <- "%"
-data_std_textures$sand_units[62] <- "%"
-data_std_textures$sand_units[63] <- "%"
-data_std_textures$sand_units[64] <- "%"
-data_std_textures$sand_units[65] <- "%"
-data_std_textures$sand_units[66] <- "%"
-data_std_textures$sand_units[67] <- "%"
-data_std_textures$sand_units[68] <- "%"
-data_std_textures$sand_units[69] <- "%"
-data_std_textures$sand_units[70] <- "%"
-data_std_textures$sand_units[71] <- "%"
-data_std_textures$sand_units[72] <- "%"
-data_std_textures$sand_units[73] <- "%"
-data_std_textures$sand_units[74] <- "%"
-data_std_textures$sand_units[75] <- "%"
-data_std_textures$sand_units[76] <- "%"
-data_std_textures$sand_units[77] <- "%"
-data_std_textures$sand_units[78] <- "%"
-data_std_textures$sand_units[79] <- "%"
-data_std_textures$sand_units[80] <- "%"
-data_std_textures$sand_units[81] <- "%"
-data_std_textures$sand_units[82] <- "%"
-data_std_textures$sand_units[83] <- "%"
-data_std_textures$sand_units[84] <- "%"
-data_std_textures$sand_units[85] <- "%"
-data_std_textures$sand_units[86] <- "%"
-data_std_textures$sand_units[87] <- "%"
-
-# verify
 unique(data_std_textures$clay_units[20:87]) # "%"
 
+
+#### Save the final corrected file ####
 
 # Save the final corrected file with textural classes in an rds object
 saveRDS(data_std_textures, file = 'Pei Yin/data_cleaning_final/data_std_cleaned.rds')
-
 
 # save the final corrected file as txt file
 write.table(data_std_textures,

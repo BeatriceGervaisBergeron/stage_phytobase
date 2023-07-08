@@ -45,6 +45,10 @@ data <- data %>%
     , mn_ba_1 = as.numeric(mn_ba_1)
     , hg_ba_1 = as.numeric(hg_ba_1))
 # all value for expe_t, ph, clay, co_s, mn_s, hg_s, co_ba, hg_ba, mn_br are not only numerical, so Na were introduced.
+
+### BEA: some column are not in thw right form: zn_br, pb_br, pb_ba, as_s to zn_s, mat, 
+### BEA: le script serait plus facile à lire avce des espaces entre tes étapes aussi
+
 # Verify the mutation
 str(data)#good
 #### all white space to NA ####
@@ -53,11 +57,18 @@ data[data == ''] <- NA
 # check unique sp list in your database
 uni_sp<-as.data.frame(unique(data$name)) # 395 unique species
 colnames(uni_sp) <- c('sp') 
+
+###BEA: on me dit 394 espèces ici, est-ce normale?
+
+
 # Correct the name according to the species name corrected from TRY
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
 to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 125 species not on the corrected list, so need to be corrected
+
+###BEA: ici j'en ai 124 encore?
+
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
 match.name <- to.be.cor$sp %>%
@@ -95,6 +106,9 @@ uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt",
 # eliminate duplicates
 uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
 uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T)
+
+### BEA: maintenant j'en ai 125. tu me vérifieras simplement pour voir s'il y a des erreurs ou m'expliquer
+
 # Save the final corrected list in an rds object
 saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
 #### Join list of corrected names ####
@@ -112,8 +126,21 @@ data <- data %>%
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
 # Keep the corrected column
 data <- data[,-c(100:106)]
+
+### BEA: ici il faut enlever les colonnes submitted_name à dupl2, soit 131 a 137. 
+#Tu as éliminé des colonnes de données ici, dont ta colonne organ_ba_1, d'ou ton problème de reconnaissance
+### a remplacer par quelque chose comme ça si tu préfères:
+data <- data %>% 
+  select(-c(submitted_name, matched_name2, score, alternative, dupl, dupl2))
+
+
+
 # Check number of sp now
 uni_cu_cor <-unique(data$AccSpeciesName_cor)
+
+###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
+
+
 #### standardized units ####
 # Select all the units column
 units <- data %>%
@@ -137,6 +164,12 @@ data_std <- data %>%
 )
 # verify
 unique(data_std$om_units) # need to convert "mg kg-1""g dm-3""dag kg-1""g kg-3" in "%" 
+
+### BEA: pour les unité qui te reste à convertir, il faudrait 1) que tu vérifie que ce sont bine les unités données (dag kg-1 ne me dis rien et g/kg3 me semble une erreur)
+# 2) tu pourrais les ajouter au tableau de transformation des unités dans le document de prototcol et me proposer les conversions qui te semble adéquate selon tes recherches, 
+# 3) ajoute des ? au tableau si tu ne sais vraiment pas, mais je pense que tu peux trouver comment conbvertir mg Kg-1
+# 4) ajouter les sources pour la proposition de convertion si nécessaire
+# 5) pour les unités avec des volumes, comme L ou dm3, c'est effectivement plus compliqué. Essai de voir ce qui t'es proposé avec une recheche et je vais regarder de mon cote aussi.
 
 
 #"oc_units" 
@@ -410,6 +443,9 @@ data_std <- data %>%
 unique(data_std$units_b) # need to convert "%" in "g"
 
 
+### BEA: ici par exemple, le % ne fait pas de sens, il faudrait donc que tu aies vérifier la donnée brute voir pourquoi ils te donnent %
+
+
 #"units_te_ba" 
 unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ug kg-1" "ppm/ppb" "kg ha-1"
 # need to convert to mg kg-1 
@@ -552,6 +588,8 @@ data_std <- data %>%
 )
 # verify
 unique(data_std$units_te_ba) # Need to convert "mg m2 year-1""mg plant-1""mg m-2""uM/g DW""mg pot-1""ppm/ppb" in "mg kg-1"
+
+### BEA: tu pourrais inscrire toutes tes transformations d'unité dans le tableau des variables, quetsions que je les valide plus facilement?
 
 
 #"units_te_br"   
@@ -797,12 +835,19 @@ unique(data$organs_ba_1)
 unique(data$organs_ba_2)
 unique(data$organs_ba_3)
 # conversion
-syn_shoots <- c("Shoots","shoots","Shoot","shoot")
-syn_stems <- c("Stalks","Twigs","Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches","Lower stems","Culms","Bark","Stubble")
-syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum")
+syn_shoots <- c("Shoots","shoots","Shoot","shoot","overground organs","leaves+stems", "stems + leaves", "stems+leaves", 
+                "Stems, leaves and flowers", "Whole top part", "Leaves +stems","Above-ground parts", "Above ground parts", 
+                "Aboveground parts", "Aerial part", "Aerial parts", "Stems and leaves"  )
+syn_stems <- c("Stalks","Twigs","Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches",
+               "Lower stems","Culms","Stubble")
+syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum", "Unwashed leaves","Needle", "Lower leaves",
+                "Washed leaves", "Leaf/Needle")
 syn_flowers <- c("flowers","Heads","Head","Spikelets")
-syn_fruits <- c("Berry","Edible parts")                
-                 
+syn_fruits <- c("Berry","Edible parts")
+syn_wood <- c('wood',"Trunk wood", "Bark" )
+syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant" )
+
+### BEA: you need to go back to have more information on those organs: NA, tissus, herbs,                
 
 data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>%
@@ -810,27 +855,39 @@ data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_leaves , 'leaves', organs_ba)) %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_flowers , 'flowers', organs_ba)) %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_fruits , 'fruits', organs_ba)) %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_wood , 'wood', organs_ba)) %>%
+  mutate(organs_ba = ifelse(organs_ba %in% syn_whole , 'whole', organs_ba)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_shoots , 'shoots', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_stems , 'stems', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_flowers , 'flowers', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_fruits , 'fruits', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_wood , 'wood', organs_ba)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_whole , 'whole', organs_ba)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_shoots , 'shoots', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_stems , 'stems', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_leaves , 'leaves', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_flowers , 'flowers', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_fruits , 'fruits', organs_ba_2)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_wood , 'wood', organs_ba)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_whole , 'whole', organs_ba)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_shoots , 'shoots', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_stems , 'stems', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_leaves , 'leaves', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_flowers , 'flowers', organs_ba_3)) %>%
-  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_fruits , 'fruits', organs_ba_3))
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_fruits , 'fruits', organs_ba_3)) %>% 
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_wood , 'wood', organs_ba)) %>%
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba))
 
 # verify
 unique(data_std$organs_ba) 
 unique(data_std$organs_ba_1)
 unique(data_std$organs_ba_2)
 unique(data_std$organs_ba_3)
+
+
+### BEA: il faudrait vérifier pourquoi tous les espaces sont remplacer. Nomralement, la fonction ne doit remplacer que s'il y a un nom d'organe.
+### tu pourrais ajouter toutes ces options dans le tableau de conversion
 
 # organs_br
 # make same thing as for organ_ba
@@ -846,6 +903,8 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to 
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
 data_num <- data_std[ , num_cols]  # 55 variables
 
+###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
+
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
@@ -856,8 +915,11 @@ list <-colnames(data_num)
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
-  filter(covidence. < num_range$min_value[num_range$variables == 'covidence.'] | covidence. > num_range$max_value[num_range$variables == 'covidence.'] )
+  filter(covidence. < num_range$min_value[num_range$variables == 'covidence'] | covidence. > num_range$max_value[num_range$variables == 'covidence'] )
 # if the outliers has 0 lines, it indicate not apparent outliers
+
+###BEA: pourquoi il y a un point a Covidence dans le data? il faudrait l'enlever
+
 
 # you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
 outliers <- data_std %>% 
