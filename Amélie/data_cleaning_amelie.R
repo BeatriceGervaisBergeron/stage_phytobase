@@ -202,7 +202,7 @@ data_std <- data %>%
     ,clay_units = ifelse(clay_units == 'mg kg-1', '%', clay_units)
   )
 # verify
-unique(data_std$clay_units) #only %
+unique(data_std$clay_units) #only "%"
 
 
 #"sand_units" 
@@ -218,7 +218,7 @@ data_std <- data %>%
     ,sand_units = ifelse(sand_units == 'mg kg-1', '%', sand_units)
   )
 # verify
-unique(data_std$sand_units) #only %
+unique(data_std$sand_units) #only "%"
 
 
 #"ec_units"
@@ -266,7 +266,7 @@ unique(data_std$ec_units)# only "mS cm−1"
 #"cec_units"
 unique(units$cec_units) # "cmol kg-1" "cmolc kg-1" "meq 100-1" "meq 100 g-1" "cmolc/kg" "cmol/kg" "meq 100g-1" "mmolc dm-3" "cmol+ kg-1" "cmol(+)kg-1" "meq/100g" "molc kg-1" "%" "mmol kg-1" "cmol kg" "cmol+ kg" "cmol/100g soil" "cmolc dm-3" "mM(+)/kg DM" 
 # need to convert to cmolc kg-1
-convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg")
+convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg","mM(+)/kg DM")
 data_std <- data_std %>%
   mutate(
     cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)
@@ -276,9 +276,13 @@ data_std <- data_std %>%
     ,cec_units = ifelse(cec_units == 'cmolc dm-3', 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'mmolc dm-3', cec/10, cec)
     ,cec_units = ifelse(cec_units == 'mmolc dm-3', 'cmolc kg-1', cec_units)
+    ,cec = ifelse(cec_units == 'cmol/100g soil', cec/100, cec)
+    ,cec_units = ifelse(cec_units == 'cmol/100g soil', 'cmolc kg-1', cec_units)
+    ,cec = ifelse(cec_units == '%', cec*10, cec)
+    ,cec_units = ifelse(cec_units == '%', 'cmolc kg-1', cec_units)
   )
 #verify
-unique(data_std$cec_units) # need to convert "cmol kg-1""meq 100 g-1""cmol/kg""cmol+ kg-1""cmol(+)kg-1""molc kg-1""%""cmol kg""cmol+ kg""cmol/100g soil" "mM(+)/kg DM" en cmolc kg-1
+unique(data_std$cec_units) # only "cmolc kg-1"
 
 
 #"N_units" 
@@ -315,7 +319,7 @@ convert <- c("mg/kg","mg kg","mg g-1","ppm","mg kg-1 (P2O5)","mg P/kg")
 data_std <- data %>%
   mutate(
     P_units = ifelse(P_units %in% convert , 'mg kg-1', P_units)
-    ,P = ifelse(P_units == '%', P*10000, P)
+    ,P = ifelse(P_units == '%', P*1000, P)
     ,P_units = ifelse(P_units == '%', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'kg ha-1', P*10, P)
     ,P_units = ifelse(P_units == 'kg ha-1', 'mg kg-1', P_units)
@@ -341,10 +345,11 @@ data_std <- data %>%
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'mg L-1', P*1000, P)
     ,P_units = ifelse(P_units == 'mg L-1', 'mg kg-1', P_units)
-    
+    ,P = ifelse(P_units == 'meq/100g', P*30.97*10, P)
+    ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
   )
 #verify
-unique(data_std$P_units)# need to convert meq/100g in mg kg-1
+unique(data_std$P_units)# # only "mg kg-1"
 
 
 #"units_s"   
