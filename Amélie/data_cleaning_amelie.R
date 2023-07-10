@@ -355,7 +355,7 @@ unique(data_std$P_units)# # only "mg kg-1"
 #"units_s"   
 unique(units$units_s) # "mg kg-1" "g kg-1" "mg kg" "ppm" "ug.L-1" "ug g-1" "mg/kg" "ug g" "mg dm-3" "ug/g" "mg L-1" "uM/g"
 # need to convert to mg kg-1
-convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g")
+convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g","mg dm-3")
 data_std <- data %>%
   mutate(
     units_s = ifelse(units_s %in% convert , 'mg kg-1', units_s)
@@ -383,7 +383,7 @@ data_std <- data %>%
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
   )
 #verify
-unique(data_std$units_s) # need to convert "mg dm-3""mg L-1""uM/g" in "mg kg-1"
+unique(data_std$units_s) # need to convert "mg L-1" in "mg kg-1"
 
 
 #"units_b" 
