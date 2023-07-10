@@ -817,22 +817,22 @@ data_std <- data_std %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_leaves , 'leaves', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_flowers , 'flowers', organs_ba_1)) %>%
   mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_fruits , 'fruits', organs_ba_1)) %>%
-  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_wood , 'wood', organs_ba)) %>%
-  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_whole , 'whole', organs_ba)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_wood , 'wood', organs_ba_1)) %>%
+  mutate(organs_ba_1 = ifelse(organs_ba_1 %in% syn_whole , 'whole', organs_ba_1)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_shoots , 'shoots', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_stems , 'stems', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_leaves , 'leaves', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_flowers , 'flowers', organs_ba_2)) %>%
   mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_fruits , 'fruits', organs_ba_2)) %>%
-  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_wood , 'wood', organs_ba)) %>%
-  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_whole , 'whole', organs_ba)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_wood , 'wood', organs_ba_2)) %>%
+  mutate(organs_ba_2 = ifelse(organs_ba_2 %in% syn_whole , 'whole', organs_ba_2)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_shoots , 'shoots', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_stems , 'stems', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_leaves , 'leaves', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_flowers , 'flowers', organs_ba_3)) %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_fruits , 'fruits', organs_ba_3)) %>% 
-  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_wood , 'wood', organs_ba)) %>%
-  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba))
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_wood , 'wood', organs_ba_3)) %>%
+  mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba_3))
 
 # verify
 unique(data_std$organs_ba) 
@@ -860,7 +860,7 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to 
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # 55 variables
+data_num <- data_std[ , num_cols]  # 68 variables
 
 ###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
 
