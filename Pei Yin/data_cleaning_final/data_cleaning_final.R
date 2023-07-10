@@ -328,10 +328,12 @@ data_std <- data_std %>%
 # verify
 unique(data_std$organs_ba) # only leaves
 unique(data_std$organs_ba.1) #  only stems 
-unique(data_std$organs_ba.2) # only shoots
+unique(data_std$organs_ba.2) # shoots & an empty space " "
 
-### BEA: there should not be a empty space. Check if it is supposed to be an organ, if not it should be NA
-
+# replace the empty space by NA
+data_std$organs_ba.2[79]<-NA
+# verify
+data_std$organs_ba.2[79] # good
 
 # organs_br
 unique(data_std$organs_br) # "Roots"
