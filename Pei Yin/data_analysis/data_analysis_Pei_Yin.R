@@ -147,6 +147,9 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 # For 
 
 
+
+
+
 ##### PCA of willows vs all species ####
 
 
