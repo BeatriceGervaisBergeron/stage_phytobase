@@ -126,20 +126,12 @@ list_sp_cor_cu <- bind_rows(cu_sp_cor, list_sp_cor)
 # add the corrections to the data
 data <- data %>% 
   left_join(list_sp_cor_cu, by=c('name'= 'user_supplied_name'))
-<<<<<<< HEAD
-=======
-# make a new column of the correct names
-data <- data %>% 
-  mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
-# Keep the corrected column
-#data <- data[,-c(100:106)]
->>>>>>> 6d81e2409444683ddffc68ab62722603a38cf061
 
 ### BEA: ici il faut enlever les colonnes submitted_name à dupl2, soit 131 a 137. 
 #Tu as éliminé des colonnes de données ici, dont ta colonne organ_ba_1, d'ou ton problème de reconnaissance
 ### a remplacer par quelque chose comme ça si tu préfères:
 data <- data %>% 
-  dplyr::select(-c(submitted_name, matched_name2, score, alternative, dupl, dupl2))
+  select(-c(submitted_name, matched_name2, score, alternative, dupl, dupl2))
 
 
 # Check number of sp now
@@ -184,7 +176,7 @@ unique(data_std$om_units) # need to convert g dm-3""dag kg-1""g kg-3" in "%"
 #"oc_units" 
 unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
 # need to convert  to % (/10)
-data_std <- data_std %>%
+data_std <- data %>%
   mutate(
     oc = ifelse(oc_units == 'g kg', oc/10, oc)
     ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
@@ -194,7 +186,6 @@ data_std <- data_std %>%
 # verify
 unique(data_std$oc_units) # need to convert "mgL-1""mg kg-1" in "%"
 
-### BEA: attention, si tu ajoute des modifications a data_std, tu dois repartir de data_std, si tu reprend data seulement tu reparts de data avec 0 modifications
 
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
@@ -957,35 +948,43 @@ txt_table <- read.table("./textural_class_average.txt",
 #textural class list
 txt_list <-txt_table$texture
 
-# check for unique terms in 'texture'
-unique(data_std$texture) 
-
-# standardize textural terms
-data_std <- data_std %>%
-  mutate(texture = ifelse(texture == 'Clayey silt loam' , 'Silty clay loam', texture)) # replace 'Clayey silt loam' by 'silty clay loam'
-  #etc. avec les autres noms de texture
-
 # Add the % if needed
-data_std_texture <- data_std %>%
+data_std <- data_std %>%
   filter(is.na(clay)|is.na(sand)) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[1], txt_table$clay[1])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[1], txt_table$sand[1])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[2], txt_table$clay[2])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[2], txt_table$sand[2])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[3], txt_table$clay[3])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[3], txt_table$sand[3])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[4], txt_table$clay[4])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[4], txt_table$sand[4])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[5], txt_table$clay[5])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[5], txt_table$sand[5])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[6], txt_table$clay[6])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[6], txt_table$sand[6])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[7], txt_table$clay[7])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[7], txt_table$sand[7])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[8], txt_table$clay[8])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[8], txt_table$sand[8])) # continuer jusqu'à 17
-
- 
+  mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[3] , txt_table$clay[3], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[5] , txt_table$clay[5], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[6] , txt_table$clay[6], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[7] , txt_table$clay[7], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[8] , txt_table$clay[8], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[9] , txt_table$clay[9], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[10] , txt_table$clay[10], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[11] , txt_table$clay[11], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[12] , txt_table$clay[12], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[13] , txt_table$clay[13], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[14] , txt_table$clay[14], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[15] , txt_table$clay[15], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[16] , txt_table$clay[16], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
+  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
 # now all the textural class should be add in % in the clay and sand column
 
 
