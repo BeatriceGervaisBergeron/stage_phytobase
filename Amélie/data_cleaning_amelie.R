@@ -150,7 +150,7 @@ units <- data %>%
 colnames(units)
 #"om_units"
 unique(units$om_units) # "%" "g kg-1" "g.O2.kg-1" "g.kg-1" "mg kg-1" "g dm-3" "dag kg-1" "g kg" "g kg-3"
-# need to convert to % (/10)
+# need to convert to %
 data_std <- data %>%
   mutate(om = ifelse(om_units == 'g kg', om/10, om)
          ,om_units = ifelse(om_units == 'g kg', '%', om_units)
@@ -164,7 +164,7 @@ data_std <- data %>%
          ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units)
   )
 # verify
-unique(data_std$om_units) # need to convert g dm-3""dag kg-1""g kg-3" in "%" 
+unique(data_std$om_units) # need to convert "dag kg-1" in "%" 
 
 ### BEA: pour les unité qui te reste à convertir, il faudrait 1) que tu vérifie que ce sont bine les unités données (dag kg-1 ne me dis rien et g/kg3 me semble une erreur)
 # 2) tu pourrais les ajouter au tableau de transformation des unités dans le document de prototcol et me proposer les conversions qui te semble adéquate selon tes recherches, 
@@ -175,44 +175,50 @@ unique(data_std$om_units) # need to convert g dm-3""dag kg-1""g kg-3" in "%"
 
 #"oc_units" 
 unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
-# need to convert  to % (/10)
+# need to convert  to %
 data_std <- data %>%
   mutate(
     oc = ifelse(oc_units == 'g kg', oc/10, oc)
     ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
     ,oc = ifelse(oc_units == 'g kg-1', oc/10, oc)
     ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
+    ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
+    ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
   )
 # verify
-unique(data_std$oc_units) # need to convert "mgL-1""mg kg-1" in "%"
+unique(data_std$oc_units) # need to convert "mgL-1" in "%"
 
 
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
-# need to convert  to % (/10)
+# need to convert  to %
 data_std <- data %>%
   mutate(
     clay = ifelse(clay_units == 'g kg', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg', '%', clay_units)
     ,clay = ifelse(clay_units == 'g kg-1', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg-1', '%', clay_units)
+    ,clay = ifelse(clay_units == 'mg kg-1', clay/100, clay)
+    ,clay_units = ifelse(clay_units == 'mg kg-1', '%', clay_units)
   )
 # verify
-unique(data_std$clay_units) # need to convert "mm""mg kg-1" in "%"
+unique(data_std$clay_units) #only %
 
 
 #"sand_units" 
 unique(units$sand_units) #  "%" "g kg-1" "mm" "mg kg-1" "g kg"
-# need to convert  to % (/10)
+# need to convert  to %
 data_std <- data %>%
   mutate(
     sand = ifelse(sand_units == 'g kg', sand/10, sand)
     ,sand_units = ifelse(sand_units == 'g kg', '%', sand_units)
     ,sand = ifelse(sand_units == 'g kg-1', sand/10, sand)
     ,sand_units = ifelse(sand_units == 'g kg-1', '%', sand_units)
+    ,sand = ifelse(sand_units == 'mg kg-1', sand/100, sand)
+    ,sand_units = ifelse(sand_units == 'mg kg-1', '%', sand_units)
   )
 # verify
-unique(data_std$sand_units) # need to convert "mm""mg kg-1" in "%"
+unique(data_std$sand_units) #only %
 
 
 #"ec_units"
