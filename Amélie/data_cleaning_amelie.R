@@ -349,7 +349,7 @@ data_std <- data %>%
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
   )
 #verify
-unique(data_std$P_units)# # only "mg kg-1"
+unique(data_std$P_units)# only "mg kg-1"
 
 
 #"units_s"   
@@ -417,141 +417,106 @@ data_std <- data %>%
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
     ,b = ifelse(units_b == 'kg', br*1000, br)
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', ba_total*1000/4046.86, ba_total)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', ba_stem*1000/4046.86, ba_stem)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', ba_leaf*1000/4046.86, ba_leaf)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', br*1000/4046.86, br)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_total/10000, ba_total)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_stem/10000, ba_stem)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_leaf/10000, ba_leaf)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', br/10000, br)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_total*1000000, ba_total)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_stem*1000000, ba_stem)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_leaf*1000000, ba_leaf)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', br*1000000, br)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_total*10000, ba_total)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_stem*10000, ba_stem)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_leaf*10000, ba_leaf)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', br*10000, br)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
   )
 
 #verify
-unique(data_std$units_b) # need to convert "%" in "g"
-
-
-### BEA: ici par exemple, le % ne fait pas de sens, il faudrait donc que tu aies vérifier la donnée brute voir pourquoi ils te donnent %
+unique(data_std$units_b) # need to convert "kg acre-1","mg ha-1","t ha-1","kg ha-1" en "g"
 
 
 #"units_te_ba" 
 unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ug kg-1" "ppm/ppb" "kg ha-1"
 # need to convert to mg kg-1 
-convert <- c("mg kg","ppm","mg kg ","mg/kg", "mg kg-1 DW")
+convert <- c("mg kg","ppm","mg kg ","mg/kg", "mg kg-1 DW","ppm/ppb")
 data_std <- data %>%
   mutate(
     units_te_ba = ifelse(units_te_ba %in% convert , 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', as_ba*1000, as_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', as_ba/1000, as_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cd_ba*1000, cd_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', cd_ba/1000, cd_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cu_ba*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', cu_ba/1000, cu_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', pb_ba*1000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', pb_ba/1000, pb_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', zn_ba*1000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', zn_ba/1000, zn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', se_ba*1000, se_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', se_ba/1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', ni_ba*1000, ni_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', ni_ba/1000, ni_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', co_ba*1000, co_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', co_ba/1000, co_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', mn_ba*1000, mn_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', mn_ba/1000, mn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cr_ba*1000, cr_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', cr_ba/1000, cr_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', hg_ba*1000, hg_ba)
+    ,ba = ifelse(units_te_ba == 'ug.g-1', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', as_ba*1000, as_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', as_ba/1000, as_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cd_ba*1000, cd_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', cd_ba/1000, cd_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cu_ba*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', cu_ba/1000, cu_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', pb_ba*1000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', pb_ba/1000, pb_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', zn_ba*1000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', zn_ba/1000, zn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', se_ba*1000, se_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', se_ba/1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', ni_ba*1000, ni_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', ni_ba/1000, ni_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', co_ba*1000, co_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', co_ba/1000, co_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', mn_ba*1000, mn_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', mn_ba/1000, mn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cr_ba*1000, cr_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', cr_ba/1000, cr_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', hg_ba*1000, hg_ba)
+    ,ba = ifelse(units_te_ba == 'ug g', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', as_ba*1000, as_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', as_ba/1000, as_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cd_ba*1000, cd_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', cd_ba/1000, cd_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cu_ba*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', cu_ba/1000, cu_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', pb_ba*1000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', pb_ba/1000, pb_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', zn_ba*1000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', zn_ba/1000, zn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', se_ba*1000, se_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', se_ba/1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', ni_ba*1000, ni_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', ni_ba/1000, ni_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', co_ba*1000, co_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', co_ba/1000, co_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', mn_ba*1000, mn_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', mn_ba/1000, mn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cr_ba*1000, cr_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', cr_ba/1000, cr_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', hg_ba*1000, hg_ba)
+    ,ba = ifelse(units_te_ba == 'ug/g', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', as_ba*1000, as_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', as_ba/1000, as_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cd_ba*1000, cd_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', cd_ba/1000, cd_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cu_ba*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', cu_ba/1000, cu_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', pb_ba*1000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', pb_ba/1000, pb_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', zn_ba*1000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', zn_ba/1000, zn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', se_ba*1000, se_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', se_ba/1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', ni_ba*1000, ni_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', ni_ba/1000, ni_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', co_ba*1000, co_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', co_ba/1000, co_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', mn_ba*1000, mn_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', mn_ba/1000, mn_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cr_ba*1000, cr_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', cr_ba/1000, cr_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', hg_ba*1000, hg_ba)
+    ,ba = ifelse(units_te_ba == 'ug g-1', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
     ,ba = ifelse(units_te_ba == 'ug kg-1', as_ba/1000, as_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
@@ -575,31 +540,9 @@ data_std <- data %>%
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
     ,ba = ifelse(units_te_ba == 'ug kg-1', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', as_ba/10, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cd_ba/10, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cu_ba/10, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', pb_ba/10, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', zn_ba/10, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', se_ba/10, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', ni_ba/10, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', co_ba/10, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', mn_ba/10, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cr_ba/10, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', hg_ba/10, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
   )
 # verify
-unique(data_std$units_te_ba) # Need to convert "mg m2 year-1""mg plant-1""mg m-2""uM/g DW""mg pot-1""ppm/ppb" in "mg kg-1"
+unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
 
 ### BEA: tu pourrais inscrire toutes tes transformations d'unité dans le tableau des variables, quetsions que je les valide plus facilement?
 
@@ -701,7 +644,7 @@ data_std <- data %>%
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
   )
 # verify
-unique(data_std$units_te_br) # need to convert "mg plant-1""mg m-2""uM/g DW""mg pot-1" in mg kg-1
+unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" in mg kg-1
 
 
 #"units_te_ba_1"
@@ -823,7 +766,7 @@ data_std <- data %>%
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
   )
 # verify
-unique(data_std$units_te_ba_1) # need to convert "mg plant-1" "uM/g DW" in mg kg-1
+unique(data_std$units_te_ba_1) # need to convert "mg plant-1" in mg kg-1
 
 
 
@@ -841,7 +784,7 @@ unique(data$texture)
 unique(data$p_density)
 # 'on hold', to be unify if needed further on
 
-# organs_ba, organs_ba_1
+# organs_ba, organs_ba_1, organs_ba_2, organs_ba_3
 unique(data$organs_ba)
 unique(data$organs_ba_1)
 unique(data$organs_ba_2)
@@ -902,9 +845,13 @@ unique(data_std$organs_ba_3)
 ### tu pourrais ajouter toutes ces options dans le tableau de conversion
 
 # organs_br
-# make same thing as for organ_ba
-
-
+unique(data$organs_br)
+# conversion
+syn_roots <- c("root","roots ","rhizomes")
+data_std <- data_std %>%
+  mutate(organs_br = ifelse(organs_br %in% syn_roots , 'roots', organs_br))
+# verify
+unique(data_std$organs_br)
 
 #### outliers and errors in numerical data #### 
 
