@@ -23,11 +23,14 @@
 #### Import packages ####
 library(vegan)
 library(HH)
-library(plotrix)
+library('plotrix')
 library(lme4)
+library(dplyr)
+library(tidyr)
+library(stringr)
 
 #### Import data ####
-data_std <- read.csv('./Pei yin/soil_sp_database_Pei_Yin_std.csv', sep=',',header = T, dec = '.')
+data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
 
 ## join the traits to your data 
 traits <- readRDS('./complete_data.rds')
@@ -96,7 +99,7 @@ plot(pca
      ,ylab='PC 2 (33%)'
      ,scaling= 2
      , xlim = c(-5.5, 5.5)
-     , ylim = c(-2, 10)
+     , ylim = c(-1, 8)
      )
 text(scores(pca, display="species", choices=c(1), scaling=2),
      scores(pca, display="species", choices=c(2), scaling=2),
@@ -126,13 +129,13 @@ salix_traits.s<-decostand(salix_traits[,c('LA','SLA','LDMC')], method='standardi
 pca <- rda(salix_traits.s)
 library(RColorBrewer)
 palette(brewer.pal(n = 4, name = "Set2"))
-plot(pca)
+png(filename = './Pei Yin/data_analysis/figures/pca_salix.png' )
 plot(pca
      , type = 'n'
      ,xlab='PC 1 (49%)'
      ,ylab='PC 2 (33%)'
      ,scaling= 2
-     , xlim = c(-2, 2)
+     , xlim = c(-2, 4)
      , ylim = c(-1.5, 1.5)
 )
 text(scores(pca, display="species", choices=c(1), scaling=2),
@@ -147,10 +150,10 @@ text(scores(pca, display="sites", choices=c(1), scaling=2),
 # table of species
 salix_traits$nb <-1:27
 salix_sp <- salix_traits[,c('nb','sp')]
-addtable2plot(1,-1,salix_sp, bty = "o", display.colnames = F, title = 'Legend', display.rownames = F, hlines = F,
-              vlines = F, cex= 0.54, xpad=.3, ypad = .7)
+addtable2plot(2.5,-2.7,salix_sp, bty = "o", display.colnames = F, title = 'Legend', display.rownames = F, hlines = F,
+              vlines = F, cex= 0.7, xpad=.3, ypad = .7)
 
-
+dev.off()
 
 #### RDA of all factors #### 
 
