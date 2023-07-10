@@ -4,11 +4,11 @@
 library(vegan)
 library(HH)
 library('plotrix')
-library(lme4)
+library(lmerTest)
 library(dplyr)
 library(tidyr)
 library(stringr)
-
+install.packages('lmerTest')
 
 #### Import data ####
 
@@ -66,16 +66,71 @@ data_clean <- na.omit(data_std[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'
 
 #### Influence of traits and environmental factor on TE accumulation- Linear mix model (LMM) ####
 
+# zinc only database
+data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
+
+# check normality of zn_ba
+par(mfrow = c(2,3))
+hist(data_zn$zn_ba)
+hist(log(data_zn$zn_ba))
+hist(log10(data_zn$zn_ba))
+hist(log2(data_zn$zn_ba))
+hist(logit(data_zn$zn_ba))
+hist(sqrt(data_zn$zn_ba))
+hist(data_zn$zn_ba^(1/3))# best transformation
+
+# check normality of zn_s
+par(mfrow = c(2,3))
+hist(data_zn$zn_s)
+hist(log(data_zn$zn_s))
+hist(log10(data_zn$zn_s))# best transformation
+hist(log2(data_zn$zn_s)) # second best
+hist(logit(data_zn$zn_s))
+hist(sqrt(data_zn$zn_s))
+hist(data_zn$zn_s^(1/3))
+hist(asin(sqrt(data_zn$zn_s)))
+hist(decostand(data_zn$zn_s, method = 'log', MARGIN = 2))
+
+
+# check normality of ph
+par(mfrow = c(2,3))
+hist(data_zn$ph)
+hist(log(data_zn$ph))
+hist(log10(data_zn$ph))# best transformation
+hist(log2(data_zn$ph)) # second best
+hist(logit(data_zn$ph))
+hist(sqrt(data_zn$ph))
+hist(data_zn$ph^(1/3))
+hist(asin(sqrt(data_zn$ph)))
+hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
+
+
+data_zn$zn_ba_log <- log(data_zn$zn_ba)
 # For zn_ba
-lmer.1 <- lmer(zn_ba ~ LA_log + SLA_log + LDMC_log + zn_br + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
-anova(lmer.1) # is something significant? with *
-summary(lmer.1)
+lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba^(1/3) ~ LA_log + SLA_log + LDMC_log  + (1|zn_s)  + (1|covidence), data = data_zn)
+anova(lmer.zn_ba) # is something significant? with *
+summary(lmer.zn_ba)
+
+plot(data_zn$zn_ba^(1/3)~data_zn$SLA_log)
+unique(data_zn$AccSpeciesName_cor)
+
 
 # Assumptions verification
-plot(resid(lmer.1),data_std_salix$zn_ba) # 
-plot(lmer.1) # 
-qqmath(lmer.1, id=0.05) # points are mostly in line so respected normality (outliers?)
-shapiro.test(resid(lmer.1)) # normal, p-value = 0.788
+plot(resid(lmer.zn_ba),data_zn$zn_ba) # 
+plot(lmer.zn_ba) # 
+qqmath(lmer.zn_ba, id=0.05) # points are mostly in line so respected normality (outliers?)
+shapiro.test(resid(lmer.zn_ba)) # normal, p-value = 0.788
+
+hist(resid(lmer.zn_ba))
+
+
+# For zn_br
+lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+
+anova(lmer.zn_br) # is something significant? with *
+summary(lmer.zn_br)
+
 
 
 # For cd_ba
@@ -88,6 +143,8 @@ plot(lmer.cd_ba) #
 qqmath(lmer.cd_ba, id=0.05) # points are mostly in line so respected normality (outliers?)
 shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 
+
+# For 
 
 
 ##### PCA of willows vs all species ####
