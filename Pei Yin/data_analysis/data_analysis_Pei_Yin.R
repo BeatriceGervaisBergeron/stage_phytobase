@@ -66,22 +66,31 @@ data_clean <- na.omit(data_std[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'
 
 #### Influence of traits and environmental factor on TE accumulation- Linear mix model (LMM) ####
 
-# Example of a full model selection
-lmer.1 <- lmer(zn_ba ~ LA + SLA + LDMC + zn_br + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std)
-anova(lmer) # is something significant? with *
+# For zn_ba
+lmer.1 <- lmer(zn_ba ~ LA_log + SLA_log + LDMC_log + zn_br + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+anova(lmer.1) # is something significant? with *
+summary(lmer.1)
 
 # Assumptions verification
-plot(resid(lmer),data_std$zn_ba ) # mostly random points, but slightly in linear position
-plot(lmer)# mostly random points so respected variance homogeneity
-qqmath(lmer, id=0.05)# points are mostly in line so respected normality (outliers?)
-shapiro.test(resid(lmer))# normal and not better with log transformation
+plot(resid(lmer.1),data_std_salix$zn_ba) # 
+plot(lmer.1) # 
+qqmath(lmer.1, id=0.05) # points are mostly in line so respected normality (outliers?)
+shapiro.test(resid(lmer.1)) # normal, p-value = 0.788
 
+
+# For cd_ba
+lmer.cd_ba <- lmer(cd_ba ~ LA_log + SLA_log + LDMC_log + cd_br + cd_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+anova(lmer.cd_ba)
+summary(lmer.cd_ba)
+
+plot(resid(lmer.cd_ba),data_std_salix$cd_ba) # 
+plot(lmer.cd_ba) # 
+qqmath(lmer.cd_ba, id=0.05) # points are mostly in line so respected normality (outliers?)
+shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 
 
 
 ##### PCA of willows vs all species ####
-
-
 
 
 
