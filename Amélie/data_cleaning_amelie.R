@@ -79,18 +79,23 @@ to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 1
 match.name <- to.be.cor$sp %>%
   gnr_resolve(data_source_ids = c(1,150,165,167), 
               with_canonical_ranks=T)
+
 # provide a short summary table
 matches <- match.name %>%
   select(user_supplied_name,submitted_name, matched_name2, score)%>% #add original value
   distinct()
+
 # Are all species considered in the correction
 uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 121 sp
 colnames(uni_sp_2) <- c('sp')
+
 # which are not included
 unmatch <- to.be.cor %>% filter(!sp %in% uni_sp_2$sp)
 colnames(unmatch) <- c('user_supplied_name')
+
 # add them to the end of the match list
 matches.all<-bind_rows(matches, unmatch)
+
 # Insert three new columns (change names as you like) and insert text:
 # ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
 # ‘alternative’ - write an alternative name here
@@ -98,16 +103,19 @@ matches.all<-bind_rows(matches, unmatch)
 matches.all$implement<-''
 matches.all$alternative<-''
 matches.all$dupl<-''
+
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
             "./Amélie/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
+
 # open the txt file in excel to make manual corrections
 # For all hybrids (with x) both name should be keep
 # Save the corrected names in a txt file name, adding _cor to the name of the document
 # import back the data 
 uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
+
 # eliminate duplicates
 uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
 uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T)
@@ -116,13 +124,17 @@ uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T)
 
 # Save the final corrected list in an rds object
 saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
+
 #### Join list of corrected names ####
 # call the newly corrected list
 cu_sp_cor <- readRDS('Amélie/cu_sp_cor.rds')
+
 # Convert the score column in cu_sp_cor to double
 cu_sp_cor$score <- as.numeric(cu_sp_cor$score)
+
 # Combine the corrected lists
 list_sp_cor_cu <- bind_rows(cu_sp_cor, list_sp_cor)
+
 # add the corrections to the data
 data <- data %>% 
   left_join(list_sp_cor_cu, by=c('name'= 'user_supplied_name'))
@@ -850,7 +862,7 @@ unique(data_std$organs_br)
 #### outliers and errors in numerical data #### 
 
 # see if duplicates data entries
-unique_obs<- data_std[duplicated(data_std)] # 0 variables means 0 duplicates to eliminate
+unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eliminate
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
@@ -934,8 +946,7 @@ data_std <- data_std %>%
 #### join the traits to your data ####
 
 traits <- readRDS('./complete_data.rds')
-data_std <- left_join(data_std , traits, by=c('AccSpeciesName_cor'='sp'))
-
+data_std <- left_join(data_std , traits)
 
 ##### visualization of the data ##### EN construction
 
@@ -953,6 +964,7 @@ hist(data_std$LDMC)
 hist(data_std$LA)
 hist(data_std$cd_ba)
 hist(data_std$zn_ba)
+
 
 #### colinarity ######
 # is there colinearity between some variables
