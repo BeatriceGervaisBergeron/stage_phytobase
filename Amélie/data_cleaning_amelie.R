@@ -304,13 +304,11 @@ data_std <- data %>%
     ,N_units = ifelse(N_units == 'mg g-1', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg', 'mg kg−1', N_units)
-    ,N = ifelse(N_units == 'kg ha-1', N*10, N)
-    ,N_units = ifelse(N_units == 'kg ha-1', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
   )
 #verify
-unique(data_std$N_units) # only "mg kg−1"
+unique(data_std$N_units) # need to convert "kg ha-1" in "mg kg-1"
 
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
@@ -321,8 +319,6 @@ data_std <- data %>%
     P_units = ifelse(P_units %in% convert , 'mg kg-1', P_units)
     ,P = ifelse(P_units == '%', P*1000, P)
     ,P_units = ifelse(P_units == '%', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'kg ha-1', P*10, P)
-    ,P_units = ifelse(P_units == 'kg ha-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g.kg-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g.kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g kg-1', P*1000, P)
@@ -349,7 +345,7 @@ data_std <- data %>%
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
   )
 #verify
-unique(data_std$P_units)# only "mg kg-1"
+unique(data_std$P_units)# need to convert "kg ha-1" in "mg kg-1"
 
 
 #"units_s"   
@@ -590,7 +586,7 @@ data_std <- data %>%
     ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
     ,br = ifelse(units_te_br == 'ug g', ni_br*1000, ni_br)
     ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g1', co_br*1000, co_br)
+    ,br = ifelse(units_te_br == 'ug g', co_br*1000, co_br)
     ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
     ,br = ifelse(units_te_br == 'ug g', mn_br*1000, mn_br)
     ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
@@ -644,7 +640,7 @@ data_std <- data %>%
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
   )
 # verify
-unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" in mg kg-1
+unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" in "mg kg-1"
 
 
 #"units_te_ba_1"
@@ -769,8 +765,6 @@ data_std <- data %>%
 unique(data_std$units_te_ba_1) # need to convert "mg plant-1" in mg kg-1
 
 
-
-
 #### standardize categories terms ####
 
 # Climate
@@ -868,35 +862,27 @@ data_num <- data_std[ , num_cols]  # 68 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-# for each of the 55 variables, isolate data that are outside the range
-# here are the 55 variables
+# for each of the 68 variables, isolate data that are outside the range
+# here are the 68 variables
 list <-colnames(data_num)
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
-  filter(covidence. < num_range$min_value[num_range$variables == 'covidence'] | covidence. > num_range$max_value[num_range$variables == 'covidence'] )
+  filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
 # if the outliers has 0 lines, it indicate not apparent outliers
-
-###BEA: pourquoi il y a un point a Covidence dans le data? il faudrait l'enlever
 
 
 # you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
 outliers <- data_std %>% 
   filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
-
+# 0 line, so no outliers
 
 # outliers for list[2] = year 
 outliers <- data_std %>% 
   filter(data_num[,2] < num_range$min_value[2] | data_num[,2] > num_range$max_value[2] )
 # 0 line, so no outliers
 
-# if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
-# if the data still appear high, Write a note in the 'journal de bord'
-
-## CONTINUE with all the 55 variables
-
-
-
+## CONTINUE with all the 68 variables
 
 #### Add clay and sand % according to textural class of soils###
 
@@ -945,12 +931,10 @@ data_std <- data_std %>%
   mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
 # now all the textural class should be add in % in the clay and sand column
 
-
 #### join the traits to your data ####
 
 traits <- readRDS('./complete_data.rds')
 data_std <- left_join(data_std , traits, by=c('AccSpeciesName_cor'='sp'))
-
 
 
 ##### visualization of the data ##### EN construction
