@@ -946,24 +946,25 @@ data_std <- data_std %>%
 #### join the traits to your data ####
 
 traits <- readRDS('./complete_data.rds')
-data_std <- left_join(data_std , traits)
+data_std <- left_join(data_std,traits)
 
 ##### visualization of the data ##### EN construction
 
 #### normality ######
 
-# histograms of database
+# configuring graphics settings
+par(mfrow = c(4, 2))
+par(mar = c(2, 2, 1, 1))
 
-par(mfrow=c(4,2))
-par(mar=c(2,2,1,1)) # Ajuster les marges
-hist(data_std$ph)
-hist(data_std$om)
-hist(data_std$oc)
-hist(data_std$SLA)
-hist(data_std$LDMC)
-hist(data_std$LA)
-hist(data_std$cd_ba)
-hist(data_std$zn_ba)
+# histograms of database
+hist(data_std$ph, breaks = "FD", main = "pH")
+hist(data_std$om, breaks = "FD", main = "OM")
+hist(data_std$oc, breaks = "FD", main = "OC")
+hist(data_std$SLA, breaks = "FD", main = "SLA") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
+hist(data_std$LDMC, breaks = "FD", main = "LDMC") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
+hist(data_std$LA, breaks = "FD", main = "LA") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
+hist(data_std$cd_ba, breaks = "FD", main = "cd_ba")
+hist(data_std$zn_ba, breaks = "FD", main = "zn_ba") #Error in hist.default(data_std$zn_ba, breaks = "FD", main = "zn_ba") : 'x' doit être numérique
 
 
 #### colinarity ######
