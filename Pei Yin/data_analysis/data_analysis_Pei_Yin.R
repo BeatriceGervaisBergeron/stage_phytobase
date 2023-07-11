@@ -8,7 +8,7 @@ library(lmerTest)
 library(dplyr)
 library(tidyr)
 library(stringr)
-install.packages('lmerTest')
+library('lmerTest')
 
 #### Import data ####
 
