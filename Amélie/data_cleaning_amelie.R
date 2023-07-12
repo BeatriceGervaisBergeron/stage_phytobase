@@ -22,12 +22,17 @@ data <- data %>%
   mutate(
     expe_t = as.numeric(expe_t)
     , country = as.factor(country)
+    , mat = as.numeric(mat)
     , ph = as.numeric(ph)
     , oc = as.numeric(oc)
     , ec = as.numeric(ec)
     , sand = as.numeric(sand)
     , clay = as.numeric(clay)
     , as_s = as.numeric(as_s)
+    , cd_s = as.numeric(cd_s)
+    , cu_s = as.numeric(cu_s)
+    , pb_s = as.numeric(pb_s)
+    , zn_s = as.numeric(zn_s)
     , co_s = as.numeric(co_s)
     , mn_s = as.numeric(mn_s)
     , hg_s = as.numeric(hg_s)
@@ -36,8 +41,11 @@ data <- data %>%
     , ba_leaf = as.numeric(ba_leaf)
     , br = as.numeric(br)
     , as_ba = as.numeric(as_ba)
+    , pb_ba = as.numeric(pb_ba)
     , co_ba = as.numeric(co_ba)
     , hg_ba = as.numeric(hg_ba)
+    , pb_br = as.numeric(pb_br)
+    , zn_br = as.numeric(zn_br)
     , co_br = as.numeric(co_br)
     , mn_br = as.numeric(mn_br)
     , hg_br = as.numeric(hg_br)
@@ -60,12 +68,8 @@ data[data == ''] <- NA
 uni_sp<-as.data.frame(unique(data$name)) # 395 unique species
 colnames(uni_sp) <- c('sp') 
 
-<<<<<<< HEAD
-=======
 ###BEA: on me dit 394 espèces ici, est-ce normale?
 
-
->>>>>>> 7a1a6ed7daf16552c66629997caca15288ee85aa
 # Correct the name according to the species name corrected from TRY
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
@@ -138,11 +142,6 @@ list_sp_cor_cu <- bind_rows(cu_sp_cor, list_sp_cor)
 # add the corrections to the data
 data <- data %>% 
   left_join(list_sp_cor_cu, by=c('name'= 'user_supplied_name'))
-# make a new column of the correct names
-data <- data %>% 
-  mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name)) 
-# Keep the corrected column
-#data <- data[,-c(100:106)]
 
 ### BEA: ici il faut enlever les colonnes submitted_name à dupl2, soit 131 a 137. 
 #Tu as éliminé des colonnes de données ici, dont ta colonne organ_ba_1, d'ou ton problème de reconnaissance
@@ -151,28 +150,22 @@ data <- data %>%
   dplyr::select(-c(submitted_name, matched_name2, score, alternative, dupl, dupl2))
 
 
-
 # Check number of sp now
-uni_cu_cor <-unique(data$AccSpeciesName_cor)
+uni_cu_cor <-unique(data$name)
 
 ###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
-<<<<<<< HEAD
-###AME: j'en ai 394
-=======
-
->>>>>>> 7a1a6ed7daf16552c66629997caca15288ee85aa
+###AME: j'en ai 395
 
 #### standardized units ####
 # Select all the units column
 units <- data %>%
   select(contains('unit'))
 
-
 # check unit conversion for every unit column
 colnames(units)
 #"om_units"
 unique(units$om_units) # "%" "g kg-1" "g.O2.kg-1" "g.kg-1" "mg kg-1" "g dm-3" "dag kg-1" "g kg" "g kg-3"
-# need to convert to % (/10)
+# need to convert to %
 data_std <- data %>%
   mutate(om = ifelse(om_units == 'g kg', om/10, om)
          ,om_units = ifelse(om_units == 'g kg', '%', om_units)
@@ -182,9 +175,11 @@ data_std <- data %>%
          ,om_units = ifelse(om_units == 'g kg-1', '%', om_units)
          ,om = ifelse(om_units == 'g.O2.kg-1', om/10, om)
          ,om_units = ifelse(om_units == 'g.O2.kg-1', '%', om_units)
-)
+         ,om = ifelse(om_units == 'mg kg-1', om/100, om)
+         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units)
+  )
 # verify
-unique(data_std$om_units) # need to convert "mg kg-1""g dm-3""dag kg-1""g kg-3" in "%" 
+unique(data_std$om_units) # need to convert "dag kg-1" in "%" 
 
 ### BEA: pour les unité qui te reste à convertir, il faudrait 1) que tu vérifie que ce sont bine les unités données (dag kg-1 ne me dis rien et g/kg3 me semble une erreur)
 # 2) tu pourrais les ajouter au tableau de transformation des unités dans le document de prototcol et me proposer les conversions qui te semble adéquate selon tes recherches, 
@@ -195,45 +190,51 @@ unique(data_std$om_units) # need to convert "mg kg-1""g dm-3""dag kg-1""g kg-3" 
 
 #"oc_units" 
 unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
-# need to convert  to % (/10)
-data_std <- data_std %>%
+# need to convert  to %
+data_std <- data %>%
   mutate(
     oc = ifelse(oc_units == 'g kg', oc/10, oc)
-         ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
-         ,oc = ifelse(oc_units == 'g kg-1', oc/10, oc)
-         ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
-)
+    ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
+    ,oc = ifelse(oc_units == 'g kg-1', oc/10, oc)
+    ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
+    ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
+    ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
+  )
 # verify
-unique(data_std$oc_units) # need to convert "mgL-1""mg kg-1" in "%"
+unique(data_std$oc_units) # need to convert "mgL-1" in "%"
 
 ### BEA: attention, si tu ajoute des modifications a data_std, tu dois repartir de data_std, si tu reprend data seulement tu reparts de data avec 0 modifications
 
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
-# need to convert  to % (/10)
+# need to convert  to %
 data_std <- data %>%
   mutate(
     clay = ifelse(clay_units == 'g kg', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg', '%', clay_units)
     ,clay = ifelse(clay_units == 'g kg-1', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg-1', '%', clay_units)
-)
+    ,clay = ifelse(clay_units == 'mg kg-1', clay/100, clay)
+    ,clay_units = ifelse(clay_units == 'mg kg-1', '%', clay_units)
+  )
 # verify
-unique(data_std$clay_units) # need to convert "mm""mg kg-1" in "%"
+unique(data_std$clay_units) #only "%"
 
 
 #"sand_units" 
 unique(units$sand_units) #  "%" "g kg-1" "mm" "mg kg-1" "g kg"
-# need to convert  to % (/10)
+# need to convert  to %
 data_std <- data %>%
   mutate(
     sand = ifelse(sand_units == 'g kg', sand/10, sand)
     ,sand_units = ifelse(sand_units == 'g kg', '%', sand_units)
     ,sand = ifelse(sand_units == 'g kg-1', sand/10, sand)
     ,sand_units = ifelse(sand_units == 'g kg-1', '%', sand_units)
+    ,sand = ifelse(sand_units == 'mg kg-1', sand/100, sand)
+    ,sand_units = ifelse(sand_units == 'mg kg-1', '%', sand_units)
   )
 # verify
-unique(data_std$sand_units) # need to convert "mm""mg kg-1" in "%"
+unique(data_std$sand_units) #only "%"
 
 
 #"ec_units"
@@ -281,7 +282,7 @@ unique(data_std$ec_units)# only "mS cm−1"
 #"cec_units"
 unique(units$cec_units) # "cmol kg-1" "cmolc kg-1" "meq 100-1" "meq 100 g-1" "cmolc/kg" "cmol/kg" "meq 100g-1" "mmolc dm-3" "cmol+ kg-1" "cmol(+)kg-1" "meq/100g" "molc kg-1" "%" "mmol kg-1" "cmol kg" "cmol+ kg" "cmol/100g soil" "cmolc dm-3" "mM(+)/kg DM" 
 # need to convert to cmolc kg-1
-convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg")
+convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg","mM(+)/kg DM")
 data_std <- data_std %>%
   mutate(
     cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)
@@ -291,9 +292,13 @@ data_std <- data_std %>%
     ,cec_units = ifelse(cec_units == 'cmolc dm-3', 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'mmolc dm-3', cec/10, cec)
     ,cec_units = ifelse(cec_units == 'mmolc dm-3', 'cmolc kg-1', cec_units)
-)
+    ,cec = ifelse(cec_units == 'cmol/100g soil', cec/100, cec)
+    ,cec_units = ifelse(cec_units == 'cmol/100g soil', 'cmolc kg-1', cec_units)
+    ,cec = ifelse(cec_units == '%', cec*10, cec)
+    ,cec_units = ifelse(cec_units == '%', 'cmolc kg-1', cec_units)
+  )
 #verify
-unique(data_std$cec_units) # need to convert "cmol kg-1""meq 100 g-1""cmol/kg""cmol+ kg-1""cmol(+)kg-1""molc kg-1""%""cmol kg""cmol+ kg""cmol/100g soil" "mM(+)/kg DM" en cmolc kg-1
+unique(data_std$cec_units) # only "cmolc kg-1"
 
 
 #"N_units" 
@@ -317,9 +322,10 @@ data_std <- data %>%
     ,N_units = ifelse(N_units == 'g kg', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
-)
+  )
 #verify
 unique(data_std$N_units) # need to convert "kg ha-1" in "mg kg-1"
+
 
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
@@ -328,7 +334,7 @@ convert <- c("mg/kg","mg kg","mg g-1","ppm","mg kg-1 (P2O5)","mg P/kg")
 data_std <- data %>%
   mutate(
     P_units = ifelse(P_units %in% convert , 'mg kg-1', P_units)
-    ,P = ifelse(P_units == '%', P*10000, P)
+    ,P = ifelse(P_units == '%', P*1000, P)
     ,P_units = ifelse(P_units == '%', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g.kg-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g.kg-1', 'mg kg-1', P_units)
@@ -352,20 +358,17 @@ data_std <- data %>%
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'mg L-1', P*1000, P)
     ,P_units = ifelse(P_units == 'mg L-1', 'mg kg-1', P_units)
-    
-)
+    ,P = ifelse(P_units == 'meq/100g', P*30.97*10, P)
+    ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
+  )
 #verify
-<<<<<<< HEAD
 unique(data_std$P_units)# need to convert "kg ha-1" in "mg kg-1"
-=======
-unique(data_std$P_units)# need to convert meq/100g in mg kg-1
->>>>>>> 7a1a6ed7daf16552c66629997caca15288ee85aa
 
 
 #"units_s"   
 unique(units$units_s) # "mg kg-1" "g kg-1" "mg kg" "ppm" "ug.L-1" "ug g-1" "mg/kg" "ug g" "mg dm-3" "ug/g" "mg L-1" "uM/g"
 # need to convert to mg kg-1
-convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g")
+convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g","mg dm-3")
 data_std <- data %>%
   mutate(
     units_s = ifelse(units_s %in% convert , 'mg kg-1', units_s)
@@ -391,9 +394,9 @@ data_std <- data %>%
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
     ,s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-)
+  )
 #verify
-unique(data_std$units_s) # need to convert "mg dm-3""mg L-1""uM/g" in "mg kg-1"
+unique(data_std$units_s) # need to convert "mg L-1" in "mg kg-1"
 
     
 #"units_b" 
@@ -427,43 +430,7 @@ data_std <- data %>%
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
     ,b = ifelse(units_b == 'kg', br*1000, br)
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-<<<<<<< HEAD
   )
-=======
-    ,b = ifelse(units_b == 'kg acre-1', ba_total*1000/4046.86, ba_total)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', ba_stem*1000/4046.86, ba_stem)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', ba_leaf*1000/4046.86, ba_leaf)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg acre-1', br*1000/4046.86, br)
-    ,units_b = ifelse(units_b == 'kg acre-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_total/10000, ba_total)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_stem/10000, ba_stem)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', ba_leaf/10000, ba_leaf)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg ha-1', br/10000, br)
-    ,units_b = ifelse(units_b == 'mg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_total*1000000, ba_total)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_stem*1000000, ba_stem)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', ba_leaf*1000000, ba_leaf)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 't ha-1', br*1000000, br)
-    ,units_b = ifelse(units_b == 't ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_total*10000, ba_total)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_stem*10000, ba_stem)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', ba_leaf*10000, ba_leaf)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg ha-1', br*10000, br)
-    ,units_b = ifelse(units_b == 'kg ha-1', 'g', units_b)
-)
->>>>>>> 7a1a6ed7daf16552c66629997caca15288ee85aa
 
 #verify
 unique(data_std$units_b) # need to convert "kg acre-1","mg ha-1","t ha-1","kg ha-1" en "g"
@@ -586,33 +553,7 @@ data_std <- data %>%
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
     ,ba = ifelse(units_te_ba == 'ug kg-1', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-<<<<<<< HEAD
   )
-=======
-    ,ba = ifelse(units_te_ba == 'kg ha-1', as_ba/10, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cd_ba/10, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cu_ba/10, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', pb_ba/10, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', zn_ba/10, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', se_ba/10, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', ni_ba/10, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', co_ba/10, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', mn_ba/10, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cr_ba/10, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', hg_ba/10, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-)
->>>>>>> 7a1a6ed7daf16552c66629997caca15288ee85aa
 # verify
 unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
 
@@ -714,7 +655,7 @@ data_std <- data %>%
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
     ,br = ifelse(units_te_br == 'ug g-1', hg_br*1000, hg_br)
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-)
+  )
 # verify
 unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" in "mg kg-1"
 
@@ -836,7 +777,7 @@ data_std <- data %>%
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', hg_ba_1/1000, hg_ba_1)
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-)
+  )
 # verify
 unique(data_std$units_te_ba_1) # need to convert "mg plant-1" in mg kg-1
 
@@ -847,7 +788,8 @@ data_std <- data %>%
   mutate(
     units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
  )
-unique(data_std$units_density)
+# verify
+unique(data_std$units_density) # "plants/pot" "stems/acre" "g cm-3"  "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
 
 
 
@@ -930,7 +872,8 @@ syn_roots <- c("root","roots ","rhizomes")
 data_std <- data_std %>%
   mutate(organs_br = ifelse(organs_br %in% syn_roots , 'roots', organs_br))
 # verify
-unique(data_std$organs_br)
+unique(data_std$organs_br) # only "roots"
+
 
 #### outliers and errors in numerical data #### 
 
@@ -939,7 +882,7 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eli
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # 68 variables
+data_num <- data_std[ , num_cols]  # 58 variables
 
 ###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
 
@@ -947,9 +890,18 @@ data_num <- data_std[ , num_cols]  # 68 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-# for each of the 68 variables, isolate data that are outside the range
-# here are the 68 variables
+
+
+
+
+
+# for each of the 58 variables, isolate data that are outside the range
+# here are the 58 variables
 list <-colnames(data_num)
+
+
+
+
 
 # isolate the outliers lines for the variable 'covidence'
 outliers <- data_std %>% 
