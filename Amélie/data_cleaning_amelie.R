@@ -1574,42 +1574,95 @@ outliers
 
 #### Add clay and sand % according to textural class of soils###
 
+# check for unique terms in 'texture'
+unique(data$texture) 
+
+# standardize textural terms
+data_std <- data_std %>%
+  mutate(texture = ifelse(texture == 'Clayey silt loam' , 'Silty clay loam', texture)) %>%
+  mutate(texture = ifelse(texture == 'Loamy','Loam', texture)) %>%
+  mutate(texture = ifelse(texture == 'Sandy','Sand', texture)) %>%
+  mutate(texture = ifelse(texture == 'Sandy ','Sand', texture)) %>%
+  mutate(texture = ifelse(texture == 'Clayey silt ','Silty clay', texture)) %>%
+  mutate(texture = ifelse(texture == 'Clayey sand ','Sandy clay', texture))
+
+# verify
+unique(data_std$texture) 
+
 # call conversion table
 txt_table <- read.table("./textural_class_average.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 #textural class list
 txt_list <-txt_table$texture
 
-# check for unique terms in 'texture'
-unique(data_std$texture) 
-
-# standardize textural terms
-data_std <- data_std %>%
-  mutate(texture = ifelse(texture == 'Clayey silt loam' , 'Silty clay loam', texture)) # replace 'Clayey silt loam' by 'silty clay loam'
-  #etc. avec les autres noms de texture
-
 # Add the % if needed
 data_std_texture <- data_std %>%
   filter(is.na(clay)|is.na(sand)) %>% 
   mutate(clay = replace(clay, texture == txt_table$texture[1], txt_table$clay[1])) %>%
   mutate(sand = replace(sand, texture == txt_table$texture[1], txt_table$sand[1])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[2], txt_table$clay[2])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[2], txt_table$sand[2])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[3], txt_table$clay[3])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[3], txt_table$sand[3])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[4], txt_table$clay[4])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[4], txt_table$sand[4])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[5], txt_table$clay[5])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[5], txt_table$sand[5])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[6], txt_table$clay[6])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[6], txt_table$sand[6])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[7], txt_table$clay[7])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[7], txt_table$sand[7])) %>% 
-  mutate(clay = replace(clay, texture == txt_table$texture[8], txt_table$clay[8])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[8], txt_table$sand[8])) # continuer jusqu'à 17
+  mutate(clay = replace(clay, texture == txt_table$texture[2], txt_table$clay[2])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[2], txt_table$sand[2])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[20], txt_table$clay[20])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[20], txt_table$sand[20])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[21], txt_table$clay[21])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[21], txt_table$sand[21])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[22], txt_table$clay[22])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[22], txt_table$sand[22])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[23], txt_table$clay[23])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[23], txt_table$sand[23])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[24], txt_table$clay[24])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[24], txt_table$sand[24])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[30], txt_table$clay[30])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[30], txt_table$sand[30]))
+  
+# Add the % unit if needed
+data_std_texture <- data_std_texture %>%
+  mutate(clay_units = replace(clay_units, texture == "Sandy loam", "%")) %>% # add "%" unit to clay_units where texture is "Sandy loam"
+  mutate(sand_units = replace(sand_units, texture == "Sandy loam", "%")) %>% # add "%" unit to sand_units where texture is "Sandy loam"
+  mutate(clay_units = replace(clay_units, texture == "Silty clay loam", "%")) %>% # add "%" unit to clay_units where texture is "Silty clay loam"
+  mutate(sand_units = replace(sand_units, texture == "Silty clay loam", "%")) %>% # add "%" unit to sand_units where texture is "Silty clay loam"
+  mutate(clay_units = replace(clay_units, texture == "Silty loam", "%")) %>% # add "%" unit to clay_units where texture is "Silty loam"
+  mutate(sand_units = replace(sand_units, texture == "Silty loam", "%")) %>% # add "%" unit to sand_units where texture is "Silty loam"
+  mutate(clay_units = replace(clay_units, texture == "Clay loam", "%")) %>% # add "%" unit to clay_units where texture is "Clay loam"
+  mutate(sand_units = replace(sand_units, texture == "Clay loam", "%")) %>% # add "%" unit to sand_units where texture is "Clay loam"
+  mutate(clay_units = replace(clay_units, texture == "Sand", "%")) %>% # add "%" unit to clay_units where texture is "Sand"
+  mutate(sand_units = replace(sand_units, texture == "Sand", "%")) %>% # add "%" unit to sand_units where texture is "Sand"
+  mutate(clay_units = replace(clay_units, texture == "Clayey silt", "%")) %>% # add "%" unit to clay_units where texture is "Clayey silt"
+  mutate(sand_units = replace(sand_units, texture == "Clayey silt", "%")) %>% # add "%" unit to sand_units where texture is "Clayey silt"
+  mutate(clay_units = replace(clay_units, texture == "Loamy sand", "%")) %>% # add "%" unit to clay_units where texture is "Loamy sand"
+  mutate(sand_units = replace(sand_units, texture == "Loamy sand", "%")) %>% # add "%" unit to sand_units where texture is "Loamy sand"
+  mutate(clay_units = replace(clay_units, texture == "Sandy clay loam", "%")) %>% # add "%" unit to clay_units where texture is "Sandy clay loam"
+  mutate(sand_units = replace(sand_units, texture == "Sandy clay loam", "%")) %>% # add "%" unit to sand_units where texture is "Sandy clay loam"
+  mutate(clay_units = replace(clay_units, texture == "Silty clay", "%")) %>% # add "%" unit to clay_units where texture is "Silty clay"
+  mutate(sand_units = replace(sand_units, texture == "Silty clay", "%")) %>% # add "%" unit to sand_units where texture is "Silty clay"
+  mutate(clay_units = replace(clay_units, texture == "Clayey sand", "%")) %>% # add "%" unit to clay_units where texture is "Clayey sand"
+  mutate(sand_units = replace(sand_units, texture == "Clayey sand", "%")) %>% # add "%" unit to sand_units where texture is "Clayey sand"
+  mutate(clay_units = replace(clay_units, texture == "Sandy clay", "%")) %>% # add "%" unit to clay_units where texture is "Sandy clay"
+  mutate(sand_units = replace(sand_units, texture == "Sandy clay", "%")) %>% # add "%" unit to sand_units where texture is "Sandy clay"
+  mutate(clay_units = replace(clay_units, texture == "Clay", "%")) %>% # add "%" unit to clay_units where texture is "Clay"
+  mutate(sand_units = replace(sand_units, texture == "Clay", "%")) %>% # add "%" unit to sand_units where texture is "Clay"
+  mutate(clay_units = replace(clay_units, texture == "Loam", "%")) %>% # add "%" unit to clay_units where texture is "Loam"
+  mutate(sand_units = replace(sand_units, texture == "Loam", "%")) # add "%" unit to sand_units where texture is "Loam"
 
- 
 # now all the textural class should be add in % in the clay and sand column
+
+# verify for clay_units
+unique(data_std_texture$clay_units[4:18]) # "%"
+unique(data_std_texture$clay_units[20:87]) # "%"
+
+# verify for sand_units
+unique(data_std_texture$sand_units[4:18]) # "%"
+unique(data_std_texture$clay_units[20:87]) # "%"
+
+#### Save the final corrected file ####
+
+# Save the final corrected file with textural classes in an rds object
+saveRDS(data_std_texture, file = 'Amélie/data_cleaning_final/data_std_cleaned.rds')
+
+# save the final corrected file as txt file
+write.table(data_std_texture,
+            "./Amélie/data_cleaning_final/data_std_cleaned.txt", 
+            sep="\t", row.names = F, quote = F)
 
 #### join the traits to your data ####
 
