@@ -6,13 +6,16 @@ library(stringr)
 library(taxize)
 library(vegan)
 library(readr)
+
 #### call your data  ####
 data <- read.csv('./Amélie/soil_sp_database_Amelie.csv', sep=';',header = T, dec = '.')
+
 #### decimals ####
 # make sure there is not comma instead of points
 # already with points
 # make sure all column are in the correct forms (character or numerical)
 str(data)
+
 # transform variable that needed
 # Transform data
 data <- data %>%
@@ -54,18 +57,16 @@ data <- data %>%
     , hg_ba_1 = as.numeric(hg_ba_1))
 # all value for expe_t, ph, clay, co_s, mn_s, hg_s, co_ba, hg_ba, mn_br are not only numerical, so Na were introduced.
 
-### BEA: some column are not in thw right form: zn_br, pb_br, pb_ba, as_s to zn_s, mat, 
-### BEA: le script serait plus facile à lire avce des espaces entre tes étapes aussi
-
 # Verify the mutation
-str(data)#good
+str(data)# good
+
 #### all white space to NA ####
 data[data == ''] <- NA
+
 #### species names cleaning  ####
 # check unique sp list in your database
 uni_sp<-as.data.frame(unique(data$name)) # 394 unique species
 colnames(uni_sp) <- c('sp') 
-
 
 # Correct the name according to the species name corrected from TRY
 # list_sp_cor already corrected
@@ -150,7 +151,7 @@ data <- data %>%
 uni_cu_cor <-unique(data$name)
 
 ###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
-###AME: j'en ai 393
+###AME: j'en ai 394
 
 #### standardized units ####
 # Select all the units column
@@ -776,6 +777,16 @@ data_std <- data %>%
 # verify
 unique(data_std$units_te_ba_1) # need to convert "mg plant-1" in mg kg-1
 
+#"units_density"
+unique(data$units_density)# "plants/pot" "plant/pot" "stems/acre" "g cm-3" "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
+convert <- c("plant/pot")
+data_std <- data %>%
+  mutate(
+    units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
+ )
+unique(data_std$units_density)
+
+
 
 #### standardize categories terms ####
 
@@ -800,12 +811,12 @@ syn_shoots <- c("Shoots","shoots","Shoot","shoot","overground organs","leaves+st
                 "Stems, leaves and flowers", "Whole top part", "Leaves +stems","Above-ground parts", "Above ground parts", 
                 "Aboveground parts", "Aerial part", "Aerial parts", "Stems and leaves"  )
 syn_stems <- c("Stalks","Twigs","Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches",
-               "Lower stems","Culms","Stubble")
+               "Lower stems","Culms","Stubble","stalks")
 syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum", "Unwashed leaves","Needle", "Lower leaves",
                 "Washed leaves", "Leaf/Needle")
-syn_flowers <- c("flowers","Heads","Head","Spikelets")
+syn_flowers <- c("flowers","Heads","Head","Spikelets","head")
 syn_fruits <- c("Berry","Edible parts")
-syn_wood <- c('wood',"Trunk wood", "Bark" )
+syn_wood <- c("wood","Woody","Trunk wood", "Bark","Trunk" )
 syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant" )
 
 ### BEA: you need to go back to have more information on those organs: NA, tissus, herbs,                
@@ -841,14 +852,13 @@ data_std <- data_std %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba_3))
 
 # verify
-unique(data_std$organs_ba) 
-unique(data_std$organs_ba_1)
-unique(data_std$organs_ba_2)
-unique(data_std$organs_ba_3)
+unique(data_std$organs_ba) # "leaves"  "shoots"  "whole"   "tissues" "stems"   "Herb"  "wood"    "fruits"
+unique(data_std$organs_ba_1) # "stems"   "shoots"  "leaves"  "flowers" "wood"
+unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"    "Cobs"    "fruits"
+unique(data_std$organs_ba_3) # only "wood"
 
 
 ### BEA: il faudrait vérifier pourquoi tous les espaces sont remplacer. Nomralement, la fonction ne doit remplacer que s'il y a un nom d'organe.
-### tu pourrais ajouter toutes ces options dans le tableau de conversion
 
 # organs_br
 unique(data$organs_br)
