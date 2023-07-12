@@ -1353,11 +1353,221 @@ outliers <- data_std %>%
 outliers
 # 9 lines --> 9 outliers to verify
 
+# isolate the outliers lines for the variable 'as_ba_1'
+outliers <- data_std %>% 
+  filter(as_ba_1 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_1 > num_range$max_value[num_range$variables == 'as_ba'] )
+outliers
+# 0 lines --> no apparent outliers
 
-"as_ba_1"   "cd_ba_1"   "cu_ba_1"   "pb_ba_1"   "zn_ba_1"  
-"se_ba_1"   "ni_ba_1"   "co_ba_1"   "mn_ba_1"   "cr_ba_1"   "hg_ba_1"   "n_te_ba_1" "as_ba_2"   "cd_ba_2"   "cu_ba_2"   "pb_ba_2"   "zn_ba_2"  
-"se_ba_2"   "ni_ba_2"   "co_ba_2"   "mn_ba_2"   "cr_ba_2"   "hg_ba_2"   "n_te_ba_2" "as_ba_3"   "cd_ba_3"   "cu_ba_3"   "pb_ba_3"   "zn_ba_3"  
-"se_ba_3"   "ni_ba_3"   "co_ba_3"   "mn_ba_3"   "cr_ba_3"   "hg_ba_3"   "n_te_ba_3"
+# isolate the outliers lines for the variable 'cd_ba_1'
+outliers <- data_std %>% 
+  filter(cd_ba_1 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_1 > num_range$max_value[num_range$variables == 'cd_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cu_ba_1'
+outliers <- data_std %>% 
+  filter(cu_ba_1 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_1 > num_range$max_value[num_range$variables == 'cu_ba'] )
+outliers
+# 22 lines --> 22 outliers to verify
+
+# isolate the outliers lines for the variable 'pb_ba_1'
+outliers <- data_std %>% 
+  filter(pb_ba_1 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_1 > num_range$max_value[num_range$variables == 'pb_ba'] )
+outliers
+# 6 lines --> 6 outliers to verify
+
+# isolate the outliers lines for the variable 'zn_ba_1'
+outliers <- data_std %>% 
+  filter(zn_ba_1 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_1 > num_range$max_value[num_range$variables == 'zn_ba'] )
+outliers
+# 6 lines --> 6 outliers to verify
+
+# isolate the outliers lines for the variable 'se_ba_1'
+outliers <- data_std %>% 
+  filter(se_ba_1 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_1 > num_range$max_value[num_range$variables == 'se_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'ni_ba_1'
+outliers <- data_std %>% 
+  filter(ni_ba_1 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_1 > num_range$max_value[num_range$variables == 'ni_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'co_ba_1'
+outliers <- data_std %>% 
+  filter(co_ba_1 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_1 > num_range$max_value[num_range$variables == 'co_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'mn_ba_1'
+outliers <- data_std %>% 
+  filter(mn_ba_1 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_1 > num_range$max_value[num_range$variables == 'mn_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cr_ba_1'
+outliers <- data_std %>% 
+  filter(cr_ba_1 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_1 > num_range$max_value[num_range$variables == 'cr_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'hg_ba_1'
+outliers <- data_std %>% 
+  filter(hg_ba_1 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_1 > num_range$max_value[num_range$variables == 'hg_ba'] )
+outliers
+# 2 lines --> 2 outliers to verify
+
+# isolate the outliers lines for the variable 'n_te_ba_1'
+outliers <- data_std %>% 
+  filter(n_te_ba_1 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_1 > num_range$max_value[num_range$variables == 'n_te_ba'] )
+outliers
+# 5 lines --> 5 outliers to verify
+
+# isolate the outliers lines for the variable 'as_ba_2'
+outliers <- data_std %>% 
+  filter(as_ba_2 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_2 > num_range$max_value[num_range$variables == 'as_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cd_ba_2'
+outliers <- data_std %>% 
+  filter(cd_ba_2 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_2 > num_range$max_value[num_range$variables == 'cd_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cu_ba_2'
+outliers <- data_std %>% 
+  filter(cu_ba_2 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_2 > num_range$max_value[num_range$variables == 'cu_ba'] )
+outliers
+# 3 lines --> 3 outliers to verify
+
+# isolate the outliers lines for the variable 'pb_ba_2'
+outliers <- data_std %>% 
+  filter(pb_ba_2 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_2 > num_range$max_value[num_range$variables == 'pb_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'zn_ba_2'
+outliers <- data_std %>% 
+  filter(zn_ba_2 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_2 > num_range$max_value[num_range$variables == 'zn_ba'] )
+outliers
+# 2 lines --> 2 outliers to verify
+
+# isolate the outliers lines for the variable 'se_ba_2'
+outliers <- data_std %>% 
+  filter(se_ba_2 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_2 > num_range$max_value[num_range$variables == 'se_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'ni_ba_2'
+outliers <- data_std %>% 
+  filter(ni_ba_2 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_2 > num_range$max_value[num_range$variables == 'ni_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'co_ba_2'
+outliers <- data_std %>% 
+  filter(co_ba_2 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_2 > num_range$max_value[num_range$variables == 'co_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'mn_ba_2'
+outliers <- data_std %>% 
+  filter(mn_ba_2 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_2 > num_range$max_value[num_range$variables == 'mn_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cr_ba_2'
+outliers <- data_std %>% 
+  filter(cr_ba_2 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_2 > num_range$max_value[num_range$variables == 'cr_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'hg_ba_2'
+outliers <- data_std %>% 
+  filter(hg_ba_2 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_2 > num_range$max_value[num_range$variables == 'hg_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'n_te_ba_2'
+outliers <- data_std %>% 
+  filter(n_te_ba_2 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_2 > num_range$max_value[num_range$variables == 'n_te_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'as_ba_3'
+outliers <- data_std %>% 
+  filter(as_ba_3 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_3 > num_range$max_value[num_range$variables == 'as_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cd_ba_3'
+outliers <- data_std %>% 
+  filter(cd_ba_3 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_3 > num_range$max_value[num_range$variables == 'cd_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cu_ba_3'
+outliers <- data_std %>% 
+  filter(cu_ba_3 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_3 > num_range$max_value[num_range$variables == 'cu_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'pb_ba_3'
+outliers <- data_std %>% 
+  filter(pb_ba_3 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_3 > num_range$max_value[num_range$variables == 'pb_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'zn_ba_3'
+outliers <- data_std %>% 
+  filter(zn_ba_3 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_3 > num_range$max_value[num_range$variables == 'zn_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'se_ba_3'
+outliers <- data_std %>% 
+  filter(se_ba_3 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_3 > num_range$max_value[num_range$variables == 'se_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'ni_ba_3'
+outliers <- data_std %>% 
+  filter(ni_ba_3 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_3 > num_range$max_value[num_range$variables == 'ni_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'co_ba_3'
+outliers <- data_std %>% 
+  filter(co_ba_3 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_3 > num_range$max_value[num_range$variables == 'co_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'mn_ba_3'
+outliers <- data_std %>% 
+  filter(mn_ba_3 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_3 > num_range$max_value[num_range$variables == 'mn_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'cr_ba_3'
+outliers <- data_std %>% 
+  filter(cr_ba_3 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_3 > num_range$max_value[num_range$variables == 'cr_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'hg_ba_3'
+outliers <- data_std %>% 
+  filter(hg_ba_3 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_3 > num_range$max_value[num_range$variables == 'hg_ba'] )
+outliers
+# 0 lines --> no apparent outliers
+
+# isolate the outliers lines for the variable 'n_te_ba_3'
+outliers <- data_std %>% 
+  filter(n_te_ba_3 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_3 > num_range$max_value[num_range$variables == 'n_te_ba'] )
+outliers
+# 0 lines --> no apparent outliers
 
 
 
