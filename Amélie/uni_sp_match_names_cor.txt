@@ -128,4 +128,3 @@ Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988	TRUE	Pinus pallasiana	F
 Arachishypogaea	NA	NA	NA 	TRUE	Arachis hypogaea	FALSE
 Lycopersiconesculantum	NA	NA	NA 	TRUE	Lycopersicon esculentum	FALSE
 Setariaplicata	NA	NA	NA 	TRUE	Setaria plicata	FALSE
-NA	NA	NA	NA 	FALSE	NA	FALSE
