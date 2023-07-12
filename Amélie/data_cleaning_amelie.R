@@ -20,42 +20,137 @@ str(data)
 # Transform data
 data <- data %>%
   mutate(
-    expe_t = as.numeric(expe_t)
-    , country = as.factor(country)
+    covidence = as.numeric(covidence)
+    , author = as.character(author)
+    , year = as.numeric(year)
+    , country = as.character(country)
+    , location = as.character(location)
+    , latitude = as.character(latitude)
+    , longitude = as.character(longitude)
+    , climate = as.character(climate)
+    , expe_t = as.numeric(expe_t)
     , mat = as.numeric(mat)
+    , map = as.numeric(map)
+    , map_units = as.character(map_units)
+    , soil = as.character(soil)
+    , type = as.character(type)
     , ph = as.numeric(ph)
+    , om = as.numeric(om)
+    , om_units = as.character(om_units)
     , oc = as.numeric(oc)
-    , ec = as.numeric(ec)
-    , sand = as.numeric(sand)
+    , oc_units = as.character(oc_units)
+    , texture = as.character(texture)
     , clay = as.numeric(clay)
+    , clay_units = as.character(clay_units)
+    , ec = as.numeric(ec)
+    , ec_units = as.character(ec_units)
+    , sand = as.numeric(sand)
+    , sand_units = as.character(sand_units)
+    , cec = as.numeric(cec)
+    , cec_units = as.character(cec_units)
+    , N = as.numeric(N)
+    , N_units = as.character(N_units)
+    , N_types = as.character(N_types)
+    , P = as.numeric(P)
+    , P_units = as.character(P_units)
+    , P_type = as.character(P_type)
     , as_s = as.numeric(as_s)
     , cd_s = as.numeric(cd_s)
     , cu_s = as.numeric(cu_s)
     , pb_s = as.numeric(pb_s)
     , zn_s = as.numeric(zn_s)
+    , se_s = as.numeric(se_s)
+    , ni_s = as.numeric(ni_s)
     , co_s = as.numeric(co_s)
     , mn_s = as.numeric(mn_s)
+    , cr_s = as.numeric(cr_s)
     , hg_s = as.numeric(hg_s)
+    , units_s = as.character(units_s)
+    , n_s = as.numeric(n_s)
+    , fraction_s = as.character(fraction_s)
+    , Bioavailable = as.character(Bioavailable)
+    , sp = as.character(sp)
+    , name = as.character(name)
+    , cultivar = as.character(cultivar)
+    , p_density = as.numeric(p_density)
+    , units_density = as.character(units_density)
     , ba_total = as.numeric(ba_total)
     , ba_stem = as.numeric(ba_stem)
     , ba_leaf = as.numeric(ba_leaf)
     , br = as.numeric(br)
+    , units_b = as.character(units_b)
     , as_ba = as.numeric(as_ba)
+    , cd_ba = as.numeric(cd_ba)
+    , cu_ba = as.numeric(cu_ba)
     , pb_ba = as.numeric(pb_ba)
+    , zn_ba = as.numeric(zn_ba)
+    , se_ba = as.numeric(se_ba)
+    , ni_ba = as.numeric(ni_ba)
     , co_ba = as.numeric(co_ba)
+    , mn_ba = as.numeric(mn_ba)
+    , cr_ba = as.numeric(cr_ba)
     , hg_ba = as.numeric(hg_ba)
+    , units_te_ba = as.character(units_te_ba)
+    , n_te_ba = as.numeric(n_te_ba)
+    , organs_ba = as.character(organs_ba)
+    , as_br = as.numeric(as_br)
+    , cd_br = as.numeric(cd_br)
+    , cu_br = as.numeric(cu_br)
     , pb_br = as.numeric(pb_br)
     , zn_br = as.numeric(zn_br)
+    , se_br = as.numeric(se_br)
+    , ni_br = as.numeric(ni_br)
     , co_br = as.numeric(co_br)
     , mn_br = as.numeric(mn_br)
+    , cr_br = as.numeric(cr_br)
     , hg_br = as.numeric(hg_br)
+    , units_te_br = as.character(units_te_br)
+    , n_te_br = as.numeric(n_te_br)
+    , organs_br = as.character(organs_br)
     , as_ba_1 = as.numeric(as_ba_1)
+    , cd_ba_1 = as.numeric(cd_ba_1)
+    , cu_ba_1 = as.numeric(cu_ba_1)
+    , pb_ba_1 = as.numeric(pb_ba_1)
     , zn_ba_1 = as.numeric(zn_ba_1)
     , se_ba_1 = as.numeric(se_ba_1)
+    , ni_ba_1 = as.numeric(ni_ba_1)
     , co_ba_1 = as.numeric(co_ba_1)
     , mn_ba_1 = as.numeric(mn_ba_1)
-    , hg_ba_1 = as.numeric(hg_ba_1))
-# all value for expe_t, ph, clay, co_s, mn_s, hg_s, co_ba, hg_ba, mn_br are not only numerical, so Na were introduced.
+    , cr_ba_1 = as.numeric(cr_ba_1)
+    , hg_ba_1 = as.numeric(hg_ba_1)
+    , units_te_ba_1 = as.character(units_te_ba_1)
+    , n_te_ba_1 = as.numeric(n_te_ba_1)
+    , organs_ba_1 = as.character(organs_ba_1)
+    , as_ba_2 = as.numeric(as_ba_2)
+    , cd_ba_2 = as.numeric(cd_ba_2)
+    , cu_ba_2 = as.numeric(cu_ba_2)
+    , pb_ba_2 = as.numeric(pb_ba_2)
+    , zn_ba_2 = as.numeric(zn_ba_2)
+    , se_ba_2 = as.numeric(se_ba_2)
+    , ni_ba_2 = as.numeric(ni_ba_2)
+    , co_ba_2 = as.numeric(co_ba_2)
+    , mn_ba_2 = as.numeric(mn_ba_2)
+    , cr_ba_2 = as.numeric(cr_ba_2)
+    , hg_ba_2 = as.numeric(hg_ba_2)
+    , units_te_ba_2 = as.character(units_te_ba_2)
+    , n_te_ba_2 = as.numeric(n_te_ba_2)
+    , organs_ba_2 = as.character(organs_ba_2)
+    , as_ba_3 = as.numeric(as_ba_3)
+    , cd_ba_3 = as.numeric(cd_ba_3)
+    , cu_ba_3 = as.numeric(cu_ba_3)
+    , pb_ba_3 = as.numeric(pb_ba_3)
+    , zn_ba_3 = as.numeric(zn_ba_3)
+    , se_ba_3 = as.numeric(se_ba_3)
+    , ni_ba_3 = as.numeric(ni_ba_3)
+    , co_ba_3 = as.numeric(co_ba_3)
+    , mn_ba_3 = as.numeric(mn_ba_3)
+    , cr_ba_3 = as.numeric(cr_ba_3)
+    , hg_ba_3 = as.numeric(hg_ba_3)
+    , units_te_ba_3 = as.character(units_te_ba_3)
+    , n_te_ba_3 = as.numeric(n_te_ba_3)
+    , organs_ba_3 = as.character(organs_ba_3)
+  )
+# Na were introduced when values were not only numerical.
 
 # Verify the mutation
 str(data)# good
@@ -68,15 +163,11 @@ data[data == ''] <- NA
 uni_sp<-as.data.frame(unique(data$name)) # 394 unique species
 colnames(uni_sp) <- c('sp') 
 
-###BEA: on me dit 394 espèces ici, est-ce normale?
-
 # Correct the name according to the species name corrected from TRY
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
 to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 124 species not on the corrected list, so need to be corrected
-
-###BEA: ici j'en ai 124 encore?
 
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
@@ -122,9 +213,8 @@ uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt",
 
 # eliminate duplicates
 uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
-uni_sp_cor <-uni_sp_cor %>%  filter(!dupl2 ==T)
+uni_sp_cor<-uni_sp_cor %>%  filter(!dupl2 ==T)
 
-### BEA: maintenant j'en ai 125. tu me vérifieras simplement pour voir s'il y a des erreurs ou m'expliquer
 
 # Save the final corrected list in an rds object
 saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
@@ -893,9 +983,9 @@ data_std <- data_std %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba_3))
 
 # verify
-unique(data_std$organs_ba) # "leaves"  "shoots"  "whole"   "tissues" "stems"   "Herb"  "wood"    "fruits"
+unique(data_std$organs_ba) # "leaves"  "shoots"  "whole"   "stems" "wood"    "fruits"
 unique(data_std$organs_ba_1) # "stems"   "shoots"  "leaves"  "flowers" "wood"
-unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"    "Cobs"    "fruits"
+unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"   "fruits"
 unique(data_std$organs_ba_3) # only "wood"
 
 
@@ -918,9 +1008,10 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eli
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # 58 variables
+data_num <- data_std[ , num_cols]  # 91 variables
 
 ###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
+###AME: est-ce que tu en vois 91 maintenant? 
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
@@ -931,10 +1022,9 @@ num_range <- read.table("./numerical_range_variables.txt",
 
 
 
-# for each of the 58 variables, isolate data that are outside the range
-# here are the 58 variables
+# for each variable, isolate data that are outside the range
 list <-colnames(data_num)
-
+list
 
 
 
