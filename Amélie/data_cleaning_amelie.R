@@ -65,7 +65,7 @@ data[data == ''] <- NA
 
 #### species names cleaning  ####
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name)) # 395 unique species
+uni_sp<-as.data.frame(unique(data$name)) # 394 unique species
 colnames(uni_sp) <- c('sp') 
 
 ###BEA: on me dit 394 espèces ici, est-ce normale?
@@ -74,7 +74,7 @@ colnames(uni_sp) <- c('sp')
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
-to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 125 species not on the corrected list, so need to be corrected
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 124 species not on the corrected list, so need to be corrected
 
 ###BEA: ici j'en ai 124 encore?
 
@@ -154,7 +154,7 @@ data <- data %>%
 uni_cu_cor <-unique(data$name)
 
 ###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
-###AME: j'en ai 395
+###AME: j'en ai 394
 
 #### standardized units ####
 # Select all the units column
@@ -396,7 +396,7 @@ data_std <- data %>%
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
   )
 #verify
-unique(data_std$units_s) # need to convert "mg L-1" in "mg kg-1"
+unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
 
     
 #"units_b" 
@@ -555,7 +555,7 @@ data_std <- data %>%
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
   )
 # verify
-unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
+unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","uM/g DW","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
 
 ### BEA: tu pourrais inscrire toutes tes transformations d'unité dans le tableau des variables, quetsions que je les valide plus facilement?
 
@@ -779,7 +779,43 @@ data_std <- data %>%
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
   )
 # verify
-unique(data_std$units_te_ba_1) # need to convert "mg plant-1" in mg kg-1
+unique(data_std$units_te_ba_1) # need to convert "uM/g DW", "mg plant-1" in mg kg-1
+
+
+#"units_te_ba_2"
+unique(units$units_te_ba_2) # "mg kg-1" "ug g"    "mg kg"
+#need to convert to mg kg-1 
+convert <- c("mg kg")
+data_std <- data %>%
+  mutate(
+    units_te_ba_2 = ifelse(units_te_ba_2 %in% convert , 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', as_ba_2*1000, as_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cd_ba_2*1000, cd_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cu_ba_2*1000, cu_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', pb_ba_2*1000, pb_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', zn_ba_2*1000, zn_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', se_ba_2*1000, se_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', ni_ba_2*1000, ni_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', co_ba_2*1000, co_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', mn_ba_2*1000, mn_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cr_ba_2*1000, cr_ba_2)
+    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
+    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', hg_ba_2*1000, hg_ba_2)
+  )
+# verify
+unique(data_std$units_te_ba_2) # only "mg kg-1"    
+
+#"units_te_ba_3"
+unique(units$units_te_ba_3) # only "mg kg-1"
 
 #"units_density"
 unique(data$units_density)# "plants/pot" "plant/pot" "stems/acre" "g cm-3" "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
