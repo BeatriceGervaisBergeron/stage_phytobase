@@ -1101,53 +1101,53 @@ outliers <- data_std %>%
   filter(oc < num_range$min_value[num_range$variables == 'oc'] | oc > num_range$max_value[num_range$variables == 'oc'] )
 outliers
 # 248 lines --> 248 outliers to verify
-# no 1783
-# no 1663
-# no 196
-# no 249
-# no 7473
-# no 616
-# no 2187
-# no 4254
-# no 6382
-# no 1831
-# no 6871
-# no 2600
-# no 2011
-# no 4193
-# no 133
-# no 6544
-# no 1356
-# no 7504
+# no 1783 (oc=1.2%, inférieur au range [2.4-6%])
+# no 1663 (oc=9,7.6,13,6.6 et 9.3 g kg-1-->convertit en 0.9%, 0.76%, 1.3%, 0.66%, 0.93%, inférieur au range [2.4-6%])
+# no 196 (oc=1.48%, inférieur au range [2.4-6%])
+# no 249 (oc=10.7%, supérieur au range [2.4-6%])
+# no 7473 (oc=1.54% et 1.63%, inférieur au range [2.4-6%])
+# no 616 (oc=0.59% et 0.72%, inférieur au range [2.4-6%])
+# no 2187 (oc=0.84%, inférieur au range [2.4-6%])
+# no 4254 (oc=1.82%,1.58%,1.28%,1.63%, inférieur au range [2.4-6%])
+# no 6382 (oc=1.95 g kg-->convertit en 0.195%, inférieur au range [2.4-6%])
+# no 1831 (oc=1.6%,7%, inférieur et supérieur au range [2.4-6%])
+# no 2600 (oc=0.8%, inférieur au range [2.4-6%])
+# no 2011 (oc=1.2%, 1.3%, 1.4%, inférieur au range [2.4-6%])
+# no 4193 (oc=103%, inférieur au range [2.4-6%])
+# no 133 (oc=2.04%, 1.74%, 1.67%, 1.50%, inférieur au range [2.4-6%])
+# no 6544 (oc=1.86%, 1.55%, inférieur au range [2.4-6%])
+# no 1356 (oc=0.12%, inférieur au range [2.4-6%])
+# no 7504 (oc=1.2683%, moyenne de 1.54,1.9,0.1,1.3,1.47 et 1.2, inférieur au range [2.4-6%])
 # no 5338 (oc=16 mgL-1, c'est à cause de l'unité)
-# no 2864
-# no 2289
-# no 1675
-# no 2695
-# no 3510
-# no 1700
-# no 8669
-# no 168
-# no 3029
-# no 8172
-# no 2890
-# no 6407
-# no 7762
-# no 91
-# no 4248
-# no 8509
-# no 7129
-# no 1398
-# no 1599
-# no 397
-# no 3616
-# no 8196
-# no 1249
-# no 2129
-# no 1357
-# no 5467
-# no 177
-# no 8079
+# no 2864 (oc=1.29%, inférieur au range [2.4-6%])
+# no 2289 (oc=1.1%, 1.5%, 8.8%, 11.3%, inférieur et supérieur au range [2.4-6%])
+# no 1675 (oc=14.8 gkg-->convertit en 1.48%, inférieur au range [2.4-6%])
+# no 2695 (oc= 164,146,203,56,176,64,39,44,14 mgkg-1--> convertit en 1.64%, 1.46%, 2.03%, 0.56%, 1.76%, 0.64%, 0.39%, 0.44%, 0.14%, inférieur au range [2.4-6%])
+# no 3510 (oc=1.0455%,inférieur au range [2.4-6%])
+# no 1700 (oc=1.5%,inférieur au range [2.4-6%])
+# no 8669 (oc=0.94%, 0.43%, 0.27%,inférieur au range [2.4-6%])
+# no 168 (oc=0.6420%,inférieur au range [2.4-6%])
+# no 3029 (oc=7.8% (supplementary data),inférieur au range [2.4-6%])
+# no 8172 (oc=56 mg kg-1-->convertit en 0.56%, inférieur au range [2.4-6%])
+# no 43 (oc=6 gkg-->convertit en 0.6%, inférieur au range [2.4-6%])
+# no 2181 (oc=3.9 mg kg-1-->convertit en 0.039%, inférieur au range [2.4-6%])
+# no 6407 (oc=0.8 gkg-->convertit en 0.08%, inférieur au range [2.4-6%])
+# no 7762 (oc=1.33%, inférieur au range [2.4-6%])
+# no 91 (oc=0.3%, inférieur au range [2.4-6%])
+# no 4248 (oc=1.9%, inférieur au range [2.4-6%])
+# no 8509 (oc=0.21%, inférieur au range [2.4-6%])
+# no 7129 (oc=0.21%, inférieur au range [2.4-6%])
+# no 1398 (oc=18.9 g kg-1-->convertit en 1.89%, inférieur au range [2.4-6%])
+# no 1599 (oc=2.22%,1.99%,0.31%,0.32%,6.36%, inférieur au range [2.4-6%])
+# no 397 (oc=0.26%, inférieur au range [2.4-6%])
+# no 3616 (oc=14, 15, 3.7, 15 g kg-1-->convertit en 1.4%,1.5%,0.37%, 1.5% inférieur au range [2.4-6%])
+# no 8196 (oc=65.2 g kg-1-->convertit en 6.52%, inférieur au range [2.4-6%]))
+# no 1249 (oc=11.3 g kg-1-->convertit en 1.13%, inférieur au range [2.4-6%]))
+# no 2129 (oc=0.8%, inférieur au range [2.4-6%])
+# no 1357 (oc=1.79%, 2.31%, inférieur au range [2.4-6%])
+# no 5467 (oc=23.8 g kg-1-->convertit en 2.38%, inférieur au range [2.4-6%])
+# no 177 (oc=9.86 g kg-->convertit en 0.986%, inférieur au range [2.4-6%])
+# no 8079 (oc=20.4 g kg-->convertit en 2.04%, inférieur au range [2.4-6%])
 
 # isolate the outliers lines for the variable 'clay'
 outliers <- data_std %>% 
@@ -1200,73 +1200,46 @@ outliers
 outliers <- data_std %>% 
   filter(N < num_range$min_value[num_range$variables == 'n'] | N > num_range$max_value[num_range$variables == 'n'] )
 outliers
-# 248 lines --> 248 outliers to verify
-# no 1663
-# no 1955
+# 99 lines --> 99 outliers to verify
 # no 1146
-# no 5829
-# no 196
-# no 4088
-# no 7473
-# no 2187
-# no 2205
-# no 6382
-# no 4193
+# no 196 (N=1.12%--> convertit en 11200 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 7473 (N=0.3%-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 7974
 # no 133
-# no 6544
-# no 1356
 # no 2218
-# no 2864
 # no 2289
 # no 1675
 # no 2695
-# no 5614
 # no 3013
-# no 8669
-# no 168
 # no 1683
-# no 1239
-# no 2890
-# no 2181
-# no 6407
-# no 3032
 # no 501
 # no 2154
-# no 1011
-# no 3396
 # no 6607
 # no 8196
 # no 838
 # no 1357
 # no 5467
-# no 177
-# no 8012
-# no 4239
 
 # isolate the outliers lines for the variable 'P'
 outliers <- data_std %>% 
   filter(P < num_range$min_value[num_range$variables == 'p'] | P > num_range$max_value[num_range$variables == 'p'] )
 outliers
-# 234 lines --> 234 outliers to verify
+# 222 lines --> 222 outliers to verify
 # no 1041
 # no 3591
 # no 8790
-# no 5829
-# no 4088
-# no 249
-# no 2187
+# no 2187 (p=2.5 ug g--> convertit en 1500 mg kg-1, supérieur au range [5-100 mg kg-1] )
 # no 6382
 # no 1831
 # no 271
 # no 2600
-# no 7974
+# no 2011
+# no 133
 # no 2762
 # no 6544
 # no 7858
 # no 1356
 # no 218
-# no 902
 # no 5338
 # no 2864
 # no 1683
@@ -1281,7 +1254,6 @@ outliers
 # no 5467
 # no 4239
 # no 2351
-
 
 # isolate the outliers lines for the variable 'as_s'
 outliers <- data_std %>% 
@@ -1315,7 +1287,7 @@ outliers <- data_std %>%
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
 # 43 lines --> 43 outliers to verify
-# no 1663
+# no 1663 (cu_s=3732 et 5180 mg kg-1, supérieur au range [0-2500 mgkg])
 # no 3036
 # no 466
 # no 1560
@@ -1553,7 +1525,7 @@ outliers <- data_std %>%
 outliers
 # 62 lines --> 62 outliers to verify
 # no 6402
-# no 1663
+# no 1663 (cu_br=707 à 1940 mg kg-1, supérieur au range [0-300 mgkg])
 # no 3591
 # no 2973
 # no 8790
