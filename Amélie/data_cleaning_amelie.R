@@ -1072,7 +1072,7 @@ outliers
 outliers <- data_std %>% 
   filter(ph < num_range$min_value[num_range$variables == 'ph'] | ph > num_range$max_value[num_range$variables == 'ph'] )
 outliers
-# 53 lines --> 53 outliers to verify
+# 49 lines --> 49 outliers to verify
 # no 8790 (ph=3.25-->Rz ph=2.9-3.6)
 # no 5829 (ph=2.6, inférieur au range [3.5-8.5])
 # no 8521 (ph=2.34, inférieur au range [3.5-8.5])
@@ -1093,84 +1093,316 @@ outliers <- data_std %>%
   filter(om < num_range$min_value[num_range$variables == 'om'] | om > num_range$max_value[num_range$variables == 'om'] )
 outliers
 # 90 lines --> 90 outliers to verify
+# no 1955
+# no 4088
+# no 1560
+# no 7489
+# no 2248
+# no 1675
+# no 2890
+# no 1264
+# no 4063
+# no 1249
+# no 1357
 
 # isolate the outliers lines for the variable 'oc'
 outliers <- data_std %>% 
   filter(oc < num_range$min_value[num_range$variables == 'oc'] | oc > num_range$max_value[num_range$variables == 'oc'] )
 outliers
 # 258 lines --> 258 outliers to verify
+# no 1783
+# no 1663
+# no 196
+# no 249
+# no 7473
+# no 616
+# no 2187
+# no 4254
+# no 6382
+# no 1831
+# no 6871
+# no 2600
+# no 2011
+# no 4193
+# no 133
+# no 6544
+# no 1356
+# no 7504
+# no 5338
+# no 2864
+# no 2289
+# no 1675
+# no 2695
+# no 3510
+# no 1700
+# no 8669
+# no 168
+# no 3029
+# no 8172
+# no 2890
+# no 6407
+# no 7762
+# no 91
+# no 4248
+# no 8509
+# no 7129
+# no 1398
+# no 1599
+# no 397
+# no 3616
+# no 8196
+# no 1249
+# no 2129
+# no 1357
+# no 5467
+# no 177
+# no 8079
 
 # isolate the outliers lines for the variable 'clay'
 outliers <- data_std %>% 
   filter(clay < num_range$min_value[num_range$variables == 'clay'] | clay > num_range$max_value[num_range$variables == 'clay'] )
 outliers
 # 60 lines --> 60 outliers to verify
+# no 1955
+# no 6871
+# no 1239
+# no 8172
+# no 2181
+# no 3032
+# no 1599
+# no 4063
+# no 3616
+# no 6607
+# no 1249
+# no 177
+# no 8079
+# no 8774
 
 # isolate the outliers lines for the variable 'sand'
 outliers <- data_std %>% 
   filter(sand < num_range$min_value[num_range$variables == 'sand'] | sand > num_range$max_value[num_range$variables == 'sand'] )
 outliers
 # 57 lines --> 57 outliers to verify
+# no 3591
+# no 1955
+# no 4088
+# no 1239
+# no 8172
+# no 2890
+# no 3032
+# no 4063
+# no 3616
+# no 1249
+# no 8079
+# no 8774
 
 # isolate the outliers lines for the variable 'ec'
 outliers <- data_std %>% 
   filter(ec < num_range$min_value[num_range$variables == 'ec'] | ec > num_range$max_value[num_range$variables == 'ec'] )
 outliers
 # 140 lines --> 140 outliers to verify
+# no 6402
+# no 4088
+# no 7473
+# no 616
+# no 4254
+# no 1884
+# no 3067
+# no 4193
+# no 7974
+# no 2532
+# no 2695
+# no 2632
+# no 3510
+# no 168
+# no 2133
+# no 5770
+# no 6607
+# no 8196
+# no 354
+# no 8345
 
 # isolate the outliers lines for the variable 'cec'
 outliers <- data_std %>% 
   filter(cec < num_range$min_value[num_range$variables == 'cec'] | cec > num_range$max_value[num_range$variables == 'cec'] )
 outliers
 # 35 lines --> 35 outliers to verify
+# no 1955
+# no 593
+# no 2762
+# no 7858
+# no 1356
+# no 1675
+# no 168
+# no 1239
+# no 1599
+# no 177
 
 # isolate the outliers lines for the variable 'N'
 outliers <- data_std %>% 
-  filter(N < num_range$min_value[num_range$variables == 'N'] | N > num_range$max_value[num_range$variables == 'N'] )
+  filter(N < num_range$min_value[num_range$variables == 'n'] | N > num_range$max_value[num_range$variables == 'n'] )
 outliers
-#ERREUR
+# 248 lines --> 248 outliers to verify
+# no 1663
+# no 1955
+# no 1146
+# no 5829
+# no 196
+# no 4088
+# no 7473
+# no 2187
+# no 2205
+# no 6382
+# no 4193
+# no 7974
+# no 133
+# no 6544
+# no 1356
+# no 2218
+# no 2864
+# no 2289
+# no 1675
+# no 2695
+# no 5614
+# no 3013
+# no 8669
+# no 168
+# no 1683
+# no 1239
+# no 2890
+# no 2181
+# no 6407
+# no 3032
+# no 501
+# no 2154
+# no 1011
+# no 3396
+# no 6607
+# no 8196
+# no 838
+# no 1357
+# no 5467
+# no 177
+# no 8012
+# no 4239
 
 # isolate the outliers lines for the variable 'P'
 outliers <- data_std %>% 
-  filter(P < num_range$min_value[num_range$variables == 'P'] | P > num_range$max_value[num_range$variables == 'P'] )
+  filter(P < num_range$min_value[num_range$variables == 'p'] | P > num_range$max_value[num_range$variables == 'p'] )
 outliers
-#ERREUR
+# 234 lines --> 234 outliers to verify
+# no 1041
+# no 3591
+# no 8790
+# no 5829
+# no 4088
+# no 249
+# no 2187
+# no 6382
+# no 1831
+# no 271
+# no 2600
+# no 7974
+# no 2762
+# no 6544
+# no 7858
+# no 1356
+# no 218
+# no 902
+# no 5338
+# no 2864
+# no 1683
+# no 2181
+# no 96
+# no 1264
+# no 1011
+# no 3396
+# no 2089
+# no 1249
+# no 1357
+# no 5467
+# no 4239
+# no 2351
+
 
 # isolate the outliers lines for the variable 'as_s'
 outliers <- data_std %>% 
   filter(as_s < num_range$min_value[num_range$variables == 'as_s'] | as_s > num_range$max_value[num_range$variables == 'as_s'] )
 outliers
 # 68 lines --> 68 outliers to verify
+# no 5793
+# no 1560
+# no 6873
+# no 2218
+# no 3416
+# no 1398
+# no 5770
+# no 1225
+# no 1406
+# no 428
 
 # isolate the outliers lines for the variable 'cd_s'
 outliers <- data_std %>% 
   filter(cd_s < num_range$min_value[num_range$variables == 'cd_s'] | cd_s > num_range$max_value[num_range$variables == 'cd_s'] )
 outliers
 # 15 lines --> 15 outliers to verify
+# no 6873
+# no 3067
+# no 2289
+# no 1683
+# no 8509
 
 # isolate the outliers lines for the variable 'cu_s'
 outliers <- data_std %>% 
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
 # 43 lines --> 43 outliers to verify
+# no 1663
+# no 3036
+# no 466
+# no 1560
+# no 1884
+# no 2695
+# no 3416
+# no 8669
+# no 1683
+# no 1225
+# no 1406
 
 # isolate the outliers lines for the variable 'pb_s'
 outliers <- data_std %>% 
   filter(pb_s < num_range$min_value[num_range$variables == 'pb_s'] | pb_s > num_range$max_value[num_range$variables == 'pb_s'] )
 outliers
 # 24 lines --> 24 outliers to verify
+# no 5793
+# no 1146
+# no 8790
+# no 3036
+# no 6873
+# no 3067
+# no 2218
+# no 3416
+# no 3377
 
 # isolate the outliers lines for the variable 'zn_s'
 outliers <- data_std %>% 
   filter(zn_s < num_range$min_value[num_range$variables == 'zn_s'] | zn_s > num_range$max_value[num_range$variables == 'zn_s'] )
 outliers
 # 29 lines --> 29 outliers to verify
+# no 5793
+# no 3067
+# no 2289
+# no 3416
+# no 1374
+# no 3377
 
 # isolate the outliers lines for the variable 'se_s'
 outliers <- data_std %>% 
   filter(se_s < num_range$min_value[num_range$variables == 'se_s'] | se_s > num_range$max_value[num_range$variables == 'se_s'] )
 outliers
 # 11 lines --> 11 outliers to verify
+# no 6873
+# no 121
 
 # isolate the outliers lines for the variable 'ni_s'
 outliers <- data_std %>% 
@@ -1189,6 +1421,7 @@ outliers <- data_std %>%
   filter(mn_s < num_range$min_value[num_range$variables == 'mn_s'] | mn_s > num_range$max_value[num_range$variables == 'mn_s'] )
 outliers
 # 1 line --> 1 outlier to verify
+# no 8790
 
 # isolate the outliers lines for the variable 'cr_s'
 outliers <- data_std %>% 
@@ -1207,6 +1440,16 @@ outliers <- data_std %>%
   filter(n_s < num_range$min_value[num_range$variables == 'n_s'] | n_s > num_range$max_value[num_range$variables == 'n_s'] )
 outliers
 # 177 lines --> 177 outliers to verify
+# no 2011
+# no 6544
+# no 2532
+# no 7504
+# no 2632
+# no 3029
+# no 1599
+# no 6519
+# no 354
+# no 428
 
 # isolate the outliers lines for the variable 'ba_total'
 outliers <- data_std %>% 
@@ -1237,30 +1480,52 @@ outliers <- data_std %>%
   filter(as_ba < num_range$min_value[num_range$variables == 'as_ba'] | as_ba > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
 # 1 line --> 1 outlier to verify
+# no 1041
 
 # isolate the outliers lines for the variable 'cd_ba'
 outliers <- data_std %>% 
   filter(cd_ba < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
 # 3 lines --> 3 outliers to verify
+# no 1195
+# no 3067
+# no 2289
 
 # isolate the outliers lines for the variable 'cu_ba'
 outliers <- data_std %>% 
   filter(cu_ba < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 19 lines --> 19 outliers to verify
+# no 57
+# no 2972
+# no 1560
+# no 8669
+# no 3029
+# no 1264
+# no 2857
+# no 3230
+# no 397
+# no 1011
 
 # isolate the outliers lines for the variable 'pb_ba'
 outliers <- data_std %>% 
   filter(pb_ba < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
 # 4 lines --> 4 outliers to verify
+# no 1146
+# no 3416
+# no 3029
 
 # isolate the outliers lines for the variable 'zn_ba'
 outliers <- data_std %>% 
   filter(zn_ba < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 11 lines --> 11 outliers to verify
+# no 1146
+# no 2187
+# no 3067
+# no 2289
+# no 3029
 
 # isolate the outliers lines for the variable 'se_ba'
 outliers <- data_std %>% 
@@ -1303,36 +1568,67 @@ outliers <- data_std %>%
   filter(n_te_ba < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
 # 53 lines --> 53 outliers to verify
+# no 2011
+# no 7504
+# no 3029
+# no 6519
 
 # isolate the outliers lines for the variable 'as_br'
 outliers <- data_std %>% 
   filter(as_br < num_range$min_value[num_range$variables == 'as_br'] | as_br > num_range$max_value[num_range$variables == 'as_br'] )
 outliers
 # 1 line --> 1 outlier to verify
+# no 1041
 
 # isolate the outliers lines for the variable 'cd_br'
 outliers <- data_std %>% 
   filter(cd_br < num_range$min_value[num_range$variables == 'cd_br'] | cd_br > num_range$max_value[num_range$variables == 'cd_br'] )
 outliers
 # 5 lines --> 5 outliers to verify
+# no 1195
+# no 3067
+# no 4239
 
 # isolate the outliers lines for the variable 'cu_br'
 outliers <- data_std %>% 
   filter(cu_br < num_range$min_value[num_range$variables == 'cu_br'] | cu_br > num_range$max_value[num_range$variables == 'cu_br'] )
 outliers
 # 62 lines --> 62 outliers to verify
+# no 6402
+# no 1663
+# no 3591
+# no 2973
+# no 8790
+# no 466
+# no 5760
+# no 218
+# no 7605
+# no 1833
+# no 2857
+# no 3230
+# no 8713
+# no 1011
+# no 6607
+# no 3933
+# no 4239
+
 
 # isolate the outliers lines for the variable 'pb_br'
 outliers <- data_std %>% 
   filter(pb_br < num_range$min_value[num_range$variables == 'pb_br'] | pb_br > num_range$max_value[num_range$variables == 'pb_br'] )
 outliers
 # 5 lines --> 5 outliers to verify
+# no 5793
+# no 3067
+# no 3416
 
 # isolate the outliers lines for the variable 'zn_br'
 outliers <- data_std %>% 
   filter(zn_br < num_range$min_value[num_range$variables == 'zn_br'] | zn_br > num_range$max_value[num_range$variables == 'zn_br'] )
 outliers
 # 4 lines --> 4 outliers to verify
+# no 2187
+# no 3067
 
 # isolate the outliers lines for the variable 'se_br'
 outliers <- data_std %>% 
@@ -1369,12 +1665,16 @@ outliers <- data_std %>%
   filter(hg_br < num_range$min_value[num_range$variables == 'hg_br'] | hg_br > num_range$max_value[num_range$variables == 'hg_br'] )
 outliers
 # 3 lines --> 3 outliers to verify
+# no 1831
+# no 3416
 
 # isolate the outliers lines for the variable 'n_te_br'
 outliers <- data_std %>% 
   filter(n_te_br < num_range$min_value[num_range$variables == 'n_te_br'] | n_te_br > num_range$max_value[num_range$variables == 'n_te_br'] )
 outliers
 # 9 lines --> 9 outliers to verify
+# no 7504
+# no 1599
 
 # isolate the outliers lines for the variable 'as_ba_1'
 outliers <- data_std %>% 
@@ -1393,18 +1693,29 @@ outliers <- data_std %>%
   filter(cu_ba_1 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_1 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 22 lines --> 22 outliers to verify
+# no 57
+# no 3490
+# no 3029
+# no 2857
+# no 3230
+# no 1011
+# no 4239
 
 # isolate the outliers lines for the variable 'pb_ba_1'
 outliers <- data_std %>% 
   filter(pb_ba_1 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_1 > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
 # 6 lines --> 6 outliers to verify
+# no 3490
+# no 3029
 
 # isolate the outliers lines for the variable 'zn_ba_1'
 outliers <- data_std %>% 
   filter(zn_ba_1 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_1 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 6 lines --> 6 outliers to verify
+# no 2187
+# no 3029
 
 # isolate the outliers lines for the variable 'se_ba_1'
 outliers <- data_std %>% 
@@ -1441,12 +1752,14 @@ outliers <- data_std %>%
   filter(hg_ba_1 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_1 > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
 # 2 lines --> 2 outliers to verify
+# no 7974
 
 # isolate the outliers lines for the variable 'n_te_ba_1'
 outliers <- data_std %>% 
   filter(n_te_ba_1 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_1 > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
 # 5 lines --> 5 outliers to verify
+# no 3029
 
 # isolate the outliers lines for the variable 'as_ba_2'
 outliers <- data_std %>% 
@@ -1465,6 +1778,7 @@ outliers <- data_std %>%
   filter(cu_ba_2 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_2 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 3 lines --> 3 outliers to verify
+# no 8713
 
 # isolate the outliers lines for the variable 'pb_ba_2'
 outliers <- data_std %>% 
@@ -1477,6 +1791,8 @@ outliers <- data_std %>%
   filter(zn_ba_2 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_2 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 2 lines --> 2 outliers to verify
+# no 2187
+# no 8713
 
 # isolate the outliers lines for the variable 'se_ba_2'
 outliers <- data_std %>% 
