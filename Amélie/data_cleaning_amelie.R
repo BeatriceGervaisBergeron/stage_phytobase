@@ -1046,24 +1046,47 @@ outliers <- data_std %>%
   filter(expe_t < num_range$min_value[num_range$variables == 'expe_t'] | expe_t > num_range$max_value[num_range$variables == 'expe_t'] )
 outliers
 # 36 lines --> 36 outliers to verify
+# no 2973 (expe_t=16.5--> glasshouse minimum temperature 8ºC; maximum temperature 25ºC,inférieur au range [17-27])
+# no 2762 (expe_t=31--> greenhouse was monitored at an average of 31ºC,supérieur au range [17-27)
+# no 2248 (expe_t=28.9--> in the growing environment, the average temperature was 28.9ºC,supérieur au range [17-27)
+# no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27)
+# no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27)
 
 # isolate the outliers lines for the variable 'mat'
 outliers <- data_std %>% 
   filter(mat < num_range$min_value[num_range$variables == 'mat'] | mat > num_range$max_value[num_range$variables == 'mat'] )
 outliers
 # 9 lines --> 9 outliers to verify
+# no 5829 (mat=35-->The summer (June to September) is a very hot, 35ºC on average,supérieur au range [2-25)
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
   filter(map < num_range$min_value[num_range$variables == 'map'] | map > num_range$max_value[num_range$variables == 'map'] )
 outliers
 # 21 lines --> 21 outliers to verify
+# no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000])
+# no 1510 (map=12-->average rainfall of 12 mm persist during the growth period (November to March) of crop in Faisalabad,inférieur au range [50-3000])
+# no 3230 (map=3.014-->c'est la moyenne des précipitations de Janvier à Septembre 2009,inférieur au range [50-3000])
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
   filter(ph < num_range$min_value[num_range$variables == 'ph'] | ph > num_range$max_value[num_range$variables == 'ph'] )
 outliers
 # 53 lines --> 53 outliers to verify
+# no 8790 (ph=3.25-->Rz ph=2.9-3.6)
+# no 5829 (ph=2.6, inférieur au range [3.5-8.5])
+# no 8521 (ph=2.34, inférieur au range [3.5-8.5])
+# no 5760 (ph=8.6, supérieur au range [3.5-8.5])
+# no 2205 (ph=8.9, supérieur au range [3.5-8.5])
+# no 6873 (ph=2.78 et 2.81-->dans les Supplementary data, inférieur au range [3.5-8.5])
+# no 4193 (ph=8.8, supérieur au range [3.5-8.5])
+# no 8198 (ph=8.65-->moyenne de 6.6 et 6.7 Table 1, supérieur au range [3.5-8.5] )
+# no 7605 (ph=3.05-->inférieur au range [3.5-8.5])
+# no 501 (ph=8.55, supérieur au range [3.5-8.5])
+# no 1225 (ph=8.64 et 8.72, supérieur au range [3.5-8.5])
+# no 1406 (ph=3.01-->Table 3,inférieur au range [3.5-8.5])
+# no 8345 (ph=8.9, supérieur au range [3.5-8.5])
+# no 3933 (ph=8.54, supérieur au range [3.5-8.5])
 
 # isolate the outliers lines for the variable 'om'
 outliers <- data_std %>% 
