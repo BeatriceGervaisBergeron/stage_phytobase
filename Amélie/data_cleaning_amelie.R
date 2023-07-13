@@ -1201,24 +1201,25 @@ outliers <- data_std %>%
   filter(N < num_range$min_value[num_range$variables == 'n'] | N > num_range$max_value[num_range$variables == 'n'] )
 outliers
 # 99 lines --> 99 outliers to verify
-# no 1146
+# no 1146 (N=1.04 %, 0.18%, 0.30%--> convertit en 10400 mg kg-1, 1800 mg kg-1, 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 196 (N=1.12%--> convertit en 11200 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 7473 (N=0.3%-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 7974
-# no 133
-# no 2218
-# no 2289
-# no 1675
-# no 2695
-# no 3013
-# no 1683
-# no 501
-# no 2154
-# no 6607
-# no 8196
-# no 838
-# no 1357
-# no 5467
+# no 7974 (N=0.27%, 0.32%-->convertit en 2700 mg kg-1, 3200 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 133 (N=0.19%, 0.16%, 0.18%-->convertit en 1900 mg kg-1, 1600 mg kg-1, 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 2218 (N=0.32%, 0.18%-->convertit en 3200 mg kg-1, 1800 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 2289 (N=0.3%, 0.4%-->convertit en 3000 mg kg-1, 4000 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 1675 (N=2.9 gkg-->convertit en 2900 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 2695 (N=5.6 et 4.8 mg kg, inférieur au range [10-1500 mg kg-1])
+# no 3013 (N=0.3% -->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 1683 (N=3 gkg-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 501 (N=6.8 mg kg, inférieur au range [10-1500 mg kg-1])
+# no 2154 (N=0.21%, 0.17%-->convertit en 2100 mg kg-1, 1700 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 6607 (N=0.16%-->convertit en 1600 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 8196 (N=3 gkg-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 838 (N=0.8%, 0.64%, 0.20%-->convertit en 8000 mg kg-1, 6400 mg kg-1, 2000 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 1357 (N=2.35 gkg-->convertit en 2350 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 5467 (N=2.04 gkg, 1.92 gkg-->convertit en 2040 mg kg-1, 1920 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 8012 (N=0.19%-->convertit en 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
 
 # isolate the outliers lines for the variable 'P'
 outliers <- data_std %>% 
