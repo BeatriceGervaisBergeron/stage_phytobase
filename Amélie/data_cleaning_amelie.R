@@ -1046,27 +1046,27 @@ outliers <- data_std %>%
   filter(expe_t < num_range$min_value[num_range$variables == 'expe_t'] | expe_t > num_range$max_value[num_range$variables == 'expe_t'] )
 outliers
 # 36 lines --> 36 outliers to verify
-# no 2973 (expe_t=16.5--> glasshouse minimum temperature 8ºC; maximum temperature 25ºC,inférieur au range [17-27])
-# no 2762 (expe_t=31--> greenhouse was monitored at an average of 31ºC,supérieur au range [17-27)
-# no 2248 (expe_t=28.9--> in the growing environment, the average temperature was 28.9ºC,supérieur au range [17-27)
-# no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27)
-# no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27)
+# no 2973 (expe_t=16.5--> glasshouse minimum temperature 8ºC; maximum temperature 25ºC,inférieur au range [17-27ºC])
+# no 2762 (expe_t=31--> greenhouse was monitored at an average of 31ºC,supérieur au range [17-27ºC])
+# no 2248 (expe_t=28.9--> in the growing environment, the average temperature was 28.9ºC,supérieur au range [17-27ºC])
+# no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27ºC])
+# no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27ºC])
 
 # isolate the outliers lines for the variable 'mat'
 outliers <- data_std %>% 
   filter(mat < num_range$min_value[num_range$variables == 'mat'] | mat > num_range$max_value[num_range$variables == 'mat'] )
 outliers
 # 9 lines --> 9 outliers to verify
-# no 5829 (mat=35-->The summer (June to September) is a very hot, 35ºC on average,supérieur au range [2-25)
+# no 5829 (mat=35-->The summer (June to September) is a very hot, 35ºC on average,supérieur au range [2-25ºC)
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
   filter(map < num_range$min_value[num_range$variables == 'map'] | map > num_range$max_value[num_range$variables == 'map'] )
 outliers
 # 21 lines --> 21 outliers to verify
-# no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000])
-# no 1510 (map=12-->average rainfall of 12 mm persist during the growth period (November to March) of crop in Faisalabad,inférieur au range [50-3000])
-# no 3230 (map=3.014-->c'est la moyenne des précipitations de Janvier à Septembre 2009,inférieur au range [50-3000])
+# no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000mm])
+# no 1510 (map=12-->average rainfall of 12 mm persist during the growth period (November to March) of crop in Faisalabad,inférieur au range [50-3000mm])
+# no 3230 (map=3.014-->c'est la moyenne des précipitations de Janvier à Septembre 2009,inférieur au range [50-3000mm])
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
@@ -1092,24 +1092,15 @@ outliers
 outliers <- data_std %>% 
   filter(om < num_range$min_value[num_range$variables == 'om'] | om > num_range$max_value[num_range$variables == 'om'] )
 outliers
-# 90 lines --> 90 outliers to verify
-# no 1955
-# no 4088
-# no 1560
-# no 7489
-# no 2248
-# no 1675
-# no 2890
-# no 1264
-# no 4063
-# no 1249
-# no 1357
+# 16 lines --> 16 outliers to verify
+# no 1560 (om=15.61%-->Table 3, supérieur au range [0-15%])
+# no 2248 (om=26.10 dag kg-1, c'est à cause de l'unité)
 
 # isolate the outliers lines for the variable 'oc'
 outliers <- data_std %>% 
   filter(oc < num_range$min_value[num_range$variables == 'oc'] | oc > num_range$max_value[num_range$variables == 'oc'] )
 outliers
-# 258 lines --> 258 outliers to verify
+# 248 lines --> 248 outliers to verify
 # no 1783
 # no 1663
 # no 196
@@ -1128,7 +1119,7 @@ outliers
 # no 6544
 # no 1356
 # no 7504
-# no 5338
+# no 5338 (oc=16 mgL-1, c'est à cause de l'unité)
 # no 2864
 # no 2289
 # no 1675
@@ -1162,81 +1153,48 @@ outliers
 outliers <- data_std %>% 
   filter(clay < num_range$min_value[num_range$variables == 'clay'] | clay > num_range$max_value[num_range$variables == 'clay'] )
 outliers
-# 60 lines --> 60 outliers to verify
-# no 1955
-# no 6871
-# no 1239
-# no 8172
-# no 2181
-# no 3032
-# no 1599
-# no 4063
-# no 3616
-# no 6607
-# no 1249
-# no 177
-# no 8079
-# no 8774
+# 34 lines --> 34 outliers to verify
+# no 4088 (clay=12 gkg-1 et 40 gkg-1-->convertit en 1.2% et 4%, inférieur au range [5-90%])
+# no 6871 (clay=1.61%, inférieur au range [5-90%])
+# no 8172 (clay=430 mg kg-1-->convertit en 4.3%, inférieur au range [5-90%])
+# no 2890 (clay=30 gkg-->convertit en 3%, inférieur au range [5-90%])
+# no 1599 (clay=0-2%, inférieur au range [5-90%])
+# no 6607 (clay=4.7%, inférieur au range [5-90%])
+# no 177 (clay=2%, inférieur au range [5-90%])
 
 # isolate the outliers lines for the variable 'sand'
 outliers <- data_std %>% 
   filter(sand < num_range$min_value[num_range$variables == 'sand'] | sand > num_range$max_value[num_range$variables == 'sand'] )
 outliers
-# 57 lines --> 57 outliers to verify
-# no 3591
-# no 1955
-# no 4088
-# no 1239
-# no 8172
-# no 2890
-# no 3032
-# no 4063
-# no 3616
-# no 1249
-# no 8079
-# no 8774
+# 9 lines --> 9 outliers to verify
+# no 4088 (sand=945 gkg-1 et 909 gkg-1-->convertit en 94.5% et 90.9%, supérieur au range [5-90%])
+# no 8172 (sand=300 mg kg-1-->convertit en 3%, inférieur au range [5-90%])
 
 # isolate the outliers lines for the variable 'ec'
 outliers <- data_std %>% 
   filter(ec < num_range$min_value[num_range$variables == 'ec'] | ec > num_range$max_value[num_range$variables == 'ec'] )
 outliers
-# 140 lines --> 140 outliers to verify
-# no 6402
-# no 4088
-# no 7473
-# no 616
-# no 4254
-# no 1884
-# no 3067
-# no 4193
-# no 7974
-# no 2532
-# no 2695
-# no 2632
-# no 3510
-# no 168
-# no 2133
-# no 5770
-# no 6607
-# no 8196
-# no 354
-# no 8345
+# 23 lines --> 23 outliers to verify
+# no 2532 (ec=527 us/m-->convertit en 52.7 mS cm-1, supérieur au range [0-16 mS cm-1])
+# no 2695 (ec=436us,7311us,356us,231us,205us,1424us,506us,3500us,152us-->convertit en 4.36 mS cm-1, 731.1 mS cm-1, 35.6 mS cm-1, 23.1 mS cm-1, 20.5 mS cm-1, 142.4 mS cm-1, 50.6 mS cm-1, 350.0 mS cm-1,supérieur au range [0-16 mS cm-1])
+# no 5770 (ec=287 ms/m, 261 ms/m, 256 ms/m, 266 ms/m-->convertit en 28.7, 26.1, 25.6 et 26.6 mS cm-1, supérieur au range [0-16 mS cm-1])
 
 # isolate the outliers lines for the variable 'cec'
 outliers <- data_std %>% 
   filter(cec < num_range$min_value[num_range$variables == 'cec'] | cec > num_range$max_value[num_range$variables == 'cec'] )
 outliers
-# 35 lines --> 35 outliers to verify
-# no 1955
-# no 593
-# no 2762
-# no 7858
-# no 1356
-# no 1675
-# no 168
-# no 1239
-# no 1599
-# no 177
+# 42 lines --> 42 outliers to verify
+# no 1955 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
+# no 593 (cec=49.77 et 36.93 meq+100-1-->convertit en 49.77 et 36.93 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
+# no 7858 (cec=39.13 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
+# no 1356 (cec=1.52 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
+# no 1675 (cec=1.9 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
+# no 8669 (cec=15.7%, 14.1% et 8.51%-->convertit en 157, 141 et 85.1 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
+# no 1239 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
+# no 1599 (cec=1.71 cmol kg-1-->sinférieur au range [2-35 cmolc kg-1])
+# no 1011 (cec=7.27 cmol/100g-->convertit en 0.0727 cmolc kg-1, inférieur au range [2-35 cmolc kg-1])
+# no 4063 (cec=6.6 cmolc dm-3-->convertit en 66 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
+# no 177 (cec=178.6 nM+/kg-->convertit en 178.6 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
 
 # isolate the outliers lines for the variable 'N'
 outliers <- data_std %>% 
