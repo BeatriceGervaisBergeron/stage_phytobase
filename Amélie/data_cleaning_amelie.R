@@ -356,9 +356,9 @@ data_std <- data %>%
     ,ec_units = ifelse(ec_units == 'dS m-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'dS cm-1', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'dS cm-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'mS m-1', ec/10, ec)
+    ,ec = ifelse(ec_units == 'mS m-1', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'mS m-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'mS/m', ec/10, ec)
+    ,ec = ifelse(ec_units == 'mS/m', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'mS/m', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'us/m', ec/10, ec)
     ,ec_units = ifelse(ec_units == 'us/m', 'mS cm−1', ec_units)
@@ -946,9 +946,7 @@ syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum", "U
 syn_flowers <- c("flowers","Heads","Head","Spikelets","head")
 syn_fruits <- c("Berry","Edible parts")
 syn_wood <- c("wood","Woody","Trunk wood", "Bark","Trunk" )
-syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant" )
-
-### BEA: you need to go back to have more information on those organs: NA, tissus, herbs,                
+syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant" )                
 
 data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% 
@@ -1009,12 +1007,12 @@ num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data
 data_num <- data_std[ , num_cols]  # 91 variables
 
 ###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
-###AME: est-ce que tu en vois 91 maintenant? 
+###AME: est-ce que tu en vois 91 maintenant?
+
 
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
-
 
 ## check outliers
 # for each variable, isolate data that are outside the range
@@ -1175,7 +1173,6 @@ outliers
 # 23 lines --> 23 outliers to verify
 # no 2532 (ec=527 us/m-->convertit en 52.7 mS cm-1, supérieur au range [0-16 mS cm-1])
 # no 2695 (ec=436us,7311us,356us,231us,205us,1424us,506us,3500us,152us-->convertit en 4.36 mS cm-1, 731.1 mS cm-1, 35.6 mS cm-1, 23.1 mS cm-1, 20.5 mS cm-1, 142.4 mS cm-1, 50.6 mS cm-1, 350.0 mS cm-1,supérieur au range [0-16 mS cm-1])
-# no 5770 (ec=287 ms/m, 261 ms/m, 256 ms/m, 266 ms/m-->convertit en 28.7, 26.1, 25.6 et 26.6 mS cm-1, supérieur au range [0-16 mS cm-1])
 
 # isolate the outliers lines for the variable 'cec'
 outliers <- data_std %>% 
@@ -1912,12 +1909,12 @@ data_std_texture <- data_std_texture %>%
 # now all the textural class should be add in % in the clay and sand column
 
 # verify for clay_units
-unique(data_std_texture$clay_units[4:18]) # "%"
-unique(data_std_texture$clay_units[20:87]) # "%"
+unique(data_std_texture$clay_units) # "%"
+unique(data_std_texture$clay_units) # "%"
 
 # verify for sand_units
-unique(data_std_texture$sand_units[4:18]) # "%"
-unique(data_std_texture$clay_units[20:87]) # "%"
+unique(data_std_texture$sand_units) # "%"
+unique(data_std_texture$clay_units) # "%"
 
 #### Save the final corrected file ####
 
