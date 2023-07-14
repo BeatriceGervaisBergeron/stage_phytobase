@@ -446,13 +446,11 @@ data_std <- data %>%
     ,P_units = ifelse(P_units == 'P2O5', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g P2O5 kg-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'mg L-1', P*1000, P)
-    ,P_units = ifelse(P_units == 'mg L-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'meq/100g', P*30.97*10, P)
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
   )
 #verify
-unique(data_std$P_units)# need to convert "kg ha-1" in "mg kg-1"
+unique(data_std$P_units)# need to convert "kg ha-1" and "mg L-1" in "mg kg-1"
 
 
 #"units_s"   
@@ -1225,36 +1223,33 @@ outliers
 outliers <- data_std %>% 
   filter(P < num_range$min_value[num_range$variables == 'p'] | P > num_range$max_value[num_range$variables == 'p'] )
 outliers
-# 222 lines --> 222 outliers to verify
-# no 1041
-# no 3591
-# no 8790
-# no 2187 (p=2.5 ug g--> convertit en 1500 mg kg-1, supérieur au range [5-100 mg kg-1] )
-# no 6382
-# no 1831
-# no 271
-# no 2600
-# no 2011
-# no 133
-# no 2762
-# no 6544
-# no 7858
-# no 1356
-# no 218
-# no 5338
-# no 2864
-# no 1683
-# no 2181
-# no 96
-# no 1264
-# no 1011
-# no 3396
-# no 2089
-# no 1249
-# no 1357
-# no 5467
-# no 4239
-# no 2351
+# 208 lines --> 208 outliers to verify
+# no 1041 (P=2.91 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 3591 (P=3.6 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 2187 (P=2.5 ug g--> convertit en 1500 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 6382 (P=0.21 g kg--> convertit en 210 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 1831 (P=118 et 1042 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 271 (P=712 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2600 (P=180 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2011 (P=5.5, 11.8, 19.6 et 16.6 mg 100 g−1--> convertit en 0.55, 1.18, 1.96 et 1.66 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 133 (P=13.5, 16.1, 14.7 et 16.2 mg 100 g−1--> convertit en 1.31, 1.61, 1.47 et 1.62 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 7858 (P=2.89 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 1356 (P=2.20 cmol (+)kg−1--> convertit en 2.20 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 218 (P=0.4 mg dm−3--> convertit en 4 mg kg-1, inférieur au range [5-100 mg kg-1]) 
+# no 5338 (P=4.9 mgL-1, c'est à cause de l'unité)
+# no 2864 (P=404 ug g--> convertit en 404000 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 1683 (P=0.59 g kg--> convertit en 590 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2181 (P=4.51 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 96 (P=830 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 1264 (P=0.16 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 1011 (P=0.24%--> convertit en 240 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 3396 (P=1.24 et 0.97 g kg--> convertit en 1240 et 970 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2089 (P=4.62 et 4.98 mg kg-1, inférieur au range [5-100 mg kg-1])
+# no 1249 (P=1.3, 0.34 et 0.5 g kg--> convertit en 1300, 340 et 500 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 1357 (P=0.73 et 0.87 g kg--> convertit en 730 et 870 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 5467 (P=1.10 et 1.15 g kg--> convertit en 1100 et 1150 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 4239 (P=3.11 g kg--> convertit en 3110 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2351 (P=484 mg kg, supérieur au range [5-100 mg kg-1])
 
 # isolate the outliers lines for the variable 'as_s'
 outliers <- data_std %>% 
