@@ -293,8 +293,6 @@ data_std <- data_std %>%
 # verify
 unique(data_std$oc_units) # need to convert "mgL-1" in "%"
 
-### BEA: attention, si tu ajoute des modifications a data_std, tu dois repartir de data_std, si tu reprend data seulement tu reparts de data avec 0 modifications
-
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
 # need to convert  to %
@@ -1170,7 +1168,7 @@ outliers
 outliers <- data_std %>% 
   filter(ec < num_range$min_value[num_range$variables == 'ec'] | ec > num_range$max_value[num_range$variables == 'ec'] )
 outliers
-# 23 lines --> 23 outliers to verify
+# 19 lines --> 19 outliers to verify
 # no 2532 (ec=527 us/m-->convertit en 52.7 mS cm-1, supérieur au range [0-16 mS cm-1])
 # no 2695 (ec=436us,7311us,356us,231us,205us,1424us,506us,3500us,152us-->convertit en 4.36 mS cm-1, 731.1 mS cm-1, 35.6 mS cm-1, 23.1 mS cm-1, 20.5 mS cm-1, 142.4 mS cm-1, 50.6 mS cm-1, 350.0 mS cm-1,supérieur au range [0-16 mS cm-1])
 
