@@ -281,7 +281,7 @@ unique(data_std$om_units) # need to convert "dag kg-1" in "%"
 #"oc_units" 
 unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
 # need to convert  to %
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     oc = ifelse(oc_units == 'g kg', oc/10, oc)
     ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
@@ -298,7 +298,7 @@ unique(data_std$oc_units) # need to convert "mgL-1" in "%"
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
 # need to convert  to %
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     clay = ifelse(clay_units == 'g kg', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg', '%', clay_units)
@@ -314,7 +314,7 @@ unique(data_std$clay_units) #only "%"
 #"sand_units" 
 unique(units$sand_units) #  "%" "g kg-1" "mm" "mg kg-1" "g kg"
 # need to convert  to %
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     sand = ifelse(sand_units == 'g kg', sand/10, sand)
     ,sand_units = ifelse(sand_units == 'g kg', '%', sand_units)
@@ -331,7 +331,7 @@ unique(data_std$sand_units) #only "%"
 unique(units$ec_units) # "uScm-1" "dSm-1" "ms cm-1" "mS/cm" "uS cm" "mS m-1" "uS cm-1" "us/m" "dS/m" "dS cm-1" "mS cm-1" "uS" "us cm" "us cm-1" "uS/cm" "dS m-1" "mS/m" "dS m"
 #need to convert  to mS cm-1
 convert <- c("ms cm-1","mS/cm","mS cm-1")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     ec_units = ifelse(ec_units %in% convert , 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'uScm-1', ec/1000, ec)
@@ -395,7 +395,7 @@ unique(data_std$cec_units) # only "cmolc kg-1"
 unique(units$N_units) # "mg kg-1" "g kg-1" "%" "mg/g" "g.kg-1" "mg/kg" "mg g-1" "g kg dw-1" "g kg" "kg ha-1" "mg kg"
 # need to convert to mg kg−1
 convert <- c("mg/kg","mg kg","mg kg-1")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     N_units = ifelse(N_units %in% convert , 'mg kg−1', N_units)
     ,N = ifelse(N_units == '%', N*10000, N)
@@ -421,7 +421,7 @@ unique(data_std$N_units) # need to convert "kg ha-1" in "mg kg-1"
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
 # need to convert to mg kg-1
 convert <- c("mg/kg","mg kg","mg g-1","ppm","mg kg-1 (P2O5)","mg P/kg")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     P_units = ifelse(P_units %in% convert , 'mg kg-1', P_units)
     ,P = ifelse(P_units == '%', P*1000, P)
@@ -457,7 +457,7 @@ unique(data_std$P_units)# need to convert "kg ha-1" and "mg L-1" in "mg kg-1"
 unique(units$units_s) # "mg kg-1" "g kg-1" "mg kg" "ppm" "ug.L-1" "ug g-1" "mg/kg" "ug g" "mg dm-3" "ug/g" "mg L-1" "uM/g"
 # need to convert to mg kg-1
 convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g","mg dm-3")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_s = ifelse(units_s %in% convert , 'mg kg-1', units_s)
     ,s = ifelse(units_s == 'g kg-1', as_s*1000, as_s)
@@ -491,7 +491,7 @@ unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
 unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
 ## need to convert to g
 convert <- c("g/plant","g pot-1","g per pot","g plant-1", "g pot -1","g ","g/pot","g plant -1","g plant","g m-2","g FM","g m2")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_b = ifelse(units_b %in% convert , 'g', units_b)
     ,b = ifelse(units_b == 'mg', ba_total/1000, ba_total)
@@ -528,7 +528,7 @@ unique(data_std$units_b) # need to convert "kg acre-1","mg ha-1","t ha-1","kg ha
 unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ug kg-1" "ppm/ppb" "kg ha-1"
 # need to convert to mg kg-1 
 convert <- c("mg kg","ppm","mg kg ","mg/kg", "mg kg-1 DW","ppm/ppb")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_te_ba = ifelse(units_te_ba %in% convert , 'mg kg-1', units_te_ba)
     ,ba = ifelse(units_te_ba == 'ug.g-1', as_ba/1000, as_ba)
@@ -652,7 +652,7 @@ unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","uM/g DW","mg m
 unique(units$units_te_br) # "mg kg-1" "mg kg" "ug.g-1" "ug g" "ug/g" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" 
 # need to convert to mg kg-1 
 convert <- c("mg kg", "mg kg-1 DW")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_te_br = ifelse(units_te_br %in% convert , 'mg kg-1', units_te_br)
     ,br = ifelse(units_te_br == 'ug.g-1', as_br*1000, as_br)
@@ -752,7 +752,7 @@ unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" i
 unique(units$units_te_ba_1) # "mg kg-1" "ug.g-1" "ug g" "mg kg" "mg plant-1" "ppm" "uM/g DW" "ug/g" "ug kg-1" "ug g-1"
 # need to convert to mg kg-1 
 convert <- c("mg kg","ppm")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_te_ba_1 = ifelse(units_te_ba_1 %in% convert , 'mg kg-1', units_te_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', as_ba_1*1000, as_ba_1)
@@ -874,7 +874,7 @@ unique(data_std$units_te_ba_1) # need to convert "uM/g DW", "mg plant-1" in mg k
 unique(units$units_te_ba_2) # "mg kg-1" "ug g"    "mg kg"
 #need to convert to mg kg-1 
 convert <- c("mg kg")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_te_ba_2 = ifelse(units_te_ba_2 %in% convert , 'mg kg-1', units_te_ba_2)
     ,ba_2 = ifelse(units_te_ba_2 == 'ug g', as_ba_2*1000, as_ba_2)
@@ -908,7 +908,7 @@ unique(units$units_te_ba_3) # only "mg kg-1"
 #"units_density"
 unique(data$units_density)# "plants/pot" "plant/pot" "stems/acre" "g cm-3" "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
 convert <- c("plant/pot")
-data_std <- data %>%
+data_std <- data_std %>%
   mutate(
     units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
  )
