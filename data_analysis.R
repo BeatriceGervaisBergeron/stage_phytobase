@@ -28,6 +28,7 @@ library(lme4)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(lmerTest)
 
 #### Import data ####
 data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
