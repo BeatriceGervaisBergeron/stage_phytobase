@@ -1002,10 +1002,10 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eli
 
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
-data_num <- data_std[ , num_cols]  # 91 variables
+data_num <- data_std[ , num_cols]  # 96 variables
 
 ###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
-###AME: est-ce que tu en vois 91 maintenant?
+###AME: est-ce que tu en vois 96 maintenant?
 
 
 # import the data normal range
@@ -1842,7 +1842,6 @@ data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Clayey silt loam' , 'Silty clay loam', texture)) %>%
   mutate(texture = ifelse(texture == 'Loamy','Loam', texture)) %>%
   mutate(texture = ifelse(texture == 'Sandy','Sand', texture)) %>%
-  mutate(texture = ifelse(texture == 'Sandy ','Sand', texture)) %>%
   mutate(texture = ifelse(texture == 'Clayey silt ','Silty clay', texture)) %>%
   mutate(texture = ifelse(texture == 'Clayey sand ','Sandy clay', texture))
 
@@ -1908,102 +1907,16 @@ data_std_texture <- data_std_texture %>%
 
 # verify for clay_units
 unique(data_std_texture$clay_units) # "%"
-unique(data_std_texture$clay_units) # "%"
 
 # verify for sand_units
 unique(data_std_texture$sand_units) # "%"
-unique(data_std_texture$clay_units) # "%"
 
 #### Save the final corrected file ####
 
 # Save the final corrected file with textural classes in an rds object
-saveRDS(data_std_texture, file = 'Amélie/data_cleaning_final/data_std_cleaned.rds')
+saveRDS(data_std_texture, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
 
 # save the final corrected file as txt file
 write.table(data_std_texture,
-            "./Amélie/data_cleaning_final/data_std_cleaned.txt", 
+            "./Amélie/data_cleaning_final/data_std_cu_cleaned.txt", 
             sep="\t", row.names = F, quote = F)
-
-#### join the traits to your data ####
-
-traits <- readRDS('./complete_data.rds')
-data_std <- left_join(data_std,traits)
-
-##### visualization of the data ##### EN construction
-
-#### normality ######
-
-# configuring graphics settings
-par(mfrow = c(4, 2))
-par(mar = c(2, 2, 1, 1))
-
-# histograms of database
-hist(data_std$ph, breaks = "FD", main = "pH")
-hist(data_std$om, breaks = "FD", main = "OM")
-hist(data_std$oc, breaks = "FD", main = "OC")
-hist(data_std$SLA, breaks = "FD", main = "SLA") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
-hist(data_std$LDMC, breaks = "FD", main = "LDMC") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
-hist(data_std$LA, breaks = "FD", main = "LA") #Error in if (h == 0) { : missing value where TRUE/FALSE needed
-hist(data_std$cd_ba, breaks = "FD", main = "cd_ba")
-hist(data_std$zn_ba, breaks = "FD", main = "zn_ba") #Error in hist.default(data_std$zn_ba, breaks = "FD", main = "zn_ba") : 'x' doit être numérique
-
-
-#### colinarity ######
-# is there colinearity between some variables
-HH::vif( ph ~ om +oc + LA +SLA + LDMC + cd_ba + zn_ba, data=data_std)
-
-
-# normality of the traits
-
-# is LA normally distributed ad is there a transformation that make it more normal?
-par(mfrow=c(4,2))
-par(mar=c(2,2,1,1)) # Ajuster les marges
-hist(traits$LA)
-hist(log(traits$LA))
-hist(log10(traits$LA))
-hist(sqrt(traits$LA))
-hist(decostand(traits$LA, method='log', MARGIN=2))
-hist(traits$LA^(1/3))
-hist(decostand(traits$LA, method='standardize', MARGIN=2))
-hist(log2(traits$LA))
-
-# is SLA normally distributed ad is there a transformation that make it more normal?
-par(mfrow=c(4,2))
-par(mar=c(2,2,1,1)) # Ajuster les marges
-hist(traits$SLA)
-hist(log(traits$SLA))
-hist(log10(traits$SLA))
-hist(sqrt(traits$SLA))
-hist(decostand(traits$SLA, method='log', MARGIN=2))
-hist(traits$SLA^(1/3))
-hist(decostand(traits$SLA, method='standardize', MARGIN=2))
-hist(log2(traits$SLA))
-
-# is LDMC normally distributed ad is there a transformation that make it more normal?
-par(mfrow=c(4,2))
-par(mar=c(2,2,1,1)) # Ajuster les marges
-hist(traits$LDMC)
-hist(log(traits$LDMC)) 
-hist(log10(traits$LDMC))
-hist(sqrt(traits$LDMC))
-hist(decostand(traits$LDMC, method='log', MARGIN=2))
-hist(traits$LDMC^(1/3))
-hist(decostand(traits$LDMC, method='standardize', MARGIN=2))
-hist(logit(traits$LDMC))
-
-#so we can log transform LA and SLA and logit transform LDMC
-
-
-# visualize your sp with your traits
-sp_traits <- na.omit(data_std[,c('LA' , 'SLA' ,'LDMC' )])
-# standardized the data to make them comparable
-sp_traits.s<-decostand(sp_traits[,c('LA','SLA','LDMC')], method='standardize', MARGIN=2)
-
-pca <-rda(sp_traits.s)
-plot(pca)
-
-#### save your corrected and standardize data ####
-
-write.table(data_std,
-            "./Amélie/data_std.txt", 
-            sep=",", row.names = F, quote = F)
