@@ -267,18 +267,11 @@ data_std <- data %>%
          ,om = ifelse(om_units == 'g.O2.kg-1', om/10, om)
          ,om_units = ifelse(om_units == 'g.O2.kg-1', '%', om_units)
          ,om = ifelse(om_units == 'mg kg-1', om/100, om)
-         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units),
+         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units)
          ,om_units = ifelse(om_units == 'dag kg-1', '%', om_units)
   )
 # verify
-unique(data_std$om_units) # need to convert "dag kg-1" in "%" 
-
-### BEA: pour les unité qui te reste à convertir, il faudrait 1) que tu vérifie que ce sont bine les unités données (dag kg-1 ne me dis rien et g/kg3 me semble une erreur)
-# 2) tu pourrais les ajouter au tableau de transformation des unités dans le document de prototcol et me proposer les conversions qui te semble adéquate selon tes recherches, 
-# 3) ajoute des ? au tableau si tu ne sais vraiment pas, mais je pense que tu peux trouver comment conbvertir mg Kg-1
-# 4) ajouter les sources pour la proposition de convertion si nécessaire
-# 5) pour les unités avec des volumes, comme L ou dm3, c'est effectivement plus compliqué. Essai de voir ce qui t'es proposé avec une recheche et je vais regarder de mon cote aussi.
-
+unique(data_std$om_units) # only "%" 
 
 #"oc_units" 
 unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
@@ -291,15 +284,11 @@ data_std <- data_std %>%
     ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
     ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
     ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
+    ,oc = ifelse(oc_units == 'mgL-1', NA, oc_units)
     ,oc_units = ifelse(oc == 'NA', 'NA', oc_units)
   )
 # verify
-unique(data_std$oc_units) # "%" and NA is ok.
-# Need to delete this data for now
-data_std <- data_std %>%
-  mutate(
-    oc = ifelse(oc_units == 'mgL-1', NA, oc)
-  )
+unique(data_std$oc_units) # only "%"
 
 
 #"clay_units" 
