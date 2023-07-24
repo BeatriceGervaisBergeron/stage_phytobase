@@ -969,7 +969,8 @@ convert <- c("plant/pot")
 data_std <- data_std %>%
   mutate(
     units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
- )
+    ,units_density = ifelse(p_density == 'NA', 'NA', units_density)
+  )
 # verify
 unique(data_std$units_density) # "plants/pot" "stems/acre" "g cm-3"  "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
 
@@ -1154,8 +1155,7 @@ outliers
 outliers <- data_std %>% 
   filter(oc < num_range$min_value[num_range$variables == 'oc'] | oc > num_range$max_value[num_range$variables == 'oc'] )
 outliers
-# 248 lines --> 248 outliers to verify
-# no 1783 (oc=1.2%, inférieur au range [2.4-6%])
+# 238 lines --> 238 outliers to verify
 # no 1663 (oc=9,7.6,13,6.6 et 9.3 g kg-1-->convertit en 0.9%, 0.76%, 1.3%, 0.66%, 0.93%, inférieur au range [2.4-6%])
 # no 196 (oc=1.48%, inférieur au range [2.4-6%])
 # no 249 (oc=10.7%, supérieur au range [2.4-6%])
@@ -1172,7 +1172,6 @@ outliers
 # no 6544 (oc=1.86%, 1.55%, inférieur au range [2.4-6%])
 # no 1356 (oc=0.12%, inférieur au range [2.4-6%])
 # no 7504 (oc=1.2683%, moyenne de 1.54,1.9,0.1,1.3,1.47 et 1.2, inférieur au range [2.4-6%])
-# no 5338 (oc=16 mgL-1, c'est à cause de l'unité)
 # no 2864 (oc=1.29%, inférieur au range [2.4-6%])
 # no 2289 (oc=1.1%, 1.5%, 8.8%, 11.3%, inférieur et supérieur au range [2.4-6%])
 # no 1675 (oc=14.8 gkg-->convertit en 1.48%, inférieur au range [2.4-6%])
@@ -1337,7 +1336,7 @@ outliers
 outliers <- data_std %>% 
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
-# 43 lines --> 43 outliers to verify
+# 44 lines --> 44 outliers to verify
 # no 1663 (cu_s=3732 et 5180 mg kg-1, supérieur au range [0-2500 mgkg])
 # no 3036
 # no 466
@@ -1354,7 +1353,7 @@ outliers
 outliers <- data_std %>% 
   filter(pb_s < num_range$min_value[num_range$variables == 'pb_s'] | pb_s > num_range$max_value[num_range$variables == 'pb_s'] )
 outliers
-# 24 lines --> 24 outliers to verify
+# 23 lines --> 23 outliers to verify
 # no 5793
 # no 1146
 # no 8790
