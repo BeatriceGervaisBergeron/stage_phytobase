@@ -245,6 +245,7 @@ uni_cu_cor <-unique(data$name)
 
 ###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
 ###AME: j'en ai 394
+###BEA: Ok, moi aussi
 
 #### standardized units ####
 # Select all the units column
@@ -266,7 +267,8 @@ data_std <- data %>%
          ,om = ifelse(om_units == 'g.O2.kg-1', om/10, om)
          ,om_units = ifelse(om_units == 'g.O2.kg-1', '%', om_units)
          ,om = ifelse(om_units == 'mg kg-1', om/100, om)
-         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units)
+         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units),
+         ,om_units = ifelse(om_units == 'dag kg-1', '%', om_units)
   )
 # verify
 unique(data_std$om_units) # need to convert "dag kg-1" in "%" 
@@ -289,9 +291,16 @@ data_std <- data_std %>%
     ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
     ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
     ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
+    ,oc_units = ifelse(oc == 'NA', 'NA', oc_units)
   )
 # verify
-unique(data_std$oc_units) # need to convert "mgL-1" in "%"
+unique(data_std$oc_units) # "%" and NA is ok.
+# Need to delete this data for now
+data_std <- data_std %>%
+  mutate(
+    oc = ifelse(oc_units == 'mgL-1', NA, oc)
+  )
+
 
 #"clay_units" 
 unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
@@ -413,7 +422,11 @@ data_std <- data_std %>%
   )
 #verify
 unique(data_std$N_units) # need to convert "kg ha-1" in "mg kg-1"
-
+# Need to delete this data for now
+data_std <- data_std %>%
+  mutate(
+    N = ifelse(N_units == 'kg ha-1', NA, N)
+  )
 
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
@@ -444,12 +457,18 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'P2O5', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g P2O5 kg-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'meq/100g', P*30.97*10, P)
+    ,P = ifelse(P_units == 'meq/100g', P*(30.974/5)*10, P)
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
   )
 #verify
 unique(data_std$P_units)# need to convert "kg ha-1" and "mg L-1" in "mg kg-1"
-
+# Need to delete this data for now
+data_std <- data_std %>%
+  mutate(
+    P = ifelse(P_units == 'kg ha-1', NA, P)
+    ,P = ifelse(P_units == 'mg L-1', NA, P)
+  )
+###BEA: need to convert the mg L-1 to the original mg/kg in the article 5338
 
 #"units_s"   
 unique(units$units_s) # "mg kg-1" "g kg-1" "mg kg" "ppm" "ug.L-1" "ug g-1" "mg/kg" "ug g" "mg dm-3" "ug/g" "mg L-1" "uM/g"
@@ -483,8 +502,13 @@ data_std <- data_std %>%
   )
 #verify
 unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
+data_std <- data_std %>%
+  mutate(
+    s = ifelse(units_s == 'uM/g', NA, cu_s)
+  )
+###BEA: need to convert the mg L-1 to the original mg/kg in the article 5338
 
-    
+
 #"units_b" 
 unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
 ## need to convert to g
@@ -639,11 +663,34 @@ data_std <- data_std %>%
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
     ,ba = ifelse(units_te_ba == 'ug kg-1', hg_ba/1000, hg_ba)
     ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
+    ,ba = ifelse(units_te_ba == 'mg plant-1', cu_ba/ba_total*1000, cu_ba)
+    ,units_te_ba = ifelse(units_te_ba == 'mg plant-1', 'mg kg-1', units_te_ba)
+    ,ba = ifelse(units_te_ba == 'mg pot-1', cu_ba/ba_total*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'mg pot-1', pb_ba/ba_total*1000, pb_ba)
+    ,units_te_ba = ifelse(units_te_ba == 'mg pot-1', 'mg kg-1', units_te_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', as_ba/ba_leaf*1000000, as_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', cu_ba/ba_leaf*1000000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', pb_ba/ba_leaf*1000000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', zn_ba/ba_leaf*1000000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', mn_ba/ba_leaf*1000000, mn_ba)
+    ,ba = ifelse(units_te_ba == 'kg ha-1', cr_ba/ba_leaf*1000000, cr_ba)
+    ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', as_ba/ba_leaf*1000, as_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', cd_ba/ba_leaf*1000, cd_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', cu_ba/ba_leaf*1000, cu_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', pb_ba/ba_leaf*1000, pb_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', zn_ba/ba_leaf*1000, zn_ba)
+    ,ba = ifelse(units_te_ba == 'mg m-2', se_ba/ba_leaf*1000, se_ba)
+    ,units_te_ba = ifelse(units_te_ba == 'mg m-2', 'mg kg-1', units_te_ba)
+    
   )
 # verify
 unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","uM/g DW","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
-
-### BEA: tu pourrais inscrire toutes tes transformations d'unité dans le tableau des variables, quetsions que je les valide plus facilement?
+# delete uM/g
+data_std <- data_std %>%
+  mutate(
+    s = ifelse(units_s == 'uM/g', NA, cu_s)
+  )
 
 
 #"units_te_br"   
