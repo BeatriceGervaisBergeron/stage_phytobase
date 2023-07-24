@@ -302,9 +302,10 @@ data_std <- data_std %>%
     ,clay_units = ifelse(clay_units == 'g kg-1', '%', clay_units)
     ,clay = ifelse(clay_units == 'mg kg-1', clay/100, clay)
     ,clay_units = ifelse(clay_units == 'mg kg-1', '%', clay_units)
+    ,clay_units = ifelse(clay == 'NA', 'NA', clay_units)
   )
 # verify
-unique(data_std$clay_units) #only "%"
+unique(data_std$clay_units) # only "%"
 
 
 #"sand_units" 
@@ -320,7 +321,7 @@ data_std <- data_std %>%
     ,sand_units = ifelse(sand_units == 'mg kg-1', '%', sand_units)
   )
 # verify
-unique(data_std$sand_units) #only "%"
+unique(data_std$sand_units) # only "%"
 
 
 #"ec_units"
@@ -362,7 +363,7 @@ data_std <- data_std %>%
     ,ec_units = ifelse(ec_units == 'uS', 'mS cm−1', ec_units)
   )
 # verify
-unique(data_std$ec_units)# only "mS cm−1" 
+unique(data_std$ec_units) # only "mS cm−1" 
 
 
 #"cec_units"
@@ -484,14 +485,11 @@ data_std <- data_std %>%
     ,s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
     ,s = ifelse(units_s == 'uM/g', NA, cu_s)
+    ,units_s = ifelse(s == 'NA', 'NA', units_s)
   )
 #verify
-unique(data_std$units_s) # need to convert "uM/g" in "mg kg-1"
-# delete uM/g
-data_std <- data_std %>%
-  mutate(
-    s = ifelse(units_s == 'uM/g', NA, cu_s)
-  )
+unique(data_std$units_s) # only "mg kg-1"
+
 
 #"units_b" 
 unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
@@ -666,14 +664,7 @@ data_std <- data_std %>%
     ,ba = ifelse(units_te_ba == 'mg m-2', zn_ba/ba_leaf*1000, zn_ba)
     ,ba = ifelse(units_te_ba == 'mg m-2', se_ba/ba_leaf*1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'mg m-2', 'mg kg-1', units_te_ba)
-    
-  )
-# verify
-unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","uM/g DW","mg m2 year-1","mg plant-1","mg pot-1" in "mg kg-1"
-# delete uM/g
-data_std <- data_std %>%
-  mutate(
-    ba = ifelse(units_te_ba == 'uM/g DW', NA, as_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, as_ba)
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cd_ba)
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cu_ba)
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, pb_ba)
@@ -684,7 +675,10 @@ data_std <- data_std %>%
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, mn_ba)
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cr_ba)
     ,ba = ifelse(units_te_ba == 'uM/g DW', NA, hg_ba)
+    ,units_te_ba = ifelse(ba == 'NA', 'NA', units_te_ba)
   )
+# verify
+unique(data_std$units_te_ba) # only "mg kg-1"
 
 
 #"units_te_br"   
@@ -904,13 +898,7 @@ data_std <- data_std %>%
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', hg_ba_1/1000, hg_ba_1)
     ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-  )
-# verify
-unique(data_std$units_te_ba_1) # need to convert "uM/g DW", "mg plant-1" in mg kg-1
-# delete uM/g
-data_std <- data_std %>%
-  mutate(
-    ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, as_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, as_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cd_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cu_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, pb_ba_1)
@@ -921,7 +909,11 @@ data_std <- data_std %>%
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, mn_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cr_ba_1)
     ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, hg_ba_1)
+    ,units_te_ba_1 = ifelse(ba_1 == 'NA', 'NA', units_te_ba_1)
   )
+# verify
+unique(data_std$units_te_ba_1) # only "mg kg-1"
+
 
 #"units_te_ba_2"
 unique(units$units_te_ba_2) # "mg kg-1" "ug g"    "mg kg"
