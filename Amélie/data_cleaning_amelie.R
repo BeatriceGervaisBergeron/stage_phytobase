@@ -486,8 +486,12 @@ data_std <- data_std %>%
     ,s = ifelse(units_s == 'uM/g', NA, cu_s)
   )
 #verify
-unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
-
+unique(data_std$units_s) # need to convert "uM/g" in "mg kg-1"
+# delete uM/g
+data_std <- data_std %>%
+  mutate(
+    s = ifelse(units_s == 'uM/g', NA, cu_s)
+  )
 
 #"units_b" 
 unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
@@ -669,7 +673,17 @@ unique(data_std$units_te_ba) # Need to convert "kg ha-1",mg m-2","uM/g DW","mg m
 # delete uM/g
 data_std <- data_std %>%
   mutate(
-    s = ifelse(units_s == 'uM/g', NA, cu_s)
+    ba = ifelse(units_te_ba == 'uM/g DW', NA, as_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cd_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cu_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, pb_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, zn_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, se_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, ni_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, co_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, mn_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cr_ba)
+    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, hg_ba)
   )
 
 
@@ -893,7 +907,21 @@ data_std <- data_std %>%
   )
 # verify
 unique(data_std$units_te_ba_1) # need to convert "uM/g DW", "mg plant-1" in mg kg-1
-
+# delete uM/g
+data_std <- data_std %>%
+  mutate(
+    ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, as_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cd_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cu_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, pb_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, zn_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, se_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, ni_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, co_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, mn_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cr_ba_1)
+    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, hg_ba_1)
+  )
 
 #"units_te_ba_2"
 unique(units$units_te_ba_2) # "mg kg-1" "ug g"    "mg kg"
