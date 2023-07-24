@@ -284,7 +284,7 @@ data_std <- data_std %>%
     ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
     ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
     ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
-    ,oc = ifelse(oc_units == 'mgL-1', NA, oc_units)
+    ,oc = ifelse(oc_units == 'mgL-1', NA, oc)
     ,oc_units = ifelse(oc == 'NA', 'NA', oc_units)
   )
 # verify
@@ -408,14 +408,11 @@ data_std <- data_std %>%
     ,N_units = ifelse(N_units == 'g kg', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
+    ,N = ifelse(N_units == 'kg ha-1', NA, N)
   )
 #verify
-unique(data_std$N_units) # need to convert "kg ha-1" in "mg kg-1"
-# Need to delete this data for now
-data_std <- data_std %>%
-  mutate(
-    N = ifelse(N_units == 'kg ha-1', NA, N)
-  )
+unique(data_std$N_units) # only "mg kg-1"
+
 
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
@@ -448,16 +445,12 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'meq/100g', P*(30.974/5)*10, P)
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
+    ,P = ifelse(P_units == 'kg ha-1', NA, P)
+    ,P = ifelse(P_units == 'mg L-1', NA, P)
   )
 #verify
 unique(data_std$P_units)# need to convert "kg ha-1" and "mg L-1" in "mg kg-1"
-# Need to delete this data for now
-data_std <- data_std %>%
-  mutate(
-    P = ifelse(P_units == 'kg ha-1', NA, P)
-    ,P = ifelse(P_units == 'mg L-1', NA, P)
-  )
-###BEA: need to convert the mg L-1 to the original mg/kg in the article 5338
+
 
 #"units_s"   
 unique(units$units_s) # "mg kg-1" "g kg-1" "mg kg" "ppm" "ug.L-1" "ug g-1" "mg/kg" "ug g" "mg dm-3" "ug/g" "mg L-1" "uM/g"
@@ -488,14 +481,20 @@ data_std <- data_std %>%
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
     ,s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
+    ,s = ifelse(units_s == 'uM/g', NA, as_s)
+    ,s = ifelse(units_s == 'uM/g', NA, cd_s)
+    ,s = ifelse(units_s == 'uM/g', NA, cu_s)
+    ,s = ifelse(units_s == 'uM/g', NA, pb_s)
+    ,s = ifelse(units_s == 'uM/g', NA, zn_s)
+    ,s = ifelse(units_s == 'uM/g', NA, se_s)
+    ,s = ifelse(units_s == 'uM/g', NA, ni_s)
+    ,s = ifelse(units_s == 'uM/g', NA, co_s)
+    ,s = ifelse(units_s == 'uM/g', NA, mn_s)
+    ,s = ifelse(units_s == 'uM/g', NA, cr_s)
+    ,s = ifelse(units_s == 'uM/g', NA, hg_s)
   )
 #verify
 unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
-data_std <- data_std %>%
-  mutate(
-    s = ifelse(units_s == 'uM/g', NA, cu_s)
-  )
-###BEA: need to convert the mg L-1 to the original mg/kg in the article 5338
 
 
 #"units_b" 
