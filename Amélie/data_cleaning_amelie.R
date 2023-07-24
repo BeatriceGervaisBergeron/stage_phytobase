@@ -409,6 +409,7 @@ data_std <- data_std %>%
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'kg ha-1', NA, N)
+    ,N_units = ifelse(N == 'NA', 'NA', N_units)
   )
 #verify
 unique(data_std$N_units) # only "mg kg-1"
@@ -447,9 +448,10 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'kg ha-1', NA, P)
     ,P = ifelse(P_units == 'mg L-1', NA, P)
+    ,P_units = ifelse(P == 'NA', 'NA', P_units)
   )
 #verify
-unique(data_std$P_units)# need to convert "kg ha-1" and "mg L-1" in "mg kg-1"
+unique(data_std$P_units)# only "mg kg-1"
 
 
 #"units_s"   
@@ -481,17 +483,7 @@ data_std <- data_std %>%
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
     ,s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'uM/g', NA, as_s)
-    ,s = ifelse(units_s == 'uM/g', NA, cd_s)
     ,s = ifelse(units_s == 'uM/g', NA, cu_s)
-    ,s = ifelse(units_s == 'uM/g', NA, pb_s)
-    ,s = ifelse(units_s == 'uM/g', NA, zn_s)
-    ,s = ifelse(units_s == 'uM/g', NA, se_s)
-    ,s = ifelse(units_s == 'uM/g', NA, ni_s)
-    ,s = ifelse(units_s == 'uM/g', NA, co_s)
-    ,s = ifelse(units_s == 'uM/g', NA, mn_s)
-    ,s = ifelse(units_s == 'uM/g', NA, cr_s)
-    ,s = ifelse(units_s == 'uM/g', NA, hg_s)
   )
 #verify
 unique(data_std$units_s) # need to convert "mg L-1" and "uM/g" in "mg kg-1"
