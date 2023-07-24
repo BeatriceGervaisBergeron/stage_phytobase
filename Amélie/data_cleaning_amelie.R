@@ -522,10 +522,11 @@ data_std <- data_std %>%
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
     ,b = ifelse(units_b == 'kg', br*1000, br)
     ,units_b = ifelse(units_b == 'kg', 'g', units_b)
+    ,units_b = ifelse(b == 'NA', 'NA', units_b)
   )
 
 #verify
-unique(data_std$units_b) # need to convert "kg acre-1","mg ha-1","t ha-1","kg ha-1" en "g"
+unique(data_std$units_b) # only "g"
 
 
 #"units_te_ba" 
@@ -776,9 +777,21 @@ data_std <- data_std %>%
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
     ,br = ifelse(units_te_br == 'ug g-1', hg_br*1000, hg_br)
     ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, as_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, cd_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, cu_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, pb_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, zn_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, se_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, ni_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, co_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, mn_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, cr_br)
+    ,br = ifelse(units_te_br == 'uM/g DW', NA, hg_br)
+    ,units_te_br = ifelse(br == 'NA', 'NA', units_te_br)
   )
 # verify
-unique(data_std$units_te_br) # need to convert "mg plant-1","mg m-2",mg pot-1" in "mg kg-1"
+unique(data_std$units_te_br) # only "mg kg-1"
 
 
 #"units_te_ba_1"
