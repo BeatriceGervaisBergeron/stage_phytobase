@@ -160,7 +160,7 @@ data[data == ''] <- NA
 
 #### species names cleaning  ####
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name)) # 394 unique species
+uni_sp<-as.data.frame(unique(data$name)) # 391 unique species
 colnames(uni_sp) <- c('sp') 
 
 # Correct the name according to the species name corrected from TRY
@@ -233,6 +233,9 @@ list_sp_cor_cu <- bind_rows(cu_sp_cor, list_sp_cor)
 data <- data %>% 
   left_join(list_sp_cor_cu, by=c('name'= 'user_supplied_name'))
 
+data <- data %>% 
+  mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name))
+
 ### BEA: ici il faut enlever les colonnes submitted_name à dupl2, soit 131 a 137. 
 #Tu as éliminé des colonnes de données ici, dont ta colonne organ_ba_1, d'ou ton problème de reconnaissance
 ### a remplacer par quelque chose comme ça si tu préfères:
@@ -241,11 +244,8 @@ data <- data %>%
 
 
 # Check number of sp now
-uni_cu_cor <-unique(data$name)
+uni_cu_cor <-unique(data$name) # 391 unique species
 
-###BEA: j'en ai 376 maintenant. Est ce que ça te donne le meme resultats? ce serait bine de l,inclure au commentaires pour assurer la reproductibilité du script
-###AME: j'en ai 394
-###BEA: Ok, moi aussi
 
 #### standardized units ####
 # Select all the units column
@@ -1542,7 +1542,7 @@ outliers <- data_std %>%
   filter(hg_ba < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
 # 0 lines --> no apparent outliers
-   
+
 # isolate the outliers lines for the variable 'n_te_ba'
 outliers <- data_std %>% 
   filter(n_te_ba < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba > num_range$max_value[num_range$variables == 'n_te_ba'] )
@@ -1932,7 +1932,7 @@ data_std_texture <- data_std %>%
   mutate(sand = replace(sand, texture == txt_table$texture[24], txt_table$sand[24])) %>%
   mutate(clay = replace(clay, texture == txt_table$texture[30], txt_table$clay[30])) %>%
   mutate(sand = replace(sand, texture == txt_table$texture[30], txt_table$sand[30]))
-  
+
 # Add the % unit if needed
 data_std_texture <- data_std_texture %>%
   mutate(clay_units = replace(clay_units, texture == "Sandy loam", "%")) %>% # add "%" unit to clay_units where texture is "Sandy loam"
