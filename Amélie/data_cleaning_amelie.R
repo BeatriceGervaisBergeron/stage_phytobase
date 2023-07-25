@@ -1303,79 +1303,79 @@ outliers <- data_std %>%
   filter(as_s < num_range$min_value[num_range$variables == 'as_s'] | as_s > num_range$max_value[num_range$variables == 'as_s'] )
 outliers
 # 68 lines --> 68 outliers to verify
-# no 5793
-# no 1560
-# no 6873
-# no 2218
-# no 3416
-# no 1398
-# no 5770
-# no 1225
-# no 1406
-# no 428
+# no 5793 (as_s=350 mg kg, supérieur au range [0-250 mg kg-1])
+# no 1560 (as_s=348, 577, 551 mg kg, supérieur au range [0-250 mg kg-1])
+# no 6873 (as_s=523, 1247 et 1017 mg kg, supérieur au range [0-250 mg kg-1])
+# no 2218 (as_s=1681 mg kg, supérieur au range [0-250 mg kg-1])
+# no 3416 (as_s=463, 466, 274, 524, 1600, 360, 1320, 844, 502 mg kg, supérieur au range [0-250 mg kg-1])
+# no 1398 (as_s=2428 et 860 mg kg, supérieur au range [0-250 mg kg-1])
+# no 5770 (as_s=427 mg kg, supérieur au range [0-250 mg kg-1])
+# no 1225 (as_s=491 et 1304 mg kg, supérieur au range [0-250 mg kg-1])
+# no 1406 (as_s=4227 et 21370 mg kg, supérieur au range [0-250 mg kg-1])
+# no 428 (as_s=1171 mg kg, supérieur au range [0-250 mg kg-1])
 
 # isolate the outliers lines for the variable 'cd_s'
 outliers <- data_std %>% 
   filter(cd_s < num_range$min_value[num_range$variables == 'cd_s'] | cd_s > num_range$max_value[num_range$variables == 'cd_s'] )
 outliers
 # 15 lines --> 15 outliers to verify
-# no 6873
-# no 3067
-# no 2289
-# no 1683
-# no 8509
+# no 6873 (cd_s=123, 199 mg kg, supérieur au range [0-100 mg kg])
+# no 3067 (cd_s=537 mg kg, supérieur au range [0-100 mg kg])
+# no 2289 (cd_s=301.2 et 175.6 mg kg, supérieur au range [0-100 mg kg])
+# no 1683 (cd_s=109 et 120 mg kg, supérieur au range [0-100 mg kg])
+# no 8509 (cd_s=150 et 200, supérieur au range [0-100 mg kg])
 
 # isolate the outliers lines for the variable 'cu_s'
 outliers <- data_std %>% 
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
 # 44 lines --> 44 outliers to verify
-# no 1663 (cu_s=3732 et 5180 mg kg-1, supérieur au range [0-2500 mgkg])
-# no 3036
-# no 466
-# no 1560
-# no 1884
-# no 2695
-# no 3416
-# no 8669
-# no 1683
-# no 1225
-# no 1406
+# no 1663 (cu_s=3732 et 5180 mg kg, supérieur au range [0-2500 mgkg])
+# no 3036 (cu_s=2798, 3790, 3507, 4313, 4935, 4423 mg kg, supérieur au range [0-2500 mgkg])
+# no 466 (cu_s=3480 mg kg, supérieur au range [0-2500 mgkg])
+# no 1560 (cu_s=3616,5076 et 5343 ug/g=mg kg, supérieur au range [0-2500 mgkg])
+# no 1884 (cu_s=3967, 3320, 5249 mg kg, supérieur au range [0-2500 mgkg])
+# no 2695 (cu_s=5047, 9941, 9125, 6773 mg kg, supérieur au range [0-2500 mgkg])
+# no 3416 (cu_s=2770 mg kg, supérieur au range [0-2500 mgkg])
+# no 8669 (cu_s=4968 mg kg, supérieur au range [0-2500 mgkg])
+# no 1683 (cu_s=3030, 3330, 2950 et 3290 mg kg, supérieur au range [0-2500 mgkg])
+# no 1225 (cu_s=7765 et 5865 mg kg, supérieur au range [0-2500 mgkg])
+# no 1406 (cu_s=4003 et 3344 mg kg, supérieur au range [0-2500 mgkg])
 
 # isolate the outliers lines for the variable 'pb_s'
 outliers <- data_std %>% 
   filter(pb_s < num_range$min_value[num_range$variables == 'pb_s'] | pb_s > num_range$max_value[num_range$variables == 'pb_s'] )
 outliers
 # 23 lines --> 23 outliers to verify
-# no 5793
-# no 1146
-# no 8790
-# no 3036
-# no 6873
-# no 3067
-# no 2218
-# no 3416
-# no 3377
+# no 5793 (pb_s=5200 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 1146 (pb_s=19571 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 8790 (pb_s=27631, 28847 et 5156 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 3036 (pb_s=5100, 5255 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 6873 (pb_s=11 737 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 3067 (pb_s=8265 et 9712 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 2218 (pb_s=5714 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 3416 (pb_s=9910, 5830, 21400, 9830, 5410, 8000 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 3377 (pb_s=5101.6 mg kg, supérieur au range [0-5000 mg kg-1])
 
 # isolate the outliers lines for the variable 'zn_s'
 outliers <- data_std %>% 
   filter(zn_s < num_range$min_value[num_range$variables == 'zn_s'] | zn_s > num_range$max_value[num_range$variables == 'zn_s'] )
 outliers
 # 29 lines --> 29 outliers to verify
-# no 5793
-# no 3067
-# no 2289
-# no 3416
-# no 1374
-# no 3377
+# no 5793 (zn_s=9100 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 3067 (zn_s=11498 et 9673 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 2289 (zn_s= 8403.3, 70445.8 et 68570.8 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 3416 (zn_s=36500, 19050, 14000, 29000, 36700, 67600, 15400, 7930 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 1374 (zn_s=8635 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 3377 (zn_s=12443.5 mg kg, supérieur au range [0-7500 mg kg-1])
 
 # isolate the outliers lines for the variable 'se_s'
 outliers <- data_std %>% 
   filter(se_s < num_range$min_value[num_range$variables == 'se_s'] | se_s > num_range$max_value[num_range$variables == 'se_s'] )
 outliers
 # 11 lines --> 11 outliers to verify
-# no 6873
-# no 121
+# no 6873 (se_s=51.1, 228, 240 mg kg, supérieur au range [0-50 mg kg])
+# no 121 (se_s=536 mg kg, supérieur au range [0-50 mg kg])
 
 # isolate the outliers lines for the variable 'ni_s'
 outliers <- data_std %>% 
@@ -1394,7 +1394,7 @@ outliers <- data_std %>%
   filter(mn_s < num_range$min_value[num_range$variables == 'mn_s'] | mn_s > num_range$max_value[num_range$variables == 'mn_s'] )
 outliers
 # 1 line --> 1 outlier to verify
-# no 8790
+# no 8790 (mn_s=17770 mg kg, supérieur au range [0-11000 mg kg])
 
 # isolate the outliers lines for the variable 'cr_s'
 outliers <- data_std %>% 
@@ -1422,7 +1422,7 @@ outliers
 # no 1599
 # no 6519
 # no 354
-# no 428
+# no 428 (n_s= 148, supérieur au range [0-10])
 
 # isolate the outliers lines for the variable 'ba_total'
 outliers <- data_std %>% 
@@ -1461,8 +1461,8 @@ outliers <- data_std %>%
 outliers
 # 3 lines --> 3 outliers to verify
 # no 1195
-# no 3067
-# no 2289
+# no 3067 (cd_ba=1025 mg kg, supérieur au range [0-100 mg kg])
+# no 2289 (cd_ba=100.2 mg kg, supérieur au range [0-100 mg kg])
 
 # isolate the outliers lines for the variable 'cu_ba'
 outliers <- data_std %>% 
@@ -1471,8 +1471,8 @@ outliers
 # 19 lines --> 19 outliers to verify
 # no 57
 # no 2972
-# no 1560
-# no 8669
+# no 1560 (cu_ba=490 ug/g=mg kg, supérieur au range [0-300 mg kg])
+# no 8669 (cu_ba=321 et 311 mg kg, supérieur au range [0-300 mg kg])
 # no 3029
 # no 1264
 # no 2857
@@ -1485,19 +1485,19 @@ outliers <- data_std %>%
   filter(pb_ba < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
 # 4 lines --> 4 outliers to verify
-# no 1146
-# no 3416
-# no 3029
+# no 1146 (pb_ba=2595 mg kg, supérieur au range [0-1000 mg kg])
+# no 3416 (pb_ba=1105 mg kg, supérieur au range [0-1000 mg kg])
+# no 3029 (pb_ba=
 
 # isolate the outliers lines for the variable 'zn_ba'
 outliers <- data_std %>% 
   filter(zn_ba < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 11 lines --> 11 outliers to verify
-# no 1146
+# no 1146 (zn_ba=4097 mg kg, supérieur au range [0-3000 mg kg])
 # no 2187
-# no 3067
-# no 2289
+# no 3067 (zn_ba=15354 mg kg, supérieur au range [0-3000 mg kg])
+# no 2289 (zn_ba=3054.1 et 5438.7 mg kg, supérieur au range [0-3000 mg kg])
 # no 3029
 
 # isolate the outliers lines for the variable 'se_ba'
@@ -1559,7 +1559,7 @@ outliers <- data_std %>%
 outliers
 # 5 lines --> 5 outliers to verify
 # no 1195
-# no 3067
+# no 3067 (cd_br= 565 et 972 mg kg, supérieur au range [0-100 mg kg])
 # no 4239
 
 # isolate the outliers lines for the variable 'cu_br'
@@ -1568,11 +1568,11 @@ outliers <- data_std %>%
 outliers
 # 62 lines --> 62 outliers to verify
 # no 6402
-# no 1663 (cu_br=707 à 1940 mg kg-1, supérieur au range [0-300 mgkg])
+# no 1663 (cu_br=707 à 1940 mg kg, supérieur au range [0-300 mg kg])
 # no 3591
 # no 2973
-# no 8790
-# no 466
+# no 8790 (cu_br=345 mg kg, supérieur au range [0-300 mg kg])
+# no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, supérieur au range [0-300 mg kg])
 # no 5760
 # no 218
 # no 7605
@@ -1591,9 +1591,9 @@ outliers <- data_std %>%
   filter(pb_br < num_range$min_value[num_range$variables == 'pb_br'] | pb_br > num_range$max_value[num_range$variables == 'pb_br'] )
 outliers
 # 5 lines --> 5 outliers to verify
-# no 5793
-# no 3067
-# no 3416
+# no 5793 (pb_br=1515 mg kg, supérieur au range [0-1000 mgkg])
+# no 3067 (pb_br=2123, 4915 et 10419 mg kg, supérieur au range [0-1000 mgkg]
+# no 3416 (pb_br=4630 mg kg, supérieur au range [0-1000 mgkg]
 
 # isolate the outliers lines for the variable 'zn_br'
 outliers <- data_std %>% 
@@ -1601,7 +1601,7 @@ outliers <- data_std %>%
 outliers
 # 4 lines --> 4 outliers to verify
 # no 2187
-# no 3067
+# no 3067 (zn_br= 6392, 5226, 8171 mg kg, supérieur au range [0-3000 mgkg]
 
 # isolate the outliers lines for the variable 'se_br'
 outliers <- data_std %>% 
@@ -1639,7 +1639,7 @@ outliers <- data_std %>%
 outliers
 # 3 lines --> 3 outliers to verify
 # no 1831
-# no 3416
+# no 3416 (hg_br=1.59 mg kg, supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_br'
 outliers <- data_std %>% 
