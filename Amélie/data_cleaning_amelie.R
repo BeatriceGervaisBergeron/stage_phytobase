@@ -1413,15 +1413,15 @@ outliers <- data_std %>%
   filter(n_s < num_range$min_value[num_range$variables == 'n_s'] | n_s > num_range$max_value[num_range$variables == 'n_s'] )
 outliers
 # 177 lines --> 177 outliers to verify
-# no 2011
-# no 6544
-# no 2532
-# no 7504
-# no 2632
-# no 3029
-# no 1599
-# no 6519
-# no 354
+# no 2011 (n_s=98, 105, 79, 48, supérieur au range [0-10])
+# no 6544 (n_s=12, supérieur au range [0-10])
+# no 2532 (n_s=12, supérieur au range [0-10])
+# no 7504 (n_s=12, supérieur au range [0-10])
+# no 2632 (n_s=12, supérieur au range [0-10])
+# no 3029 (n_s=120, supérieur au range [0-10])
+# no 1599 (n_s=36, supérieur au range [0-10])
+# no 6519 (n_s=21, 26, 20, 23, supérieur au range [0-10])
+# no 354 (n_s=76, supérieur au range [0-10])
 # no 428 (n_s= 148, supérieur au range [0-10])
 
 # isolate the outliers lines for the variable 'ba_total'
@@ -1453,14 +1453,14 @@ outliers <- data_std %>%
   filter(as_ba < num_range$min_value[num_range$variables == 'as_ba'] | as_ba > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
 # 1 line --> 1 outlier to verify
-# no 1041
+# no 1041 (as_ba=1050 mg kg, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'cd_ba'
 outliers <- data_std %>% 
   filter(cd_ba < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
 # 3 lines --> 3 outliers to verify
-# no 1195
+# no 1195 (cd_ba=1104 mg kg, supérieur au range [0-100 mg kg])
 # no 3067 (cd_ba=1025 mg kg, supérieur au range [0-100 mg kg])
 # no 2289 (cd_ba=100.2 mg kg, supérieur au range [0-100 mg kg])
 
@@ -1541,7 +1541,7 @@ outliers <- data_std %>%
   filter(n_te_ba < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
 # 53 lines --> 53 outliers to verify
-# no 2011
+# no 2011 (n_te_ba=98, 105, 79, 48, supérieur au range [0-20])
 # no 7504
 # no 3029
 # no 6519
