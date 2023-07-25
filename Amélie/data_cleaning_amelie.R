@@ -1062,7 +1062,6 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eli
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
 data_num <- data_std[ , num_cols]  # 96 variables
 
-
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
