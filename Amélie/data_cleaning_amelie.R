@@ -236,9 +236,6 @@ data <- data %>%
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name))
 
-### BEA: ici il faut enlever les colonnes submitted_name à dupl2, soit 131 a 137. 
-#Tu as éliminé des colonnes de données ici, dont ta colonne organ_ba_1, d'ou ton problème de reconnaissance
-### a remplacer par quelque chose comme ça si tu préfères:
 data <- data %>% 
   dplyr::select(-c(submitted_name, matched_name2, score, alternative, dupl, dupl2))
 
@@ -1064,9 +1061,6 @@ unique_obs<- data_std[duplicated(data_std)] # 0 variables--> 0 duplicates to eli
 # list of variables that need to be verify
 num_cols <- unlist(lapply(data_std, is.numeric)) #identify numerical data 
 data_num <- data_std[ , num_cols]  # 96 variables
-
-###BEA: moi je vois 70 variables? et il y en aura peut-être car au début j'ai identifié des colonnes qui doivent être 'mutate'
-###AME: est-ce que tu en vois 96 maintenant?
 
 
 # import the data normal range
