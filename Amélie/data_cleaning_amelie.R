@@ -526,6 +526,10 @@ data_std <- data_std %>%
 unique(data_std$units_b) # only "g"
 
 
+###BEA: Il va falloir que tu mettes les transformation de biomasse après les transformation de concentration car certaines transformation s'appuie sur l'unité des la biomasse. Mets les simplement a la fin.
+### Aussi, pour l'instant lorsque je run tes transformation, je n'obtient plus aucune unité pour les métaux. Ca te fait ca aussi? Ca ne me faisait pas ca lundi.
+
+
 #"units_te_ba" 
 unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ug kg-1" "ppm/ppb" "kg ha-1"
 # need to convert to mg kg-1 
@@ -1042,6 +1046,8 @@ unique(data_std$organs_ba_3) # only "wood"
 
 
 ### BEA: il faudrait vérifier pourquoi tous les espaces sont remplacer. Nomralement, la fonction ne doit remplacer que s'il y a un nom d'organe.
+### c'est réglé?
+
 
 # organs_br
 unique(data$organs_br)
@@ -1100,12 +1106,16 @@ outliers
 # no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27ºC])
 # no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27ºC])
 
+###BEA: all ok
+
 # isolate the outliers lines for the variable 'mat'
 outliers <- data_std %>% 
   filter(mat < num_range$min_value[num_range$variables == 'mat'] | mat > num_range$max_value[num_range$variables == 'mat'] )
 outliers
 # 9 lines --> 9 outliers to verify
 # no 5829 (mat=35-->The summer (June to September) is a very hot, 35ºC on average,supérieur au range [2-25ºC)
+
+###BEA: this is not a mean annual temperature, but a summer mean, so you should delete it. tu peux ajouter la note au commentaires
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
@@ -1115,6 +1125,12 @@ outliers
 # no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000mm])
 # no 1510 (map=12-->average rainfall of 12 mm persist during the growth period (November to March) of crop in Faisalabad,inférieur au range [50-3000mm])
 # no 3230 (map=3.014-->c'est la moyenne des précipitations de Janvier à Septembre 2009,inférieur au range [50-3000mm])
+
+
+###BEA:
+#1195:ok
+#1510: not the annual so must be delete, can be put in the comments
+#3220: not the annual so must be delete, can be put in the comments
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
@@ -1135,6 +1151,8 @@ outliers
 # no 1406 (ph=3.01-->Table 3,inférieur au range [3.5-8.5])
 # no 8345 (ph=8.9, supérieur au range [3.5-8.5])
 # no 3933 (ph=8.54, supérieur au range [3.5-8.5])
+
+
 
 # isolate the outliers lines for the variable 'om'
 outliers <- data_std %>% 
