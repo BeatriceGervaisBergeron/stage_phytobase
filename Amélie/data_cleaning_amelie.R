@@ -1583,24 +1583,23 @@ outliers <- data_std %>%
   filter(cu_br < num_range$min_value[num_range$variables == 'cu_br'] | cu_br > num_range$max_value[num_range$variables == 'cu_br'] )
 outliers
 # 62 lines --> 62 outliers to verify
-# no 6402 (cu_br=
+# no 6402 (cu_br=772.8813614 mg kg, supérieur au range [0-300 mg kg])
 # no 1663 (cu_br=707 à 1940 mg kg, supérieur au range [0-300 mg kg])
-# no 3591 (cu_br=
-# no 2973 (cu_br=
+# no 3591 (cu_br=429.32, 599.64, 385.4, 594.56 mg kg, supérieur au range [0-300 mg kg])
+# no 2973 (cu_br=565 et 979 mg kg, supérieur au range [0-300 mg kg])
 # no 8790 (cu_br=345 mg kg, supérieur au range [0-300 mg kg])
 # no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, supérieur au range [0-300 mg kg])
-# no 5760 (cu_br=
-# no 218 (cu_br=
-# no 7605 (cu_br=
-# no 1833 (cu_br=
+# no 5760 (cu_br=709.48 mg kg, supérieur au range [0-300 mg kg])
+# no 218 (cu_br=371.1535512, 1530.523678, 1806.62184 mg kg, supérieur au range [0-300 mg kg])
+# no 7605 (cu_br=404.3, 448.8 et 689.7 mg kg, supérieur au range [0-300 mg kg])
+# no 1833 (cu_br=351.7245979, 696.5519618, 634.4830389 et 962.0690281 mg kg, supérieur au range [0-300 mg kg])
 # no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 3230 (cu_br=
-# no 8713 (cu_br=
-# no 1011 (cu_br=
-# no 6607 (cu_br=
-# no 3933 (cu_br=
-# no 4239 (cu_br=
-
+# no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, supérieur au range [0-300 mg kg])
+# no 8713 (cu_br=1514.9, 1725.2, 438.5, 1250.8, 2660.8, 339.1, 2840.9 mg kg, supérieur au range [0-300 mg kg])
+# no 1011 (cu_br=765, 977, 557 et 674 mg kg, supérieur au range [0-300 mg kg])
+# no 6607 (cu_br=196.9226782 et 1261.970198 mg kg, supérieur au range [0-300 mg kg])
+# no 3933 (cu_br=307, 417, 681 et 676 mg kg, supérieur au range [0-300 mg kg])
+# no 4239 (cu_br=1325.66, 465.38, 1215.91 mg kg, supérieur au range [0-300 mg kg])
 
 # isolate the outliers lines for the variable 'pb_br'
 outliers <- data_std %>% 
@@ -1781,7 +1780,6 @@ outliers
 # no 2187 (zn_ba_2= 3332 mg kg, supérieur au range [0-3000])
 # no 8713 (zn_ba_2= 4699.8 mg kg, supérieur au range [0-3000])
 
-
 # isolate the outliers lines for the variable 'se_ba_2'
 outliers <- data_std %>% 
   filter(se_ba_2 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_2 > num_range$max_value[num_range$variables == 'se_ba'] )
@@ -1928,18 +1926,109 @@ data_std_texture <- data_std %>%
   mutate(sand = replace(sand, texture == txt_table$texture[1], txt_table$sand[1])) %>% 
   mutate(clay = replace(clay, texture == txt_table$texture[2], txt_table$clay[2])) %>%
   mutate(sand = replace(sand, texture == txt_table$texture[2], txt_table$sand[2])) %>%
-  mutate(clay = replace(clay, texture == txt_table$texture[20], txt_table$clay[20])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[20], txt_table$sand[20])) %>%
-  mutate(clay = replace(clay, texture == txt_table$texture[21], txt_table$clay[21])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[21], txt_table$sand[21])) %>%
-  mutate(clay = replace(clay, texture == txt_table$texture[22], txt_table$clay[22])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[22], txt_table$sand[22])) %>%
-  mutate(clay = replace(clay, texture == txt_table$texture[23], txt_table$clay[23])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[23], txt_table$sand[23])) %>%
-  mutate(clay = replace(clay, texture == txt_table$texture[24], txt_table$clay[24])) %>% 
-  mutate(sand = replace(sand, texture == txt_table$texture[24], txt_table$sand[24])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[12], txt_table$clay[12])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[12], txt_table$sand[12])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[13], txt_table$clay[13])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[13], txt_table$sand[13])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[14], txt_table$clay[14])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[14], txt_table$sand[14])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[15], txt_table$clay[15])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[15], txt_table$sand[15])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[16], txt_table$clay[16])) %>% 
+  mutate(sand = replace(sand, texture == txt_table$texture[16], txt_table$sand[16])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[28], txt_table$clay[28])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[28], txt_table$sand[28])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[29], txt_table$clay[29])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[29], txt_table$sand[29])) %>%
   mutate(clay = replace(clay, texture == txt_table$texture[30], txt_table$clay[30])) %>%
-  mutate(sand = replace(sand, texture == txt_table$texture[30], txt_table$sand[30]))
+  mutate(sand = replace(sand, texture == txt_table$texture[30], txt_table$sand[30])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[31], txt_table$clay[31])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[31], txt_table$sand[31])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[50], txt_table$clay[50])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[50], txt_table$sand[50])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[51], txt_table$clay[51])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[51], txt_table$sand[51])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[52], txt_table$clay[52])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[52], txt_table$sand[52])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[53], txt_table$clay[53])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[53], txt_table$sand[53])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[54], txt_table$clay[54])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[54], txt_table$sand[54])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[55], txt_table$clay[55])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[55], txt_table$sand[55])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[56], txt_table$clay[56])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[56], txt_table$sand[56])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[57], txt_table$clay[57])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[57], txt_table$sand[57])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[58], txt_table$clay[58])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[58], txt_table$sand[58])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[59], txt_table$clay[59])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[59], txt_table$sand[59])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[60], txt_table$clay[60])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[60], txt_table$sand[60])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[61], txt_table$clay[61])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[61], txt_table$sand[61])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[62], txt_table$clay[62])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[62], txt_table$sand[62])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[63], txt_table$clay[63])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[63], txt_table$sand[63])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[64], txt_table$clay[64])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[64], txt_table$sand[64])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[65], txt_table$clay[65])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[65], txt_table$sand[65])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[66], txt_table$clay[66])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[66], txt_table$sand[66])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[67], txt_table$clay[67])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[67], txt_table$sand[67])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[68], txt_table$clay[68])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[68], txt_table$sand[68])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[69], txt_table$clay[69])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[69], txt_table$sand[69])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[70], txt_table$clay[70])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[70], txt_table$sand[70])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[71], txt_table$clay[71])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[71], txt_table$sand[71])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[72], txt_table$clay[72])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[72], txt_table$sand[72])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[73], txt_table$clay[73])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[73], txt_table$sand[73])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[74], txt_table$clay[74])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[74], txt_table$sand[74])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[75], txt_table$clay[75])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[75], txt_table$sand[75])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[76], txt_table$clay[76])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[76], txt_table$sand[76])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[77], txt_table$clay[77])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[77], txt_table$sand[77])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[78], txt_table$clay[78])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[78], txt_table$sand[78])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[90], txt_table$clay[90])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[90], txt_table$sand[90])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[91], txt_table$clay[91])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[91], txt_table$sand[91])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[92], txt_table$clay[92])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[92], txt_table$sand[92])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[93], txt_table$clay[93])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[93], txt_table$sand[93])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[94], txt_table$clay[94])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[94], txt_table$sand[94])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[99], txt_table$clay[99])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[99], txt_table$sand[99])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[100], txt_table$clay[100])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[100], txt_table$sand[100])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[101], txt_table$clay[101])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[101], txt_table$sand[101])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[102], txt_table$clay[102])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[102], txt_table$sand[102])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[103], txt_table$clay[103])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[103], txt_table$sand[103])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[104], txt_table$clay[104])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[104], txt_table$sand[104])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[105], txt_table$clay[105])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[105], txt_table$sand[105])) %>%
+  mutate(clay = replace(clay, texture == txt_table$texture[106], txt_table$clay[106])) %>%
+  mutate(sand = replace(sand, texture == txt_table$texture[106], txt_table$sand[106])) %>%
+  
 
 # Add the % unit if needed
 data_std_texture <- data_std_texture %>%
