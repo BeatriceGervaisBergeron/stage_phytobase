@@ -1668,23 +1668,23 @@ outliers <- data_std %>%
   filter(cu_br < num_range$min_value[num_range$variables == 'cu_br'] | cu_br > num_range$max_value[num_range$variables == 'cu_br'] )
 outliers
 # 62 lines --> 62 outliers to verify
-# no 6402 (cu_br=772.8813614 mg kg, supérieur au range [0-300 mg kg])
-# no 1663 (cu_br=707 à 1940 mg kg, supérieur au range [0-300 mg kg])
-# no 3591 (cu_br=429.32, 599.64, 385.4, 594.56 mg kg, supérieur au range [0-300 mg kg])
-# no 2973 (cu_br=565 et 979 mg kg, supérieur au range [0-300 mg kg])
+# no 6402 (cu_br=772.8813614 mg kg, Fig 2 copper mine tailings, supérieur au range [0-300 mg kg])
+# no 1663 (cu_br=707 à 1940 mg kg, Fig 4 copper industry, supérieur au range [0-300 mg kg])
+# no 3591 (cu_br=429.32, 599.64, 385.4, 594.56 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
+# no 2973 (cu_br=565 et 979 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
+# no 5760 (cu_br=709.48 mg kg, Table 3 copper mine tailings, supérieur au range [0-300 mg kg])
+# no 218 (cu_br=371.1535512, 1530.523678, 1806.62184 mg kg, Fig 8 spike, supérieur au range [0-300 mg kg])
+# no 7605 (cu_br=404.3, 448.8 et 689.7 mg kg, Table 5 , supérieur au range [0-300 mg kg])
+# no 1833 (cu_br=351.7245979, 696.5519618, 634.4830389 et 962.0690281 mg kg, Fig 5 spike, supérieur au range [0-300 mg kg])
+# no 8713 (cu_br=1514.9, 1725.2, 438.5, 1250.8, 2660.8, 339.1, 2840.9 mg kg, Table 2, supérieur au range [0-300 mg kg])
+# no 6607 (cu_br=196.9226782 et 1261.970198 mg kg, Fig 2 "highly Cu-contaminated soil", supérieur au range [0-300 mg kg])
+# no 3933 (cu_br=307, 417, 681 et 676 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
+# no 4239 (cu_br=1325.66, 465.38, 1215.91 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
+# no 1011 (cu_br=765, 977, 557 et 674 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
 # no 8790 (cu_br=345 mg kg, Table 1 mining area, supérieur au range [0-300 mg kg])
 # no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, mine polluted area, supérieur au range [0-300 mg kg])
-# no 5760 (cu_br=709.48 mg kg, supérieur au range [0-300 mg kg])
-# no 218 (cu_br=371.1535512, 1530.523678, 1806.62184 mg kg, supérieur au range [0-300 mg kg])
-# no 7605 (cu_br=404.3, 448.8 et 689.7 mg kg, supérieur au range [0-300 mg kg])
-# no 1833 (cu_br=351.7245979, 696.5519618, 634.4830389 et 962.0690281 mg kg, supérieur au range [0-300 mg kg])
 # no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
 # no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
-# no 8713 (cu_br=1514.9, 1725.2, 438.5, 1250.8, 2660.8, 339.1, 2840.9 mg kg, supérieur au range [0-300 mg kg])
-# no 1011 (cu_br=765, 977, 557 et 674 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-# no 6607 (cu_br=196.9226782 et 1261.970198 mg kg, supérieur au range [0-300 mg kg])
-# no 3933 (cu_br=307, 417, 681 et 676 mg kg, supérieur au range [0-300 mg kg])
-# no 4239 (cu_br=1325.66, 465.38, 1215.91 mg kg, supérieur au range [0-300 mg kg])
 
 # isolate the outliers lines for the variable 'pb_br'
 outliers <- data_std %>% 
@@ -1738,7 +1738,7 @@ outliers <- data_std %>%
   filter(hg_br < num_range$min_value[num_range$variables == 'hg_br'] | hg_br > num_range$max_value[num_range$variables == 'hg_br'] )
 outliers
 # 3 lines --> 3 outliers to verify
-# no 1831 (hg_br=1.34 et 7.39 mg kg, supérieur au range [0-1 mg kg])
+# no 1831 (hg_br=1.34 et 7.39 mg kg, Table 4  industrially contaminated soil, supérieur au range [0-1 mg kg])
 # no 3416 (hg_br=1.59 mg kg, zinc smelting area, supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_br'
@@ -1746,8 +1746,8 @@ outliers <- data_std %>%
   filter(n_te_br < num_range$min_value[num_range$variables == 'n_te_br'] | n_te_br > num_range$max_value[num_range$variables == 'n_te_br'] )
 outliers
 # 9 lines --> 9 outliers to verify
-# no 7504 (n_te_br=72, supérieur au range [0-20])
-# no 1599 (n_te_br=36, supérieur au range [0-20])
+# no 7504 (n_te_br=72, supérieur au range [0-20])" 36 samples of soil and water and 72 samples of vegetables"
+# no 1599 (n_te_br=36, Table 1 n=36, supérieur au range [0-20])
 
 # isolate the outliers lines for the variable 'as_ba_1'
 outliers <- data_std %>% 
@@ -1767,11 +1767,11 @@ outliers <- data_std %>%
 outliers
 # 17 lines --> 17 outliers to verify
 # no 57 (cu_ba_1=405.72 mg kg, Table 5 spike, supérieur au range [0-300 mg kg])
-# no 3490 (cu_ba_1=678 ug/g=mg kg, supérieur au range [0-300 mg kg])
+# no 3490 (cu_ba_1=678 ug/g=mg kg, Table 3 , supérieur au range [0-300 mg kg])
 # no 2857 (cu_ba_1=790, 591, 374, 456, 478 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
 # no 3230 (cu_ba_1=383, 818, 332, 428, 549, 364 ug/g=mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
 # no 1011 (cu_ba_1=361, 443, 558 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-# no 4239 (cu_ba_1=318.06 mg kg, supérieur au range [0-300 mg kg])
+# no 4239 (cu_ba_1=318.06 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
 
 
 # isolate the outliers lines for the variable 'pb_ba_1'
@@ -1779,7 +1779,7 @@ outliers <- data_std %>%
   filter(pb_ba_1 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_1 > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
 # 1 line --> 1 outliers to verify
-# no 3490 (pb_ba_1=1875 ug/g=mg kg, supérieur au range [0-1000 mg kg])
+# no 3490 (pb_ba_1=1875 ug/g=mg kg, Table 3, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'zn_ba_1'
 outliers <- data_std %>% 
@@ -1849,7 +1849,7 @@ outliers <- data_std %>%
   filter(cu_ba_2 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_2 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 3 lines --> 3 outliers to verify
-# no 8713 (cu_ba_2= 824.8, 6418.2 et 605.8 mg kg, supérieur au range [0-300])
+# no 8713 (cu_ba_2= 824.8, 6418.2 et 605.8 mg kg, Table 2, supérieur au range [0-300])
 
 # isolate the outliers lines for the variable 'pb_ba_2'
 outliers <- data_std %>% 
@@ -1863,7 +1863,7 @@ outliers <- data_std %>%
 outliers
 # 2 lines --> 2 outliers to verify
 # no 2187 (zn_ba_2= 3332 mg kg, Table 3 spike, supérieur au range [0-3000])
-# no 8713 (zn_ba_2= 4699.8 mg kg, supérieur au range [0-3000])
+# no 8713 (zn_ba_2= 4699.8 mg kg, Table 2, supérieur au range [0-3000])
 
 # isolate the outliers lines for the variable 'se_ba_2'
 outliers <- data_std %>% 
