@@ -340,23 +340,23 @@ data_std <- data_std %>%
     ,ec_units = ifelse(ec_units == 'uS cm', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'uS/cm', ec/1000, ec)
     ,ec_units = ifelse(ec_units == 'uS/cm', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dSm-1', ec/10, ec)
+    ,ec = ifelse(ec_units == 'dSm-1', ec, ec)
     ,ec_units = ifelse(ec_units == 'dSm-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS/m', ec/10, ec)
+    ,ec = ifelse(ec_units == 'dS/m', ec, ec)
     ,ec_units = ifelse(ec_units == 'dS/m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS m', ec/10, ec)
+    ,ec = ifelse(ec_units == 'dS m', ec, ec)
     ,ec_units = ifelse(ec_units == 'dS m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS m-1', ec/10, ec)
+    ,ec = ifelse(ec_units == 'dS m-1', ec, ec)
     ,ec_units = ifelse(ec_units == 'dS m-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS cm-1', ec/100, ec)
+    ,ec = ifelse(ec_units == 'dS cm-1', ec*100, ec)
     ,ec_units = ifelse(ec_units == 'dS cm-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'mS m-1', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'mS m-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'mS/m', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'mS/m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'us/m', ec/10, ec)
+    ,ec = ifelse(ec_units == 'us/m', ec/100000, ec)
     ,ec_units = ifelse(ec_units == 'us/m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uS', ec/10, ec)
+    ,ec = ifelse(ec_units == 'uS', ec/1000, ec)# we assume the unit is uS/cm to make sense of the data
     ,ec_units = ifelse(ec_units == 'uS', 'mS cm−1', ec_units)
   )
 # verify
@@ -366,7 +366,7 @@ unique(data_std$ec_units) # only "mS cm−1"
 #"cec_units"
 unique(units$cec_units) # "cmol kg-1" "cmolc kg-1" "meq 100-1" "meq 100 g-1" "cmolc/kg" "cmol/kg" "meq 100g-1" "mmolc dm-3" "cmol+ kg-1" "cmol(+)kg-1" "meq/100g" "molc kg-1" "%" "mmol kg-1" "cmol kg" "cmol+ kg" "cmol/100g soil" "cmolc dm-3" "mM(+)/kg DM" 
 # need to convert to cmolc kg-1
-convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg","mM(+)/kg DM")
+convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg")
 data_std <- data_std %>%
   mutate(
     cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)
@@ -378,8 +378,12 @@ data_std <- data_std %>%
     ,cec_units = ifelse(cec_units == 'mmolc dm-3', 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'cmol/100g soil', cec/100, cec)
     ,cec_units = ifelse(cec_units == 'cmol/100g soil', 'cmolc kg-1', cec_units)
-    ,cec = ifelse(cec_units == '%', cec*10, cec)
+    ,cec = ifelse(cec_units == "mM(+)/kg DM", cec/10, cec)
+    ,cec_units = ifelse(cec_units == "mM(+)/kg DM", 'cmolc kg-1', cec_units)
+    ,cec = ifelse(cec_units == '%', cec, cec)
     ,cec_units = ifelse(cec_units == '%', 'cmolc kg-1', cec_units)
+    
+    
   )
 #verify
 unique(data_std$cec_units) # only "cmolc kg-1"
@@ -416,7 +420,7 @@ unique(data_std$N_units) # only "mg kg-1"
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
 # need to convert to mg kg-1
-convert <- c("mg/kg","mg kg","mg g-1","ppm","mg kg-1 (P2O5)","mg P/kg")
+convert <- c("mg/kg","mg kg","mg g-1","ppm","mg kg-1 (P2O5)","mg P/kg", 'ug g-1')
 data_std <- data_std %>%
   mutate(
     P_units = ifelse(P_units %in% convert , 'mg kg-1', P_units)
@@ -426,8 +430,6 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'g.kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g kg-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g kg-1', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'ug g-1', P*1000, P)
-    ,P_units = ifelse(P_units == 'ug g-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g kg dw-1', P*1000, P)
     ,P_units = ifelse(P_units == 'g kg dw-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'mg 100 g-1', P/10, P)
@@ -527,7 +529,7 @@ unique(data_std$units_b) # only "g"
 
 
 ###BEA: Il va falloir que tu mettes les transformation de biomasse après les transformation de concentration car certaines transformation s'appuie sur l'unité des la biomasse. Mets les simplement a la fin.
-### Aussi, pour l'instant lorsque je run tes transformation, je n'obtient plus aucune unité pour les métaux. Ca te fait ca aussi? Ca ne me faisait pas ca lundi.
+### Aussi, pour l'instant lorsque je run tes transformations, je n'obtiens plus aucune unité pour les métaux. Ca te fait ca aussi? Ca ne me faisait pas ca lundi.
 
 
 #"units_te_ba" 
@@ -1112,25 +1114,23 @@ outliers
 outliers <- data_std %>% 
   filter(mat < num_range$min_value[num_range$variables == 'mat'] | mat > num_range$max_value[num_range$variables == 'mat'] )
 outliers
-# 9 lines --> 9 outliers to verify
-# no 5829 (mat=35-->The summer (June to September) is a very hot, 35ºC on average,supérieur au range [2-25ºC)
+# 0 line --> 0 outliers to verify
 
 ###BEA: this is not a mean annual temperature, but a summer mean, so you should delete it. tu peux ajouter la note au commentaires
+###AME: ok
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
   filter(map < num_range$min_value[num_range$variables == 'map'] | map > num_range$max_value[num_range$variables == 'map'] )
 outliers
-# 21 lines --> 21 outliers to verify
+# 2 lines --> 2 outliers to verify
 # no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000mm])
-# no 1510 (map=12-->average rainfall of 12 mm persist during the growth period (November to March) of crop in Faisalabad,inférieur au range [50-3000mm])
-# no 3230 (map=3.014-->c'est la moyenne des précipitations de Janvier à Septembre 2009,inférieur au range [50-3000mm])
-
 
 ###BEA:
 #1195:ok
 #1510: not the annual so must be delete, can be put in the comments
 #3220: not the annual so must be delete, can be put in the comments
+###AME: ok
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
@@ -1152,14 +1152,18 @@ outliers
 # no 8345 (ph=8.9, supérieur au range [3.5-8.5])
 # no 3933 (ph=8.54, supérieur au range [3.5-8.5])
 
+##BEA : ok, still plausible data
 
 # isolate the outliers lines for the variable 'om'
 outliers <- data_std %>% 
   filter(om < num_range$min_value[num_range$variables == 'om'] | om > num_range$max_value[num_range$variables == 'om'] )
 outliers
 # 16 lines --> 16 outliers to verify
-# no 1560 (om=15.61%-->Table 3, supérieur au range [0-15%])
-# no 2248 (om=26.10 dag kg-1, c'est à cause de l'unité)
+# no 1560 (om=15.61%-->Table 3, supérieur au range [0-15%]) # OK
+# no 2248 (om=26.10 dag kg-1, c'est à cause de l'unité) 
+
+###BEA:  De ton côté, la convertion de dag/kg a % est 1? juste confirmer que l'on arrive à la même chose. Le nombre est très élevé, si tu peux ajouter une note dans les commantaires
+
 
 # isolate the outliers lines for the variable 'oc'
 outliers <- data_std %>% 
@@ -1177,7 +1181,7 @@ outliers
 # no 1831 (oc=1.6%,7%, inférieur et supérieur au range [2.4-6%])
 # no 2600 (oc=0.8%, inférieur au range [2.4-6%])
 # no 2011 (oc=1.2%, 1.3%, 1.4%, inférieur au range [2.4-6%])
-# no 4193 (oc=103%, inférieur au range [2.4-6%])
+# no 4193 (oc=1,03%, inférieur au range [2.4-6%])
 # no 133 (oc=2.04%, 1.74%, 1.67%, 1.50%, inférieur au range [2.4-6%])
 # no 6544 (oc=1.86%, 1.55%, inférieur au range [2.4-6%])
 # no 1356 (oc=0.12%, inférieur au range [2.4-6%])
@@ -1212,6 +1216,10 @@ outliers
 # no 177 (oc=9.86 g kg-->convertit en 0.986%, inférieur au range [2.4-6%])
 # no 8079 (oc=20.4 g kg-->convertit en 2.04%, inférieur au range [2.4-6%])
 
+
+###BEA: OK
+
+
 # isolate the outliers lines for the variable 'clay'
 outliers <- data_std %>% 
   filter(clay < num_range$min_value[num_range$variables == 'clay'] | clay > num_range$max_value[num_range$variables == 'clay'] )
@@ -1225,6 +1233,12 @@ outliers
 # no 6607 (clay=4.7%, inférieur au range [5-90%])
 # no 177 (clay=2%, inférieur au range [5-90%])
 
+
+### BEA:
+#4088: sur des sols de sables, donc OK
+# Es-tu allée vérifier que c'était les bons nombres dans les articles?
+###AME: oui
+
 # isolate the outliers lines for the variable 'sand'
 outliers <- data_std %>% 
   filter(sand < num_range$min_value[num_range$variables == 'sand'] | sand > num_range$max_value[num_range$variables == 'sand'] )
@@ -1233,30 +1247,39 @@ outliers
 # no 4088 (sand=945 gkg-1 et 909 gkg-1-->convertit en 94.5% et 90.9%, supérieur au range [5-90%])
 # no 8172 (sand=300 mg kg-1-->convertit en 3%, inférieur au range [5-90%])
 
+###BEA: OK
+
 # isolate the outliers lines for the variable 'ec'
 outliers <- data_std %>% 
   filter(ec < num_range$min_value[num_range$variables == 'ec'] | ec > num_range$max_value[num_range$variables == 'ec'] )
 outliers
-# 19 lines --> 19 outliers to verify
-# no 2532 (ec=527 us/m-->convertit en 52.7 mS cm-1, supérieur au range [0-16 mS cm-1])
-# no 2695 (ec=436us,7311us,356us,231us,205us,1424us,506us,3500us,152us-->convertit en 4.36 mS cm-1, 731.1 mS cm-1, 35.6 mS cm-1, 23.1 mS cm-1, 20.5 mS cm-1, 142.4 mS cm-1, 50.6 mS cm-1, 350.0 mS cm-1,supérieur au range [0-16 mS cm-1])
+# 9 lines --> 9 outliers to verify
+# no 1264 (ec=1.98 dS cm-1, Page 2-->convertit en 198 mS cm-1, supérieur au range [0-16 mS cm-1])
+# no 2218 (ec=0.30 et 0.68 ds cm-1, Table 1-->convertit en 30 et 68 mS cm-1, supérieur au range [0-16 mS cm-1])
+# no 6607 (ec=100, 143 et 65 dS/m, Table 1--> convertit en 100, 143 et 65 ms cm-1, supérieur au range [0-16 mS cm-1])
+
+### BEA: le no 2532 m'ont permis de voir que les transformations d'unités EC étaient erronées. Je les ai changé maintenant. d'autre outliers maintenant apparaissent
+# all outliers are high, but might be plausible. Add a note to identify that they might be error data
+
 
 # isolate the outliers lines for the variable 'cec'
 outliers <- data_std %>% 
   filter(cec < num_range$min_value[num_range$variables == 'cec'] | cec > num_range$max_value[num_range$variables == 'cec'] )
 outliers
-# 42 lines --> 42 outliers to verify
+# 31 lines --> 31 outliers to verify
 # no 1955 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
 # no 593 (cec=49.77 et 36.93 meq+100-1-->convertit en 49.77 et 36.93 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
 # no 7858 (cec=39.13 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
 # no 1356 (cec=1.52 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
 # no 1675 (cec=1.9 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
-# no 8669 (cec=15.7%, 14.1% et 8.51%-->convertit en 157, 141 et 85.1 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
 # no 1239 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
 # no 1599 (cec=1.71 cmol kg-1-->sinférieur au range [2-35 cmolc kg-1])
 # no 1011 (cec=7.27 cmol/100g-->convertit en 0.0727 cmolc kg-1, inférieur au range [2-35 cmolc kg-1])
 # no 4063 (cec=6.6 cmolc dm-3-->convertit en 66 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
-# no 177 (cec=178.6 nM+/kg-->convertit en 178.6 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
+
+### BEA: Ok, except for:
+#8669, the % mean directly cmol kg-1 in the study when I checked. SO I change the conversion and now the data are within the range
+#177: the conversion was wrong, mM+ mean milimol, so there is a conversion of /10, I correct teh conversion fonction
 
 # isolate the outliers lines for the variable 'N'
 outliers <- data_std %>% 
@@ -1268,7 +1291,7 @@ outliers
 # no 7473 (N=0.3%-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 7974 (N=0.27%, 0.32%-->convertit en 2700 mg kg-1, 3200 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 133 (N=0.19%, 0.16%, 0.18%-->convertit en 1900 mg kg-1, 1600 mg kg-1, 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 2218 (N=0.32%, 0.18%-->convertit en 3200 mg kg-1, 1800 mg kg-1, supérieur au range [10-1500 mg kg-1])
+# no 2218 (N=0.25%, 0.21%-->convertit en 2500 mg kg-1, 2100 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 2289 (N=0.3%, 0.4%-->convertit en 3000 mg kg-1, 4000 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 1675 (N=2.9 gkg-->convertit en 2900 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 2695 (N=5.6 et 4.8 mg kg, inférieur au range [10-1500 mg kg-1])
@@ -1283,6 +1306,13 @@ outliers
 # no 5467 (N=2.04 gkg, 1.92 gkg-->convertit en 2040 mg kg-1, 1920 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 8012 (N=0.19%-->convertit en 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
 
+
+### BEA: ceux qui sont proche sont OK
+#1146: OK, the 1.04% is from commercial agricultural soil, so maybe high in N on purpose.
+# 196: contamination of nutrietn, so normal to have high number
+# 838: OK, justify that the results are high, so ok to keep them
+
+
 # isolate the outliers lines for the variable 'P'
 outliers <- data_std %>% 
   filter(P < num_range$min_value[num_range$variables == 'p'] | P > num_range$max_value[num_range$variables == 'p'] )
@@ -1290,7 +1320,7 @@ outliers
 # 208 lines --> 208 outliers to verify
 # no 1041 (P=2.91 mg kg-1, inférieur au range [5-100 mg kg-1])
 # no 3591 (P=3.6 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 2187 (P=2.5 ug g--> convertit en 1500 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2187 (P=2.5 ug g--> convertit en 2.5 mg kg-1, inférieur au range [5-100 mg kg-1]) 
 # no 6382 (P=0.21 g kg--> convertit en 210 mg kg-1, supérieur au range [5-100 mg kg-1])
 # no 1831 (P=118 et 1042 mg kg-1, supérieur au range [5-100 mg kg-1])
 # no 271 (P=712 mg kg-1, supérieur au range [5-100 mg kg-1])
@@ -1301,7 +1331,7 @@ outliers
 # no 1356 (P=2.20 cmol (+)kg−1--> convertit en 2.20 mg kg-1, inférieur au range [5-100 mg kg-1])
 # no 218 (P=0.4 mg dm−3--> convertit en 4 mg kg-1, inférieur au range [5-100 mg kg-1]) 
 # no 5338 (P=4.9 mgL-1, c'est à cause de l'unité)
-# no 2864 (P=404 ug g--> convertit en 404000 mg kg-1, supérieur au range [5-100 mg kg-1])
+# no 2864 (P=404 ug g--> convertit en 404 mg kg-1, supérieur au range [5-100 mg kg-1])
 # no 1683 (P=0.59 g kg--> convertit en 590 mg kg-1, supérieur au range [5-100 mg kg-1])
 # no 2181 (P=4.51 mg kg-1, inférieur au range [5-100 mg kg-1])
 # no 96 (P=830 mg kg-1, supérieur au range [5-100 mg kg-1])
@@ -1315,21 +1345,42 @@ outliers
 # no 4239 (P=3.11 g kg--> convertit en 3110 mg kg-1, supérieur au range [5-100 mg kg-1])
 # no 2351 (P=484 mg kg, supérieur au range [5-100 mg kg-1])
 
+
+###BEA: OK,
+# no 2187, la conversion de 2.5 donne 1500?? c'est une erreur de frappe ou de conversion (qui devrait etre 1)?
+# 271: problème de converssion, 2,2 cmol donne 61,94, j'ai conrrigé la conversion
+# 1356: erreur de frappe, c'est en mg/kg, donc OK
+# 2864: 404, erreur de conversion, cela donne 404 mg/kg
+#96: ok, high but from mining, OK
+#3396: data verified, N seems ok, so P might only be really high,OK
+#1249: data verified,  P is high since it is a garden soil, OK
+#1357: data verified,  P might only be really high,OK
+#5467: data verified,  P might only be really high,OK
+#4239:data verified,  P might only be really high,OK
+
+
+
 # isolate the outliers lines for the variable 'as_s'
 outliers <- data_std %>% 
   filter(as_s < num_range$min_value[num_range$variables == 'as_s'] | as_s > num_range$max_value[num_range$variables == 'as_s'] )
 outliers
-# 68 lines --> 68 outliers to verify
+# 67 lines --> 67 outliers to verify
 # no 5793 (as_s=350 mg kg, supérieur au range [0-250 mg kg-1])
 # no 1560 (as_s=348, 577, 551 mg kg, supérieur au range [0-250 mg kg-1])
 # no 6873 (as_s=523, 1247 et 1017 mg kg, supérieur au range [0-250 mg kg-1])
-# no 2218 (as_s=1681 mg kg, supérieur au range [0-250 mg kg-1])
 # no 3416 (as_s=463, 466, 274, 524, 1600, 360, 1320, 844, 502 mg kg, supérieur au range [0-250 mg kg-1])
 # no 1398 (as_s=2428 et 860 mg kg, supérieur au range [0-250 mg kg-1])
 # no 5770 (as_s=427 mg kg, supérieur au range [0-250 mg kg-1])
 # no 1225 (as_s=491 et 1304 mg kg, supérieur au range [0-250 mg kg-1])
 # no 1406 (as_s=4227 et 21370 mg kg, supérieur au range [0-250 mg kg-1])
 # no 428 (as_s=1171 mg kg, supérieur au range [0-250 mg kg-1])
+
+
+###BEA:
+#1398:particularly As contaminated soil, so OK
+#1406:mine site, OK
+
+
 
 # isolate the outliers lines for the variable 'cd_s'
 outliers <- data_std %>% 
@@ -1342,22 +1393,29 @@ outliers
 # no 1683 (cd_s=109 et 120 mg kg, supérieur au range [0-100 mg kg])
 # no 8509 (cd_s=150 et 200, supérieur au range [0-100 mg kg])
 
+
+###BEA:
+#3067: mine ok
+
+
 # isolate the outliers lines for the variable 'cu_s'
 outliers <- data_std %>% 
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
 # 44 lines --> 44 outliers to verify
-# no 1663 (cu_s=3732 et 5180 mg kg, supérieur au range [0-2500 mgkg])
-# no 3036 (cu_s=2798, 3790, 3507, 4313, 4935, 4423 mg kg, supérieur au range [0-2500 mgkg])
-# no 466 (cu_s=3480 mg kg, supérieur au range [0-2500 mgkg])
-# no 1560 (cu_s=3616,5076 et 5343 ug/g=mg kg, supérieur au range [0-2500 mgkg])
-# no 1884 (cu_s=3967, 3320, 5249 mg kg, supérieur au range [0-2500 mgkg])
-# no 2695 (cu_s=5047, 9941, 9125, 6773 mg kg, supérieur au range [0-2500 mgkg])
-# no 3416 (cu_s=2770 mg kg, supérieur au range [0-2500 mgkg])
-# no 8669 (cu_s=4968 mg kg, supérieur au range [0-2500 mgkg])
-# no 1683 (cu_s=3030, 3330, 2950 et 3290 mg kg, supérieur au range [0-2500 mgkg])
-# no 1225 (cu_s=7765 et 5865 mg kg, supérieur au range [0-2500 mgkg])
-# no 1406 (cu_s=4003 et 3344 mg kg, supérieur au range [0-2500 mgkg])
+# no 1663 (cu_s=3732 et 5180 mg kg, Table 1 copper smelter, supérieur au range [0-2500 mgkg])
+# no 3036 (cu_s=2798, 3790, 3507, 4313, 4935, 4423 mg kg, Table 1 copper smelter, supérieur au range [0-2500 mgkg])
+# no 466 (cu_s=3480 mg kg, Table 1 mine polluted area, supérieur au range [0-2500 mgkg])
+# no 1560 (cu_s=3616,5076 et 5343 ug/g=mg kg, Fig 2 copper smelter, supérieur au range [0-2500 mgkg])
+# no 1884 (cu_s=3967, 3320, 5249 mg kg, Table 2 copper smelter,  supérieur au range [0-2500 mgkg])
+# no 2695 (cu_s=5047, 9941, 9125, 6773 mg kg, Table 3 copper mine, supérieur au range [0-2500 mgkg])
+# no 3416 (cu_s=2770 mg kg, Table 1 zinc smelting area, supérieur au range [0-2500 mgkg])
+# no 8669 (cu_s=4968 mg kg, Table 3 copper smelter, supérieur au range [0-2500 mgkg])
+# no 1683 (cu_s=3030, 3330, 2950 et 3290 mg kg, Table 2 gradients de concentration, supérieur au range [0-2500 mgkg])
+# no 1225 (cu_s=7765 et 5865 mg kg, Table 7 mine, supérieur au range [0-2500 mgkg])
+# no 1406 (cu_s=4003 et 3344 mg kg, Table 3 copper and tungsten mine, supérieur au range [0-2500 mgkg])
+
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'pb_s'
 outliers <- data_std %>% 
@@ -1370,9 +1428,11 @@ outliers
 # no 3036 (pb_s=5100, 5255 mg kg, supérieur au range [0-5000 mg kg-1])
 # no 6873 (pb_s=11 737 mg kg, supérieur au range [0-5000 mg kg-1])
 # no 3067 (pb_s=8265 et 9712 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 2218 (pb_s=5714 mg kg, supérieur au range [0-5000 mg kg-1])
 # no 3416 (pb_s=9910, 5830, 21400, 9830, 5410, 8000 mg kg, supérieur au range [0-5000 mg kg-1])
 # no 3377 (pb_s=5101.6 mg kg, supérieur au range [0-5000 mg kg-1])
+
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
+
 
 # isolate the outliers lines for the variable 'zn_s'
 outliers <- data_std %>% 
@@ -1386,6 +1446,8 @@ outliers
 # no 1374 (zn_s=8635 mg kg, supérieur au range [0-7500 mg kg-1])
 # no 3377 (zn_s=12443.5 mg kg, supérieur au range [0-7500 mg kg-1])
 
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
+
 # isolate the outliers lines for the variable 'se_s'
 outliers <- data_std %>% 
   filter(se_s < num_range$min_value[num_range$variables == 'se_s'] | se_s > num_range$max_value[num_range$variables == 'se_s'] )
@@ -1393,6 +1455,8 @@ outliers
 # 11 lines --> 11 outliers to verify
 # no 6873 (se_s=51.1, 228, 240 mg kg, supérieur au range [0-50 mg kg])
 # no 121 (se_s=536 mg kg, supérieur au range [0-50 mg kg])
+
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'ni_s'
 outliers <- data_std %>% 
@@ -1441,11 +1505,19 @@ outliers
 # no 354 (n_s=76, supérieur au range [0-10])
 # no 428 (n_s= 148, supérieur au range [0-10])
 
+
+###BEA:
+#3029:120 is way too much, in the article is said n = 2 (for plants and) duplicates, need to be change
+# check the other really high number
+
+
 # isolate the outliers lines for the variable 'ba_total'
 outliers <- data_std %>% 
   filter(ba_total < num_range$min_value[num_range$variables == 'ba_total'] | ba_total > num_range$max_value[num_range$variables == 'ba_total'] )
 outliers
 # 0 lines --> no apparent outliers
+
+###BEA: indicates that there is no treshold for now (for all biomass)
 
 # isolate the outliers lines for the variable 'ba_stem'
 outliers <- data_std %>% 
@@ -1481,6 +1553,11 @@ outliers
 # no 3067 (cd_ba=1025 mg kg, supérieur au range [0-100 mg kg])
 # no 2289 (cd_ba=100.2 mg kg, supérieur au range [0-100 mg kg])
 
+###BEA: Can you verified all the plant concentration or tell me which data you verified and add info if needed
+#1195:data verified, ok
+
+
+
 # isolate the outliers lines for the variable 'cu_ba'
 outliers <- data_std %>% 
   filter(cu_ba < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba > num_range$max_value[num_range$variables == 'cu_ba'] )
@@ -1495,6 +1572,8 @@ outliers
 # no 3230 (cu_ba=517 et 684 ug/g=mg kg, supérieur au range [0-300 mg kg])
 # no 397 (cu_ba=454.39 mg kg, supérieur au range [0-300 mg kg])
 # no 1011 (cu_ba=423, 538 et 857 mg kg, supérieur au range [0-300 mg kg])
+
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 
 # isolate the outliers lines for the variable 'pb_ba'
@@ -1514,6 +1593,8 @@ outliers
 # no 2187 (zn_ba=6041 et 3601 ug/g=mg kg, supérieur au range [0-3000 mg kg])
 # no 3067 (zn_ba=15354 mg kg, supérieur au range [0-3000 mg kg])
 # no 2289 (zn_ba=3054.1 et 5438.7 mg kg, supérieur au range [0-3000 mg kg])
+
+###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'se_ba'
 outliers <- data_std %>% 
@@ -1561,6 +1642,9 @@ outliers
 # no 3029 (n_te_ba=60, supérieur au range [0-20])
 # no 6519 (n_te_ba=21, 26, 20, 23, supérieur au range [0-20])
 
+###BEA: Check the most high number to make sure the number is well written and that there is a justification if it is not a mistake
+
+
 # isolate the outliers lines for the variable 'as_br'
 outliers <- data_std %>% 
   filter(as_br < num_range$min_value[num_range$variables == 'as_br'] | as_br > num_range$max_value[num_range$variables == 'as_br'] )
@@ -1576,6 +1660,7 @@ outliers
 # no 1195 (cd_br= 1178.5 mg kg, supérieur au range [0-100 mg kg])
 # no 3067 (cd_br= 565 et 972 mg kg, supérieur au range [0-100 mg kg])
 # no 4239 (cd_br=135.59 et 129.49 mg kg, supérieur au range [0-100 mg kg])
+
 
 # isolate the outliers lines for the variable 'cu_br'
 outliers <- data_std %>% 
