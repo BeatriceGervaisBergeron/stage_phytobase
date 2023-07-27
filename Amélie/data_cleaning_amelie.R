@@ -1364,16 +1364,16 @@ outliers
 outliers <- data_std %>% 
   filter(as_s < num_range$min_value[num_range$variables == 'as_s'] | as_s > num_range$max_value[num_range$variables == 'as_s'] )
 outliers
-# 67 lines --> 67 outliers to verify
-# no 5793 (as_s=350 mg kg, supérieur au range [0-250 mg kg-1])
-# no 1560 (as_s=348, 577, 551 mg kg, supérieur au range [0-250 mg kg-1])
-# no 6873 (as_s=523, 1247 et 1017 mg kg, supérieur au range [0-250 mg kg-1])
-# no 3416 (as_s=463, 466, 274, 524, 1600, 360, 1320, 844, 502 mg kg, supérieur au range [0-250 mg kg-1])
+# 27 lines --> 27 outliers to verify
+# no 5793 (as_s=350 mg kg, Table 2 Mine Tailings, supérieur au range [0-250 mg kg-1])
+# no 1560 (as_s=348, 577, 551 mg kg, Fig 2 copper smelter, supérieur au range [0-250 mg kg-1])
+# no 6873 (as_s=523, 1247 et 1017 mg kg, Table 1 mining areas, supérieur au range [0-250 mg kg-1])
+# no 3416 (as_s=463, 466, 274, 524, 1600, 360, 1320, 844, 502 mg kg, Table 1 zinc smelting area, supérieur au range [0-250 mg kg-1])
 # no 1398 (as_s=2428 et 860 mg kg, supérieur au range [0-250 mg kg-1])
 # no 5770 (as_s=427 mg kg, supérieur au range [0-250 mg kg-1])
-# no 1225 (as_s=491 et 1304 mg kg, supérieur au range [0-250 mg kg-1])
-# no 1406 (as_s=4227 et 21370 mg kg, supérieur au range [0-250 mg kg-1])
-# no 428 (as_s=1171 mg kg, supérieur au range [0-250 mg kg-1])
+# no 1225 (as_s=491 et 1304 mg kg, Table 7 mine, supérieur au range [0-250 mg kg-1])
+# no 1406 (as_s=4227 et 21370 mg kg, Table 3 copper and tungsten mine, supérieur au range [0-250 mg kg-1])
+
 
 
 ###BEA:
@@ -1387,10 +1387,10 @@ outliers <- data_std %>%
   filter(cd_s < num_range$min_value[num_range$variables == 'cd_s'] | cd_s > num_range$max_value[num_range$variables == 'cd_s'] )
 outliers
 # 15 lines --> 15 outliers to verify
-# no 6873 (cd_s=123, 199 mg kg, supérieur au range [0-100 mg kg])
-# no 3067 (cd_s=537 mg kg, supérieur au range [0-100 mg kg])
-# no 2289 (cd_s=301.2 et 175.6 mg kg, supérieur au range [0-100 mg kg])
-# no 1683 (cd_s=109 et 120 mg kg, supérieur au range [0-100 mg kg])
+# no 6873 (cd_s=123, 199 mg kg, Table 1 mining areas, supérieur au range [0-100 mg kg])
+# no 3067 (cd_s=537 mg kg, mine, supérieur au range [0-100 mg kg])
+# no 2289 (cd_s=301.2 et 175.6 mg kg, Table 2 smelting site, supérieur au range [0-100 mg kg])
+# no 1683 (cd_s=109 et 120 mg kg, Table 2 gradients de concentration, supérieur au range [0-100 mg kg])
 # no 8509 (cd_s=150 et 200, supérieur au range [0-100 mg kg])
 
 
@@ -1422,14 +1422,14 @@ outliers <- data_std %>%
   filter(pb_s < num_range$min_value[num_range$variables == 'pb_s'] | pb_s > num_range$max_value[num_range$variables == 'pb_s'] )
 outliers
 # 23 lines --> 23 outliers to verify
-# no 5793 (pb_s=5200 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 1146 (pb_s=19571 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 8790 (pb_s=27631, 28847 et 5156 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 3036 (pb_s=5100, 5255 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 6873 (pb_s=11 737 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 3067 (pb_s=8265 et 9712 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 3416 (pb_s=9910, 5830, 21400, 9830, 5410, 8000 mg kg, supérieur au range [0-5000 mg kg-1])
-# no 3377 (pb_s=5101.6 mg kg, supérieur au range [0-5000 mg kg-1])
+# no 5793 (pb_s=5200 mg kg, Table 2 Mine Tailings, supérieur au range [0-5000 mg kg-1])
+# no 1146 (pb_s=19571 mg kg, Table 1 mine, supérieur au range [0-5000 mg kg-1])
+# no 8790 (pb_s=27631, 28847 et 5156 mg kg, Table 1 mining area, supérieur au range [0-5000 mg kg-1])
+# no 3036 (pb_s=5100, 5255 mg kg, Table 1 copper smelter, supérieur au range [0-5000 mg kg-1])
+# no 6873 (pb_s=11 737 mg kg, Table 1 mining areas, supérieur au range [0-5000 mg kg-1])
+# no 3067 (pb_s=8265 et 9712 mg kg, Table 1 mine, supérieur au range [0-5000 mg kg-1])
+# no 3416 (pb_s=9910, 5830, 21400, 9830, 5410, 8000 mg kg, Table 1 zinc smelting area, supérieur au range [0-5000 mg kg-1])
+# no 3377 (pb_s=5101.6 mg kg, Table 1 zinc and lead tailings dump, supérieur au range [0-5000 mg kg-1])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
@@ -1439,12 +1439,12 @@ outliers <- data_std %>%
   filter(zn_s < num_range$min_value[num_range$variables == 'zn_s'] | zn_s > num_range$max_value[num_range$variables == 'zn_s'] )
 outliers
 # 29 lines --> 29 outliers to verify
-# no 5793 (zn_s=9100 mg kg, supérieur au range [0-7500 mg kg-1])
-# no 3067 (zn_s=11498 et 9673 mg kg, supérieur au range [0-7500 mg kg-1])
-# no 2289 (zn_s= 8403.3, 70445.8 et 68570.8 mg kg, supérieur au range [0-7500 mg kg-1])
-# no 3416 (zn_s=36500, 19050, 14000, 29000, 36700, 67600, 15400, 7930 mg kg, supérieur au range [0-7500 mg kg-1])
-# no 1374 (zn_s=8635 mg kg, supérieur au range [0-7500 mg kg-1])
-# no 3377 (zn_s=12443.5 mg kg, supérieur au range [0-7500 mg kg-1])
+# no 5793 (zn_s=9100 mg kg, Table 2 Mine Tailings, supérieur au range [0-7500 mg kg-1])
+# no 3067 (zn_s=11498 et 9673 mg kg, Table 1 mine, supérieur au range [0-7500 mg kg-1])
+# no 2289 (zn_s= 8403.3, 70445.8 et 68570.8 mg kg, Table 2 smelting site, supérieur au range [0-7500 mg kg-1])
+# no 3416 (zn_s=36500, 19050, 14000, 29000, 36700, 67600, 15400, 7930 mg kg, Table 1 zinc smelting area, supérieur au range [0-7500 mg kg-1])
+# no 1374 (zn_s=8635 mg kg, Page 3 smelter soil, supérieur au range [0-7500 mg kg-1])
+# no 3377 (zn_s=12443.5 mg kg, Table 1 zinc and lead tailings dump, supérieur au range [0-7500 mg kg-1])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
@@ -1453,8 +1453,8 @@ outliers <- data_std %>%
   filter(se_s < num_range$min_value[num_range$variables == 'se_s'] | se_s > num_range$max_value[num_range$variables == 'se_s'] )
 outliers
 # 11 lines --> 11 outliers to verify
-# no 6873 (se_s=51.1, 228, 240 mg kg, supérieur au range [0-50 mg kg])
-# no 121 (se_s=536 mg kg, supérieur au range [0-50 mg kg])
+# no 6873 (se_s=51.1, 228, 240 mg kg, Table 1 mining areas, supérieur au range [0-50 mg kg])
+# no 121 (se_s=536 mg kg, Table 1 industrial activity, supérieur au range [0-50 mg kg])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
@@ -1475,7 +1475,7 @@ outliers <- data_std %>%
   filter(mn_s < num_range$min_value[num_range$variables == 'mn_s'] | mn_s > num_range$max_value[num_range$variables == 'mn_s'] )
 outliers
 # 1 line --> 1 outlier to verify
-# no 8790 (mn_s=17770 mg kg, supérieur au range [0-11000 mg kg])
+# no 8790 (mn_s=17770 mg kg, Table 1 mining area, supérieur au range [0-11000 mg kg])
 
 # isolate the outliers lines for the variable 'cr_s'
 outliers <- data_std %>% 
@@ -1493,7 +1493,7 @@ outliers
 outliers <- data_std %>% 
   filter(n_s < num_range$min_value[num_range$variables == 'n_s'] | n_s > num_range$max_value[num_range$variables == 'n_s'] )
 outliers
-# 177 lines --> 177 outliers to verify
+# 137 lines --> 137 outliers to verify
 # no 2011 (n_s=98, 105, 79, 48, supérieur au range [0-10])
 # no 6544 (n_s=12, supérieur au range [0-10])
 # no 2532 (n_s=12, supérieur au range [0-10])
@@ -1502,12 +1502,13 @@ outliers
 # no 3029 (n_s=120, supérieur au range [0-10])
 # no 1599 (n_s=36, supérieur au range [0-10])
 # no 6519 (n_s=21, 26, 20, 23, supérieur au range [0-10])
-# no 354 (n_s=76, supérieur au range [0-10])
-# no 428 (n_s= 148, supérieur au range [0-10])
+# no 354 (n_s=76, Table 1, supérieur au range [0-10])
 
 
 ###BEA:
 #3029:120 is way too much, in the article is said n = 2 (for plants and) duplicates, need to be change
+###AME: j'avais mis 120 car ils disent "120 surface soil samples and 60 pine stem wood and pine needles samples were collected from each sampling point"
+#j'ai remplacé pour 2, mais je ne le vois pas dans l'article
 # check the other really high number
 
 
@@ -1549,9 +1550,9 @@ outliers <- data_std %>%
   filter(cd_ba < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
 # 3 lines --> 3 outliers to verify
-# no 1195 (cd_ba=1104 mg kg, supérieur au range [0-100 mg kg])
-# no 3067 (cd_ba=1025 mg kg, supérieur au range [0-100 mg kg])
-# no 2289 (cd_ba=100.2 mg kg, supérieur au range [0-100 mg kg])
+# no 1195 (cd_ba=1104 mg kg, Page 6 farm contaminated soil, supérieur au range [0-100 mg kg])
+# no 3067 (cd_ba=1025 mg kg, Table 3 mine, supérieur au range [0-100 mg kg])
+# no 2289 (cd_ba=100.2 mg kg, smelting site, supérieur au range [0-100 mg kg])
 
 ###BEA: Can you verified all the plant concentration or tell me which data you verified and add info if needed
 #1195:data verified, ok
@@ -1563,15 +1564,15 @@ outliers <- data_std %>%
   filter(cu_ba < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 14 lines --> 14 outliers to verify
-# no 57 (cu_ba=2585.54 mg kg, supérieur au range [0-300 mg kg])
-# no 2972 (cu_ba=790.292493 mg kg (fig.3), supérieur au range [0-300 mg kg])
-# no 1560 (cu_ba=490 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 8669 (cu_ba=321 et 311 mg kg, supérieur au range [0-300 mg kg])
-# no 1264 (cu_ba=593.8698179 et 812.26062 mg kg, supérieur au range [0-300 mg kg])
-# no 2857 (cu_ba=410 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 3230 (cu_ba=517 et 684 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 397 (cu_ba=454.39 mg kg, supérieur au range [0-300 mg kg])
-# no 1011 (cu_ba=423, 538 et 857 mg kg, supérieur au range [0-300 mg kg])
+# no 57 (cu_ba=2585.54 mg kg, Table 5 artificial contamination, supérieur au range [0-300 mg kg])
+# no 2972 (cu_ba=790.292493 mg kg, Fig.3, supérieur au range [0-300 mg kg])
+# no 1560 (cu_ba=490 ug/g=mg kg, copper smelter, supérieur au range [0-300 mg kg])
+# no 8669 (cu_ba=321 et 311 mg kg, copper smelter, supérieur au range [0-300 mg kg])
+# no 1264 (cu_ba=593.8698179 et 812.26062 mg kg, Fig.3 spiked, supérieur au range [0-300 mg kg])
+# no 2857 (cu_ba=410 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
+# no 3230 (cu_ba=517 et 684 ug/g=mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
+# no 397 (cu_ba=454.39 mg kg, Table 2 copper mine tailings, supérieur au range [0-300 mg kg])
+# no 1011 (cu_ba=423, 538 et 857 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
@@ -1581,18 +1582,18 @@ outliers <- data_std %>%
   filter(pb_ba < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
 # 2 lines --> 2 outliers to verify
-# no 1146 (pb_ba=2595 mg kg, supérieur au range [0-1000 mg kg])
-# no 3416 (pb_ba=1105 mg kg, supérieur au range [0-1000 mg kg])
+# no 1146 (pb_ba=2595 mg kg, mine, supérieur au range [0-1000 mg kg])
+# no 3416 (pb_ba=1105 mg kg, smelting area, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'zn_ba'
 outliers <- data_std %>% 
   filter(zn_ba < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 6 lines --> 6 outliers to verify
-# no 1146 (zn_ba=4097 mg kg, supérieur au range [0-3000 mg kg])
-# no 2187 (zn_ba=6041 et 3601 ug/g=mg kg, supérieur au range [0-3000 mg kg])
-# no 3067 (zn_ba=15354 mg kg, supérieur au range [0-3000 mg kg])
-# no 2289 (zn_ba=3054.1 et 5438.7 mg kg, supérieur au range [0-3000 mg kg])
+# no 1146 (zn_ba=4097 mg kg, mine, supérieur au range [0-3000 mg kg])
+# no 2187 (zn_ba=6041 et 3601 ug/g=mg kg, Table 3 spike, supérieur au range [0-3000 mg kg])
+# no 3067 (zn_ba=15354 mg kg, mine, supérieur au range [0-3000 mg kg])
+# no 2289 (zn_ba=3054.1 et 5438.7 mg kg, smelting site, supérieur au range [0-3000 mg kg])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
@@ -1637,9 +1638,9 @@ outliers <- data_std %>%
   filter(n_te_ba < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
 # 53 lines --> 53 outliers to verify
-# no 2011 (n_te_ba=98, 105, 79, 48, supérieur au range [0-20])
-# no 7504 (n_te_ba=72, supérieur au range [0-20])
-# no 3029 (n_te_ba=60, supérieur au range [0-20])
+# no 2011 (n_te_ba=98, 105, 79, 48, supérieur au range [0-20])"98 samples from acidic soils (group I), 105 samples from slightly acid soils (group II), 79 samples from neutral soils (group II), and 48 samples from alkaline soils (group IV)" 
+# no 7504 (n_te_ba=72, supérieur au range [0-20])" 36 samples of soil and water and 72 samples of vegetables"
+# no 3029 (n_te_ba=60, supérieur au range [0-20])"20 surface soil samples and 60 pine stem wood and pine needles samples"
 # no 6519 (n_te_ba=21, 26, 20, 23, supérieur au range [0-20])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification if it is not a mistake
@@ -1657,9 +1658,9 @@ outliers <- data_std %>%
   filter(cd_br < num_range$min_value[num_range$variables == 'cd_br'] | cd_br > num_range$max_value[num_range$variables == 'cd_br'] )
 outliers
 # 5 lines --> 5 outliers to verify
-# no 1195 (cd_br= 1178.5 mg kg, supérieur au range [0-100 mg kg])
-# no 3067 (cd_br= 565 et 972 mg kg, supérieur au range [0-100 mg kg])
-# no 4239 (cd_br=135.59 et 129.49 mg kg, supérieur au range [0-100 mg kg])
+# no 1195 (cd_br= 1178.5 mg kg, Page 6 farm contaminated soil, supérieur au range [0-100 mg kg])
+# no 3067 (cd_br= 565 et 972 mg kg, Table 3 mine, supérieur au range [0-100 mg kg])
+# no 4239 (cd_br=135.59 et 129.49 mg kg, Table 2 ecological park of Nanchang Institute of Technology, supérieur au range [0-100 mg kg])
 
 
 # isolate the outliers lines for the variable 'cu_br'
@@ -1671,16 +1672,16 @@ outliers
 # no 1663 (cu_br=707 à 1940 mg kg, supérieur au range [0-300 mg kg])
 # no 3591 (cu_br=429.32, 599.64, 385.4, 594.56 mg kg, supérieur au range [0-300 mg kg])
 # no 2973 (cu_br=565 et 979 mg kg, supérieur au range [0-300 mg kg])
-# no 8790 (cu_br=345 mg kg, supérieur au range [0-300 mg kg])
-# no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, supérieur au range [0-300 mg kg])
+# no 8790 (cu_br=345 mg kg, Table 1 mining area, supérieur au range [0-300 mg kg])
+# no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, mine polluted area, supérieur au range [0-300 mg kg])
 # no 5760 (cu_br=709.48 mg kg, supérieur au range [0-300 mg kg])
 # no 218 (cu_br=371.1535512, 1530.523678, 1806.62184 mg kg, supérieur au range [0-300 mg kg])
 # no 7605 (cu_br=404.3, 448.8 et 689.7 mg kg, supérieur au range [0-300 mg kg])
 # no 1833 (cu_br=351.7245979, 696.5519618, 634.4830389 et 962.0690281 mg kg, supérieur au range [0-300 mg kg])
-# no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, supérieur au range [0-300 mg kg])
+# no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
+# no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
 # no 8713 (cu_br=1514.9, 1725.2, 438.5, 1250.8, 2660.8, 339.1, 2840.9 mg kg, supérieur au range [0-300 mg kg])
-# no 1011 (cu_br=765, 977, 557 et 674 mg kg, supérieur au range [0-300 mg kg])
+# no 1011 (cu_br=765, 977, 557 et 674 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
 # no 6607 (cu_br=196.9226782 et 1261.970198 mg kg, supérieur au range [0-300 mg kg])
 # no 3933 (cu_br=307, 417, 681 et 676 mg kg, supérieur au range [0-300 mg kg])
 # no 4239 (cu_br=1325.66, 465.38, 1215.91 mg kg, supérieur au range [0-300 mg kg])
@@ -1690,17 +1691,17 @@ outliers <- data_std %>%
   filter(pb_br < num_range$min_value[num_range$variables == 'pb_br'] | pb_br > num_range$max_value[num_range$variables == 'pb_br'] )
 outliers
 # 5 lines --> 5 outliers to verify
-# no 5793 (pb_br=1515 mg kg, supérieur au range [0-1000 mgkg])
-# no 3067 (pb_br=2123, 4915 et 10419 mg kg, supérieur au range [0-1000 mgkg]
-# no 3416 (pb_br=4630 mg kg, supérieur au range [0-1000 mgkg]
+# no 5793 (pb_br=1515 mg kg, Mine Tailings, supérieur au range [0-1000 mgkg])
+# no 3067 (pb_br=2123, 4915 et 10419 mg kg, mine, supérieur au range [0-1000 mgkg]
+# no 3416 (pb_br=4630 mg kg, zinc smelting area, supérieur au range [0-1000 mgkg]
 
 # isolate the outliers lines for the variable 'zn_br'
 outliers <- data_std %>% 
   filter(zn_br < num_range$min_value[num_range$variables == 'zn_br'] | zn_br > num_range$max_value[num_range$variables == 'zn_br'] )
 outliers
 # 4 lines --> 4 outliers to verify
-# no 2187 (zn_br=3452 ug/g=mg kg, supérieur au range [0-3000 mgkg]
-# no 3067 (zn_br= 6392, 5226, 8171 mg kg, supérieur au range [0-3000 mgkg]
+# no 2187 (zn_br=3452 ug/g=mg kg, Table 3 spike, supérieur au range [0-3000 mgkg]
+# no 3067 (zn_br= 6392, 5226, 8171 mg kg, mine, supérieur au range [0-3000 mgkg]
 
 # isolate the outliers lines for the variable 'se_br'
 outliers <- data_std %>% 
@@ -1738,7 +1739,7 @@ outliers <- data_std %>%
 outliers
 # 3 lines --> 3 outliers to verify
 # no 1831 (hg_br=1.34 et 7.39 mg kg, supérieur au range [0-1 mg kg])
-# no 3416 (hg_br=1.59 mg kg, supérieur au range [0-1 mg kg])
+# no 3416 (hg_br=1.59 mg kg, zinc smelting area, supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_br'
 outliers <- data_std %>% 
@@ -1765,11 +1766,11 @@ outliers <- data_std %>%
   filter(cu_ba_1 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_1 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
 # 17 lines --> 17 outliers to verify
-# no 57 (cu_ba_1=405.72 mg kg, supérieur au range [0-300 mg kg])
+# no 57 (cu_ba_1=405.72 mg kg, Table 5 spike, supérieur au range [0-300 mg kg])
 # no 3490 (cu_ba_1=678 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 2857 (cu_ba_1=790, 591, 374, 456, 478 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 3230 (cu_ba_1=383, 818, 332, 428, 549, 364 ug/g=mg kg, supérieur au range [0-300 mg kg])
-# no 1011 (cu_ba_1=361, 443, 558 mg kg, supérieur au range [0-300 mg kg])
+# no 2857 (cu_ba_1=790, 591, 374, 456, 478 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
+# no 3230 (cu_ba_1=383, 818, 332, 428, 549, 364 ug/g=mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
+# no 1011 (cu_ba_1=361, 443, 558 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
 # no 4239 (cu_ba_1=318.06 mg kg, supérieur au range [0-300 mg kg])
 
 
@@ -1785,7 +1786,7 @@ outliers <- data_std %>%
   filter(zn_ba_1 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_1 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 1 line --> 1 outliers to verify
-# no 2187 (zn_ba_1= 4333 mg kg, supérieur au range [0-3000 mg kg])
+# no 2187 (zn_ba_1= 4333 mg kg, Table 3 spike, supérieur au range [0-3000 mg kg])
 
 # isolate the outliers lines for the variable 'se_ba_1'
 outliers <- data_std %>% 
@@ -1861,7 +1862,7 @@ outliers <- data_std %>%
   filter(zn_ba_2 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_2 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
 # 2 lines --> 2 outliers to verify
-# no 2187 (zn_ba_2= 3332 mg kg, supérieur au range [0-3000])
+# no 2187 (zn_ba_2= 3332 mg kg, Table 3 spike, supérieur au range [0-3000])
 # no 8713 (zn_ba_2= 4699.8 mg kg, supérieur au range [0-3000])
 
 # isolate the outliers lines for the variable 'se_ba_2'
