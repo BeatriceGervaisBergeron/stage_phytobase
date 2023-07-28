@@ -2044,7 +2044,7 @@ data_std <- data_std %>%
   
 
 # Add the % unit if needed
-data_std_texture <- data_std_texture %>%
+data_std <- data_std %>%
   mutate(clay_units = replace(clay_units, texture == "Sandy loam", "%")) %>% # add "%" unit to clay_units where texture is "Sandy loam"
   mutate(sand_units = replace(sand_units, texture == "Sandy loam", "%")) %>% # add "%" unit to sand_units where texture is "Sandy loam"
   mutate(clay_units = replace(clay_units, texture == "Silty clay loam", "%")) %>% # add "%" unit to clay_units where texture is "Silty clay loam"
@@ -2075,17 +2075,18 @@ data_std_texture <- data_std_texture %>%
 # now all the textural class should be add in % in the clay and sand column
 
 # verify for clay_units
-unique(data_std_texture$clay_units) # "%"
+unique(data_std$clay_units) # "%"
 
 # verify for sand_units
-unique(data_std_texture$sand_units) # "%"
+unique(data_std$sand_units) # "%"
 
 #### Save the final corrected file ####
 
 # Save the final corrected file with textural classes in an rds object
-saveRDS(data_std_texture, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
+saveRDS(data_std, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
 
 # save the final corrected file as csv file
-write.table(data_std_texture,
+write.table(data_std,
             "./Amélie/data_cleaning_final/data_std_cu_cleaned.csv", 
             sep="\t", row.names = F, quote = F)
+
