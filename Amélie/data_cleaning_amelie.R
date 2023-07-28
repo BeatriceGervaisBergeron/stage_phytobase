@@ -1640,7 +1640,7 @@ outliers
 # 53 lines --> 53 outliers to verify
 # no 2011 (n_te_ba=98, 105, 79, 48, supérieur au range [0-20])"98 samples from acidic soils (group I), 105 samples from slightly acid soils (group II), 79 samples from neutral soils (group II), and 48 samples from alkaline soils (group IV)" 
 # no 7504 (n_te_ba=72, supérieur au range [0-20])" 36 samples of soil and water and 72 samples of vegetables"
-# no 3029 (n_te_ba=60, supérieur au range [0-20])"20 surface soil samples and 60 pine stem wood and pine needles samples"
+# no 3029 (n_te_ba=60, supérieur au range [0-20])"120 surface soil samples and 60 pine stem wood and pine needles samples"
 # no 6519 (n_te_ba=21, 26, 20, 23, supérieur au range [0-20])
 
 ###BEA: Check the most high number to make sure the number is well written and that there is a justification if it is not a mistake
@@ -1823,14 +1823,14 @@ outliers <- data_std %>%
   filter(hg_ba_1 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_1 > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
 # 2 lines --> 2 outliers to verify
-# no 7974 (hg_ba_1= 1.5 et 1.8 mg kg, supérieur au range [0-1 mg kg])
+# no 7974 (hg_ba_1= 1.5 et 1.8 mg kg, Table 4 , supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_ba_1'
 outliers <- data_std %>% 
   filter(n_te_ba_1 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_1 > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
 # 5 lines --> 5 outliers to verify
-# no 3029 (n_te_ba_1=60, supérieur au range [0-20]))
+# no 3029 (n_te_ba_1=60, supérieur au range [0-20]))"120 surface soil samples and 60 pine stem wood and pine needles samples"
 
 # isolate the outliers lines for the variable 'as_ba_2'
 outliers <- data_std %>% 
