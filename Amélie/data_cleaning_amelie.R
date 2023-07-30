@@ -2085,8 +2085,10 @@ unique(data_std$sand_units) # "%"
 # Save the final corrected file with textural classes in an rds object
 saveRDS(data_std, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
 
-# save the final corrected file as csv file
+# save the final corrected file as csv file and txt file
 write.table(data_std,
             "./Amélie/data_cleaning_final/data_std_cu_cleaned.csv", 
             sep="\t", row.names = F, quote = F)
-
+write.table(data_std,
+            "./Amélie/data_cleaning_final/data_std_cu_cleaned.txt", 
+            sep="\t", row.names = F, quote = F)
