@@ -14,6 +14,173 @@ library(RColorBrewer)
 
 #### Import data ####
 data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep="\t", header = TRUE, dec = '.')
+# Transform data
+data <- data %>%
+  mutate(
+    covidence = as.factor(covidence)
+    , author = as.factor(author)
+    , year = as.numeric(year)
+    , country = as.factor(country)
+    , location = as.factor(location)
+    , latitude = as.factor(latitude)
+    , longitude = as.factor(longitude)
+    , climate = as.factor(climate)
+    , expe_t = as.numeric(expe_t)
+    , mat = as.numeric(mat)
+    , map = as.numeric(map)
+    , map_units = as.factor(map_units)
+    , soil = as.factor(soil)
+    , type = as.factor(type)
+    , ph = as.numeric(ph)
+    , om = as.numeric(om)
+    , om_units = as.factor(om_units)
+    , oc = as.numeric(oc)
+    , oc_units = as.factor(oc_units)
+    , texture = as.factor(texture)
+    , clay = as.numeric(clay)
+    , clay_units = as.factor(clay_units)
+    , ec = as.numeric(ec)
+    , ec_units = as.factor(ec_units)
+    , sand = as.numeric(sand)
+    , sand_units = as.factor(sand_units)
+    , cec = as.numeric(cec)
+    , cec_units = as.factor(cec_units)
+    , N = as.numeric(N)
+    , N_units = as.factor(N_units)
+    , N_types = as.factor(N_types)
+    , P = as.numeric(P)
+    , P_units = as.factor(P_units)
+    , P_type = as.factor(P_type)
+    , as_s = as.numeric(as_s)
+    , cd_s = as.numeric(cd_s)
+    , cu_s = as.numeric(cu_s)
+    , pb_s = as.numeric(pb_s)
+    , zn_s = as.numeric(zn_s)
+    , se_s = as.numeric(se_s)
+    , ni_s = as.numeric(ni_s)
+    , co_s = as.numeric(co_s)
+    , mn_s = as.numeric(mn_s)
+    , cr_s = as.numeric(cr_s)
+    , hg_s = as.numeric(hg_s)
+    , units_s = as.factor(units_s)
+    , n_s = as.numeric(n_s)
+    , fraction_s = as.factor(fraction_s)
+    , Bioavailable = as.factor(Bioavailable)
+    , sp = as.factor(sp)
+    , name = as.factor(name)
+    , cultivar = as.factor(cultivar)
+    , p_density = as.numeric(p_density)
+    , units_density = as.factor(units_density)
+    , ba_total = as.numeric(ba_total)
+    , ba_stem = as.numeric(ba_stem)
+    , ba_leaf = as.numeric(ba_leaf)
+    , br = as.numeric(br)
+    , units_b = as.factor(units_b)
+    , as_ba = as.numeric(as_ba)
+    , cd_ba = as.numeric(cd_ba)
+    , cu_ba = as.numeric(cu_ba)
+    , pb_ba = as.numeric(pb_ba)
+    , zn_ba = as.numeric(zn_ba)
+    , se_ba = as.numeric(se_ba)
+    , ni_ba = as.numeric(ni_ba)
+    , co_ba = as.numeric(co_ba)
+    , mn_ba = as.numeric(mn_ba)
+    , cr_ba = as.numeric(cr_ba)
+    , hg_ba = as.numeric(hg_ba)
+    , units_te_ba = as.factor(units_te_ba)
+    , n_te_ba = as.numeric(n_te_ba)
+    , organs_ba = as.factor(organs_ba)
+    , as_br = as.numeric(as_br)
+    , cd_br = as.numeric(cd_br)
+    , cu_br = as.numeric(cu_br)
+    , pb_br = as.numeric(pb_br)
+    , zn_br = as.numeric(zn_br)
+    , se_br = as.numeric(se_br)
+    , ni_br = as.numeric(ni_br)
+    , co_br = as.numeric(co_br)
+    , mn_br = as.numeric(mn_br)
+    , cr_br = as.numeric(cr_br)
+    , hg_br = as.numeric(hg_br)
+    , units_te_br = as.factor(units_te_br)
+    , n_te_br = as.numeric(n_te_br)
+    , organs_br = as.factor(organs_br)
+    , as_ba_1 = as.numeric(as_ba_1)
+    , cd_ba_1 = as.numeric(cd_ba_1)
+    , cu_ba_1 = as.numeric(cu_ba_1)
+    , pb_ba_1 = as.numeric(pb_ba_1)
+    , zn_ba_1 = as.numeric(zn_ba_1)
+    , se_ba_1 = as.numeric(se_ba_1)
+    , ni_ba_1 = as.numeric(ni_ba_1)
+    , co_ba_1 = as.numeric(co_ba_1)
+    , mn_ba_1 = as.numeric(mn_ba_1)
+    , cr_ba_1 = as.numeric(cr_ba_1)
+    , hg_ba_1 = as.numeric(hg_ba_1)
+    , units_te_ba_1 = as.factor(units_te_ba_1)
+    , n_te_ba_1 = as.numeric(n_te_ba_1)
+    , organs_ba_1 = as.factor(organs_ba_1)
+    , as_ba_2 = as.numeric(as_ba_2)
+    , cd_ba_2 = as.numeric(cd_ba_2)
+    , cu_ba_2 = as.numeric(cu_ba_2)
+    , pb_ba_2 = as.numeric(pb_ba_2)
+    , zn_ba_2 = as.numeric(zn_ba_2)
+    , se_ba_2 = as.numeric(se_ba_2)
+    , ni_ba_2 = as.numeric(ni_ba_2)
+    , co_ba_2 = as.numeric(co_ba_2)
+    , mn_ba_2 = as.numeric(mn_ba_2)
+    , cr_ba_2 = as.numeric(cr_ba_2)
+    , hg_ba_2 = as.numeric(hg_ba_2)
+    , units_te_ba_2 = as.factor(units_te_ba_2)
+    , n_te_ba_2 = as.numeric(n_te_ba_2)
+    , organs_ba_2 = as.factor(organs_ba_2)
+    , as_ba_3 = as.numeric(as_ba_3)
+    , cd_ba_3 = as.numeric(cd_ba_3)
+    , cu_ba_3 = as.numeric(cu_ba_3)
+    , pb_ba_3 = as.numeric(pb_ba_3)
+    , zn_ba_3 = as.numeric(zn_ba_3)
+    , se_ba_3 = as.numeric(se_ba_3)
+    , ni_ba_3 = as.numeric(ni_ba_3)
+    , co_ba_3 = as.numeric(co_ba_3)
+    , mn_ba_3 = as.numeric(mn_ba_3)
+    , cr_ba_3 = as.numeric(cr_ba_3)
+    , hg_ba_3 = as.numeric(hg_ba_3)
+    , units_te_ba_3 = as.factor(units_te_ba_3)
+    , n_te_ba_3 = as.numeric(n_te_ba_3)
+    , organs_ba_3 = as.factor(organs_ba_3)
+  )
+##Standardisation
+numeric_columns <- sapply(data, is.numeric)
+data[numeric_columns] <- scale(data[numeric_columns])
+
+# Analyse linéaire
+model <- lm(cu_ba ~ cu_s, data = data[numeric_columns])
+model
+summary(model)
+ggplot(data, aes(x = cu_s, y = cu_ba)) +
+  geom_point() +
+  labs(x = "Cuivre dans le sol (cu_s)", y = "Cuivre dans les plantes (cu_ba)",
+       title = "Relation entre les concentrations de cuivre dans les parties aériennes des plantes et dans le sol") +
+  scale_x_continuous(limits = c(0, 10)) +   # Définir les limites de l'axe des x
+  scale_y_continuous(limits = c(0, 5)) 
+
+#RDA
+# Extraire les variables environnementales et les concentrations de métaux dans le sol et les plantes
+env_vars <- data[numeric_columns][, c("ph", "clay", "sand", "om", "oc", "N", "P", "map", "mat", "ec", "cec")]
+metal_conc_soil <- data[, c("as_s", "cd_s", "cu_s", "pb_s", "zn_s", "ni_s", "se_s", "co_s", "mn_s", "cr_s", "hg_s")] 
+metal_conc_plants <- data[, c("as_ba", "cd_ba", "cu_ba", "pb_ba", "zn_ba", "ni_ba", "se_ba", "co_ba", "mn_ba", "cr_ba", "hg_ba")]
+metal_conc_plants_imputed <- apply(metal_conc_plants, 2, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))
+metal_conc_plants_imputed <- as.data.frame(metal_conc_plants_imputed)
+data_complete <- cbind(env_vars, metal_conc_plants_imputed)
+rda_result <- rda(data_complete)
+plot(rda_result)
+summary(rda_result)
+
+#PCA
+pca_model <- prcomp(data[numeric_columns][, c("as_s", "cu_s", "pb_s", "zn_s", "se_s", "ni_s", "mn_s", "co", "cr_s", "hg_s", "cd_s")])
+print(summary(pca_model))
+#ANOVA
+anova_model <- aov(cu_ba ~ zone_geographique, data = data)
+summary(anova_model)
+
 
 ## join the traits to your data 
 traits <- readRDS("./complete_data.rds")
@@ -63,17 +230,12 @@ data_std <- data_std %>%
     , organs_ba_2 = as.factor(organs_ba_2)
     , units_te_ba_3 = as.factor(units_te_ba_3)
     , organs_ba_3 = as.factor(organs_ba_3)
-)
+  )
 
 # remove the sp. that don't have LA, SLA and LDMC values 
 # i.e. remove the lines in which LA values are 'NA'
 data_std <- data_std %>%
   filter(!is.na(LA) & !is.na(SLA) & !is.na(LDMC))
-
-##Standardisation
-numeric_columns <- sapply(data, is.numeric)
-data[numeric_columns] <- scale(data[numeric_columns])
-
 
 
 # if need no NA
@@ -104,34 +266,18 @@ RsquareAdj(rda)$adj.r.squared
 summary(rda)
 
 
-#plot RDA (En construction)
-#png("figures/RDA_full.png", width=2300, height=2200, pointsize=72) # to save your figure in a figure folder
-rdap<-rda(TE_leaves ~ LA + SLA +LDMC +ph  , data=data_clean, scale=T)
+#plot RDA
+rdap<-rda(TE_leaves ~ LA + SLA + LDMC + ph, data=data_clean, scale=T)
 scores_rda <- scores(rdap, display = "sites")
 scores_df <- as.data.frame(scores_rda)
-
 my_palette <- brewer.pal(n = 8, name = "Set2")
-plot(rdap)
-
-ggplot(scores_df, aes(x = RD1, y = RD2, color = LA)) +
-  geom_point(size = 3) +
-  scale_color_manual(values = my_palette) +
-  theme_minimal()
-
+ordiplot(rdap, scaling=2, xlim = c(-10, 10), ylim = c(-10, 10), cex = 1, col = my_palette, display=c('sp','cn', 'sites'))
 
 
 pca <- rda(TE_leaves, scale=T)
 plot(pca)
 
-plot(rdap
-     ,type='n'
-     ,scaling=2, display=c('sp','cn', 'sites')
-     ,xlab=' RDA 1 (?%)'
-     ,ylab='RDA 2 (?%)'
-     ,ylim=c(-1,1)
-     ,xlim=c(-0.5,1.2)
-     ,cex.lab=1
-)
+
 #col <- rep(c(4,1,5,6,2,3),each=8)
 #po <- rep(c(15,17,18,1,16,25),each=8)
 arrows(0,0,x1=-0.15, y1=0.6, lwd=3, length=0.05, angle=30, col='gray')
@@ -149,10 +295,10 @@ dev.off()
 
 #### Influence of traits and environmental factor on TE accumulation- Linear mix model (LMM) ####
 # Example of a full model selection
-lmer<-lmer(zn_ba ~ LA + SLA + LDMC + ph + country + AccSpeciesName_cor + (1|covidence), data=data_std)
+lmer<-lmer(cu_ba ~ LA + SLA + LDMC + ph + country + AccSpeciesName_cor + (1|covidence), data=data_std)
 anova(lmer)
 # Assumptions verification
-plot(resid(lmer),data_std$zn_ba )
+plot(resid(lmer),data_std$cu_ba )
 plot(lmer)
 qqmath(lmer, id=0.05)
 shapiro.test(resid(lmer))
@@ -201,8 +347,6 @@ anova(glm21, glmLA, test='LRT')
 
 # cu only database
 data_cu <- data_std %>% filter(!is.na(cu_ba))
-
-
 # check normality of cu_ba
 par(mfrow = c(2,3))
 hist(data_cu$cu_ba)
@@ -213,6 +357,8 @@ hist(logit(data_cu$cu_ba))
 hist(sqrt(data_cu$cu_ba))
 hist(data_cu$cu_ba^(1/3))
 
+# cu only database
+data_cu <- data_std %>% filter(!is.na(cu_s))
 # check normality of cu_s
 par(mfrow = c(2,3))
 hist(data_cu$cu_s)
