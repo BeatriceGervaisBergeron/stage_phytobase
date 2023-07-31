@@ -17,7 +17,7 @@ library(pracma)
 library(MASS)
 
 #### Import data ####
-data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep="\t", header = TRUE, dec = '.')
+data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep=";", header = TRUE, dec = '.')
 # Transform data
 data <- data %>%
   mutate(
@@ -247,6 +247,8 @@ data_complete <- cbind(env_vars, metal_conc_plants_imputed)
 rda_result <- rda(data_complete)
 plot(rda_result)
 summary(rda_result)
+
+###BEA: as-tu réussi a faire la RDA, car je pense que'il n'y a pas de ligne sans Na, donc impossible de faire la RDA avec tout cela
 
 #PCA
 pca_model <- prcomp(data[numeric_columns][, c("as_s", "cu_s", "pb_s", "zn_s", "se_s", "ni_s", "mn_s", "co", "cr_s", "hg_s", "cd_s")])
