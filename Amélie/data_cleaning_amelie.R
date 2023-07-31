@@ -163,6 +163,9 @@ data[data == ''] <- NA
 uni_sp<-as.data.frame(unique(data$name)) # 391 unique species
 colnames(uni_sp) <- c('sp') 
 
+###BEA: j'Ai 362 sp. maintenant, est-ce normal?
+
+
 # Correct the name according to the species name corrected from TRY
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
