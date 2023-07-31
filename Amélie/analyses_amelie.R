@@ -14,6 +14,7 @@ library(RColorBrewer)
 library(MuMIn)
 library(corrplot)
 library(pracma)
+library(MASS)
 
 #### Import data ####
 data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep="\t", header = TRUE, dec = '.')
@@ -175,8 +176,18 @@ ggplot(data, aes(x = P, y = cu_s)) +
   labs(x = "Phosphore dans le sol (P)", y = "Cuivre dans le sol (cu_s)",
        title = "Relation entre les concentrations de phosphore et de cuivre dans le sol")
 
+# Analyse linéaire
+model <- lm(cu_ba ~ cu_s, data = data[numeric_columns])
+model
+summary(model)
 
-# Définir le seuil pour considérer une plante comme un hyperaccumulateur
+ggplot(data, aes(x = cu_s, y = cu_ba)) +
+  geom_point() +
+  labs(x = "Cuivre dans le sol (cu_s)", y = "Cuivre dans les plantes (cu_ba)",
+       title = "Relation entre les concentrations de cuivre dans les parties aériennes des plantes et dans le sol") +
+  scale_x_continuous(limits = c(0, 10)) +   
+  scale_y_continuous(limits = c(0, 5)) 
+
 seuil_hyperaccumulator <- 300
 # Ajouter une nouvelle colonne 'Hyperaccumulator' dans data
 data_cu <- data %>%
@@ -226,10 +237,6 @@ p <- ggplot(data_filtre, aes(x = Organe, y = cu_ba)) +
 print(p)
 
 
-
-
-
-
 #RDA
 env_vars <- data[numeric_columns][, c("ph", "clay", "sand", "om", "oc", "N", "P", "map", "mat", "ec", "cec")]
 metal_conc_soil <- data[numeric_columns][, c("as_s", "cd_s", "cu_s", "pb_s", "zn_s", "ni_s", "se_s", "co_s", "mn_s", "cr_s", "hg_s")] 
@@ -248,6 +255,9 @@ print(summary(pca_model))
 #ANOVA
 anova_model <- aov(cu_ba ~ zone_geographique, data = data)
 summary(anova_model)
+
+
+
 
 
 
@@ -284,7 +294,6 @@ TE_leaves <- data_std %>%
 TE_leaves_std <-decostand(TE_leaves, method='standardize', na.rm = T)
 TE_leaves_std$ba_total <- apply(TE_leaves_std, MARGIN = 1, FUN = mean)
 
-
 #### RDA of all factors #### 
 
 # rda of the diffrent TE accumulation in functions of traits, covariable and controlling for the covariability of each study (covidence ID)
@@ -294,7 +303,6 @@ anova(rda, permutation=how(nperm=99999, block=data_clean$covidence), by='axis')
 RsquareAdj(rda)$adj.r.squared
 summary(rda)
 
-
 #plot RDA
 rdap<-rda(TE_leaves ~ LA + SLA + LDMC + ph, data=data_clean, scale=T)
 scores_rda <- scores(rdap, display = "sites")
@@ -302,10 +310,8 @@ scores_df <- as.data.frame(scores_rda)
 my_palette <- brewer.pal(n = 8, name = "Set2")
 ordiplot(rdap, scaling=2, xlim = c(-10, 10), ylim = c(-10, 10), cex = 1, col = my_palette, display=c('sp','cn', 'sites'))
 
-
 pca <- rda(TE_leaves, scale=T)
 plot(pca)
-
 
 #col <- rep(c(4,1,5,6,2,3),each=8)
 #po <- rep(c(15,17,18,1,16,25),each=8)
@@ -329,23 +335,17 @@ vars_to_standardize <- c("LA","SLA","LDMC","ph","cu_s")
 # Standardisation des variables
 data_std[vars_to_standardize] <- scale(data_std[vars_to_standardize])
 
-
 lmer<-lmer(cu_ba ~ om + cu_s+ LA + SLA + LDMC + ph + (1|covidence), data=data_std)
 anova(lmer)
 
 lmer<-lmer(cu_s ~ om + oc + ec + cec + ph + (1|covidence), data=data_std)
 anova(lmer)
 
-
 # Assumptions verification
 plot(resid(lmer),data_std$cu_ba )
 plot(lmer)
 qqmath(lmer, id=0.05)
 shapiro.test(resid(lmer))
-
-
-
-
 
 # model selection 
 # test different models and interaction
@@ -380,12 +380,6 @@ anova(glm3, glm21, glm22, glm23, glmLA, glmLDMC, glmSLA, test='LRT')
 aictab(cand.set = list(glm3, glm21, glm22, glm23, glmLA, glmLDMC, glmSLA), modnames = c('LDMC+LA+SLA', 'LDMC+LA', 'SLA+LDMC','SLA +LA','LA','LDMC','SLA'))
 anova(glm3, glm21, test='LRT')
 anova(glm21, glmLA, test='LRT')
-
-
-
-
-
-
 
 #### Influence of traits and environmental factor on TE accumulation- Linear mix model (LMM) ####
 
