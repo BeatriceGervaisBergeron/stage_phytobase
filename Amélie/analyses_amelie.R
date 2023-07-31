@@ -204,13 +204,19 @@ data_filtre <- data %>%
            organs_ba_1 %in% organes_inclus | 
            organs_ba_2 %in% organes_inclus | 
            organs_ba_3 %in% organes_inclus)
-p <- ggplot(data_filtre, aes(x = organs_ba, organs_ba_1, organs_ba_2, organs_ba_3, y = cu_ba, cu_ba_1, cu_ba_2, cu_ba_3)) +
+p <- ggplot(data_filtre, aes(x = organs_ba, y = cu_ba)) +
   geom_boxplot() +
   labs(x = "Organes", y = "Concentration de cuivre (mg/kg)",
        title = "Comparaison des concentrations de cuivre dans les différentes parties aériennes") +
   theme_minimal() +
   coord_cartesian(ylim = c(0, 250)) # Ajuster les limites des axes x et y
-# Afficher le graphique
+
+p <- p + stat_summary(fun.data = mean_cl_normal, geom = "crossbar", width = 0.2, color = "blue") +
+  stat_summary(fun = median, geom = "point", shape = 17, size = 3, color = "red")
+summary_data <- aggregate(cu_ba ~ organs_ba, data = data_filtre, 
+                          FUN = function(x) c(mean = mean(x), median = median(x)))
+print(summary_data)
+# Afficher le graphique avec les statistiques sommaires
 print(p)
 
 
@@ -233,8 +239,53 @@ p <- ggplot(data_filtre, aes(x = Organe, y = cu_ba)) +
        title = "Comparaison des concentrations de cuivre dans les racines et les feuilles") +
   theme_minimal() +
   coord_cartesian(ylim = c(0, 250)) # Ajuster les limites de l'axe y
+print(summary_data)
 # Afficher le graphique
 print(p)
+
+
+# Filtrer les données pour inclure uniquement les racines
+data_roots <- data %>%
+  filter(organs_br %in% c("roots"))
+# Créer le graphique boxplot
+p <- ggplot(data_roots, aes(x = "Racines", y = cu_br)) +
+  geom_boxplot() +
+  labs(x = "Organe", y = "Concentration de cuivre (mg/kg)",
+       title = "Concentration de cuivre dans les racines") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, 250)) # Ajuster les limites de l'axe y
+# Afficher le graphique
+print(p)
+
+data_leaves <- data %>%
+  filter(organs_ba %in% c("leaves"))
+# Créer le graphique boxplot
+p <- ggplot(data_leaves, aes(x = "Feuilles", y = cu_ba)) +
+  geom_boxplot() +
+  labs(x = "Organe", y = "Concentration de cuivre (mg/kg)",
+       title = "Concentration de cuivre dans les feuilles") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, 250)) # Ajuster les limites de l'axe y
+# Afficher le graphique
+print(p)
+
+# Calculer les médianes et moyennes pour les feuilles (cu_ba)
+summary_data_leaves <- aggregate(cu_ba ~ Organe, data = data_filtre[data_filtre$Organe == "Feuilles", ], 
+                          FUN = function(x) c(median = median(x), mean = mean(x)))
+
+# Calculer les médianes et moyennes pour les racines (cu_br)
+summary_data_roots <- aggregate(cu_br ~ Organe, data = data_filtre[data_filtre$Organe == "Racines", ], 
+                          FUN = function(x) c(median = median(x), mean = mean(x)))
+
+# Afficher les tableaux résumés
+print("Feuilles:")
+print(summary_data_leaves)
+
+print("Racines:")
+print(summary_data_roots)
+
+
+
 
 
 #RDA
@@ -249,12 +300,15 @@ plot(rda_result)
 summary(rda_result)
 
 #PCA
-pca_model <- prcomp(data[numeric_columns][, c("as_s", "cu_s", "pb_s", "zn_s", "se_s", "ni_s", "mn_s", "co", "cr_s", "hg_s", "cd_s")])
-print(summary(pca_model))
+selected_columns <- (data[numeric_columns][,c("cu_s", "pb_s", "zn_s", "se_s", "ni_s", "co_s", "mn_s", "cr_s", "hg_s", "map", "ph", "om", "oc", "clay", "sand", "ec", "cec")])
+selected_data <- data[, selected_columns]
+pca_model <- prcomp(selected_data)
+#problème avec les NA
 
 #ANOVA
-anova_model <- aov(cu_ba ~ zone_geographique, data = data)
-summary(anova_model)
+anova_model <- aov(cu_ba ~ country, data = data)
+tukey_results <- glht(anova_model, linfct = mcp(country = "Tukey"))
+summary(tukey_results)
 
 
 
@@ -280,7 +334,7 @@ data_std <- data_std %>%
 data_clean <-data_std[,c('as_ba',	'cd_ba',	'cu_ba',	'pb_ba',	'zn_ba',	'se_ba',	'ni_ba',	'co_ba',	'mn_ba',	'cr_ba',	'hg_ba', 'LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')]
 data_clean <- na.omit(data_std[,c('cu_ba', 'cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
 
-## Cd and Zn are the most abundant metal tested (without NA)
+## Cu, Cd and Zn are the most abundant metal tested (without NA)
 TE_leaves <- data_clean[,c(	'cd_ba',	'zn_ba', "cu_ba")]
 
 # TE scores
@@ -336,9 +390,6 @@ vars_to_standardize <- c("LA","SLA","LDMC","ph","cu_s")
 data_std[vars_to_standardize] <- scale(data_std[vars_to_standardize])
 
 lmer<-lmer(cu_ba ~ om + cu_s+ LA + SLA + LDMC + ph + (1|covidence), data=data_std)
-anova(lmer)
-
-lmer<-lmer(cu_s ~ om + oc + ec + cec + ph + (1|covidence), data=data_std)
 anova(lmer)
 
 # Assumptions verification
@@ -441,8 +492,8 @@ shapiro.test(resid(lmer.cu_ba))
 hist(resid(lmer.cu_ba))
 
 # For cu_br
-lmer.cu_br <- lmer(cu_br ~ LA_log + SLA_log + LDMC_log + cu_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std)
-lmer.cu_br <- lmer(cu_br ~ LA_log + SLA_log + LDMC_log + cu_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std)
+lmer.cu_br <- lmer(cu_br ~ log(LA) + log(SLA) + log(LDMC) + cu_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std)
+lmer.cu_br <- lmer(cu_br ~ log(LA) + log(SLA) + log(LDMC) + cu_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std)
 
 anova(lmer.cu_br)
 summary(lmer.cu_br)
