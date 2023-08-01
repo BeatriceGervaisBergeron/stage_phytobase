@@ -77,7 +77,10 @@ zn_ba # 38 lines
 # pb_ba
 pb_ba <- na.omit(data_clean$pb_ba)
 pb_ba # 36 lines
+<<<<<<< HEAD
 # so pb is also one of the most abundant metals tested
+=======
+>>>>>>> 3fc17991d785d2af9dee72a055b1018bf9f62c66
 
 # ni_ba
 ni_ba <- na.omit(data_clean$ni_ba)
@@ -119,8 +122,13 @@ par(mfrow = c(2,3))
 hist(data_zn$ph) # original histogram
 hist(log(data_zn$ph))
 hist(log10(data_zn$ph)) ## best transformation ##
+<<<<<<< HEAD
 hist(log2(data_zn$ph)) ## second best ##
 hist(logit(data_zn$ph)) # error message
+=======
+hist(log2(data_zn$ph)) # second best ##
+hist(logit(data_zn$ph))
+>>>>>>> 3fc17991d785d2af9dee72a055b1018bf9f62c66
 hist(sqrt(data_zn$ph))
 hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
