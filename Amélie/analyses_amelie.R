@@ -17,7 +17,9 @@ library(pracma)
 library(MASS)
 
 #### Import data ####
-data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep=";", header = TRUE, dec = '.')
+data <- read.table(file='./Amélie/data_cleaning_final/data_std_cu_cleaned.txt', sep="\t", quote = "", header =T)
+
+
 # Transform data
 data <- data %>%
   mutate(
