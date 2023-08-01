@@ -28,8 +28,8 @@ salix_complete_2 <- filter(traits, Salix == 2)
 # normalize the traits
 # data3.tr <- traits[,c('sp','Salix')]
 salix_complete_2$LA_log <- log(salix_complete_2$LA)
-salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
 salix_complete_2$LDMC_log <- logit(salix_complete_2$LDMC)
+salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
 
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
@@ -39,8 +39,7 @@ data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 's
 
 # remove the sp. that don't have LA, SLA and LDMC values 
 # i.e. remove the lines in which LA values are 'NA'
-data_std_salix <- filter(data_std, LA_log != 'NA')
-
+data_std_salix <- filter(data_std, LA_log != 'NA') # 60 lines
 
 # check number of Salix sp. remaining in the database
 unique(data_std_salix$AccSpeciesName_cor) 
@@ -60,68 +59,106 @@ data_std_salix <- data_std_salix %>%
     , country = as.factor(country))
 
 # if need no NA
-data_clean <- data_std[,c('as_ba',	'cd_ba',	'cu_ba',	'pb_ba',	'zn_ba',	'se_ba',	'ni_ba',	'co_ba',	'mn_ba',	'cr_ba',	'hg_ba', 'LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')]
-data_clean <- na.omit(data_std[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
+data_clean <- data_std_salix[,c('as_ba',	'cd_ba',	'cu_ba',	'pb_ba',	'zn_ba',	'se_ba',	'ni_ba',	'co_ba',	'mn_ba',	'cr_ba',	'hg_ba', 'LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')]
+data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
+# Cd and Zn are the most abundant metal tested (without NA)
+TE_leaves <- data_clean[,c('cd_ba', 'zn_ba')]
 
 
-#### Influence of traits and environmental factor on TE accumulation- Linear mix model (LMM) ####
+# check how many lines of data there are for some TE (cd, zn, pb and ni)
+# cd_ba
+cd_ba <- na.omit(data_clean$cd_ba)
+cd_ba # 39 lines
+
+# zn_ba
+zn_ba <- na.omit(data_clean$zn_ba)
+zn_ba # 38 lines
+
+# pb_ba
+pb_ba <- na.omit(data_clean$pb_ba)
+pb_ba # 36 lines
+# so pb is also one of the most abundant metals tested
+
+# ni_ba
+ni_ba <- na.omit(data_clean$ni_ba)
+ni_ba # 22 lines
+
+
+#### Influence of traits and environmental factor on TE accumulation - Linear mix model (LMM) ####
 
 # zinc only database
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
 
 # check normality of zn_ba
+dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
-hist(data_zn$zn_ba)
+hist(data_zn$zn_ba) # original histogram 
 hist(log(data_zn$zn_ba))
 hist(log10(data_zn$zn_ba))
 hist(log2(data_zn$zn_ba))
-hist(logit(data_zn$zn_ba))
+hist(logit(data_zn$zn_ba)) # error message
 hist(sqrt(data_zn$zn_ba))
-hist(data_zn$zn_ba^(1/3))# best transformation
+hist(data_zn$zn_ba^(1/3)) ## best transformation ##
 
 # check normality of zn_s
+dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
-hist(data_zn$zn_s)
+hist(data_zn$zn_s) # original histogram
 hist(log(data_zn$zn_s))
-hist(log10(data_zn$zn_s))# best transformation
-hist(log2(data_zn$zn_s)) # second best
-hist(logit(data_zn$zn_s))
+hist(log10(data_zn$zn_s)) ## best transformation ##
+hist(log2(data_zn$zn_s)) ## second best ##
+hist(logit(data_zn$zn_s)) # error message
 hist(sqrt(data_zn$zn_s))
 hist(data_zn$zn_s^(1/3))
-hist(asin(sqrt(data_zn$zn_s)))
-hist(decostand(data_zn$zn_s, method = 'log', MARGIN = 2))
-
+hist(asin(sqrt(data_zn$zn_s))) # error message
+hist(decostand(data_zn$zn_s, method = 'log', MARGIN = 2))  # error message
 
 # check normality of ph
+dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
-hist(data_zn$ph)
+hist(data_zn$ph) # original histogram
 hist(log(data_zn$ph))
-hist(log10(data_zn$ph))# best transformation
-hist(log2(data_zn$ph)) # second best
-hist(logit(data_zn$ph))
+hist(log10(data_zn$ph)) ## best transformation ##
+hist(log2(data_zn$ph)) ## second best ##
+hist(logit(data_zn$ph)) # error message
 hist(sqrt(data_zn$ph))
 hist(data_zn$ph^(1/3))
-hist(asin(sqrt(data_zn$ph)))
+hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
-
+# add a column with log(zn_ba) data
 data_zn$zn_ba_log <- log(data_zn$zn_ba)
+data_zn$zn_ba_log
+
 # For zn_ba
-lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba^(1/3) ~ LA_log + SLA_log + LDMC_log  + (1|zn_s)  + (1|covidence), data = data_zn)
-anova(lmer.zn_ba) # is something significant? with *
-summary(lmer.zn_ba)
+lmer.zn_ba.1 <- lmerTest::lmer(data_zn$zn_ba^(1/3) ~ LA_log + SLA_log + LDMC_log  + (1|zn_s)  + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.1) # is something significant? with *
+summary(lmer.zn_ba.1)
 
 plot(data_zn$zn_ba^(1/3)~data_zn$SLA_log)
-unique(data_zn$AccSpeciesName_cor)
 
 
 # Assumptions verification
-plot(resid(lmer.zn_ba),data_zn$zn_ba) # 
-plot(lmer.zn_ba) # 
-qqmath(lmer.zn_ba, id=0.05) # points are mostly in line so respected normality (outliers?)
-shapiro.test(resid(lmer.zn_ba)) # normal, p-value = 0.788
+plot(resid(lmer.zn_ba.1),data_zn$zn_ba) # 
+plot(lmer.zn_ba.1) # 
+qqmath(lmer.zn_ba.1, id=0.05) # points are mostly in line so respected normality (outliers?)
+shapiro.test(resid(lmer.zn_ba.1)) # normal, # p-value = 0.234
 
 hist(resid(lmer.zn_ba))
+
+
+
+# trying the same model, but with some changes
+
+lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba^(1/3) ~ log(ba_leaf) + log(ba_stem) + LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.2) # is something significant? with *
+# need to verify assumption verification
+
+
+lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_log ~ log(ba_leaf) + log(ba_stem) + LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.3) # is something significant? with *
+# need to verify assumption verification
+
 
 
 # For zn_br
@@ -144,13 +181,24 @@ qqmath(lmer.cd_ba, id=0.05) # points are mostly in line so respected normality (
 shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 
 
-# For 
+# For cd_br
 
 
 
 
 
-##### PCA of willows vs all species ####
+# For pb_ba
+
+
+
+
+
+# For pb_br
+
+
+
+
+#### PCA of willows vs all species ####
 
 
 
