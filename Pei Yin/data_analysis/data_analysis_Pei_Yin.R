@@ -86,7 +86,7 @@ ni_ba # 22 lines
 
 #### Influence of traits and environmental factor on TE accumulation - Linear mix model (LMM) ####
 
-# zinc only database
+#### zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
 
 # check normality of zn_ba
@@ -131,28 +131,28 @@ data_zn$zn_ba_log <- log(data_zn$zn_ba)
 data_zn$zn_ba_log
 
 # LMM for zn_ba
-lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_log ~ log(ba_leaf) + log(ba_stem) + LA_log + SLA_log + LDMC_log + log(ph) + (1|zn_s) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.3) 
+lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba_log ~ log(ba_leaf) + log(ba_stem) + LA_log + SLA_log + LDMC_log + log(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba) 
 ## the significant p-values are:
 # log(ba_leaf): p-value = 0.00443 **
 # LA_log:       p-value = 0.05195 .
 # SLA_log:      p-value = 0.03100 *
-summary(lmer.zn_ba.3)
+summary(lmer.zn_ba)
 
 
 # Assumptions verification
 
 # homogeneity of variance ?
-plot(resid(lmer.zn_ba.3) ~ fitted(lmer.zn_ba.3))
+plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba)) # looks like a heteroscedastic dispersion
 
-plot(resid(lmer.zn_ba.3)) # mostly random points
-plot(lmer.zn_ba.3) # 
-qqmath(lmer.zn_ba.3, id=0.05) # points are mostly in line so respected normality (outliers?)
+plot(resid(lmer.zn_ba)) # mostly random points
+plot(lmer.zn_ba) # 
 plot(data_zn$zn_ba^(1/3)~data_zn$SLA_log)
 
 # normal distribution of residuals ?
-shapiro.test(resid(lmer.zn_ba.3)) # normal distribution, # p-value = 0.8321
-hist(resid(lmer.zn_ba.3)) # seems like normal distribution, with one missing column in histogram
+qqmath(lmer.zn_ba, id = 0.05) # points are mostly in line so respected normality (outliers?)
+shapiro.test(resid(lmer.zn_ba)) # normal distribution, # p-value = 0.8321
+hist(resid(lmer.zn_ba)) # seems like normal distribution, with one missing column in histogram
 
 
 
@@ -167,6 +167,8 @@ anova(lmer.zn_br) # is something significant? with *
 summary(lmer.zn_br)
 
 
+
+#### cd only database ####
 
 # For cd_ba
 lmer.cd_ba <- lmer(cd_ba ~ LA_log + SLA_log + LDMC_log + cd_br + cd_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
