@@ -342,12 +342,6 @@ data_std <- data_std %>%
 # verify
 unique(data_std$organs_br) # "roots"
 
-### BEA: ici je ne veux pas remplacer tous les coarse roots or fines roots by roots. 
-#Soit tu les élimines de la base de données, puisque on ne les prendra pas en compte, 
-#soit tu les gardes comme ça.Ce ne sont pas les même catégories.
-
-### OK j'ai eliminer les coarse roots, fine roots and stump de la base de donnees
-
 
 #### outliers and errors in numerical data ####
 
@@ -386,10 +380,12 @@ str(data_num)
 # so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
 
 ### OK I added these as.numeric changes to the beginning (lines 61-70)
+## Good, so you can delete this part
 
 
 
 # data_num has 64 variables for now
+###BEA I have 77 now, change the number to be sure we have the same results
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
@@ -456,6 +452,8 @@ outliers <- data_num %>%
 ### no 2140 (oc = 1.93% in the article, which is under the min. of 2.4%)
 ### no 1008 (oc = 2.1% and 1.8% in the article, which are under the min. of 2.4%)
 
+###BEA: OK, you can just let the verified info and delete the comments
+
 # outliers for list[9] = clay
 outliers <- data_num %>% 
   filter(data_num[,9] < num_range$min_value[9] | data_num[,9] > num_range$max_value[9] )
@@ -478,6 +476,8 @@ outliers <- data_num %>%
 ### it's the article no 63 (cec = 47 meq 100 g−1 in the article = 47 cmolc kg-1)
 ### it's higher than the range of 2-35 cmolc kg-1
 
+### BEA OK
+
 # outliers for list[13] = N
 outliers <- data_num %>% 
   filter(data_num[,13] < num_range$min_value[13] | data_num[,13] > num_range$max_value[13] )
@@ -485,6 +485,8 @@ outliers <- data_num %>%
 ### there are 2 articles:
 ### article no 63 (N = 0.18% in the article = 1800 mg/kg, which is a bit higher than the range of 10-1500 mg/kg)
 ### article no 1645 (N = 0.57% in the article = 5700 mg/kg, which is a lot higher than the range, so I added a note in the journal de bord)
+
+### BEA OK
 
 # outliers for list[14] = P
 outliers <- data_num %>% 
@@ -495,12 +497,16 @@ outliers <- data_num %>%
 ### (1042 mg/kg is lot higher than the range of 5-100 mg/kg, so I added a note in the journal de bord)
 ### article 1645 (P = 2829 mg/kg, which is a lot higher than the max range of 100 mg/kg)
 
+### BEA OK
+
 # outliers for list[15] = as_s
 outliers <- data_num %>% 
   filter(data_num[,15] < num_range$min_value[15] | data_num[,15] > num_range$max_value[15] )
 # 12 line/12 obs, so 12 outliers
 ### there is one article: no 253 ([As_s] = 1593; 440.9; 561; 949.3; 1119.7 and 1436.1 mg/kg in the article)
 ### the values are a lot higher than the range of 0-250 mg/kg, so I added a note in the journal de bord)
+
+### BEA OK
 
 # outliers for list[16] = cd_s
 outliers <- data_num %>% 
@@ -513,6 +519,8 @@ outliers <- data_num %>%
 # 6 line/6 obs, so 6 outliers
 ### article no 2514 ([Cu_s] = 5162.3 mg/kg in the article,
 ### which is double the range of 0-2500 mg/kg, so I added a note in the journal de bord)
+
+### BEA OK
 
 # outliers for list[18] = pb_s
 outliers <- data_num %>% 
@@ -564,6 +572,8 @@ outliers <- data_num %>%
 ### article no 2140 (n_s = 32, which is accurate after verification in the article)
 ### article no 21 (n_s = 27, which is accurate after verification in the article)
 
+###BEA: are you sure it is the number of replicates and not the total sample size? we wnt replicates here, not total samples
+
 # outliers for list[27] = ba_total - on hold for now
 # outliers for list[28] = ba_stem - on hold for now
 # outliers for list[29] = ba_leaf - on hold for now
@@ -583,6 +593,8 @@ outliers <- data_num %>%
 ### article no 2514 ([Cd_ba] = 127.4809 and 171.1 mg/kg, which are also higher than the range)
 ### I added a note in the journal de bord for both articles
 
+### BEA OK
+
 # outliers for list[33] = cu_ba
 outliers <- data_num %>% 
   filter(data_num[,33] < num_range$min_value[33] | data_num[,33] > num_range$max_value[33] )
@@ -601,6 +613,8 @@ outliers <- data_num %>%
 ### article no 1008 ([Zn_ba] = 3991 mg/kg in the article, which is higher than the range of 0-3000 mg/kg)
 ### article no 607 ([Zn_ba] = 3092 mg/kg in the article, which is slightly higher than the range of 0-3000 mg/kg)
 ### I added a note in the journal de bord for the value of 3991 mg/kg (article no 1008)
+
+### BEA OK
 
 # outliers for list[36] = se_ba
 outliers <- data_num %>% 
@@ -645,6 +659,8 @@ outliers <- data_num %>%
 ### [as_br] = from 1150.602 to 4012.195 mg/kg in the article, which are a lot higher than the range of 0-1000 mg/kg
 ### I added a note in the journal de bord
 
+### BEA OK
+
 # outliers for list[44] = cd_br
 outliers <- data_num %>% 
   filter(data_num[,44] < num_range$min_value[44] | data_num[,44] > num_range$max_value[44] )
@@ -654,7 +670,8 @@ outliers <- data_num %>%
 ### article no 2514 (4 values, [cd_br] = from 101.9653 to 136.3584 mg/kg, which are also a little higher than the range)
 
 ### BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
-### Pour ma part, j'ai eu 6 observations, mais j'ai bel et bien vérifié les outliers
+### Pour ma part, j'ai eu 6 observations, mais j'ai bel et bien vérifié les outliers 
+### BEA OK j'en ai 6
 
 # outliers for list[45] = cu_br
 outliers <- data_num %>% 
@@ -665,6 +682,8 @@ outliers <- data_num %>%
 ### article no 2514 ([cu_br] = from 1026.316 to 1736.842 mg/kg in the article, which are higher than the range of 0-300 mg/kg)
 ### I added a note in the journal de bord for both articles
 
+### BEA OK
+
 # outliers for list[46] = pb_br
 outliers <- data_num %>% 
   filter(data_num[,46] < num_range$min_value[46] | data_num[,46] > num_range$max_value[46] )
@@ -672,6 +691,7 @@ outliers <- data_num %>%
 
 ### BEA: ici j'ai 1 outilers
 ### Pour ma part, j'ai toujours 0 outlier ici
+### BEA OK
 
 # outliers for list[47] = zn_br
 outliers <- data_num %>% 
@@ -681,6 +701,7 @@ outliers <- data_num %>%
 
 ### BEA: ici j'ai 2 outliers
 ### Pour ma part, j'ai toujours 1 outlier ici
+### BEA OK
 
 # outliers for list[48] = se_br
 outliers <- data_num %>% 
@@ -833,6 +854,9 @@ data_std <- data_std %>%
 ### Si c'est le cas, il y aurait >40-50% de clay, et plus de sand que de silt.
 ### C'est pour cela que j'ai remplacer "Clay sand silt" par "Clay"
 
+### BEA OK, je voulais simplemt savoir pourquoi. Toutefois, on ne se concentre que sur la couche superieure si l'article fait une distinction de profondeur.
+#As-tu extrait les concentrations et info du sol 0-30cm pour cette article?
+
 # verify the conversion worked
 unique(data_std$texture)
 # NA  "Sandy loam"  "Clay"  "Loam"  "Coarse texture"
@@ -872,6 +896,7 @@ data_std_textures <- data_std %>%
 
 ### BEA: can you find a way to avoid writing all those line to replace a units? Try with the function Filter
 ### OK I used the replace function for that
+##BEA, great
 
 # create a backup file in case the replacement doesn't work at first
 data_std_textures_b <- data_std_textures
