@@ -65,6 +65,7 @@ data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , '
 TE_leaves <- data_clean[,c('cd_ba', 'zn_ba')]
 
 
+
 # check how many lines of data there are for some TE (cd, zn, pb and ni)
 # cd_ba
 cd_ba <- na.omit(data_clean$cd_ba)
@@ -140,6 +141,9 @@ anova(lmer.zn_ba)
 summary(lmer.zn_ba)
 
 
+###BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
+### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
+
 # Assumptions verification
 
 # homogeneity of variance ?
@@ -150,7 +154,7 @@ plot(lmer.zn_ba) #
 plot(data_zn$zn_ba^(1/3)~data_zn$SLA_log)
 
 # normal distribution of residuals ?
-qqmath(lmer.zn_ba, id = 0.05) # points are mostly in line so respected normality (outliers?)
+qqmath(lmer.zn_ba, id = 0.05) # points are mostly in line so respected normality (outliers?) # no, look find to be
 shapiro.test(resid(lmer.zn_ba)) # normal distribution, # p-value = 0.8321
 hist(resid(lmer.zn_ba)) # seems like normal distribution, with one missing column in histogram
 
