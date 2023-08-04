@@ -8,7 +8,6 @@ library(taxize)
 
 
 #### call your data  ####
-
 data <- read.csv('./Pei Yin/data_cleaning_final/soil_sp_database_Pei_Yin_Copy.csv', sep=',', header = T, dec = '.')
 
 
@@ -356,9 +355,6 @@ data_num <- data_std[ , num_cols]  # keep only numerical data, so 77 variables
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
 
-
-### to delete lines 366-391: ###
-
 # data types of "data_num"
 str(data_num)
 
@@ -376,16 +372,7 @@ data_num <- data_num %>%
 # verify
 str(data_num)
 
-### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
-# so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
-
-### OK I added these as.numeric changes to the beginning (lines 61-70)
-## Good, so you can delete this part
-
-
-
-# data_num has 64 variables for now
-###BEA I have 77 now, change the number to be sure we have the same results
+# data_num has 77 variables for now
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
@@ -397,7 +384,7 @@ data_num <- data_num[,-c(6:7)] # should have 75 columns
 
 # for each of the 62 variables, isolate data that are outside the range
 # here are the 62 variables
-list <-colnames(data_num)
+list <- colnames(data_num)
 list
 
 # isolate the outliers lines for the variable 'covidence'
@@ -444,15 +431,11 @@ outliers <- data_num %>%
 outliers <- data_num %>% 
   filter(data_num[,8] < num_range$min_value[8] | data_num[,8] > num_range$max_value[8] )
 # 47 lines/47 obs, so 47 outliers to verify
-
-### BEA: did you went to verified the data?
-### Yes, the articles were: 
+### The articles were: 
 ### no 2560 (oc = 63 g/kg in the article = 6.30%, which is slightly above the max. of 6.0)
 ### no 671 (oc = 0.8% in the article, which is a lot less than the min. of 2.4%, so I added a note in the journal de bord)
 ### no 2140 (oc = 1.93% in the article, which is under the min. of 2.4%)
 ### no 1008 (oc = 2.1% and 1.8% in the article, which are under the min. of 2.4%)
-
-###BEA: OK, you can just let the verified info and delete the comments
 
 # outliers for list[9] = clay
 outliers <- data_num %>% 
@@ -565,14 +548,24 @@ outliers <- data_num %>%
 # outliers for list[26] = n_s
 outliers <- data_num %>% 
   filter(data_num[,26] < num_range$min_value[26] | data_num[,26] > num_range$max_value[26] )
-# 23 line/23 obs, so 23 outliers
-### there are 4 articles:
-### article no 63 (n_s = 32, which is accurate after verification in the article)
-### article no 83 (n_s = 50, which is accurate after verification in the article)
-### article no 2140 (n_s = 32, which is accurate after verification in the article)
-### article no 21 (n_s = 27, which is accurate after verification in the article)
+# I'll re-check the number of outliers after I've rectified the number of replicates (n_s):
+  # 23 line/23 obs, so 23 outliers
+  ### there are 4 articles:
+  ### article no 63 (n_s = 32, which is accurate after verification in the article)
+  ### article no 83 (n_s = 50, which is accurate after verification in the article)
+  ### article no 2140 (n_s = 32, which is accurate after verification in the article)
+  ### article no 21 (n_s = 27, which is accurate after verification in the article)
 
-###BEA: are you sure it is the number of replicates and not the total sample size? we wnt replicates here, not total samples
+### BEA: are you sure it is the number of replicates and not the total sample size? we want replicates here, not total samples
+
+### Je pensais que c'était le total sample size qu'il fallait mettre
+### toutes les données de n_s que j'ai remplies sont de total sample size.
+### dans le Protocole, il était écrit que 'n_s' correspondait au 'sampling number for soil analysis'
+### je croyais que 'sampling number' voulait dire 'sample size', d'ou l'erreur. Je vais corriger cela
+### Je ne sais pas si c'est seulement pour moi que 'sampling number' a porté confusion,
+### je suggèrerais peut-être de préciser dans le Protocole que c'est le nombre de réplicats, 
+### pour éviter la confusion pour les prochaines personnes
+
 
 # outliers for list[27] = ba_total - on hold for now
 # outliers for list[28] = ba_stem - on hold for now
@@ -857,6 +850,9 @@ data_std <- data_std %>%
 ### BEA OK, je voulais simplemt savoir pourquoi. Toutefois, on ne se concentre que sur la couche superieure si l'article fait une distinction de profondeur.
 #As-tu extrait les concentrations et info du sol 0-30cm pour cette article?
 
+### Oui, j'avais extrait les infos pour la profondeur 0-30 cm dans cet article
+
+
 # verify the conversion worked
 unique(data_std$texture)
 # NA  "Sandy loam"  "Clay"  "Loam"  "Coarse texture"
@@ -896,7 +892,7 @@ data_std_textures <- data_std %>%
 
 ### BEA: can you find a way to avoid writing all those line to replace a units? Try with the function Filter
 ### OK I used the replace function for that
-##BEA, great
+### BEA, great
 
 # create a backup file in case the replacement doesn't work at first
 data_std_textures_b <- data_std_textures
