@@ -4,6 +4,7 @@
 library(vegan)
 library(HH)
 library('plotrix')
+library(lmtest)
 library(lmerTest)
 library(dplyr)
 library(tidyr)
@@ -25,11 +26,28 @@ traits <- traits %>% arrange(Salix)
 # filter the Salix sp. in the traits table 
 salix_complete_2 <- filter(traits, Salix == 2)
 
-# normalize the traits
-# data3.tr <- traits[,c('sp','Salix')]
+# transform data (with log, sqrt root and sqrt cube) & add the transformed columns
+# log
 salix_complete_2$LA_log <- log(salix_complete_2$LA)
-salix_complete_2$LDMC_log <- logit(salix_complete_2$LDMC)
+salix_complete_2$LDMC_log <- log(salix_complete_2$LDMC)
+salix_complete_2$LDMC_abs_log <- abs(log(salix_complete_2$LDMC))
 salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
+
+# log(sqrt root)
+
+
+
+
+# sqrt root
+salix_complete_2$LA_sqrt <- sqrt(salix_complete_2$LA)
+salix_complete_2$LDMC_abs_sqrt <- sqrt(abs(salix_complete_2$LDMC))
+salix_complete_2$SLA_sqrt <- sqrt(salix_complete_2$SLA)
+
+# sqrt cube
+
+
+
+
 
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
@@ -90,6 +108,10 @@ ni_ba # 22 lines
 #### zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
 
+# add a column with log(zn_ba) data
+data_zn$zn_ba_log <- log(data_zn$zn_ba)
+data_zn$zn_ba_log
+
 # check normality of zn_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
@@ -127,10 +149,6 @@ hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
-# add a column with log(zn_ba) data
-data_zn$zn_ba_log <- log(data_zn$zn_ba)
-data_zn$zn_ba_log
-
 # LMM for zn_ba
 lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba)
@@ -143,6 +161,10 @@ anova(lmer.zn_ba.2)
 ## the significant p-value is:
 # LA_log:    p-value = 0.009344 **
 
+lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.3)
+
+data_zn$zn_ba_log
 
 ### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
 ### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
@@ -155,6 +177,8 @@ anova(lmer.zn_ba.2)
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba)) # looks like a heteroscedastic dispersion
+gqtest(lmer.zn_ba, order.by = ~disp+hp, data = data_zn, fraction = 8)
+
 
 plot(resid(lmer.zn_ba)) # mostly random points
 plot(lmer.zn_ba) # 
