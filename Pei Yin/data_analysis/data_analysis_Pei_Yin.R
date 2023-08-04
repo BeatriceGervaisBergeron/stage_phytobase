@@ -68,20 +68,20 @@ TE_leaves <- data_clean[,c('cd_ba', 'zn_ba')]
 
 # check how many lines of data there are for some TE (cd, zn, pb and ni)
 # cd_ba
-cd_ba <- na.omit(data_clean$cd_ba)
+cd_ba <- na.omit(data_std_salix$cd_ba)
 cd_ba # 39 lines
 
 # zn_ba
-zn_ba <- na.omit(data_clean$zn_ba)
+zn_ba <- na.omit(data_std_salix$zn_ba)
 zn_ba # 38 lines
 
 # pb_ba
-pb_ba <- na.omit(data_clean$pb_ba)
+pb_ba <- na.omit(data_std_salix$pb_ba)
 pb_ba # 36 lines
 # so pb is also one of the most abundant metals tested
 
 # ni_ba
-ni_ba <- na.omit(data_clean$ni_ba)
+ni_ba <- na.omit(data_std_salix$ni_ba)
 ni_ba # 22 lines
 
 
@@ -132,19 +132,26 @@ data_zn$zn_ba_log <- log(data_zn$zn_ba)
 data_zn$zn_ba_log
 
 # LMM for zn_ba
-lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba_log ~ log(ba_leaf) + log(ba_stem) + LA_log + SLA_log + LDMC_log + log(ph) + (1|zn_s) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba) 
-## the significant p-values are:
-# log(ba_leaf): p-value = 0.00443 **
-# LA_log:       p-value = 0.05195 .
-# SLA_log:      p-value = 0.03100 *
+lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba)
+## the significant p-value is:
+# SLA_log:    p-value = 0.04252 *
 summary(lmer.zn_ba)
 
+lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba_log ~ clay + sand + LA_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.2)
+## the significant p-value is:
+# LA_log:    p-value = 0.009344 **
 
-###BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
+
+### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
 ### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
 
-# Assumptions verification
+### OK j'ai gardé le log10(ph)
+### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
+
+
+# Assumptions verification for lmer.zn_ba
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba)) # looks like a heteroscedastic dispersion
@@ -159,6 +166,15 @@ shapiro.test(resid(lmer.zn_ba)) # normal distribution, # p-value = 0.8321
 hist(resid(lmer.zn_ba)) # seems like normal distribution, with one missing column in histogram
 
 
+# Assumptions verification for lmer.zn_ba.2
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.2) ~ fitted(lmer.zn_ba.2)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+qqmath(lmer.zn_ba.2, id = 0.05) # points are mostly in line so respected normality (outliers?) # no, look find to be
+shapiro.test(resid(lmer.zn_ba.2)) # not normal distribution, # p-value = 1.051e-05
+hist(resid(lmer.zn_ba.2)) # doesn't quite seem like normal distribution. 2 missing columns in histogram
 
 
 
@@ -188,6 +204,9 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 # For cd_br
 
 
+
+
+#### pb only database ####
 
 
 
