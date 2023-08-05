@@ -12,7 +12,6 @@ library(stringr)
 library('lmerTest')
 
 #### Import data ####
-
 data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
 traits <- readRDS('./complete_data.rds')
 
@@ -26,38 +25,44 @@ traits <- traits %>% arrange(Salix)
 # filter the Salix sp. in the traits table 
 salix_complete_2 <- filter(traits, Salix == 2)
 
-# transform data (with log, sqrt root and sqrt cube) & add the transformed columns
-# log
-salix_complete_2$LA_log <- log(salix_complete_2$LA)
-salix_complete_2$LDMC_log <- log(salix_complete_2$LDMC)
-salix_complete_2$LDMC_abs_log <- abs(log(salix_complete_2$LDMC))
-salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
-
-# log(sqrt root)
-
-
-
-
-# sqrt root
-salix_complete_2$LA_sqrt <- sqrt(salix_complete_2$LA)
-salix_complete_2$LDMC_abs_sqrt <- sqrt(abs(salix_complete_2$LDMC))
-salix_complete_2$SLA_sqrt <- sqrt(salix_complete_2$SLA)
-
-# sqrt cube
-
-
-
-
-
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
+
+
+#### transform data ####
+# (with log, sqrt root and sqrt cube) & add the transformed columns
+
+# log transformation
+salix_complete_2$LA_log.1 <- log(salix_complete_2$LA)
+salix_complete_2$LDMC_abs_log.1 <- abs(log(salix_complete_2$LDMC))
+salix_complete_2$SLA_log.1 <- log(salix_complete_2$SLA)
+
+# sqrt root transformation
+salix_complete_2$LA_sqrt.2 <- sqrt(salix_complete_2$LA)
+salix_complete_2$LDMC_abs_sqrt.2 <- sqrt(abs(salix_complete_2$LDMC))
+salix_complete_2$SLA_sqrt.2 <- sqrt(salix_complete_2$SLA)
+
+# sqrt root(log) transformation
+salix_complete_2$LA_sqrt_log.3 <- sqrt(log(salix_complete_2$LA))
+salix_complete_2$LDMC_sqrt_abs_log.3 <- sqrt(abs(log(salix_complete_2$LDMC)))
+salix_complete_2$SLA_sqrt_log.3 <- sqrt(log(salix_complete_2$SLA))
+
+# defining a cube root function
+cuberoot = function(x){
+  ifelse(x < 0, - (-x)^(1/3), x^(1/3))
+}
+
+# cube root transformation
+salix_complete_2$LA_cuberoot.4 <- cuberoot(salix_complete_2$LA)
+salix_complete_2$LDMC_cuberoot.4 <- cuberoot(abs(salix_complete_2$LDMC))
+salix_complete_2$SLA_cuberoot.4 <- cuberoot(salix_complete_2$SLA)
 
 # join the traits to your data
 data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 'sp'))
 
 # remove the sp. that don't have LA, SLA and LDMC values 
 # i.e. remove the lines in which LA values are 'NA'
-data_std_salix <- filter(data_std, LA_log != 'NA') # 60 lines
+data_std_salix <- filter(data_std, LA_log.1 != 'NA') # 60 lines
 
 # check number of Salix sp. remaining in the database
 unique(data_std_salix$AccSpeciesName_cor) 
