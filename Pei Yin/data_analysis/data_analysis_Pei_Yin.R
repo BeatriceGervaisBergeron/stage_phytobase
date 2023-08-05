@@ -25,6 +25,32 @@ traits <- traits %>% arrange(Salix)
 # filter the Salix sp. in the traits table 
 salix_complete_2 <- filter(traits, Salix == 2)
 
+
+#### transform data ####
+# (with log, sqrt root and sqrt cube) & add the transformed columns
+
+# log
+salix_complete_2$LA_log <- log(salix_complete_2$LA)
+salix_complete_2$LDMC_log <- log(salix_complete_2$LDMC)
+salix_complete_2$LDMC_abs_log <- abs(log(salix_complete_2$LDMC))
+salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
+
+# sqrt root
+salix_complete_2$LA_sqrt <- sqrt(salix_complete_2$LA)
+salix_complete_2$LDMC_abs_sqrt <- sqrt(abs(salix_complete_2$LDMC))
+salix_complete_2$SLA_sqrt <- sqrt(salix_complete_2$SLA)
+
+# sqrt root(log)
+
+
+
+
+
+# sqrt cube
+
+
+
+
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
 
