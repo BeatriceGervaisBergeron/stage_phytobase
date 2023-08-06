@@ -25,32 +25,6 @@ traits <- traits %>% arrange(Salix)
 # filter the Salix sp. in the traits table 
 salix_complete_2 <- filter(traits, Salix == 2)
 
-
-#### transform data ####
-# (with log, sqrt root and sqrt cube) & add the transformed columns
-
-# log
-salix_complete_2$LA_log <- log(salix_complete_2$LA)
-salix_complete_2$LDMC_log <- log(salix_complete_2$LDMC)
-salix_complete_2$LDMC_abs_log <- abs(log(salix_complete_2$LDMC))
-salix_complete_2$SLA_log <- log(salix_complete_2$SLA)
-
-# sqrt root
-salix_complete_2$LA_sqrt <- sqrt(salix_complete_2$LA)
-salix_complete_2$LDMC_abs_sqrt <- sqrt(abs(salix_complete_2$LDMC))
-salix_complete_2$SLA_sqrt <- sqrt(salix_complete_2$SLA)
-
-# sqrt root(log)
-
-
-
-
-
-# sqrt cube
-
-
-
-
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
 
@@ -213,6 +187,7 @@ anova(lmer.zn_ba.2)
 ## the significant p-value is:
 # LA_log.1:    p-value = 0.009344 **
 
+
 # lmer.3 & lmer.4 : same than .1 & .2 but with zn_ba_cuberoot:
 
 lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
@@ -249,6 +224,11 @@ anova(lmer.zn_ba.7)
 
 lmer.zn_ba.8 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.8)
+
+
+# lmer.9 & lmer.10 : same than .3 and .4 but with cuberoot tranformed data
+
+
 
 
 
