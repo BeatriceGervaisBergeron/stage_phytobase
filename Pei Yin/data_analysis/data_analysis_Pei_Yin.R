@@ -202,26 +202,60 @@ hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
 # LMM for zn_ba
-lmer.zn_ba <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba)
+lmer.zn_ba.1 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.1)
 ## the significant p-value is:
-# SLA_log:    p-value = 0.04252 *
-summary(lmer.zn_ba)
+# SLA_log.1:    p-value = 0.04236 *
+summary(lmer.zn_ba.1)
 
-lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba_log ~ clay + sand + LA_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba_log ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.2)
 ## the significant p-value is:
-# LA_log:    p-value = 0.009344 **
+# LA_log.1:    p-value = 0.009344 **
 
-lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
+# lmer.3 & lmer.4 : same than .1 & .2 but with zn_ba_cuberoot:
+
+lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.3)
+## no significant p-value:
+# SLA_log.1: 0.05257 .
+# log10(ph): 0.08595 .
+
+lmer.zn_ba.4 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.4)
+## the significant p-value is:
+# LA_log.1: 0.03888 *
+
+
+# lmer.5 & lmer.6 : same than .3 and .4 but with sqrt tranformed data
+lmer.zn_ba.5 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.5)
+## no significant p-value:
+# SLA_log.1: 0.05958 .
+# log10(ph): 0.08552 .
+
+lmer.zn_ba.6 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.6)
+## the significant p-value is:
+# LA_log.1: 0.04236 *
+
+
+# lmer.7 & lmer.8 : same than .3 and .4 but with sqrt(log) tranformed data
+
+###         ***TO CONTINUE HERE 
+lmer.zn_ba.7 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.7)
+
+
+lmer.zn_ba.8 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.8)
 
 
 
 ### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
 ### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
 
-### OK j'ai gardé le log10(ph)
+### OK j'ai gardé le log10(ph) et log10(zn_s)
 ### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
 
 
