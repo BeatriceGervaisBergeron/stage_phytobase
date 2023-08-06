@@ -139,9 +139,18 @@ ni_ba # 22 lines
 #### zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
 
-# add a column with log(zn_ba) data
-data_zn$zn_ba_log <- log(data_zn$zn_ba)
-data_zn$zn_ba_log
+# transform zn_ba data and add them in columns
+data_zn$zn_ba_log <- log(data_zn$zn_ba) # log transformation
+data_zn$zn_ba_log # view data
+
+data_zn$zn_ba_sqrt <- sqrt(data_zn$zn_ba) # sqrt transformation
+data_zn$zn_ba_sqrt # view data
+
+data_zn$zn_ba_sqrt_log <- sqrt(log(data_zn$zn_ba)) # sqrt(log) transformation
+data_zn$zn_ba_sqrt_log # view data
+
+data_zn$zn_ba_cuberoot <- cuberoot(data_zn$zn_ba) # cuberoot transformation
+data_zn$zn_ba_cuberoot # view data
 
 # check normality of zn_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
