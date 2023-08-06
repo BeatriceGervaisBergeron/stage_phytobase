@@ -139,6 +139,18 @@ ni_ba # 22 lines
 #### zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
 
+# check normality of zn_ba
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_zn$zn_ba) # original histogram 
+hist(log(data_zn$zn_ba))
+hist(log10(data_zn$zn_ba))
+hist(log2(data_zn$zn_ba))
+hist(logit(data_zn$zn_ba)) # error message
+hist(sqrt(data_zn$zn_ba))
+hist(data_zn$zn_ba^(1/3)) ## best transformation ##
+
+
 # transform zn_ba data and add them in columns
 data_zn$zn_ba_log <- log(data_zn$zn_ba) # log transformation
 data_zn$zn_ba_log # view data
@@ -151,17 +163,8 @@ data_zn$zn_ba_sqrt_log # view data
 
 data_zn$zn_ba_cuberoot <- cuberoot(data_zn$zn_ba) # cuberoot transformation
 data_zn$zn_ba_cuberoot # view data
+# cuberoot was the best transformation
 
-# check normality of zn_ba
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_zn$zn_ba) # original histogram 
-hist(log(data_zn$zn_ba))
-hist(log10(data_zn$zn_ba))
-hist(log2(data_zn$zn_ba))
-hist(logit(data_zn$zn_ba)) # error message
-hist(sqrt(data_zn$zn_ba))
-hist(data_zn$zn_ba^(1/3)) ## best transformation ##
 
 # check normality of zn_s
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -175,6 +178,15 @@ hist(sqrt(data_zn$zn_s))
 hist(data_zn$zn_s^(1/3))
 hist(asin(sqrt(data_zn$zn_s))) # error message
 hist(decostand(data_zn$zn_s, method = 'log', MARGIN = 2))  # error message
+
+
+# transform zn_s data and add them in columns
+data_zn$zn_s_log10 <- log10(data_zn$zn_s) # log10 transformation (best one)
+data_zn$zn_s_log10 # view data
+
+data_zn$zn_s_log2 <- log2(data_zn$zn_s) # log2 transformation (second best)
+data_zn$zn_s_log2 # view data
+
 
 # check normality of ph
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -204,7 +216,7 @@ anova(lmer.zn_ba.2)
 lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log + SLA_log + LDMC_log + log10(ph) + (1|zn_s) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.3)
 
-data_zn$zn_ba_log
+
 
 ### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
 ### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
