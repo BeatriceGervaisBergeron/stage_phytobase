@@ -175,7 +175,8 @@ hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
-# LMM for zn_ba
+#### LMM for zn_ba ####
+
 lmer.zn_ba.1 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.1)
 ## the significant p-value is:
@@ -252,7 +253,7 @@ anova(lmer.zn_ba.10)
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.1) ~ fitted(lmer.zn_ba.1)) # looks like a heteroscedastic dispersion
-gqtest(lmer.zn_ba, order.by = ~disp+hp, data = data_zn, fraction = 8)
+gqtest(lmer.zn_ba.1, order.by = ~disp+hp, data = data_zn, fraction = 8)
 
 
 plot(resid(lmer.zn_ba.1)) # mostly random points
@@ -271,18 +272,39 @@ hist(resid(lmer.zn_ba.1)) # seems like normal distribution, with one missing col
 plot(resid(lmer.zn_ba.2) ~ fitted(lmer.zn_ba.2)) # looks like a heteroscedastic dispersion
 
 # normal distribution of residuals ?
-qqmath(lmer.zn_ba.2, id = 0.05) # points are mostly in line so respected normality (outliers?) # no, look find to be
 shapiro.test(resid(lmer.zn_ba.2)) # not normal distribution, # p-value = 1.051e-05
 hist(resid(lmer.zn_ba.2)) # doesn't quite seem like normal distribution. 2 missing columns in histogram
 
 
 # Assumptions verification for lmer.zn_ba.3
 
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.3) ~ fitted(lmer.zn_ba.3)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.3)) # normal distribution, # p-value = 0.3242
+hist(resid(lmer.zn_ba.3)) # seems like a normal distribution
+
+
+# Assumptions verification for lmer.zn_ba.4
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.4) ~ fitted(lmer.zn_ba.4)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.4)) # normal distribution (kinda borderline), # p-value = 0.06084
+hist(resid(lmer.zn_ba.4)) # seems like a normal distribution but missing 3 columns out of 8
+
+
+# Assumptions verification for lmer.zn_ba.5
 
 
 
 
-# For zn_br
+
+
+#### For zn_br ####
+
 lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
 lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
 
