@@ -249,12 +249,17 @@ anova(lmer.zn_ba.10)
 ### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
 
 
+#### Assumption verification for lmer.zn_ba #### 
+
 # Assumptions verification for lmer.zn_ba.1
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.1) ~ fitted(lmer.zn_ba.1)) # looks like a heteroscedastic dispersion
-gqtest(lmer.zn_ba.1, order.by = ~disp+hp, data = data_zn, fraction = 8)
+gqtest(lmer.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
 
+
+str(lmer.zn_ba.1)
+lmer.zn_ba.1@resp$mu
 
 plot(resid(lmer.zn_ba.1)) # mostly random points
 plot(lmer.zn_ba.1) # 
@@ -292,14 +297,71 @@ hist(resid(lmer.zn_ba.3)) # seems like a normal distribution
 plot(resid(lmer.zn_ba.4) ~ fitted(lmer.zn_ba.4)) # looks like a heteroscedastic dispersion
 
 # normal distribution of residuals ?
-shapiro.test(resid(lmer.zn_ba.4)) # normal distribution (kinda borderline), # p-value = 0.06084
-hist(resid(lmer.zn_ba.4)) # seems like a normal distribution but missing 3 columns out of 8
+shapiro.test(resid(lmer.zn_ba.4)) # normal distribution (very borderline), # p-value = 0.06084
+hist(resid(lmer.zn_ba.4)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
 
 
 # Assumptions verification for lmer.zn_ba.5
 
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.5) ~ fitted(lmer.zn_ba.5)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.5)) # normal distribution, # p-value = 0.3199
+hist(resid(lmer.zn_ba.5)) # seems like a normal distribution 
 
 
+# Assumptions verification for lmer.zn_ba.6
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.6) ~ fitted(lmer.zn_ba.6)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.6)) # almost not normal distribution (borderline), # p-value = 0.0826
+hist(resid(lmer.zn_ba.6)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
+
+
+# Assumptions verification for lmer.zn_ba.7
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.7) ~ fitted(lmer.zn_ba.7)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.7)) # normal distribution, # p-value = 0.3264
+hist(resid(lmer.zn_ba.7)) # seems like a normal distribution
+
+
+# Assumptions verification for lmer.zn_ba.8
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.8) ~ fitted(lmer.zn_ba.8)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.8)) # almost not normal distribution, # p-value = 0.05826
+hist(resid(lmer.zn_ba.8)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
+
+
+# Assumptions verification for lmer.zn_ba.9
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.9) ~ fitted(lmer.zn_ba.9)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.9)) # normal distribution, # p-value = 0.3214
+hist(resid(lmer.zn_ba.9)) # seems like a normal distribution
+
+
+# Assumptions verification for lmer.zn_ba.10
+
+# homogeneity of variance ?
+plot(resid(lmer.zn_ba.10) ~ fitted(lmer.zn_ba.10)) # looks like a heteroscedastic dispersion
+
+# normal distribution of residuals ?
+shapiro.test(resid(lmer.zn_ba.10)) # almost not normal distribution, # p-value = 0.07475
+hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
+
+
+## None of the lmer have a homoscedastic dispersion, even with the transformed data
 
 
 
