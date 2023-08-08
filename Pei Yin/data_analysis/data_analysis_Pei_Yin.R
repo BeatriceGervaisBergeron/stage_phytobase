@@ -249,17 +249,13 @@ anova(lmer.zn_ba.10)
 ### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
 
 
-#### Assumption verification for lmer.zn_ba #### 
+#### Assumption verification for lmer.zn_ba (it didn't work) #### 
 
 # Assumptions verification for lmer.zn_ba.1
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.1) ~ fitted(lmer.zn_ba.1)) # looks like a heteroscedastic dispersion
 gqtest(lmer.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
-
-
-str(lmer.zn_ba.1)
-lmer.zn_ba.1@resp$mu
 
 plot(resid(lmer.zn_ba.1)) # mostly random points
 plot(lmer.zn_ba.1) # 
@@ -362,6 +358,37 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 
 
 ## None of the lmer have a homoscedastic dispersion, even with the transformed data
+
+
+#### Assumption verification for lm.zn_ba (it works) ####
+
+## Replace lmer with lm 
+
+
+## For zn_ba.1 :
+lm.zn_ba.1 <- lm(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.test)) # borderline normal distribution (p-value = 0.06054)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+gqtest(lm.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.9495)
+
+plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homoscedastic
+
+# significant p-value ?
+anova(lm.zn_ba.1)
+## the significant p-values are:
+# SLA_log.1:    p-value = 0.005228 **
+# log10(ph):    p-value = 0.030579 *
+
+
+## For zn_ba.2 :
+
+
+
+
 
 
 
