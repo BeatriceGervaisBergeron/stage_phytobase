@@ -184,7 +184,8 @@ lmer.zn_ba.1 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_a
 anova(lmer.zn_ba.1)
 ## the significant p-value is:
 # SLA_log.1:    p-value = 0.04236 *
-summary(lmer.zn_ba.1)
+
+summary(lmer.zn_ba.1) # Number of obs: 38
 
 ## Assumptions verification for lmer.zn_ba.1 :
 
@@ -211,6 +212,8 @@ anova(lmer.zn_ba.2)
 ## the significant p-value is:
 # LA_log.1:    p-value = 0.009344 **
 
+summary(lmer.zn_ba.2) # Number of obs: 16
+
 # Assumptions verification for lmer.zn_ba.2 :
 
 # homogeneity of variance ?
@@ -230,6 +233,8 @@ anova(lmer.zn_ba.3)
 # SLA_log.1: p-value = 0.05257 .
 # log10(ph): p-value = 0.08595 .
 
+summary(lmer.zn_ba.3) # Number of obs: 38
+
 # Assumptions verification for lmer.zn_ba.3 :
 
 # homogeneity of variance ?
@@ -247,6 +252,8 @@ lmer.zn_ba.4 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_log.1 +
 anova(lmer.zn_ba.4)
 ## the significant p-value is:
 # LA_log.1: p-value = 0.03888 *
+
+summary(lmer.zn_ba.4) # Number of obs: 16
 
 # Assumptions verification for lmer.zn_ba.4
 
@@ -267,6 +274,8 @@ anova(lmer.zn_ba.5)
 # SLA_log.1: p-value = 0.05958 .
 # log10(ph): p-value = 0.08552 .
 
+summary(lmer.zn_ba.5) # Number of obs: 38
+
 # Assumptions verification for lmer.zn_ba.5
 
 # homogeneity of variance ?
@@ -284,6 +293,8 @@ lmer.zn_ba.6 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt.2 
 anova(lmer.zn_ba.6)
 ## the significant p-value is:
 # LA_log.1: p-value = 0.04236 *
+
+summary(lmer.zn_ba.6) # Number of obs: 16
 
 # Assumptions verification for lmer.zn_ba.6
 
@@ -304,6 +315,8 @@ anova(lmer.zn_ba.7)
 # SLA_sqrt_log.3: p-value = 0.05182 .
 # log10(ph):      p-value = 0.08576 .
 
+summary(lmer.zn_ba.7) # Number of obs: 38
+
 # Assumptions verification for lmer.zn_ba.7
 
 # homogeneity of variance ?
@@ -321,6 +334,8 @@ lmer.zn_ba.8 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt_lo
 anova(lmer.zn_ba.8)
 ## the significant p-value is:
 # LA_sqrt_log.3:  p-value = 0.03839 *
+
+summary(lmer.zn_ba.8) # Number of obs: 16
 
 # Assumptions verification for lmer.zn_ba.8
 
@@ -341,6 +356,8 @@ anova(lmer.zn_ba.9)
 # SLA_cuberoot.4:   p-value = 0.05672 .
 # log10(ph):        p-value = 0.08567 .
 
+summary(lmer.zn_ba.9) # Number of obs: 38
+
 # Assumptions verification for lmer.zn_ba.9
 
 # homogeneity of variance ?
@@ -358,6 +375,8 @@ lmer.zn_ba.10 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_cubero
 anova(lmer.zn_ba.10)
 ## the significant p-value is:
 # LA_cuberoot.4:  p-value = 0.04116 *
+
+summary(lmer.zn_ba.10) # Number of obs: 16
 
 # Assumptions verification for lmer.zn_ba.10
 
@@ -389,23 +408,91 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 ## For lm.zn_ba.1 :
 lm.zn_ba.1 <- lm(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba.test)) # borderline normal distribution (p-value = 0.06054)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-gqtest(lm.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
-# distribution is homoscedastic (p-value = 0.9495)
-
-plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homoscedastic
-
 # significant p-value ?
 anova(lm.zn_ba.1)
 ## the significant p-values are:
 # SLA_log.1:    p-value = 0.005228 **
 # log10(ph):    p-value = 0.030579 *
 
+# Assumptions verification for lm.zn_ba.1
 
-## For lm.zn_ba.1 :
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.1)) # borderline normal distribution (p-value = 0.06054)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.1 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.9495)
+
+plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homoscedastic
+
+
+
+## For lm.zn_ba.2 :
+lm.zn_ba.2 <- lm(data_zn$zn_ba_log ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lmer.zn_ba.2)
+## the significant p-value is:
+# LA_log.1 :     p-value = 0.009344 **
+
+# Assumptions verification for lm.zn_ba.2
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.2)) # normal distribution (p-value = 0.8767)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.2 in lmer section)
+# then 20% of total obs. is 3.2 (around 3), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.2, order.by = ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+## Error in gqtest(lm.zn_ba.2, order.by = ~clay + sand + LA_log.1 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.2
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.2) ~ fitted(lm.zn_ba.2)) # looks heteroscedastic
+
+
+
+## For lm.zn_ba.3 :
+
+lm.zn_ba.3 <- lm(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.3)
+## the significant p-values are :
+# SLA_log.1 :     0.004668 **
+# log10(ph) :     0.008338 **
+
+# Assumptions verification for lm.zn_ba.3
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.3)) # normal distribution (p-value = 0.148)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.3 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.3, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.1929)
+
+plot(resid(lm.zn_ba.3) ~ fitted(lm.zn_ba.3)) # random points, looks homoscedastic
+
+
+
+## For lm.zn_ba.4 :
+
+
 
 
 
