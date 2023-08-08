@@ -448,6 +448,7 @@ shapiro.test(resid(lm.zn_ba.2)) # normal distribution (p-value = 0.8767)
 # Number of obs: 16 (see summary of lmer.zn_ba.2 in lmer section)
 # then 20% of total obs. is 3.2 (around 3), so fraction = 3 in gqtest()
 gqtest(lm.zn_ba.2, order.by = ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
 ## Error in gqtest(lm.zn_ba.2, order.by = ~clay + sand + LA_log.1 + log10(ph) +  :
 ## inadmissable breakpoint/too many central observations omitted
 
@@ -491,6 +492,68 @@ plot(resid(lm.zn_ba.3) ~ fitted(lm.zn_ba.3)) # random points, looks homoscedasti
 
 
 ## For lm.zn_ba.4 :
+
+lm.zn_ba.4 <- lm(data_zn$zn_ba_cuberoot ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.4)
+## the significant p-value is :
+# clay:   p-value = 0.02628 *
+
+# Assumptions verification for lm.zn_ba.4
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.4)) # normal distribution (p-value = 0.09347)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
+# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.4, order.by = ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
+## Error in gqtest(lm.zn_ba.4, order.by = ~clay + sand + LA_log.1 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.4
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.4) ~ fitted(lm.zn_ba.4)) # don't seem like random points, looks heteroscedastic
+
+
+
+## For lm.zn_ba.5 :
+
+lm.zn_ba.5 <- lm(data_zn$zn_ba_cuberoot ~ LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.5)
+## the significant p-values are :
+# SLA_sqrt.2 :    p-value = 0.002684 **
+# log10(ph) :     p-value = 0.008334 **
+
+# Assumptions verification for lm.zn_ba.5
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.5)) # normal distribution (p-value = 0.1832)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.5 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.5, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.1852)
+
+plot(resid(lm.zn_ba.5) ~ fitted(lm.zn_ba.5)) # random points, looks homoscedastic
+
+
+
+## For lm.zn_ba.6 :
 
 
 
