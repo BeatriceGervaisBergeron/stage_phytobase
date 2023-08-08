@@ -175,7 +175,10 @@ hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
-#### LMM for zn_ba ####
+
+#### lmer for zn_ba (assumption verifs don't work) ####
+
+## For lmer.zn_ba.1 ##
 
 lmer.zn_ba.1 <- lmerTest::lmer(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 anova(lmer.zn_ba.1)
@@ -183,83 +186,16 @@ anova(lmer.zn_ba.1)
 # SLA_log.1:    p-value = 0.04236 *
 summary(lmer.zn_ba.1)
 
-lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba_log ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.2)
-## the significant p-value is:
-# LA_log.1:    p-value = 0.009344 **
-
-
-# lmer.3 & lmer.4 : same than .1 & .2 but with zn_ba_cuberoot:
-
-lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.3)
-## no significant p-value:
-# SLA_log.1: p-value = 0.05257 .
-# log10(ph): p-value = 0.08595 .
-
-lmer.zn_ba.4 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.4)
-## the significant p-value is:
-# LA_log.1: p-value = 0.03888 *
-
-
-# lmer.5 & lmer.6 : same than .3 and .4 but with sqrt tranformed data (.2)
-lmer.zn_ba.5 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.5)
-## no significant p-value:
-# SLA_log.1: p-value = 0.05958 .
-# log10(ph): p-value = 0.08552 .
-
-lmer.zn_ba.6 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.6)
-## the significant p-value is:
-# LA_log.1: p-value = 0.04236 *
-
-
-# lmer.7 & lmer.8 : same than .3 and .4 but with sqrt(log) tranformed data (.3)
-lmer.zn_ba.7 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.7)
-## no significant p-value:
-# SLA_sqrt_log.3: p-value = 0.05182 .
-# log10(ph):      p-value = 0.08576 .
-
-lmer.zn_ba.8 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.8)
-## the significant p-value is:
-# LA_sqrt_log.3:  p-value = 0.03839 *
-
-
-# lmer.9 & lmer.10 : same than .3 and .4 but with cuberoot tranformed data (.4)
-lmer.zn_ba.9 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_cuberoot.4 + SLA_cuberoot.4 + LDMC_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.9)
-## no significant p-value:
-# SLA_cuberoot.4:   p-value = 0.05672 .
-# log10(ph):        p-value = 0.08567 .
-
-lmer.zn_ba.10 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-anova(lmer.zn_ba.10)
-## the significant p-value is:
-# LA_cuberoot.4:  p-value = 0.04116 *
-
-
-### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
-### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
-
-### OK j'ai gardé le log10(ph) et log10(zn_s)
-### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
-
-
-#### Assumption verification for lmer.zn_ba (it didn't work) #### 
-
-# Assumptions verification for lmer.zn_ba.1
+## Assumptions verification for lmer.zn_ba.1 :
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.1) ~ fitted(lmer.zn_ba.1)) # looks like a heteroscedastic dispersion
 gqtest(lmer.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+## Error message appears :
+## Error in formula$x : $ operator not defined for this S4 class
+## gqtest() didn't work for any of the lmer.zn_ba
 
 plot(resid(lmer.zn_ba.1)) # mostly random points
-plot(lmer.zn_ba.1) # 
-plot(data_zn$zn_ba_cuberoot~data_zn$SLA_log)
 
 # normal distribution of residuals ?
 qqmath(lmer.zn_ba.1, id = 0.05) # points are mostly in line so respected normality (outliers?) # no, look find to be
@@ -267,7 +203,15 @@ shapiro.test(resid(lmer.zn_ba.1)) # normal distribution, # p-value = 0.08066
 hist(resid(lmer.zn_ba.1)) # seems like normal distribution, with one missing column in histogram
 
 
-# Assumptions verification for lmer.zn_ba.2
+
+## For lmer.zn_ba.2 ##
+
+lmer.zn_ba.2 <- lmerTest::lmer(data_zn$zn_ba_log ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.2)
+## the significant p-value is:
+# LA_log.1:    p-value = 0.009344 **
+
+# Assumptions verification for lmer.zn_ba.2 :
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.2) ~ fitted(lmer.zn_ba.2)) # looks like a heteroscedastic dispersion
@@ -277,7 +221,16 @@ shapiro.test(resid(lmer.zn_ba.2)) # not normal distribution, # p-value = 1.051e-
 hist(resid(lmer.zn_ba.2)) # doesn't quite seem like normal distribution. 2 missing columns in histogram
 
 
-# Assumptions verification for lmer.zn_ba.3
+
+## For lmer.zn_ba.3 (same than .1 but with zn_ba_cuberoot) 
+
+lmer.zn_ba.3 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.3)
+## no significant p-value:
+# SLA_log.1: p-value = 0.05257 .
+# log10(ph): p-value = 0.08595 .
+
+# Assumptions verification for lmer.zn_ba.3 :
 
 # homogeneity of variance ?
 plot(resid(lmer.zn_ba.3) ~ fitted(lmer.zn_ba.3)) # looks like a heteroscedastic dispersion
@@ -286,6 +239,14 @@ plot(resid(lmer.zn_ba.3) ~ fitted(lmer.zn_ba.3)) # looks like a heteroscedastic 
 shapiro.test(resid(lmer.zn_ba.3)) # normal distribution, # p-value = 0.3242
 hist(resid(lmer.zn_ba.3)) # seems like a normal distribution
 
+
+
+## For lmer.zn_ba.4 (same than .2 but with zn_ba_cuberoot)
+
+lmer.zn_ba.4 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.4)
+## the significant p-value is:
+# LA_log.1: p-value = 0.03888 *
 
 # Assumptions verification for lmer.zn_ba.4
 
@@ -297,6 +258,15 @@ shapiro.test(resid(lmer.zn_ba.4)) # normal distribution (very borderline), # p-v
 hist(resid(lmer.zn_ba.4)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
 
 
+
+## For lmer.zn_ba.5 (same than .3 but with sqrt tranformed data)
+
+lmer.zn_ba.5 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.5)
+## no significant p-value:
+# SLA_log.1: p-value = 0.05958 .
+# log10(ph): p-value = 0.08552 .
+
 # Assumptions verification for lmer.zn_ba.5
 
 # homogeneity of variance ?
@@ -306,6 +276,14 @@ plot(resid(lmer.zn_ba.5) ~ fitted(lmer.zn_ba.5)) # looks like a heteroscedastic 
 shapiro.test(resid(lmer.zn_ba.5)) # normal distribution, # p-value = 0.3199
 hist(resid(lmer.zn_ba.5)) # seems like a normal distribution 
 
+
+
+## For lmer.zn_ba.6 (same than .4 but with sqrt tranformed data)
+
+lmer.zn_ba.6 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.6)
+## the significant p-value is:
+# LA_log.1: p-value = 0.04236 *
 
 # Assumptions verification for lmer.zn_ba.6
 
@@ -317,6 +295,15 @@ shapiro.test(resid(lmer.zn_ba.6)) # almost not normal distribution (borderline),
 hist(resid(lmer.zn_ba.6)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
 
 
+
+## For lmer.zn_ba.7 (same than .3 but with sqrt(log) tranformed data)
+
+lmer.zn_ba.7 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.7)
+## no significant p-value:
+# SLA_sqrt_log.3: p-value = 0.05182 .
+# log10(ph):      p-value = 0.08576 .
+
 # Assumptions verification for lmer.zn_ba.7
 
 # homogeneity of variance ?
@@ -326,6 +313,14 @@ plot(resid(lmer.zn_ba.7) ~ fitted(lmer.zn_ba.7)) # looks like a heteroscedastic 
 shapiro.test(resid(lmer.zn_ba.7)) # normal distribution, # p-value = 0.3264
 hist(resid(lmer.zn_ba.7)) # seems like a normal distribution
 
+
+
+## For lmer.zn_ba.8 (same than .4 but with sqrt(log) tranformed data)
+
+lmer.zn_ba.8 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.8)
+## the significant p-value is:
+# LA_sqrt_log.3:  p-value = 0.03839 *
 
 # Assumptions verification for lmer.zn_ba.8
 
@@ -337,6 +332,15 @@ shapiro.test(resid(lmer.zn_ba.8)) # almost not normal distribution, # p-value = 
 hist(resid(lmer.zn_ba.8)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
 
 
+
+## For lmer.zn_ba.9 (same than .3 but with cuberoot tranformed data)
+
+lmer.zn_ba.9 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ LA_cuberoot.4 + SLA_cuberoot.4 + LDMC_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.9)
+## no significant p-value:
+# SLA_cuberoot.4:   p-value = 0.05672 .
+# log10(ph):        p-value = 0.08567 .
+
 # Assumptions verification for lmer.zn_ba.9
 
 # homogeneity of variance ?
@@ -346,6 +350,14 @@ plot(resid(lmer.zn_ba.9) ~ fitted(lmer.zn_ba.9)) # looks like a heteroscedastic 
 shapiro.test(resid(lmer.zn_ba.9)) # normal distribution, # p-value = 0.3214
 hist(resid(lmer.zn_ba.9)) # seems like a normal distribution
 
+
+
+## For lmer.zn_ba.10 (same than .4 but with cuberoot tranformed data)
+
+lmer.zn_ba.10 <- lmerTest::lmer(data_zn$zn_ba_cuberoot ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+anova(lmer.zn_ba.10)
+## the significant p-value is:
+# LA_cuberoot.4:  p-value = 0.04116 *
 
 # Assumptions verification for lmer.zn_ba.10
 
@@ -357,15 +369,24 @@ shapiro.test(resid(lmer.zn_ba.10)) # almost not normal distribution, # p-value =
 hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 missing columns in histogram
 
 
-## None of the lmer have a homoscedastic dispersion, even with the transformed data
+## None of the lmer has a homoscedastic dispersion, even with the transformed data
+## Attempts to use lm instead have been done in the section below
 
 
-#### Assumption verification for lm.zn_ba (it works) ####
+### BEA: attention, ici tes log() et log10() ne te donnais pas tout a fait les meme resultats alors garde le log10()
+### aussi, je ne suis pas certaine de pourquoi il y a la valeur ba_leaf et stem? Nous n'Avons pas homogénéiser les unités de la biomasse alors nous ne pouvons pas l'utiliser
+
+### OK j'ai gardé le log10(ph) et log10(zn_s)
+### j'avais oublié que ba_leaf et stem ne sont pas homogénéisées. je les ai enlevées alors
+
+
+
+#### lm for zn_ba (assuption verifs seem working) ####
 
 ## Replace lmer with lm 
 
 
-## For zn_ba.1 :
+## For lm.zn_ba.1 :
 lm.zn_ba.1 <- lm(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 # Normality (Shapiro-Wilk test)
@@ -384,7 +405,7 @@ anova(lm.zn_ba.1)
 # log10(ph):    p-value = 0.030579 *
 
 
-## For zn_ba.2 :
+## For lm.zn_ba.1 :
 
 
 
