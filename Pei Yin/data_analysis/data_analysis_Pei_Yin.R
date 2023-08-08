@@ -555,6 +555,69 @@ plot(resid(lm.zn_ba.5) ~ fitted(lm.zn_ba.5)) # random points, looks homoscedasti
 
 ## For lm.zn_ba.6 :
 
+lm.zn_ba.6 <- lm(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.6)
+## the significant p-value is :
+# clay:   p-value = 0.02638 *
+
+# Assumptions verification for lm.zn_ba.6
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.6)) # normal distribution (p-value = 0.08954)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
+# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.6, order.by = ~ clay + sand + LA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
+## Error in gqtest(lm.zn_ba.6, order.by = ~clay + sand + LA_sqrt.2 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.6
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.6) ~ fitted(lm.zn_ba.6)) # don't seem like random points, looks heteroscedastic
+
+
+
+## For lm.zn_ba.7 :
+
+lm.zn_ba.7 <- lm(data_zn$zn_ba_cuberoot ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.7)
+## the significant p-values are :
+# SLA_sqrt_log.3 :  p-value = 0.005031 **
+# log10(ph) :       p-value = 0.008156 **
+
+# Assumptions verification for lm.zn_ba.7
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.7)) # normal distribution (p-value = 0.1546)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.5 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.7, order.by = ~ LA_sqrt_log.3 + SLA_sqrt_log.3 + LDMC_sqrt_abs_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.1934)
+
+plot(resid(lm.zn_ba.7) ~ fitted(lm.zn_ba.7)) # mostly random points, looks homoscedastic
+
+
+
+## For lm.zn_ba.8 :
+
+
 
 
 
