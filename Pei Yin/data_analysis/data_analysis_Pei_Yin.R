@@ -617,22 +617,116 @@ plot(resid(lm.zn_ba.7) ~ fitted(lm.zn_ba.7)) # mostly random points, looks homos
 
 ## For lm.zn_ba.8 :
 
+lm.zn_ba.8 <- lm(data_zn$zn_ba_cuberoot ~ clay + sand + LA_sqrt_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.8)
+## the significant p-value is :
+# clay:   p-value = 0.02627 *
+
+# Assumptions verification for lm.zn_ba.8
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.8)) # normal distribution (p-value = 0.09398)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
+# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.8, order.by = ~ clay + sand + LA_sqrt_log.3 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
+## Error in gqtest(lm.zn_ba.8, order.by = ~clay + sand + LA_sqrt_log.3 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.8
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.8) ~ fitted(lm.zn_ba.8)) # don't seem like random points, looks heteroscedastic
+
+
+
+## For lm.zn_ba.9 :
+
+lm.zn_ba.9 <- lm(data_zn$zn_ba_cuberoot ~ LA_cuberoot.4 + SLA_cuberoot.4 + LDMC_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.9)
+## the significant p-values are :
+# SLA_cuberoot.4 :  p-value = 0.003167 **
+# log10(ph) :       p-value = 0.008353 **
+
+# Assumptions verification for lm.zn_ba.9
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.9)) # normal distribution (p-value = 0.1713)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.5 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.9, order.by = ~ LA_cuberoot.4 + SLA_cuberoot.4 + LDMC_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.1875)
+
+plot(resid(lm.zn_ba.9) ~ fitted(lm.zn_ba.9)) # mostly random points, looks homoscedastic
+
+
+
+## For lm.zn_ba.10 :
+
+lm.zn_ba.10 <- lm(data_zn$zn_ba_cuberoot ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.10)
+## the significant p-value is :
+# clay:   p-value = 0.02634 *
+
+# Assumptions verification for lm.zn_ba.10
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.10)) # normal distribution (p-value = 0.09094)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
+# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.10, order.by = ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
+## Error in gqtest(lm.zn_ba.10, order.by = ~clay + sand + LA_cuberoot.4 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.10
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.10) ~ fitted(lm.zn_ba.10)) # don't seem like random points, looks heteroscedastic
+
+
+## Summary: out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
+## (i.e.) their assumptions (normality, homoscedasticity) are verified
+## 
 
 
 
 
-
-
-
-
-
-#### For zn_br ####
+#### lm for zn_br ####
 
 lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
 lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
 
 anova(lmer.zn_br) # is something significant? with *
 summary(lmer.zn_br)
+
 
 
 
