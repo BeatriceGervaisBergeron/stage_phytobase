@@ -716,13 +716,14 @@ plot(resid(lm.zn_ba.10) ~ fitted(lm.zn_ba.10)) # don't seem like random points, 
 ## Summary: out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
 ## (i.e.) their assumptions (normality, homoscedasticity) are verified
 ## the p-value of lm.zn_ba.5 for SLA is slightly more significant (p-value = 0.002684)
-## so lm.zn_ba.5 will incorporated in the report
 
 ## see the R-squared value for lm.zn_ba.5
 summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088 
 # so this model explains about 30.88% of zn_ba
 
 
+
+## Incorporating 'AccSpeciesName_cor' in the lm model :
 
 ## For lm.zn_ba.11 :
 
@@ -795,15 +796,33 @@ plot(resid(lm.zn_ba.12) ~ fitted(lm.zn_ba.12)) # don't seem like random points, 
 
 
 summary(lm.zn_ba.12) 
-# 
+# Residuals:
+# Min      1Q  Median      3Q     Max 
+# -2.4371 -0.8432  0.1456  0.8950  1.9593 
 
+# Coefficients: (3 not defined because of singularities)
+# Estimate Std. Error t value Pr(>|t|)   
+# (Intercept)                       100.3065    35.6426   2.814   0.0202 * 
+# AccSpeciesName_corSalix gmelinii  -34.1587    11.5769  -2.951   0.0162 * 
+# AccSpeciesName_corSalix triandra   -0.9657     3.1833  -0.303   0.7685   
+# AccSpeciesName_corSalix viminalis   0.6535     2.4536   0.266   0.7960   
+# clay                               -1.2635     0.3727  -3.390   0.0080 **
+# sand                               -1.8482     0.5439  -3.398   0.0079 **
+# LA_sqrt.2                               NA         NA      NA       NA   
+# log10(ph)                          38.5631    12.2007   3.161   0.0115 * 
+# 1 | zn_s_log10TRUE                      NA         NA      NA       NA   
+# 1 | covidenceTRUE                       NA         NA      NA       NA   
 
-lm.zn_ba.13 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-summary(lm.zn_ba.13) 
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-gqtest(lm.zn_ba.13, order.by = ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+# Residual standard error: 1.749 on 9 degrees of freedom
+# (22 observations deleted due to missingness)
+# Multiple R-squared:  0.816,	Adjusted R-squared:  0.6934 
+# F-statistic: 6.654 on 6 and 9 DF,  p-value: 0.006344
 
-plot(resid(lm.zn_ba.13) ~ fitted(lm.zn_ba.13))
+## Adjusted R-squared = 0.6934, so this model explains about 70% of zn_ba,
+## although the dispersion seem heteroscedastic
+
 
 
 #### lm for zn_br ####
