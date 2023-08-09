@@ -472,8 +472,8 @@ lm.zn_ba.3 <- lm(data_zn$zn_ba_cuberoot ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 
 # significant p-value ?
 anova(lm.zn_ba.3)
 ## the significant p-values are :
-# SLA_log.1 :     0.004668 **
-# log10(ph) :     0.008338 **
+# SLA_log.1 :     p-value = 0.004668 **
+# log10(ph) :     p-value = 0.008338 **
 
 # Assumptions verification for lm.zn_ba.3
 
@@ -671,7 +671,7 @@ shapiro.test(resid(lm.zn_ba.9)) # normal distribution (p-value = 0.1713)
 # Number of obs: 38 (see summary of lmer.zn_ba.5 in lmer section)
 # then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
 gqtest(lm.zn_ba.9, order.by = ~ LA_cuberoot.4 + SLA_cuberoot.4 + LDMC_cuberoot.4 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
-# distribution is homoscedastic (p-value = 0.1875)
+# distribution is homoscedastic (p-value = 0.1713)
 
 plot(resid(lm.zn_ba.9) ~ fitted(lm.zn_ba.9)) # mostly random points, looks homoscedastic
 
@@ -712,20 +712,119 @@ gqtest(lm.zn_ba.10, order.by = ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn
 plot(resid(lm.zn_ba.10) ~ fitted(lm.zn_ba.10)) # don't seem like random points, looks heteroscedastic
 
 
+
 ## Summary: out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
 ## (i.e.) their assumptions (normality, homoscedasticity) are verified
-## 
+## the p-value of lm.zn_ba.5 for SLA is slightly more significant (p-value = 0.002684)
+## so lm.zn_ba.5 will incorporated in the report
+
+## see the R-squared value for lm.zn_ba.5
+summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088 
+# so this model explains about 30.88% of zn_ba
 
 
+
+## For lm.zn_ba.11 :
+
+lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.11)
+## the significant p-values are :
+# SLA_sqrt.2 :    p-value = 0.002684 **
+# log10(ph) :     p-value = 0.008334 **
+
+# Assumptions verification for lm.zn_ba.11
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.11)) # normal distribution (p-value = 0.2346)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 38 (see summary of lmer.zn_ba.11 in lmer section)
+# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.zn_ba.11, order.by = ~ AccSpeciesName_cor + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1 | zn_s_log10) + (1 | covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.2508)
+
+plot(resid(lm.zn_ba.11) ~ fitted(lm.zn_ba.11)) # mostly random points, looks homoscedastic
+
+
+summary(lm.zn_ba.11) 
+# AccSpeciesName_cor Salix gmelinii :  p-value = 0.017407 *
+# log10(ph) :                          p-value = 0.005359 **
+
+# Adjusted R-squared:  0.3297
+# F-statistic: 4.641 on 5 and 32 DF
+
+
+
+
+## For lm.zn_ba.12 :
+
+lm.zn_ba.12 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + clay + sand + SLA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+# significant p-value ?
+anova(lm.zn_ba.12)
+## the significant p-value is :
+# clay:   p-value = 0.02638 *
+
+# Assumptions verification for lm.zn_ba.12
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba.12)) # normal distribution (p-value = 0.6596)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
+# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba.12, order.by = ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + log10(ph) + (1 | zn_s_log10) + (1 | covidence), data = data_zn, fraction = 3)
+
+## Error in gqtest(lm.zn_ba.12, order.by = ~clay + sand + LA_sqrt.2 + log10(ph) +  :
+## inadmissable breakpoint/too many central observations omitted
+
+## Another attempt with gqtest() but fraction = 2
+
+## 	Goldfeld-Quandt test
+
+## data:  lm.zn_ba.6
+## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
+## alternative hypothesis: variance increases from segment 1 to 2
+
+## Didn't work. Then relying on the plot(resid) :
+plot(resid(lm.zn_ba.12) ~ fitted(lm.zn_ba.12)) # don't seem like random points, looks heteroscedastic
+
+
+summary(lm.zn_ba.12) 
+# 
+
+
+lm.zn_ba.13 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+summary(lm.zn_ba.13) 
+
+gqtest(lm.zn_ba.13, order.by = ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 3)
+
+plot(resid(lm.zn_ba.13) ~ fitted(lm.zn_ba.13))
 
 
 #### lm for zn_br ####
 
-lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
-lmer.zn_br <- lmer(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+# check normality of zn_br
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_zn$zn_br) # original histogram 
+hist(log(data_zn$zn_br)) ## best transformation ##
+hist(log10(data_zn$zn_br)) ## third best ##
+hist(log2(data_zn$zn_br)) ## second best ##
+hist(logit(data_zn$zn_br))
+hist(sqrt(data_zn$zn_br))
+hist(data_zn$zn_br^(1/3))
 
-anova(lmer.zn_br) # is something significant? with *
-summary(lmer.zn_br)
+## For lm.zn_br.1 ##
+lm.zn_br.1 <- lm(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+lm.zn_br.2 <- lm(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+
+anova(lm.zn_br.1) # is something significant? with *
+summary(lm.zn_br.1)
 
 
 
