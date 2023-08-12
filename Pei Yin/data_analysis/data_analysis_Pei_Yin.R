@@ -417,7 +417,7 @@ anova(lm.zn_ba.1)
 # Assumptions verification for lm.zn_ba.1
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba.1)) # borderline normal distribution (p-value = 0.06054)
+shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.06054)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
@@ -727,13 +727,13 @@ summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088
 
 ## For lm.zn_ba.11 :
 
-lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 # significant p-value ?
 anova(lm.zn_ba.11)
 ## the significant p-values are :
-# SLA_sqrt.2 :    p-value = 0.002684 **
-# log10(ph) :     p-value = 0.008334 **
+# AccSpeciesName_cor:  p-value = 0.016227 *
+# log10(ph):           p-value = 0.005359 **
 
 # Assumptions verification for lm.zn_ba.11
 
@@ -745,7 +745,7 @@ shapiro.test(resid(lm.zn_ba.11)) # normal distribution (p-value = 0.2346)
 # Number of obs: 38 (see summary of lmer.zn_ba.11 in lmer section)
 # then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
 gqtest(lm.zn_ba.11, order.by = ~ AccSpeciesName_cor + LA_sqrt.2 + SLA_sqrt.2 + LDMC_abs_sqrt.2 + log10(ph) + (1 | zn_s_log10) + (1 | covidence), data = data_zn, fraction = 8)
-# distribution is homoscedastic (p-value = 0.2508)
+# distribution is homoscedastic (p-value = 0.1808)
 
 plot(resid(lm.zn_ba.11) ~ fitted(lm.zn_ba.11)) # mostly random points, looks homoscedastic
 
@@ -754,74 +754,8 @@ summary(lm.zn_ba.11)
 # AccSpeciesName_cor Salix gmelinii :  p-value = 0.017407 *
 # log10(ph) :                          p-value = 0.005359 **
 
-# Adjusted R-squared:  0.3297
+# Adjusted R-squared:  0.3297, so this model explains about 33% of zn_ba
 # F-statistic: 4.641 on 5 and 32 DF
-
-
-
-
-## For lm.zn_ba.12 :
-
-lm.zn_ba.12 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + clay + sand + SLA_sqrt.2 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-
-# significant p-value ?
-anova(lm.zn_ba.12)
-## the significant p-value is :
-# clay:   p-value = 0.02638 *
-
-# Assumptions verification for lm.zn_ba.12
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba.12)) # normal distribution (p-value = 0.6596)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 16 (see summary of lmer.zn_ba.4 in lmer section)
-# then 20% of total obs. is 3.2 (around 2), so fraction = 3 in gqtest()
-gqtest(lm.zn_ba.12, order.by = ~ AccSpeciesName_cor + clay + sand + LA_sqrt.2 + log10(ph) + (1 | zn_s_log10) + (1 | covidence), data = data_zn, fraction = 3)
-
-## Error in gqtest(lm.zn_ba.12, order.by = ~clay + sand + LA_sqrt.2 + log10(ph) +  :
-## inadmissable breakpoint/too many central observations omitted
-
-## Another attempt with gqtest() but fraction = 2
-
-## 	Goldfeld-Quandt test
-
-## data:  lm.zn_ba.6
-## GQ = NaN, df1 = 0, df2 = 0, p-value = NA
-## alternative hypothesis: variance increases from segment 1 to 2
-
-## Didn't work. Then relying on the plot(resid) :
-plot(resid(lm.zn_ba.12) ~ fitted(lm.zn_ba.12)) # don't seem like random points, looks heteroscedastic
-
-
-summary(lm.zn_ba.12) 
-# Residuals:
-# Min      1Q  Median      3Q     Max 
-# -2.4371 -0.8432  0.1456  0.8950  1.9593 
-
-# Coefficients: (3 not defined because of singularities)
-# Estimate Std. Error t value Pr(>|t|)   
-# (Intercept)                       100.3065    35.6426   2.814   0.0202 * 
-# AccSpeciesName_corSalix gmelinii  -34.1587    11.5769  -2.951   0.0162 * 
-# AccSpeciesName_corSalix triandra   -0.9657     3.1833  -0.303   0.7685   
-# AccSpeciesName_corSalix viminalis   0.6535     2.4536   0.266   0.7960   
-# clay                               -1.2635     0.3727  -3.390   0.0080 **
-# sand                               -1.8482     0.5439  -3.398   0.0079 **
-# LA_sqrt.2                               NA         NA      NA       NA   
-# log10(ph)                          38.5631    12.2007   3.161   0.0115 * 
-# 1 | zn_s_log10TRUE                      NA         NA      NA       NA   
-# 1 | covidenceTRUE                       NA         NA      NA       NA   
-
-# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-# Residual standard error: 1.749 on 9 degrees of freedom
-# (22 observations deleted due to missingness)
-# Multiple R-squared:  0.816,	Adjusted R-squared:  0.6934 
-# F-statistic: 6.654 on 6 and 9 DF,  p-value: 0.006344
-
-## Adjusted R-squared = 0.6934, so this model explains about 70% of zn_ba,
-## although the dispersion seem heteroscedastic
 
 
 
