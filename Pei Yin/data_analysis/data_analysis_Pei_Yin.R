@@ -772,12 +772,79 @@ hist(logit(data_zn$zn_br))
 hist(sqrt(data_zn$zn_br))
 hist(data_zn$zn_br^(1/3))
 
+
 ## For lm.zn_br.1 ##
-lm.zn_br.1 <- lm(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + cec + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
-lm.zn_br.2 <- lm(zn_br ~ LA_log + SLA_log + LDMC_log + zn_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
+lm.zn_br.1 <- lm(zn_br ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 anova(lm.zn_br.1) # is something significant? with *
+## the significant p-values are:
+# log10(ph):    p-value = 0.0001695 ***
+
 summary(lm.zn_br.1)
+
+# Assumptions verification for lm.zn_br.1
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_br.1)) # normal distribution (p-value = 0.1718)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 22 (according to lmer.zn_br.1)
+# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
+gqtest(lm.zn_br.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 4)
+# Error in X[order(z), ] : subscript out of bounds
+
+# relying on plot() then:
+plot(resid(lm.zn_br.1) ~ fitted(lm.zn_br.1)) # looks very heteroscedastic
+
+
+
+## For lm.zn_br.2 ##
+## see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
+
+lm.zn_br.2 <- lm(zn_br ~ log10(ph) + zn_s_log10, data = data_zn)
+
+anova(lm.zn_br.2) # is something significant? with *
+## the significant p-values are:
+# log10(ph):     p-value = 4.255e-08 ***
+# zn_s_log10:    p-value = 1.413e-06 ***
+
+summary(lm.zn_br.2)
+# Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
+# (F-statistic: 62.13 on 2 and 19 DF)
+
+
+
+## For lm.zn_br.3 ##
+## see interaction between log10(ph) and zn_s_log10
+
+lm.zn_br.3 <- lm(zn_br ~ log10(ph) * zn_s_log10, data = data_zn)
+
+anova(lm.zn_br.3) # is something significant? with *
+## the significant p-values are:
+# log10(ph)               p-value = 5.409e-11 ***
+# zn_s_log10              p-value = 2.568e-09 ***
+# log10(ph):zn_s_log10    p-value = 4.147e-05 ***
+
+# Assumptions verification for lm.zn_br.3
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_br.3)) # not normal distribution (p-value = 0.01426)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 22 (according to lmer.zn_br.3)
+# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
+gqtest(lm.zn_br.3, order.by = ~ log10(ph) * zn_s_log10, data = data_zn, fraction = 4)
+# Error in X[order(z), ] : subscript out of bounds
+
+# relying on plot() then:
+plot(resid(lm.zn_br.3) ~ fitted(lm.zn_br.3)) # looks very heteroscedastic
+
+summary(lm.zn_br.3)
+# Adjusted R-squared:  0.9406, so this model explains about 94% of zn_br
+# (F-statistic: 111.9 on 3 and 18 DF)
+
 
 
 
