@@ -175,8 +175,43 @@ hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
+##### Summary of zn lmer/lm analysis #####
 
-#### lmer for zn_ba (assumption verifs don't work) ####
+## There are 2 sets of lmer models that I tested:
+## First set: lmer.1-3-5-7-9 are about zn_ba ~ LA + SLA + LDMC + ph + (1|zn_s_log10) + (1|covidence)
+## I tested these variables to see if these traits could explain the variation of zn_ba
+
+## all five models (lmer.1-3-5-7-9) are about these variables,
+## but with the same data transformed differently (log, sqrt, sqrt(log), cuberoot...)
+## I did five models because either I couldn't test the assumption verification,
+## either the assumptions weren't ok when I tested them,
+## so I wanted to find a model where the assumptions could be tested and would be ok
+##      lmer.1 : all data of traits and of zn_ba are transformed by log
+##      lmer.3 : same than lm.1 but with zn_ba_cuberoot instead
+##      lmer.5 : with zn_ba_cuberoot and sqrt tranformed data for the traits
+##      lmer.7 : with zn_ba_cuberoot and sqrt(log) tranformed data for the traits
+##      lmer.9 : with zn_ba_cuberoot and cuberoot tranformed data for the traits
+
+
+## Second set: lmer.2-4-6-8-10 are about zn_ba ~ clay + sand + LA + ph + (1|zn_s_log10) + (1|covidence)
+## I tested clay and sand to see if these variables could have an influence too
+## also, all other variables seemed to have too many NAs to be tested,
+## and clay & sand seemed to have less NAs 
+
+## all five models are about these variables, 
+## but with the same data transformed differently (log, sqrt, sqrt(log), cuberoot...)
+## just like for the first set
+## I did five models (lmer.2-4-6-8-10) for the same reasons than for first set
+## (i.e. assumption verification either not being to be tested or not ok) 
+##      lmer.2 : all data of traits and of zn_ba are transformed by log
+##      lmer.4 : 
+##      lmer.6 : 
+##      lmer.8 : 
+##      lmer.10 : 
+
+
+
+##### lmer for zn_ba (assumption verifs don't work) ####
 
 ## For lmer.zn_ba.1 ##
 
@@ -400,7 +435,7 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 
 
 
-#### lm for zn_ba (assuption verifs seem working) ####
+##### lm for zn_ba (assuption verifs seem working) ####
 
 ## Replace lmer with lm 
 
@@ -759,7 +794,7 @@ summary(lm.zn_ba.11)
 
 
 
-#### lm for zn_br ####
+##### lm for zn_br ####
 
 # check normality of zn_br
 dev.new(noRStudioGD = TRUE) # opening a new window
