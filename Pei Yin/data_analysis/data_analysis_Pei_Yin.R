@@ -176,7 +176,7 @@ hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
 
-##### Summary of zn_ba lmer analysis #####
+##### 1. Summary of zn_ba lmer analysis #####
 
 ## There are 2 sets of lmer models that I tested:
 ## First set: lmer.1-3-5-7-9 are about zn_ba ~ LA + SLA + LDMC + ph + (1|zn_s_log10) + (1|covidence)
@@ -213,7 +213,7 @@ hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 ## After testing the models, either their assumptions are not ok, either it cannot be verified
 
 
-##### lmer for zn_ba ####
+##### 1. lmer for zn_ba ####
 
 ## For lmer.zn_ba.1 ##
 
@@ -438,7 +438,7 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 
 
 
-##### Summary of zn_ba lm analysis #####
+##### 2. Summary of zn_ba lm analysis #####
 
 ## Since for the lmer models, either I couldn't test the assumption verification,
 ## either the assumptions weren't ok when I tested them,
@@ -449,7 +449,7 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 
 
 
-##### lm for zn_ba ####
+##### 2. lm for zn_ba ####
 
 
 ## For lm.zn_ba.1 :
@@ -759,7 +759,7 @@ gqtest(lm.zn_ba.10, order.by = ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn
 plot(resid(lm.zn_ba.10) ~ fitted(lm.zn_ba.10)) # don't seem like random points, looks heteroscedastic
 
 
-####### After testing lm zn_ba models ####
+##### 2. After testing zn_ba lm models ####
 
 ## out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
 ## (i.e. their assumptions (normality, homoscedasticity) are verified)
@@ -771,11 +771,11 @@ summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088
 # so this model explains about 30.88% of zn_ba
 
 
+## I tried incorporating 'AccSpeciesName_cor' in the lm model
+## whose assumption were verified and whose p-values were the most significant (i.e. lm.zn_ba.5)
 
 
-## Incorporating 'AccSpeciesName_cor' in the lm model :
-
-## For lm.zn_ba.11 :
+## Naming it lm.zn_ba.11 :
 
 lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
@@ -808,8 +808,22 @@ summary(lm.zn_ba.11)
 # F-statistic: 4.641 on 5 and 32 DF
 
 
+##### 3. Summary of zn_br lm analysis #####
 
-##### lm for zn_br ####
+## lm.zn_br.1 : see if traits could explain the variation of zn_br
+##              - but the model seem heteroscedastic
+
+## lm.zn_br.2 : see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
+##              - Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
+
+## lm.zn_br.3 : since the previous model explained a large part of zn_br, 
+##              see if adding the interaction between log10(ph) and zn_s_log10 (with *)
+##              might explain more of zn_br
+##              - Adjusted R-squared:  0.9406, so this model explains about 94% of zn_br
+##                but the model seem heteroscedastic too & distribution is not normal
+
+
+##### 3. lm for zn_br ####
 
 # check normality of zn_br
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -858,6 +872,21 @@ anova(lm.zn_br.2) # is something significant? with *
 ## the significant p-values are:
 # log10(ph):     p-value = 4.255e-08 ***
 # zn_s_log10:    p-value = 1.413e-06 ***
+
+# Assumptions verification for lm.zn_br.2
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_br.2)) # not normal distribution (p-value = 0.01426)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 22 (according to lmer.zn_br.2)
+# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
+gqtest(lm.zn_br.2, order.by = ~ log10(ph) + zn_s_log10, data = data_zn, fraction = 4)
+# Error in X[order(z), ] : subscript out of bounds
+
+# relying on plot() then:
+plot(resid(lm.zn_br.2) ~ fitted(lm.zn_br.2)) # looks very heteroscedastic
 
 summary(lm.zn_br.2)
 # Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
