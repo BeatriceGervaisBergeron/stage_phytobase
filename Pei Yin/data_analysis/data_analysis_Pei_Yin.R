@@ -815,12 +815,15 @@ summary(lm.zn_ba.11)
 
 ## lm.zn_br.2 : see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
 ##              - Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
+##                but the model seem heteroscedastic too & distribution is not normal
 
 ## lm.zn_br.3 : since the previous model explained a large part of zn_br, 
 ##              see if adding the interaction between log10(ph) and zn_s_log10 (with *)
 ##              might explain more of zn_br
 ##              - Adjusted R-squared:  0.9406, so this model explains about 94% of zn_br
 ##                but the model seem heteroscedastic too & distribution is not normal
+
+## next step: see if standardizing the data might solve the problem of assumption verification
 
 
 ##### 3. lm for zn_br ####
@@ -865,7 +868,6 @@ plot(resid(lm.zn_br.1) ~ fitted(lm.zn_br.1)) # looks very heteroscedastic
 
 ## For lm.zn_br.2 ##
 ## see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
-
 lm.zn_br.2 <- lm(zn_br ~ log10(ph) + zn_s_log10, data = data_zn)
 
 anova(lm.zn_br.2) # is something significant? with *
@@ -876,7 +878,7 @@ anova(lm.zn_br.2) # is something significant? with *
 # Assumptions verification for lm.zn_br.2
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_br.2)) # not normal distribution (p-value = 0.01426)
+shapiro.test(resid(lm.zn_br.2)) # not normal distribution (p-value = 0.01401)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
