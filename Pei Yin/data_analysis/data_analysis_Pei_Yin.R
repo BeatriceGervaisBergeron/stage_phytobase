@@ -175,7 +175,8 @@ hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
-##### Summary of zn lmer/lm analysis #####
+
+##### Summary of zn_ba lmer analysis #####
 
 ## There are 2 sets of lmer models that I tested:
 ## First set: lmer.1-3-5-7-9 are about zn_ba ~ LA + SLA + LDMC + ph + (1|zn_s_log10) + (1|covidence)
@@ -202,16 +203,17 @@ hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 ## but with the same data transformed differently (log, sqrt, sqrt(log), cuberoot...)
 ## just like for the first set
 ## I did five models (lmer.2-4-6-8-10) for the same reasons than for first set
-## (i.e. assumption verification either not being to be tested or not ok) 
+## (i.e. assumption verification either not being able to be tested or not ok) 
 ##      lmer.2 : all data of traits and of zn_ba are transformed by log
-##      lmer.4 : 
-##      lmer.6 : 
-##      lmer.8 : 
-##      lmer.10 : 
+##      lmer.4 : same than lm.1 but with zn_ba_cuberoot instead
+##      lmer.6 : with zn_ba_cuberoot and sqrt tranformed data for the traits
+##      lmer.8 : with zn_ba_cuberoot and sqrt(log) tranformed data for the traits
+##      lmer.10 : with zn_ba_cuberoot and cuberoot tranformed data for the traits
+
+## After testing the models, either their assumptions are not ok, either it cannot be verified
 
 
-
-##### lmer for zn_ba (assumption verifs don't work) ####
+##### lmer for zn_ba ####
 
 ## For lmer.zn_ba.1 ##
 
@@ -435,9 +437,19 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 
 
 
-##### lm for zn_ba (assuption verifs seem working) ####
 
-## Replace lmer with lm 
+##### Summary of zn_ba lm analysis #####
+
+## Since for the lmer models, either I couldn't test the assumption verification,
+## either the assumptions weren't ok when I tested them,
+## I took the lmer models and used lm instead
+
+## e.g.: lm.zn_ba.1 has the exact variables than lmer.zn_ba.1
+## the only thing that changed is the lm model instead of lmer
+
+
+
+##### lm for zn_ba ####
 
 
 ## For lm.zn_ba.1 :
@@ -747,14 +759,17 @@ gqtest(lm.zn_ba.10, order.by = ~ clay + sand + LA_cuberoot.4 + log10(ph) + (1|zn
 plot(resid(lm.zn_ba.10) ~ fitted(lm.zn_ba.10)) # don't seem like random points, looks heteroscedastic
 
 
+####### After testing lm zn_ba models ####
 
-## Summary: out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
-## (i.e.) their assumptions (normality, homoscedasticity) are verified
-## the p-value of lm.zn_ba.5 for SLA is slightly more significant (p-value = 0.002684)
+## out of the 10 lm models for zn_ba, only the models 1-3-5-7-9 work 
+## (i.e. their assumptions (normality, homoscedasticity) are verified)
+## the p-value of model lm.zn_ba.5 for SLA is slightly more significant (p-value = 0.002684)
+## so that model will be incorporated in the report
 
 ## see the R-squared value for lm.zn_ba.5
 summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088 
 # so this model explains about 30.88% of zn_ba
+
 
 
 
