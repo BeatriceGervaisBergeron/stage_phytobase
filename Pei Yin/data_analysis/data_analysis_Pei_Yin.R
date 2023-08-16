@@ -739,7 +739,17 @@ plot(rda) # too few species for that
 
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
-plot(zn_ba_cuberoot ~ LA_log, data = data_zn)
-plot(zn_ba_cuberoot ~ SLA, data = data_zn)
-plot(zn_ba_cuberoot ~ LDMC, data = data_zn)
+plot(zn_ba ~ LA, data = data_zn)
+plot(zn_ba ~ SLA, data = data_zn)
+plot(zn_ba ~ LDMC, data = data_zn)
+plot(cd_ba ~ LA_log, data = data_cd)
+plot(cd_ba ~ SLA, data = data_cd)
+plot(cd_ba ~ LDMC, data = data_cd)
 
+
+
+### plot TE for different species ####
+
+# accumulation of zn per species
+plot(zn_ba ~ AccSpeciesName_cor, data = data_zn)
+plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
