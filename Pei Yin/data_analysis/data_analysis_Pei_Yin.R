@@ -86,7 +86,6 @@ salix_complete_2$LDMC_cuberoot.4 <- cuberoot(abs(salix_complete_2$LDMC))
 salix_complete_2$SLA_cuberoot.4 <- cuberoot(salix_complete_2$SLA)
 #### ####
 
-###BEA: ici tu ne dis pas comment tu vérifie la nomralité, ni quel est choisit.
 
 # join the traits to your data
 data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 'sp'))
@@ -619,8 +618,25 @@ lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + sand + (1|covidence), data
 # 17 lines
 # significant p-value ?
 anova(lm.cd_ba_env)
-# zn_so, sand and clay are significant
-summary(lm.cd_ba_env)
+#  sand is significant
+summary(lm.cd_ba_env) # sand and cd_s are significant
+
+# remove non significant variable from the model (i.e. clay and ph)
+lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ sand + (1|covidence), data = data_cd)
+# 17 lines
+# significant p-value ?
+anova(lm.cd_ba_env)
+#  sand is not significant
+summary(lm.cd_ba_env) # 
+
+# remove non significant variable from the model (i.e. clay and ph)
+lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + (1|covidence), data = data_cd)
+# 17 lines
+# significant p-value ?
+anova(lm.cd_ba_env)
+#  cd_s is significant
+summary(lm.cd_ba_env) # 
+
 
 # Assumptions verification for lm.cd_ba_env
 
@@ -642,7 +658,8 @@ plot(lm.cd_ba_env)
 ##### 2. Influence of traits on cd_ba (with envir controls) #####
 
 ## For lm.cd_ba.1 : model of traits and environmental controls
-lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC +(1|sand) +(1|cd_s_log10) + (1|covidence), data = data_cd, na.action = na.exclude)
+lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|covidence), data = data_cd)
+
 
 # significant p-value ?
 anova(lm.cd_ba.1)
@@ -661,7 +678,7 @@ shapiro.test(resid(lm.cd_ba.1)) # normal distribution (p-value = )
 #  *** A MODIFIER ***
 # Number of obs: 38 (see summary of lmer.zn_ba.1 in lmer section)
 # then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
-gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|ph) + (1|zn_s_log10) + (1|covidence), data = data_cd, fraction = 8)
+gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|covidence), data = data_cd, fraction = 8)
 # distribution is homoscedastic (p-value = )
 
 plot(resid(lm.cd_ba.1) ~ fitted(lm.cd_ba.1)) # mostly random points, looks homoscedastic
@@ -704,7 +721,7 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 #### PCA of willows vs all species ####
 
 
-#### PCA of traits vs zn concnetrations
+#### PCA of traits vs zn concentrations # NOT WORKING ####
 
 ## matrix of traits
 # create a matrix only with the functionla traits and without controls (dataCT)
@@ -723,7 +740,7 @@ summary(pca_zn)
 plot(pca_zn)
 ## not really working since only 6 species points
 
-#### RDA of willow traits ####
+#### RDA of willow traits # NOT WORKING ####
 
 # matrix of TE in willow
 data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','pb_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
@@ -753,3 +770,8 @@ plot(cd_ba ~ LDMC, data = data_cd)
 # accumulation of zn per species
 plot(zn_ba ~ AccSpeciesName_cor, data = data_zn)
 plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
+
+
+# accumulation of cd per species
+plot(cd_ba ~ AccSpeciesName_cor, data = data_cd)
+plot(cd_br ~ AccSpeciesName_cor, data = data_cd)
