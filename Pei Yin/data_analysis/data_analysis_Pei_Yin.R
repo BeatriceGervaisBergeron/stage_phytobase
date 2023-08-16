@@ -177,7 +177,7 @@ ni_ba # 22 lines
 #### Influence of traits and environmental factor on TE accumulation - Linear mix model (LMM) ####
 
 #### zn only database ####
-data_zn <- data_std_salix %>% filter(!is.na(zn_ba))
+data_zn <- data_std_salix %>% filter(!is.na(zn_ba)) # 38 obs.
 
 # check normality of zn_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -190,10 +190,9 @@ hist(logit(data_zn$zn_ba)) # error message
 hist(sqrt(data_zn$zn_ba))
 hist(data_zn$zn_ba^(1/3)) ## best transformation ##
 
-data_zn$zn_ba_cuberoot <- cuberoot(data_zn$zn_ba) # cuberoot transformation
-data_zn$zn_ba_cuberoot # view data
 # cuberoot was the best transformation
-
+# add cuberoot transformation in column
+data_zn$zn_ba_cuberoot <- cuberoot(data_zn$zn_ba)
 
 # check normality of zn_s
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -230,7 +229,6 @@ hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
 
 # check normality of clay
-
 data_zn_txt <- data_zn %>% filter(!is.na(clay)) # 16 obs
 
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -541,16 +539,16 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 ##### 2. lm for zn_ba ####
 
 
-## For lm.zn_ba_env :model for environemental significant variables
+## For lm.zn_ba_env :model for environmental significant variables
 lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn_txt)
 # 16 lines
 
 # significant p-value ?
 anova(lm.zn_ba_env)
-# zn_so, sand and clay are significant
+# zn_s, sand and clay are significant
 summary(lm.zn_ba_env)
 
-# remove non significant vrariable from the model
+# remove non significant variable from the model
 lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence), data = data_zn_txt)
 # 16 lines
 # significant p-value ?
@@ -1060,6 +1058,99 @@ summary(lm.zn_br.3)
 
 
 #### cd only database ####
+data_cd <- data_std_salix %>% filter(!is.na(cd_ba)) # 39 obs.
+
+# check normality of cd_ba
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_zn$cd_ba) # original histogram 
+hist(log(data_zn$cd_ba))
+hist(log10(data_zn$cd_ba)) ## best transformation ##
+hist(log2(data_zn$cd_ba)) ## second best ##
+hist(logit(data_zn$cd_ba))
+hist(sqrt(data_zn$cd_ba))
+hist(data_zn$cd_ba^(1/3)) 
+
+# log10 was the best transformation
+# add log10 transformation in column
+data_cd$cd_ba_log10 <- log10(data_cd$cd_ba)
+
+
+# check normality of cd_s
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_cd$cd_s) # original histogram
+hist(log(data_cd$cd_s))
+hist(log10(data_cd$cd_s)) ## best transformation ##
+hist(log2(data_cd$cd_s))
+hist(logit(data_cd$cd_s))
+hist(sqrt(data_cd$cd_s))
+hist(data_cd$cd_s^(1/3))
+hist(asin(sqrt(data_cd$cd_s)))
+hist(decostand(data_cd$cd_s, method = 'log', MARGIN = 2))
+
+# log10 was the best transformation
+# add log10 transformation in column
+data_cd$cd_s_log10 <- log10(data_cd$cd_s)
+
+
+# check normality of ph
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_cd$ph) # original histogram
+hist(log(data_cd$ph))
+hist(log10(data_cd$ph))
+hist(log2(data_cd$ph)) 
+hist(logit(data_cd$ph))
+hist(sqrt(data_cd$ph))
+hist(data_cd$ph^(1/3))
+hist(asin(sqrt(data_cd$ph))) # error message
+hist(decostand(data_cd$ph, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping ph as it is
+
+
+# check normality of clay
+data_cd_txt <- data_cd %>% filter(!is.na(clay)) # 17 obs
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_cd_txt$clay) # original histogram
+hist(log(data_cd_txt$clay))
+hist(log10(data_cd_txt$clay)) 
+hist(log2(data_cd_txt$clay))
+hist(logit(data_cd_txt$clay))
+hist(sqrt(data_cd_txt$clay))
+hist(data_cd_txt$clay^(1/3))
+hist(asin(sqrt(data_cd_txt$clay)))
+hist(decostand(data_cd_txt$clay, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping clay as it is
+
+
+# check normality of sand
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_cd_txt$sand) # original histogram
+hist(log(data_cd_txt$sand))
+hist(log10(data_cd_txt$sand)) 
+hist(log2(data_cd_txt$sand))
+hist(logit(data_cd_txt$sand))
+hist(sqrt(data_cd_txt$sand))
+hist(data_cd_txt$sand^(1/3))
+hist(asin(sqrt(data_cd_txt$sand)))
+hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping sand as it is 
+
+
+
+
+
+
 
 # For cd_ba
 lmer.cd_ba <- lmer(cd_ba ~ LA_log + SLA_log + LDMC_log + cd_br + cd_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
