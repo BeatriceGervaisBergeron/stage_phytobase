@@ -1,5 +1,8 @@
 # Analysis script
 
+
+#### Planing of script ####
+
 ## Import packages
 ## Import data
 ## Verify normality of traits in Salix & transform data if needed
@@ -7,15 +10,26 @@
 #     zn database
 #           Verify normality & transform data if needed
 #           Summary of zn_ba lm analysis
-#           Summary of zn_ba lm analysis
+#           Testing lm.zn_ba_env
+#           Testing lm.zn_ba.1
+
 #     cd database
 #           Verify normality & transform data if needed
 #           Summary of cd_ba lm analysis
+#           Testing lm.cd_ba_env
+#           Testing lm.cd_ba.1
+
 #     pb database
 #           Verify normality & transform data if needed
 #           Summary of pb_ba lm analysis
+#           Testing lm.pb_ba_env
+#           Testing lm.pb_ba.1
 
-
+## PCA (not working)
+## RDA (not working)
+## Plots
+#     plots of traits & zn_ba
+#     plots of species & TE_concentrations
 
 
 #### Import packages ####
