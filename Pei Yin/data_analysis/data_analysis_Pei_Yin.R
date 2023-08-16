@@ -687,17 +687,173 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 
 
 #### pb only database ####
+data_pb <- data_std_salix %>% filter(!is.na(pb_ba)) # 36 obs.
+
+##### 0. Verify normality of variables & transform data if needed #####
+
+# check normality of pb_ba
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_cd$pb_ba) # original histogram 
+hist(log(data_cd$pb_ba))  ## best transformation ##
+hist(log10(data_cd$pb_ba)) ## second best ##
+hist(log2(data_cd$pb_ba))
+hist(logit(data_cd$pb_ba))
+hist(sqrt(data_cd$pb_ba))
+hist(data_cd$pb_ba^(1/3)) ## keeping this transfo too ##
+
+# log and log10 were the best transformations
+# add log and log10 transformations in column
+data_pb$pb_ba_log10 <- log10(data_pb$pb_ba)
+data_pb$pb_ba_log2 <- log2(data_pb$pb_ba)
+# add cuberoot transformation also
+data_pb$pb_ba_cuberoot <- cuberoot(data_pb$pb_ba)
+
+# check normality of pb_s
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_pb$pb_s) # original histogram
+hist(log(data_pb$pb_s))
+hist(log10(data_pb$pb_s)) 
+hist(log2(data_pb$pb_s)) ## best transformation ##
+hist(logit(data_pb$pb_s))
+hist(sqrt(data_pb$pb_s))
+hist(data_pb$pb_s^(1/3))
+hist(asin(sqrt(data_pb$pb_s)))
+hist(decostand(data_pb$pb_s, method = 'log', MARGIN = 2))
+
+# log2 was the best transformation
+# add log2 transformation in column
+data_pb$pb_s_log2 <- log2(data_pb$pb_s)
 
 
+# check normality of ph
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_pb$ph) # original histogram
+hist(log(data_pb$ph))
+hist(log10(data_pb$ph)) ## keep this transformation ##
+hist(log2(data_pb$ph)) 
+hist(logit(data_pb$ph))
+hist(sqrt(data_pb$ph))
+hist(data_pb$ph^(1/3))
+hist(asin(sqrt(data_pb$ph)))
+hist(decostand(data_pb$ph, method = 'log', MARGIN = 2))
 
-# For pb_ba
+## the transformations didn't really make the data more normal
+## except maybe log10
+# add log10 transformation in column
+data_pb$ph_log10 <- log10(data_pb$ph)
 
 
+# check normality of clay
+data_pb_txt <- data_pb %>% filter(!is.na(clay)) # 12 obs
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_pb_txt$clay) # original histogram
+hist(log(data_pb_txt$clay))
+hist(log10(data_pb_txt$clay)) 
+hist(log2(data_pb_txt$clay))
+hist(logit(data_pb_txt$clay))
+hist(sqrt(data_pb_txt$clay))
+hist(data_pb_txt$clay^(1/3))
+hist(asin(sqrt(data_pb_txt$clay)))
+hist(decostand(data_pb_txt$clay, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping clay as it is
+
+
+# check normality of sand
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_pb_txt$sand) # original histogram
+hist(log(data_pb_txt$sand))
+hist(log10(data_pb_txt$sand)) 
+hist(log2(data_pb_txt$sand))
+hist(logit(data_pb_txt$sand))
+hist(sqrt(data_pb_txt$sand))
+hist(data_pb_txt$sand^(1/3))
+hist(asin(sqrt(data_pb_txt$sand)))
+hist(decostand(data_pb_txt$sand, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping sand as it is 
+
+
+##### 0. Summary of pb_ba lm analysis #####
+
+# First see influence of envir. variables on pb_ba
+# Then see influence of traits on pb_ba (while taking envir. var as control)
+
+
+##### 1. Influence of envir. variables on pb_ba #####
+
+## For lm.pb_ba_env: model for environmental significant variables
+lm.pb_ba_env <- lm(data_pb$pb_ba_cuberoot ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb)
+# 14 lines
+# the variable needs to be pb_ba_cuberoot (with cuberoot)
+# since the 2 other transfo (log10 & log2) have an '-Inf' value in them
+# which makes the model not work (error)
+
+# significant p-value ?
+anova(lm.pb_ba_env)
+# sand, clay & pb_s_log2 are significant 
+summary(lm.pb_ba_env) # Adjusted R-squared:  0.8713
+
+# Assumptions verification for lm.pb_ba_env
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.pb_ba_env)) # normal distribution (p-value = 0.8846)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 14
+# then 20% of total obs. is 2.8 (around 3), so fraction = 3 in gqtest()
+gqtest(lm.pb_ba_env, order.by = ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb, fraction = 3)
+# Error: inadmissable breakpoint/too many central observations omitted
+
+plot(resid(lm.pb_ba_env) ~ fitted(lm.pb_ba_env)) # 
+# check the model assumptions
+plot(lm.pb_ba_env) 
+# Warning messages:
+# 1: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
+# 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
+
+
+##### 2. Influence of traits on pb_ba (with envir controls) #####
+
+## For lm.pb_ba.1 : model of traits and environmental controls
+lm.pb_ba.1 <- lm(data_pb$pb_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, na.action = na.exclude)
+
+# significant p-value ?
+anova(lm.pb_ba.1)
+## the significant p-values are:
+# LA_log :  p-value = 0.006372 **
+
+summary(lm.pb_ba.1) 
+# Adjusted R-squared:  0.1938 
+
+# Assumptions verification for lm.pb_ba.1
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.pb_ba.1)) # normal distribution (p-value = 0.2073)
+
+# Homoscedasticity (Goldfeld–Quandt test) 
+
+# Number of obs: 13 (see summary of lmer.zn_ba.1 in lmer section)
+# then 20% of total obs. is 2.6 (around 2), so fraction = 2 in gqtest()
+gqtest(lm.pb_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, fraction = 2)
+# distribution is homoscedastic (p-value = 0.9897)
+
+plot(resid(lm.pb_ba.1) ~ fitted(lm.pb_ba.1)) # mostly random points, looks homoscedastic
+# check the model assumptions
+plot(lm.pb_ba.1)
 
 
 
 # For pb_br
-
 
 
 
