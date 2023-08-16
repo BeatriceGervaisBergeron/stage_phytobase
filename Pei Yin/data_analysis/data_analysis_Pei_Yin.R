@@ -1,5 +1,15 @@
 # Analysis script
 
+### importation
+#
+
+
+
+
+
+
+
+
 #### Import packages ####
 library(vegan)
 library(HH)
@@ -10,6 +20,7 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library('lmerTest')
+
 
 #### Import data ####
 data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
@@ -31,6 +42,21 @@ salix_complete_2 <- salix_complete_2[,-c(6:7)]
 
 #### transform data ####
 # (with log, sqrt root and sqrt cube) & add the transformed columns
+
+#### to be deleted ####
+
+# see which transformation is best
+hist(salix_complete_2$LA)
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(salix_complete_2$LA) # original histogram 
+hist(log(salix_complete_2$LA))
+hist(log10(salix_complete_2$LA))
+hist(log2(salix_complete_2$LA))
+hist(logit(salix_complete_2$LA)) # error message
+hist(sqrt(salix_complete_2$LA))
+hist(salix_complete_2$LA^(1/3)) ## best transformation ##
 
 # log transformation
 salix_complete_2$LA_log.1 <- log(salix_complete_2$LA)
@@ -56,23 +82,62 @@ cuberoot = function(x){
 salix_complete_2$LA_cuberoot.4 <- cuberoot(salix_complete_2$LA)
 salix_complete_2$LDMC_cuberoot.4 <- cuberoot(abs(salix_complete_2$LDMC))
 salix_complete_2$SLA_cuberoot.4 <- cuberoot(salix_complete_2$SLA)
+#### ####
 
 # join the traits to your data
 data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 'sp'))
 
 # remove the sp. that don't have LA, SLA and LDMC values 
 # i.e. remove the lines in which LA values are 'NA'
-data_std_salix <- filter(data_std, LA_log.1 != 'NA') # 60 lines
+data_std_salix <- filter(data_std, LA != 'NA') # 60 lines
 
 # check number of Salix sp. remaining in the database
 unique(data_std_salix$AccSpeciesName_cor) 
 # "Salix viminalis" "Salix triandra"  "Salix alba"  "Salix gmelinii"  "Salix caprea"  "Salix purpurea"
 # so 6 Salix sp. left in database
 
+# check normality for LA trait
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_std_salix$LA) # original histogram 
+hist(log(data_std_salix$LA)) ## best transformation ##
+hist(log10(data_std_salix$LA))
+hist(log2(data_std_salix$LA))
+hist(logit(data_std_salix$LA)) # error message
+hist(sqrt(data_std_salix$LA))
+hist(data_std_salix$LA^(1/3)) 
+
+# add the transformed values
+data_std_salix$LA_log <- log(data_std_salix$LA)
+
+
+# check normality for SLA trait
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_std_salix$SLA) # original histogram, relatively normal
+hist(log(data_std_salix$SLA)) 
+hist(log10(data_std_salix$SLA))
+hist(log2(data_std_salix$SLA))
+hist(logit(data_std_salix$SLA)) # error message
+hist(sqrt(data_std_salix$SLA))
+hist(data_std_salix$SLA^(1/3)) 
+
+
+# check normality for LDMC trait
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_std_salix$LDMC) # original histogram, relatively normal
+hist(log(data_std_salix$LDMC)) 
+hist(log10(data_std_salix$LDMC))
+hist(log2(data_std_salix$LDMC))
+hist(logit(data_std_salix$LDMC)) # error message
+hist(sqrt(data_std_salix$LDMC))
+hist(data_std_salix$LDMC^(1/3)) 
+
+## LA trait has being transformed, while SLA and LDMC are relatively normal
+
 
 #### Matrix of TE accumulation and environmental factors ####
-# Distribution and normality
-# Transformation
 
 # matrix of useful variables
 # modified all character variable into factorial
@@ -84,6 +149,7 @@ data_std_salix <- data_std_salix %>%
 # if need no NA
 data_clean <- data_std_salix[,c('as_ba',	'cd_ba',	'cu_ba',	'pb_ba',	'zn_ba',	'se_ba',	'ni_ba',	'co_ba',	'mn_ba',	'cr_ba',	'hg_ba', 'LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')]
 data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
+# 36 lines
 # Cd and Zn are the most abundant metal tested (without NA)
 TE_leaves <- data_clean[,c('cd_ba', 'zn_ba')]
 
@@ -124,17 +190,6 @@ hist(logit(data_zn$zn_ba)) # error message
 hist(sqrt(data_zn$zn_ba))
 hist(data_zn$zn_ba^(1/3)) ## best transformation ##
 
-
-# transform zn_ba data and add them in columns
-data_zn$zn_ba_log <- log(data_zn$zn_ba) # log transformation
-data_zn$zn_ba_log # view data
-
-data_zn$zn_ba_sqrt <- sqrt(data_zn$zn_ba) # sqrt transformation
-data_zn$zn_ba_sqrt # view data
-
-data_zn$zn_ba_sqrt_log <- sqrt(log(data_zn$zn_ba)) # sqrt(log) transformation
-data_zn$zn_ba_sqrt_log # view data
-
 data_zn$zn_ba_cuberoot <- cuberoot(data_zn$zn_ba) # cuberoot transformation
 data_zn$zn_ba_cuberoot # view data
 # cuberoot was the best transformation
@@ -153,7 +208,6 @@ hist(data_zn$zn_s^(1/3))
 hist(asin(sqrt(data_zn$zn_s))) # error message
 hist(decostand(data_zn$zn_s, method = 'log', MARGIN = 2))  # error message
 
-
 # transform zn_s data and add them in columns
 data_zn$zn_s_log10 <- log10(data_zn$zn_s) # log10 transformation (best one)
 data_zn$zn_s_log10 # view data
@@ -168,12 +222,47 @@ par(mfrow = c(2,3))
 hist(data_zn$ph) # original histogram
 hist(log(data_zn$ph))
 hist(log10(data_zn$ph)) ## best transformation ##
-hist(log2(data_zn$ph)) ## second best ##
-hist(logit(data_zn$ph)) # error message
+hist(log2(data_zn$ph)) 
+hist(logit(data_zn$ph))
 hist(sqrt(data_zn$ph))
 hist(data_zn$ph^(1/3))
 hist(asin(sqrt(data_zn$ph))) # error message
 hist(decostand(data_zn$ph, method = 'log', MARGIN = 2))
+
+# check normality of clay
+
+data_zn_txt <- data_zn %>% filter(!is.na(clay)) # 16 obs
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_zn_txt$clay) # original histogram
+hist(log(data_zn_txt$clay))
+hist(log10(data_zn_txt$clay)) 
+hist(log2(data_zn_txt$clay)) ## best transformation ##
+hist(logit(data_zn_txt$clay))
+hist(sqrt(data_zn_txt$clay))
+hist(data_zn_txt$clay^(1/3))
+hist(asin(sqrt(data_zn_txt$clay))) # error message
+hist(decostand(data_zn_txt$clay, method = 'log', MARGIN = 2))
+
+data_zn$clay_log2 <- log2(data_zn$clay)
+data_zn_txt$clay_log2 <- log2(data_zn_txt$clay)
+
+# check normality of sand
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+hist(data_zn_txt$sand) # original histogram
+hist(log(data_zn_txt$sand))
+hist(log10(data_zn_txt$sand)) 
+hist(log2(data_zn_txt$sand))
+hist(logit(data_zn_txt$sand))
+hist(sqrt(data_zn_txt$sand))
+hist(data_zn_txt$sand^(1/3))
+hist(asin(sqrt(data_zn_txt$sand))) # error message
+hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
+
+## the transformations didn't really make the data more normal
+## keeping it 
 
 
 ##### 1. Summary of zn_ba lmer analysis #####
@@ -452,14 +541,52 @@ hist(resid(lmer.zn_ba.10)) # doesn't quite seem like normal distribution. 3 miss
 ##### 2. lm for zn_ba ####
 
 
-## For lm.zn_ba.1 :
-lm.zn_ba.1 <- lm(data_zn$zn_ba_log ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+## For lm.zn_ba_env :model for environemental significant variables
+lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn_txt)
+# 16 lines
+
+# significant p-value ?
+anova(lm.zn_ba_env)
+# zn_so, sand and clay are significant
+summary(lm.zn_ba_env)
+
+# remove non significant vrariable from the model
+lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence), data = data_zn_txt)
+# 16 lines
+# significant p-value ?
+anova(lm.zn_ba_env)
+# zn_so, sand and clay are significant
+summary(lm.zn_ba_env)
+
+# Assumptions verification for lm.zn_ba_env
+
+# Normality (Shapiro-Wilk test)
+shapiro.test(resid(lm.zn_ba_env)) # normal distribution (p-value = 0.116)
+
+# Homoscedasticity (Goldfeld–Quandt test)
+
+# Number of obs: 16
+# then 20% of total obs. is 3.2 (around 3), so fraction = 3 in gqtest()
+gqtest(lm.zn_ba_env, order.by = ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence), data = data_zn, fraction = 3)
+# distribution is homoscedastic (p-value = 0.01365)
+
+plot(resid(lm.zn_ba_env) ~ fitted(lm.zn_ba_env)) # mostly random points, looks homoscedastic
+# check the model assumptions
+plot(lm.zn_ba_env)
+
+
+
+## For lm.zn_ba.1 : model of traits and environmental controls
+lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
 
 # significant p-value ?
 anova(lm.zn_ba.1)
 ## the significant p-values are:
 # SLA_log.1:    p-value = 0.005228 **
 # log10(ph):    p-value = 0.030579 *
+
+summary(lm.zn_ba.1)
 
 # Assumptions verification for lm.zn_ba.1
 
@@ -470,10 +597,12 @@ shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.06054)
 
 # Number of obs: 38 (see summary of lmer.zn_ba.1 in lmer section)
 # then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
-gqtest(lm.zn_ba.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
-# distribution is homoscedastic (p-value = 0.9495)
+gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
+# distribution is homoscedastic (p-value = 0.01365)
 
 plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homoscedastic
+# check the model assumptions
+plot(lm.zn_ba.1)
 
 
 
