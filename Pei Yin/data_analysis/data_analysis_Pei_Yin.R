@@ -1236,3 +1236,10 @@ plot(cd_ba ~ LA_log, data = data_cd)
 plot(cd_ba ~ SLA, data = data_cd)
 plot(cd_ba ~ LDMC, data = data_cd)
 
+
+
+### plot TE for different species ####
+
+# accumulation of zn per species
+plot(zn_ba ~ AccSpeciesName_cor, data = data_zn)
+plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
