@@ -1103,6 +1103,42 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 #### PCA of willows vs all species ####
 
 
+#### PCA of traits vs zn concnetrations
+
+## matrix of traits
+# create a matrix only with the functionla traits and without controls (dataCT)
+traits <- data_zn[,c('LA_log','SLA','LDMC')]
+# Standardize traits because they all have different units
+traits.s<-decostand(traits, method='standardize', MARGIN=2)
+
+# generate the PCA
+pca_zn <- rda(traits.s)
+# Analyse the PCA
+summary(pca_zn)
+# Visualise the significance of each axis
+# axis 1 = 62.37 and axis 2 = 21.14
+
+# Visualise 
+plot(pca_zn)
+## not really working since only 6 species points
+
+#### RDA of willow traits ####
+
+# matrix of TE in willow
+data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','pb_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
+#23 obser
+TE_salix <- data_clean[,c('cd_ba','zn_ba', 'pb_ba')]
+
+rda <- rda(TE_salix ~ LA + SLA + LDMC + Condition(covidence), data = data_clean)
+plot(rda) # too few species for that
+## not working
 
 
+#### plots of traits and zn_ba ####
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+plot(zn_ba_cuberoot ~ LA_log, data = data_zn)
+plot(zn_ba_cuberoot ~ SLA, data = data_zn)
+plot(zn_ba_cuberoot ~ LDMC, data = data_zn)
 
