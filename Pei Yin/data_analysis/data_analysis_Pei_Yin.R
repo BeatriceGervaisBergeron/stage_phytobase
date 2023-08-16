@@ -577,7 +577,7 @@ plot(lm.zn_ba_env)
 
 
 ## For lm.zn_ba.1 : model of traits and environmental controls
-lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + AccSpeciesName_cor + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 
 # significant p-value ?
@@ -906,7 +906,7 @@ summary(lm.zn_ba.5) # Adjusted R-squared:  0.3088
 
 ## Naming it lm.zn_ba.11 :
 
-lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+lm.zn_ba.11 <- lm(data_zn$zn_ba_cuberoot ~ AccSpeciesName_cor + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 # significant p-value ?
 anova(lm.zn_ba.11)
