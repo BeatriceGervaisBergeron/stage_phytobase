@@ -1,11 +1,19 @@
 # Analysis script
 
-### importation
-#
-
-
-
-
+## Import packages
+## Import data
+## Verify normality of traits in Salix & transform data if needed
+## Linear models (LM)
+#     zn database
+#           Verify normality & transform data if needed
+#           Summary of zn_ba lm analysis
+#           Summary of zn_ba lm analysis
+#     cd database
+#           Verify normality & transform data if needed
+#           Summary of cd_ba lm analysis
+#     pb database
+#           Verify normality & transform data if needed
+#           Summary of pb_ba lm analysis
 
 
 
@@ -39,54 +47,6 @@ salix_complete_2 <- filter(traits, Salix == 2)
 # remove HA & Salix columns
 salix_complete_2 <- salix_complete_2[,-c(6:7)]
 
-
-#### transform data ####
-# (with log, sqrt root and sqrt cube) & add the transformed columns
-
-#### to be deleted ####
-
-# see which transformation is best
-hist(salix_complete_2$LA)
-
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(salix_complete_2$LA) # original histogram 
-hist(log(salix_complete_2$LA))
-hist(log10(salix_complete_2$LA))
-hist(log2(salix_complete_2$LA))
-hist(logit(salix_complete_2$LA)) # error message
-hist(sqrt(salix_complete_2$LA))
-hist(salix_complete_2$LA^(1/3)) ## best transformation ##
-
-# log transformation
-salix_complete_2$LA_log.1 <- log(salix_complete_2$LA)
-salix_complete_2$LDMC_abs_log.1 <- abs(log(salix_complete_2$LDMC))
-salix_complete_2$SLA_log.1 <- log(salix_complete_2$SLA)
-
-###BEA: pourquoi as-tu pris la valuer absolue de LDMC? (abs())
-
-# sqrt root transformation
-salix_complete_2$LA_sqrt.2 <- sqrt(salix_complete_2$LA)
-salix_complete_2$LDMC_abs_sqrt.2 <- sqrt(abs(salix_complete_2$LDMC))
-salix_complete_2$SLA_sqrt.2 <- sqrt(salix_complete_2$SLA)
-
-# sqrt root(log) transformation
-salix_complete_2$LA_sqrt_log.3 <- sqrt(log(salix_complete_2$LA))
-salix_complete_2$LDMC_sqrt_abs_log.3 <- sqrt(abs(log(salix_complete_2$LDMC)))
-salix_complete_2$SLA_sqrt_log.3 <- sqrt(log(salix_complete_2$SLA))
-
-# defining a cube root function
-cuberoot = function(x){
-  ifelse(x < 0, - (-x)^(1/3), x^(1/3))
-}
-
-# cube root transformation
-salix_complete_2$LA_cuberoot.4 <- cuberoot(salix_complete_2$LA)
-salix_complete_2$LDMC_cuberoot.4 <- cuberoot(abs(salix_complete_2$LDMC))
-salix_complete_2$SLA_cuberoot.4 <- cuberoot(salix_complete_2$SLA)
-#### ####
-
-
 # join the traits to your data
 data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 'sp'))
 
@@ -98,6 +58,15 @@ data_std_salix <- filter(data_std, LA != 'NA') # 60 lines
 unique(data_std_salix$AccSpeciesName_cor) 
 # "Salix viminalis" "Salix triandra"  "Salix alba"  "Salix gmelinii"  "Salix caprea"  "Salix purpurea"
 # so 6 Salix sp. left in database
+
+
+#### Verify normality of traits in Salix & transform data if needed####
+
+# defining a cube root function
+cuberoot = function(x){
+  ifelse(x < 0, - (-x)^(1/3), x^(1/3))
+}
+
 
 # check normality for LA trait
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -177,7 +146,7 @@ ni_ba <- na.omit(data_std_salix$ni_ba)
 ni_ba # 22 lines
 
 
-#### Influence of traits and environmental factor on TE accumulation - Linear mix model (LMM) ####
+#### Influence of traits and environmental factor on TE accumulation - Linear model (LM) ####
 
 #### zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba)) # 38 obs.
@@ -268,56 +237,16 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ## keeping it 
 
 
-##### 1. Summary of zn_ba lmer analysis #####
-
-## There are 2 sets of lmer models that I tested:
-## First set: lmer.1-3-5-7-9 are about zn_ba ~ LA + SLA + LDMC + ph + (1|zn_s_log10) + (1|covidence)
-## I tested these variables to see if these traits could explain the variation of zn_ba
-
-## all five models (lmer.1-3-5-7-9) are about these variables,
-## but with the same data transformed differently (log, sqrt, sqrt(log), cuberoot...)
-## I did five models because either I couldn't test the assumption verification,
-## either the assumptions weren't ok when I tested them,
-## so I wanted to find a model where the assumptions could be tested and would be ok
-##      lmer.1 : all data of traits and of zn_ba are transformed by log
-##      lmer.3 : same than lm.1 but with zn_ba_cuberoot instead
-##      lmer.5 : with zn_ba_cuberoot and sqrt tranformed data for the traits
-##      lmer.7 : with zn_ba_cuberoot and sqrt(log) tranformed data for the traits
-##      lmer.9 : with zn_ba_cuberoot and cuberoot tranformed data for the traits
-
-
-## Second set: lmer.2-4-6-8-10 are about zn_ba ~ clay + sand + LA + ph + (1|zn_s_log10) + (1|covidence)
-## I tested clay and sand to see if these variables could have an influence too
-## also, all other variables seemed to have too many NAs to be tested,
-## and clay & sand seemed to have less NAs 
-
-## all five models are about these variables, 
-## but with the same data transformed differently (log, sqrt, sqrt(log), cuberoot...)
-## just like for the first set
-## I did five models (lmer.2-4-6-8-10) for the same reasons than for first set
-## (i.e. assumption verification either not being able to be tested or not ok) 
-##      lmer.2 : all data of traits and of zn_ba are transformed by log
-##      lmer.4 : same than lm.1 but with zn_ba_cuberoot instead
-##      lmer.6 : with zn_ba_cuberoot and sqrt tranformed data for the traits
-##      lmer.8 : with zn_ba_cuberoot and sqrt(log) tranformed data for the traits
-##      lmer.10 : with zn_ba_cuberoot and cuberoot tranformed data for the traits
-
-## After testing the models, either their assumptions are not ok, either it cannot be verified
-
-
-
-##### 2. Summary of zn_ba lm analysis #####
+##### 0. Summary of zn_ba lm analysis #####
 
 ## Since for the lmer models, either I couldn't test the assumption verification,
-## either the assumptions weren't ok when I tested them,
-## I took the lmer models and used lm instead
+## either the assumptions weren't ok when I tested them, I used lm instead
 
-## e.g.: lm.zn_ba.1 has the exact variables than lmer.zn_ba.1
-## the only thing that changed is the lm model instead of lmer
-
+# First see influence of envir. variables on cd_ba
+# Then see influence of traits on cd_ba (while taking envir. var as control)
 
 
-##### 2. lm for zn_ba ####
+##### 1. For lm.zn_ba_env ####
 
 ## For lm.zn_ba_env: model for environmental significant variables
 lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn_txt)
@@ -353,6 +282,7 @@ plot(resid(lm.zn_ba_env) ~ fitted(lm.zn_ba_env)) # mostly random points, looks h
 plot(lm.zn_ba_env)
 
 
+##### 2. For lm.zn_ba.1 ####
 
 ## For lm.zn_ba.1 : model of traits and environmental controls
 lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + AccSpeciesName_cor + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
@@ -382,7 +312,7 @@ plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homos
 plot(lm.zn_ba.1)
 
 
-##### 3. Summary of zn_br lm analysis #####
+##### 3. (To delete after) Summary of zn_br lm analysis #####
 
 ## lm.zn_br.1 : see if traits could explain the variation of zn_br
 ##              - but the model seem heteroscedastic
@@ -400,7 +330,7 @@ plot(lm.zn_ba.1)
 ## next step: see if standardizing the data might solve the problem of assumption verification
 
 
-##### 3. lm for zn_br ####
+##### 3. (To delete after) lm for zn_br ####
 
 # check normality of zn_br
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -502,8 +432,6 @@ summary(lm.zn_br.3)
 
 
 
-
-
 #### cd only database ####
 data_cd <- data_std_salix %>% filter(!is.na(cd_ba)) # 39 obs.
 
@@ -602,7 +530,8 @@ hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
 # Then see influence of traits on cd_ba (while taking envir. var as control)
 
 
-##### 1. Influence of envir. variables on cd_ba #####
+##### 1. For lm.cd_ba_env #####
+## See influence of envir. variables on cd_ba
 
 ## For lm.cd_ba_env: model for environmental significant variables
 lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + sand + clay + (1|covidence), data = data_cd)
@@ -655,7 +584,8 @@ plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env)) # mostly random points, looks h
 plot(lm.cd_ba_env)
 
 
-##### 2. Influence of traits on cd_ba (with envir controls) #####
+##### 2. For lm.cd_ba.1 #####
+## See influence of traits on cd_ba (with envir controls)
 
 ## For lm.cd_ba.1 : model of traits and environmental controls
 lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|covidence), data = data_cd)
@@ -805,7 +735,8 @@ hist(decostand(data_pb_txt$sand, method = 'log', MARGIN = 2))
 # Then see influence of traits on pb_ba (while taking envir. var as control)
 
 
-##### 1. Influence of envir. variables on pb_ba #####
+##### 1. For lm.pb_ba_env #####
+## Influence of envir. variables on pb_ba
 
 ## For lm.pb_ba_env: model for environmental significant variables
 lm.pb_ba_env <- lm(data_pb$pb_ba_cuberoot ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb)
@@ -839,7 +770,8 @@ plot(lm.pb_ba_env)
 # 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
 
 
-##### 2. Influence of traits on pb_ba (with envir controls) #####
+##### 2. For lm.pb_ba.1 #####
+## Influence of traits on pb_ba (with envir controls)
 
 ## For lm.pb_ba.1 : model of traits and environmental controls
 lm.pb_ba.1 <- lm(data_pb$pb_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, na.action = na.exclude)
