@@ -63,6 +63,8 @@ salix_complete_2$LA_log.1 <- log(salix_complete_2$LA)
 salix_complete_2$LDMC_abs_log.1 <- abs(log(salix_complete_2$LDMC))
 salix_complete_2$SLA_log.1 <- log(salix_complete_2$SLA)
 
+###BEA: pourquoi as-tu pris la valuer absolue de LDMC? (abs())
+
 # sqrt root transformation
 salix_complete_2$LA_sqrt.2 <- sqrt(salix_complete_2$LA)
 salix_complete_2$LDMC_abs_sqrt.2 <- sqrt(abs(salix_complete_2$LDMC))
@@ -83,6 +85,8 @@ salix_complete_2$LA_cuberoot.4 <- cuberoot(salix_complete_2$LA)
 salix_complete_2$LDMC_cuberoot.4 <- cuberoot(abs(salix_complete_2$LDMC))
 salix_complete_2$SLA_cuberoot.4 <- cuberoot(salix_complete_2$SLA)
 #### ####
+
+###BEA: ici tu ne dis pas comment tu vérifie la nomralité, ni quel est choisit.
 
 # join the traits to your data
 data_std <- left_join(data_std, salix_complete_2, by=c('AccSpeciesName_cor' = 'sp'))
@@ -606,6 +610,10 @@ plot(lm.zn_ba.1)
 
 ## For lm.zn_ba.2 :
 lm.zn_ba.2 <- lm(data_zn$zn_ba_log ~ clay + sand + LA_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+
+
+###BEA: pourquoi ce modele 2? Y a-t-il une logique dans la succession de tes modèles?
+
 
 # significant p-value ?
 anova(lmer.zn_ba.2)
@@ -1186,6 +1194,42 @@ shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
 #### PCA of willows vs all species ####
 
 
+#### PCA of traits vs zn concnetrations
+
+## matrix of traits
+# create a matrix only with the functionla traits and without controls (dataCT)
+traits <- data_zn[,c('LA_log','SLA','LDMC')]
+# Standardize traits because they all have different units
+traits.s<-decostand(traits, method='standardize', MARGIN=2)
+
+# generate the PCA
+pca_zn <- rda(traits.s)
+# Analyse the PCA
+summary(pca_zn)
+# Visualise the significance of each axis
+# axis 1 = 62.37 and axis 2 = 21.14
+
+# Visualise 
+plot(pca_zn)
+## not really working since only 6 species points
+
+#### RDA of willow traits ####
+
+# matrix of TE in willow
+data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','pb_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
+#23 obser
+TE_salix <- data_clean[,c('cd_ba','zn_ba', 'pb_ba')]
+
+rda <- rda(TE_salix ~ LA + SLA + LDMC + Condition(covidence), data = data_clean)
+plot(rda) # too few species for that
+## not working
 
 
+#### plots of traits and zn_ba ####
+
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,3))
+plot(zn_ba_cuberoot ~ LA_log, data = data_zn)
+plot(zn_ba_cuberoot ~ SLA, data = data_zn)
+plot(zn_ba_cuberoot ~ LDMC, data = data_zn)
 
