@@ -30,6 +30,9 @@
 ## Plots
 #     plots of traits & zn_ba
 #     plots of species & TE_concentrations
+## Anova of [TE]
+#     [TE] ~ traits
+#     [TE] ~ species
 
 
 #### Import packages ####
@@ -263,33 +266,33 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ##### 1. For lm.zn_ba_env ####
 
 ## For lm.zn_ba_env: model for environmental significant variables
-lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn_txt)
+lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn)
 # 16 lines
 
 # significant p-value ?
 anova(lm.zn_ba_env)
 # zn_s, sand and clay are significant
-summary(lm.zn_ba_env)
+summary(lm.zn_ba_env) # Adjusted R-squared:  0.6998 
 
 # remove non significant variable from the model (i.e. ph)
-lm.zn_ba_env <- lm(data_zn_txt$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence), data = data_zn_txt)
+lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence), data = data_zn)
 # 16 lines
 # significant p-value ?
 anova(lm.zn_ba_env)
-# zn_so, sand and clay are significant
-summary(lm.zn_ba_env)
+# zn_s, sand and clay are significant
+summary(lm.zn_ba_env) # Adjusted R-squared:  0.6535 
 
 # Assumptions verification for lm.zn_ba_env
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba_env)) # normal distribution (p-value = 0.116)
+shapiro.test(resid(lm.zn_ba_env)) # normal distribution (p-value = 0.06662)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
-# Number of obs: 16
-# then 20% of total obs. is 3.2 (around 3), so fraction = 3 in gqtest()
+# Number of obs: 14
+# then 20% of total obs. is 2.8 (around 3), so fraction = 3 in gqtest()
 gqtest(lm.zn_ba_env, order.by = ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence), data = data_zn, fraction = 3)
-# distribution is homoscedastic (p-value = 0.01365)
+# distribution is homoscedastic (p-value = 0.4077)
 
 plot(resid(lm.zn_ba_env) ~ fitted(lm.zn_ba_env)) # mostly random points, looks homoscedastic
 # check the model assumptions
@@ -299,150 +302,30 @@ plot(lm.zn_ba_env)
 ##### 2. For lm.zn_ba.1 ####
 
 ## For lm.zn_ba.1 : model of traits and environmental controls
-lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + AccSpeciesName_cor + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
+lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
 
 # significant p-value ?
 anova(lm.zn_ba.1)
 ## the significant p-values are:
-# SLA_log.1:    p-value = 0.005228 **
-# log10(ph):    p-value = 0.030579 *
+# SLA_log.1:    p-value = 0.01051 *
 
-summary(lm.zn_ba.1)
+summary(lm.zn_ba.1) # Adjusted R-squared:  0.1643
 
 # Assumptions verification for lm.zn_ba.1
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.06054)
+shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.2601)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
-# Number of obs: 38 (see summary of lmer.zn_ba.1 in lmer section)
-# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
-gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 8)
-# distribution is homoscedastic (p-value = 0.01365)
+# Number of obs: 13
+# then 20% of total obs. is 2.6 (around 2), so fraction = 2 in gqtest()
+gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 2)
+# distribution is homoscedastic (p-value = 0.02671)
 
-plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1)) # mostly random points, looks homoscedastic
+plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1))
 # check the model assumptions
 plot(lm.zn_ba.1)
-
-
-##### 3. (To delete after) Summary of zn_br lm analysis #####
-
-## lm.zn_br.1 : see if traits could explain the variation of zn_br
-##              - but the model seem heteroscedastic
-
-## lm.zn_br.2 : see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
-##              - Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
-##                but the model seem heteroscedastic too & distribution is not normal
-
-## lm.zn_br.3 : since the previous model explained a large part of zn_br, 
-##              see if adding the interaction between log10(ph) and zn_s_log10 (with *)
-##              might explain more of zn_br
-##              - Adjusted R-squared:  0.9406, so this model explains about 94% of zn_br
-##                but the model seem heteroscedastic too & distribution is not normal
-
-## next step: see if standardizing the data might solve the problem of assumption verification
-
-
-##### 3. (To delete after) lm for zn_br ####
-
-# check normality of zn_br
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_zn$zn_br) # original histogram 
-hist(log(data_zn$zn_br)) ## best transformation ##
-hist(log10(data_zn$zn_br)) ## third best ##
-hist(log2(data_zn$zn_br)) ## second best ##
-hist(logit(data_zn$zn_br))
-hist(sqrt(data_zn$zn_br))
-hist(data_zn$zn_br^(1/3))
-
-
-## For lm.zn_br.1 ##
-lm.zn_br.1 <- lm(zn_br ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-
-anova(lm.zn_br.1) # is something significant? with *
-## the significant p-values are:
-# log10(ph):    p-value = 0.0001695 ***
-
-summary(lm.zn_br.1)
-
-# Assumptions verification for lm.zn_br.1
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_br.1)) # normal distribution (p-value = 0.1718)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 22 (according to lmer.zn_br.1)
-# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
-gqtest(lm.zn_br.1, order.by = ~ LA_log.1 + SLA_log.1 + LDMC_abs_log.1 + log10(ph) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 4)
-# Error in X[order(z), ] : subscript out of bounds
-
-# relying on plot() then:
-plot(resid(lm.zn_br.1) ~ fitted(lm.zn_br.1)) # looks very heteroscedastic
-
-
-
-## For lm.zn_br.2 ##
-## see if the variables that explain the most of zn_br are log10(ph) and zn_s_log10
-lm.zn_br.2 <- lm(zn_br ~ log10(ph) + zn_s_log10, data = data_zn)
-
-anova(lm.zn_br.2) # is something significant? with *
-## the significant p-values are:
-# log10(ph):     p-value = 4.255e-08 ***
-# zn_s_log10:    p-value = 1.413e-06 ***
-
-# Assumptions verification for lm.zn_br.2
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_br.2)) # not normal distribution (p-value = 0.01401)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 22 (according to lmer.zn_br.2)
-# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
-gqtest(lm.zn_br.2, order.by = ~ log10(ph) + zn_s_log10, data = data_zn, fraction = 4)
-# Error in X[order(z), ] : subscript out of bounds
-
-# relying on plot() then:
-plot(resid(lm.zn_br.2) ~ fitted(lm.zn_br.2)) # looks very heteroscedastic
-
-summary(lm.zn_br.2)
-# Adjusted R-squared:  0.8534, so this model explains about 85% of zn_br
-# (F-statistic: 62.13 on 2 and 19 DF)
-
-
-
-## For lm.zn_br.3 ##
-## see interaction between log10(ph) and zn_s_log10
-
-lm.zn_br.3 <- lm(zn_br ~ log10(ph) * zn_s_log10, data = data_zn)
-
-anova(lm.zn_br.3) # is something significant? with *
-## the significant p-values are:
-# log10(ph)               p-value = 5.409e-11 ***
-# zn_s_log10              p-value = 2.568e-09 ***
-# log10(ph):zn_s_log10    p-value = 4.147e-05 ***
-
-# Assumptions verification for lm.zn_br.3
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_br.3)) # not normal distribution (p-value = 0.01426)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 22 (according to lmer.zn_br.3)
-# then 20% of total obs. is 4.4 (around 4), so fraction = 4 in gqtest()
-gqtest(lm.zn_br.3, order.by = ~ log10(ph) * zn_s_log10, data = data_zn, fraction = 4)
-# Error in X[order(z), ] : subscript out of bounds
-
-# relying on plot() then:
-plot(resid(lm.zn_br.3) ~ fitted(lm.zn_br.3)) # looks very heteroscedastic
-
-summary(lm.zn_br.3)
-# Adjusted R-squared:  0.9406, so this model explains about 94% of zn_br
-# (F-statistic: 111.9 on 3 and 18 DF)
 
 
 
@@ -554,32 +437,14 @@ lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + sand + clay + (1|covi
 # significant p-value ?
 anova(lm.cd_ba_env)
 # only sand is significant 
-summary(lm.cd_ba_env)
+summary(lm.cd_ba_env) # Adjusted R-squared:  0.3378 
 
 # remove non significant variable from the model (i.e. clay and ph)
 lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + sand + (1|covidence), data = data_cd)
 # 17 lines
 # significant p-value ?
-anova(lm.cd_ba_env)
-#  sand is significant
+anova(lm.cd_ba_env) # sand is significant
 summary(lm.cd_ba_env) # sand and cd_s are significant
-
-# remove non significant variable from the model (i.e. clay and ph)
-lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ sand + (1|covidence), data = data_cd)
-# 17 lines
-# significant p-value ?
-anova(lm.cd_ba_env)
-#  sand is not significant
-summary(lm.cd_ba_env) # 
-
-# remove non significant variable from the model (i.e. clay and ph)
-lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + (1|covidence), data = data_cd)
-# 17 lines
-# significant p-value ?
-anova(lm.cd_ba_env)
-#  cd_s is significant
-summary(lm.cd_ba_env) # 
-
 
 # Assumptions verification for lm.cd_ba_env
 
@@ -593,7 +458,7 @@ shapiro.test(resid(lm.cd_ba_env)) # normal distribution (p-value = 0.8956)
 gqtest(lm.cd_ba_env, order.by = ~ cd_s_log10 + sand + (1|covidence), data = data_cd_txt, fraction = 3)
 # distribution is homoscedastic (p-value = 0.3115)
 
-plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env)) # mostly random points, looks homoscedastic
+plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env))
 # check the model assumptions
 plot(lm.cd_ba_env)
 
@@ -602,48 +467,27 @@ plot(lm.cd_ba_env)
 ## See influence of traits on cd_ba (with envir controls)
 
 ## For lm.cd_ba.1 : model of traits and environmental controls
-lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|covidence), data = data_cd)
-
+lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|sand) + (1|covidence), data = data_cd)
 
 # significant p-value ?
-anova(lm.cd_ba.1)
-## the significant p-values are:
-# 
-
-summary(lm.cd_ba.1)
+anova(lm.cd_ba.1) # no significant p-values
+summary(lm.cd_ba.1) # no significant p-values
 
 # Assumptions verification for lm.cd_ba.1
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.cd_ba.1)) # normal distribution (p-value = )
+shapiro.test(resid(lm.cd_ba.1)) # normal distribution (p-value = 0.8459)
 
 # Homoscedasticity (Goldfeld–Quandt test) 
 
-#  *** A MODIFIER ***
-# Number of obs: 38 (see summary of lmer.zn_ba.1 in lmer section)
-# then 20% of total obs. is 7.6 (around 8), so fraction = 8 in gqtest()
-gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|covidence), data = data_cd, fraction = 8)
-# distribution is homoscedastic (p-value = )
+# Number of obs: 39 (see summary of lmer.zn_ba.1 in lmer section)
+# then 20% of total obs. is 7.8 (around 8), so fraction = 8 in gqtest()
+gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|sand) + (1|covidence), data = data_cd, fraction = 8)
+# distribution is homoscedastic (p-value = 0.4639)
 
-plot(resid(lm.cd_ba.1) ~ fitted(lm.cd_ba.1)) # mostly random points, looks homoscedastic
+plot(resid(lm.cd_ba.1) ~ fitted(lm.cd_ba.1))
 # check the model assumptions
 plot(lm.cd_ba.1)
-
-
-
-# For cd_ba
-lmer.cd_ba <- lmer(cd_ba ~ LA_log + SLA_log + LDMC_log + cd_br + cd_s + ph + country + AccSpeciesName_cor + (1|covidence), data = data_std_salix)
-anova(lmer.cd_ba)
-summary(lmer.cd_ba)
-
-plot(resid(lmer.cd_ba),data_std_salix$cd_ba) # 
-plot(lmer.cd_ba) # 
-qqmath(lmer.cd_ba, id=0.05) # points are mostly in line so respected normality (outliers?)
-shapiro.test(resid(lmer.cd_ba)) # borderline normal, p-value = 0.05233
-
-
-# For cd_br
-
 
 
 
@@ -661,7 +505,7 @@ hist(log10(data_cd$pb_ba)) ## second best ##
 hist(log2(data_cd$pb_ba))
 hist(logit(data_cd$pb_ba))
 hist(sqrt(data_cd$pb_ba))
-hist(data_cd$pb_ba^(1/3)) ## keeping this transfo too ##
+hist(data_cd$pb_ba^(1/3)) ## keeping this transfo too, seems ok ##
 
 # log and log10 were the best transformations
 # add log and log10 transformations in column
@@ -761,7 +605,7 @@ lm.pb_ba_env <- lm(data_pb$pb_ba_cuberoot ~ pb_s_log2 + ph + sand + clay + (1|co
 
 # significant p-value ?
 anova(lm.pb_ba_env)
-# sand, clay & pb_s_log2 are significant 
+# sand, clay & pb_s are significant (so ph not significant)
 summary(lm.pb_ba_env) # Adjusted R-squared:  0.8713
 
 # Assumptions verification for lm.pb_ba_env
@@ -771,14 +615,14 @@ shapiro.test(resid(lm.pb_ba_env)) # normal distribution (p-value = 0.8846)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
-# Number of obs: 14
-# then 20% of total obs. is 2.8 (around 3), so fraction = 3 in gqtest()
-gqtest(lm.pb_ba_env, order.by = ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb, fraction = 3)
+# Number of obs: 36
+# then 20% of total obs. is 7.2 (around 7), so fraction = 7 in gqtest()
+gqtest(lm.pb_ba_env, order.by = ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb, fraction = 7)
 # Error: inadmissable breakpoint/too many central observations omitted
 
 plot(resid(lm.pb_ba_env) ~ fitted(lm.pb_ba_env)) # 
 # check the model assumptions
-plot(lm.pb_ba_env) 
+plot(lm.pb_ba_env)
 # Warning messages:
 # 1: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
 # 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
@@ -794,9 +638,7 @@ lm.pb_ba.1 <- lm(data_pb$pb_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|cl
 anova(lm.pb_ba.1)
 ## the significant p-values are:
 # LA_log :  p-value = 0.006372 **
-
-summary(lm.pb_ba.1) 
-# Adjusted R-squared:  0.1938 
+summary(lm.pb_ba.1) # Adjusted R-squared:  0.1938 
 
 # Assumptions verification for lm.pb_ba.1
 
@@ -810,17 +652,10 @@ shapiro.test(resid(lm.pb_ba.1)) # normal distribution (p-value = 0.2073)
 gqtest(lm.pb_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, fraction = 2)
 # distribution is homoscedastic (p-value = 0.9897)
 
-plot(resid(lm.pb_ba.1) ~ fitted(lm.pb_ba.1)) # mostly random points, looks homoscedastic
+plot(resid(lm.pb_ba.1) ~ fitted(lm.pb_ba.1))
 # check the model assumptions
 plot(lm.pb_ba.1)
 
-
-
-# For pb_br
-
-
-
-#### PCA of willows vs all species ####
 
 
 #### PCA of traits vs zn concentrations # NOT WORKING ####
@@ -877,3 +712,20 @@ plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
 # accumulation of cd per species
 plot(cd_ba ~ AccSpeciesName_cor, data = data_cd)
 plot(cd_br ~ AccSpeciesName_cor, data = data_cd)
+
+
+#### Anova of [TE] ####
+
+##### [TE] ~ traits #####
+
+
+
+
+##### [TE] ~ species #####
+
+
+
+
+
+
+
