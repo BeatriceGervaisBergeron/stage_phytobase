@@ -51,7 +51,7 @@ library('lmerTest')
 data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
 traits <- readRDS('./complete_data.rds')
 
-# identify the willow on the global range
+# identify the willow on the global range (to add the LA, SLA & LDMC traits to database)
 # willow
 traits$Salix <- 1
 salix_complete <- traits %>% filter(str_detect(sp, 'Salix')) # 27 sp
@@ -77,7 +77,7 @@ unique(data_std_salix$AccSpeciesName_cor)
 # so 6 Salix sp. left in database
 
 
-#### Verify normality of traits in Salix & transform data if needed####
+#### Verify normality of traits in Salix & transform data if needed ####
 
 # defining a cube root function
 cuberoot = function(x){
@@ -708,20 +708,165 @@ plot(cd_ba ~ LDMC, data = data_cd)
 plot(zn_ba ~ AccSpeciesName_cor, data = data_zn)
 plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
 
-
 # accumulation of cd per species
 plot(cd_ba ~ AccSpeciesName_cor, data = data_cd)
 plot(cd_br ~ AccSpeciesName_cor, data = data_cd)
 
+# accumulation of pb per species
+plot(pb_ba ~ AccSpeciesName_cor, data = data_pb)
+plot(pb_br ~ AccSpeciesName_cor, data = data_pb)
+
 
 #### Anova of [TE] ####
 
-##### [TE] ~ traits #####
-
-
-
-
 ##### [TE] ~ species #####
+
+###### 0. bartlett.perm.R function ######
+
+# this is the script to do a Bartlett test by permutation (the function)
+bartlett.perm <- function(y, fact, centr="MEDIAN", nperm=999, alpha=0.05)
+  
+  
+{
+  
+  fact <- as.factor(fact)
+  
+  normal <- shapiro.test(resid(lm(y~fact)))
+  if(normal[2]<=alpha){
+    cat("\n-------------------------------------------------------------------")
+    cat("\nWARNING") 
+    cat("\nThe residuals of the ANOVA model are not normally distributed.")
+    cat("\nThis is likely to change the rate of type I error of the test")
+    cat("\nof homogeneity of variances.")
+    cat("\n-------------------------------------------------------------------")
+    cat("\n")
+  }
+  
+  # Trap for groups with 0 dispersion
+  y.sd <- tapply(y, fact, sd)
+  if(any(y.sd==0)) {
+    cat("\n-------------------------------------------------------------------")
+    cat("\nPROBLEM ENCOUNTERED") 
+    cat("\nOne or more groups have zero variance. Please chek and correct.")
+    cat("\nThe computations are meaningless if a group is made of observations")
+    cat("\nthat all have the same value.")
+    cat("\n-------------------------------------------------------------------")
+    cat("\n")
+    stop
+  }
+  
+  
+  CENTRE <- c("MEDIAN", "MEAN")
+  centr <- match.arg(centr, CENTRE)
+  
+  
+  # Within-group centring of data
+  
+  if(centr == "MEDIAN"){
+    meds <- tapply(y, fact, median, na.rm=TRUE)
+    y.c <- y - meds[fact]
+  }
+  else{
+    means <- tapply(y, fact, mean, na.rm=TRUE)
+    y.c <- y - means[fact]
+  }
+  
+  
+  bart <- bartlett.test(y.c,fact)
+  
+  # Permutation tests
+  
+  cat("\nPermutations running...")
+  cat("\n")
+  
+  compt.perm <- 1
+  
+  for(i in 1:nperm) {
+    
+    yprime <- sample(y.c)
+    
+    bart.perm <- bartlett.test(yprime,fact)
+    if(bart.perm[[1]] >= bart[[1]]){
+      compt.perm=compt.perm+1}
+    
+  }
+  
+  # Bootstrap tests
+  # Difference with permutation test: resampling is done with replacement
+  
+  cat("\nBootstrap running...")
+  cat("\n")
+  cat("\n")
+  
+  compt.boot <- 1
+  
+  for(i in 1:nperm) {
+    
+    yboot <- sample(y.c, replace=TRUE)
+    
+    bart.boot <- bartlett.test(yboot,fact)
+    if(bart.boot[[1]] >= bart[[1]]){
+      compt.boot=compt.boot+1}
+    
+  }
+  
+  
+  Result <- matrix(0,1,4)
+  colnames(Result) <- c("Statistic", "Param.prob", "Permut.prob", "Bootstrap.prob")
+  rownames(Result) <- "Bartlett" 
+  
+  Result[1,1] <- round(bart[[1]],4)
+  Result[1,2] <- round(bart[[3]],4)
+  Result[1,3] <- compt.perm/(nperm+1)
+  Result[1,4] <- compt.boot/(nperm+1)
+  
+  Result
+  
+}
+
+
+
+###### 1. anova of [zn_ba] ~ species ######
+
+# View species in database
+data_zn$AccSpeciesName_cor # 38 obs.
+
+# [1] Salix viminalis Salix viminalis Salix triandra  Salix alba      Salix alba      Salix alba     
+# [7] Salix alba      Salix alba      Salix alba      Salix alba      Salix gmelinii  Salix gmelinii 
+# [13] Salix gmelinii  Salix caprea    Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
+# [19] Salix viminalis Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba      Salix alba     
+# [25] Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba      Salix alba     
+# [31] Salix gmelinii  Salix viminalis Salix viminalis Salix viminalis Salix gmelinii  Salix gmelinii 
+# [37] Salix gmelinii  Salix viminalis
+
+# Need to remove 'Salix triandra' and 'Salix caprea', since there are only 1 obs. of each
+# there are 0 obs. of 'Salix purpurea'
+
+# 'Salix triandra' is in line 3
+# 'Salix caprea' is in line 14
+
+# remove the lines in which Species values are 'Salix triandra' and 'Salix caprea'
+data_zn_aov <- data_zn[-c(3,14), ] 
+# 36 obs. so 2 lines have been removed, good
+
+# Build the anova model
+zn_ba.sp.aov <- aov(data_zn$zn_ba ~ data_zn$AccSpeciesName_cor)
+
+# Check normality (Shapiro test)
+shapiro.test(resid(zn_ba.sp.aov)) # not normal distribution (p-value = 6.052e-05)
+
+# Check homogeneity of variances (Bartlett test per permutation)
+bartlett.perm(data_zn_aov$zn_ba, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN", nperm = 999, alpha = 0.05)
+
+
+
+###### 2. anova of [zn_br] ~ species ######
+
+
+
+
+
+##### [TE] ~ traits #####
 
 
 
