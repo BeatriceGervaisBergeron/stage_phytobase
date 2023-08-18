@@ -12,27 +12,39 @@
 #           Summary of zn_ba lm analysis
 #           Testing lm.zn_ba_env
 #           Testing lm.zn_ba.1
-
 #     cd database
 #           Verify normality & transform data if needed
 #           Summary of cd_ba lm analysis
 #           Testing lm.cd_ba_env
 #           Testing lm.cd_ba.1
-
 #     pb database
 #           Verify normality & transform data if needed
 #           Summary of pb_ba lm analysis
 #           Testing lm.pb_ba_env
 #           Testing lm.pb_ba.1
-
 ## PCA (not working)
 ## RDA (not working)
 ## Plots
 #     plots of traits & zn_ba
 #     plots of species & TE_concentrations
 ## Anova of [TE]
-#     [TE] ~ traits
-#     [TE] ~ species
+#     Anova [TE] ~ species
+#           Testing anova [zn_ba] ~ species
+#           Testing anova [zn_br] ~ species
+#           Testing anova [cd_ba] ~ species
+#           Testing anova [cd_br] ~ species
+#           Testing anova [pb_ba] ~ species
+#           Testing anova [pb_br] ~ species
+#     Anova [TE] ~ traits
+#           Testing anova [zn_ba] ~ LA
+#           Testing anova [zn_ba] ~ SLA
+#           Testing anova [zn_ba] ~ LDMC
+#           Testing anova [cd_ba] ~ LA
+#           Testing anova [cd_ba] ~ SLA
+#           Testing anova [cd_ba] ~ LDMC
+#           Testing anova [pb_ba] ~ LA
+#           Testing anova [pb_ba] ~ SLA
+#           Testing anova [pb_ba] ~ LDMC
 
 
 #### Import packages ####
@@ -882,11 +894,61 @@ TukeyHSD(zn_ba.sp.aov)
 
 
 
+###### 3. anova of [cd_ba] ~ species ######
+
+
+
+
+###### 4. anova of [cd_br] ~ species ######
+
+
+
+
+
+###### 5. anova of [pb_ba] ~ species ######
+
+
+
+
+
+###### 6. anova of [pb_br] ~ species ######
+
+
+
+
+
+
 ##### [TE] ~ traits #####
 
+###### 1. anova of [zn_ba] ~ LA ######
 
 
 
+
+
+
+###### 2. anova of [zn_ba] ~ SLA ######
+
+
+###### 3. anova of [zn_ba] ~ LDMC ######
+
+
+###### 4. anova of [cd_ba] ~ LA ######
+
+
+###### 5. anova of [cd_ba] ~ SLA ######
+
+
+###### 6. anova of [cd_ba] ~ LDMC ######
+
+
+###### 7. anova of [pb_ba] ~ LA ######
+
+
+###### 8. anova of [pb_ba] ~ SLA ######
+
+
+###### 9. anova of [pb_ba] ~ LDMC ######
 
 
 
