@@ -850,14 +850,30 @@ data_zn_aov <- data_zn[-c(3,14), ]
 # 36 obs. so 2 lines have been removed, good
 
 # Build the anova model
-zn_ba.sp.aov <- aov(data_zn$zn_ba ~ data_zn$AccSpeciesName_cor)
+zn_ba.sp.aov <- aov(data_zn_aov$zn_ba_cuberoot ~ data_zn_aov$AccSpeciesName_cor)
 
 # Check normality (Shapiro test)
-shapiro.test(resid(zn_ba.sp.aov)) # not normal distribution (p-value = 6.052e-05)
+shapiro.test(resid(zn_ba.sp.aov)) 
+# normal distribution (p-value = 0.1192)
 
 # Check homogeneity of variances (Bartlett test per permutation)
-bartlett.perm(data_zn_aov$zn_ba, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN", nperm = 999, alpha = 0.05)
+bartlett.test(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor)
+# homoscedastic (p-value = 0.6325)
 
+summary(zn_ba.sp.aov) 
+# p-value = 0.0153 *
+# at least 1 group significantly different from 1 other
+
+# doing Tukey's post hoc test to see which it is
+TukeyHSD(zn_ba.sp.aov)
+
+#                                      diff         lwr       upr     p adj
+# Salix gmelinii-Salix alba           3.651947  0.7277690 6.576125 0.0117232
+# Salix viminalis-Salix alba          2.355741 -0.8269357 5.538418 0.1800002
+# Salix viminalis-Salix gmelinii     -1.296206 -4.3738149 1.781402 0.5614145
+
+
+# So Salix gmelinii is significantly different from Salix alba
 
 
 ###### 2. anova of [zn_br] ~ species ######
