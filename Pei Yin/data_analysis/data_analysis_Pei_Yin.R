@@ -938,6 +938,7 @@ TukeyHSD(zn_ba.sp.aov)
 # Build the anova model
 zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
 
+
 # Check normality (Shapiro test)
 shapiro.test(resid(zn_br.sp.aov)) 
 # distribution is not normal (p-value = p-value = 4.077e-05)
@@ -945,7 +946,6 @@ shapiro.test(resid(zn_br.sp.aov))
 # Check homogeneity of variances (Bartlett test per permutation)
 bartlett.perm(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN",
               nperm = 999, alpha = 0.05)
-
 
 
 
