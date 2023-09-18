@@ -271,8 +271,8 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ## Since for the lmer models, either I couldn't test the assumption verification,
 ## either the assumptions weren't ok when I tested them, I used lm instead
 
-# First see influence of envir. variables on cd_ba
-# Then see influence of traits on cd_ba (while taking envir. var as control)
+# First see influence of envir. variables on zn_ba
+# Then see influence of traits on zn_ba (while taking envir. var as control)
 
 
 ##### 1. For lm.zn_ba_env ####
@@ -333,7 +333,7 @@ shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.2601)
 # Number of obs: 13
 # then 20% of total obs. is 2.6 (around 2), so fraction = 2 in gqtest()
 gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 2)
-# distribution is homoscedastic (p-value = 0.02671)
+# distribution is heteroscedastic (p-value = 0.02671)
 
 plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1))
 # check the model assumptions
@@ -378,7 +378,6 @@ hist(decostand(data_cd$cd_s, method = 'log', MARGIN = 2))
 # log10 was the best transformation
 # add log10 transformation in column
 data_cd$cd_s_log10 <- log10(data_cd$cd_s)
-
 
 # check normality of ph
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -467,7 +466,7 @@ shapiro.test(resid(lm.cd_ba_env)) # normal distribution (p-value = 0.8956)
 
 # Number of obs: 17
 # then 20% of total obs. is 3.4 (around 3), so fraction = 3 in gqtest()
-gqtest(lm.cd_ba_env, order.by = ~ cd_s_log10 + sand + (1|covidence), data = data_cd_txt, fraction = 3)
+gqtest(lm.cd_ba_env, order.by = ~ cd_s_log10 + sand + (1|covidence), data = data_cd, fraction = 3)
 # distribution is homoscedastic (p-value = 0.3115)
 
 plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env))
@@ -635,7 +634,7 @@ gqtest(lm.pb_ba_env, order.by = ~ pb_s_log2 + ph + sand + clay + (1|covidence), 
 plot(resid(lm.pb_ba_env) ~ fitted(lm.pb_ba_env)) # 
 # check the model assumptions
 plot(lm.pb_ba_env)
-# Warning messages:
+# Warning messages for the last plot:
 # 1: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
 # 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
 
@@ -701,17 +700,19 @@ plot(rda) # too few species for that
 ## not working
 
 
-#### plots of traits and zn_ba ####
+#### plots of traits and TE ####
 
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
-plot(zn_ba ~ LA, data = data_zn)
+plot(zn_ba ~ LA_log, data = data_zn)
 plot(zn_ba ~ SLA, data = data_zn)
 plot(zn_ba ~ LDMC, data = data_zn)
 plot(cd_ba ~ LA_log, data = data_cd)
 plot(cd_ba ~ SLA, data = data_cd)
 plot(cd_ba ~ LDMC, data = data_cd)
-
+plot(pb_ba ~ LA_log, data = data_pb)
+plot(pb_ba ~ SLA, data = data_pb)
+plot(pb_ba ~ LDMC, data = data_pb)
 
 
 ### plot TE for different species ####
@@ -736,6 +737,50 @@ plot(pb_br ~ AccSpeciesName_cor, data = data_pb)
 ###### 0. bartlett.perm.R function ######
 
 # this is the script to do a Bartlett test by permutation (the function)
+
+
+# Computation of parametric, permutational and bootstrap versions of the
+# Bartlett test of homogeneity of variances.
+#
+# The data are centred to their within-group medians (default) or means 
+# before the tests.
+#
+# Prior to the computation of the test of homogeneity of variances,
+# a Shapiro-Wilk test of normality of residuals is computed. If the residuals
+# are not normally distributed, a warning is issued because this nonnormality
+# influences the type I error of the parametric test, which will very likely 
+# have an incorrect type I error.
+#
+# USAGE
+# bartlett.perm(y, fact, centr, nperm, alpha)
+#
+# ARGUMENTS
+# y       a numeric vector of data values
+# fact    a vector or factor object giving the group for the corresponding
+#         elements of y
+# centr   should the data, within groups, be centred on their medians ("MEDIAN")
+#         or on their means ("MEAN")?
+# nperm   number of permutations
+# alpha   level of rejection of the H0 hypothesis of normality of residuals
+#         in the Shapiro-Wilk test
+#
+# RESULT
+# Bartlett          Bartlett's K-squared test statistic
+# Param.prob        Parametric probability (P-value) of the test
+# Permut.prob       Permutational probability (P-value) of the test
+# Bootstrap.prob    Bootstrap probability (P-value) of the test
+#
+# DETAILS
+#
+# Centring the groups on their median or mean is very important for permutation
+# and bootstrap tests to be correct when the groups do not share the same 
+# position. Permuting groups with unequal mean or median artificially increases 
+# the within-group variances of the permuted data.
+#
+#                         Daniel Borcard
+#                         Universite de Montreal
+#                         1 February 2016
+
 bartlett.perm <- function(y, fact, centr="MEDIAN", nperm=999, alpha=0.05)
   
   
@@ -868,7 +913,7 @@ zn_ba.sp.aov <- aov(data_zn_aov$zn_ba_cuberoot ~ data_zn_aov$AccSpeciesName_cor)
 shapiro.test(resid(zn_ba.sp.aov)) 
 # normal distribution (p-value = 0.1192)
 
-# Check homogeneity of variances (Bartlett test per permutation)
+# Check homogeneity of variances (Bartlett test)
 bartlett.test(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor)
 # homoscedastic (p-value = 0.6325)
 
@@ -884,14 +929,39 @@ TukeyHSD(zn_ba.sp.aov)
 # Salix viminalis-Salix alba          2.355741 -0.8269357 5.538418 0.1800002
 # Salix viminalis-Salix gmelinii     -1.296206 -4.3738149 1.781402 0.5614145
 
-
 # So Salix gmelinii is significantly different from Salix alba
+
 
 
 ###### 2. anova of [zn_br] ~ species ######
 
+# Build the anova model
+zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
+
+# Check normality (Shapiro test)
+shapiro.test(resid(zn_br.sp.aov)) 
+# distribution is not normal (p-value = p-value = 4.077e-05)
+
+# Check homogeneity of variances (Bartlett test per permutation)
+bartlett.perm(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN",
+              nperm = 999, alpha = 0.05)
 
 
+
+
+
+# The sample here (n = 14) is a relatively small one, so Kruskal-Wallis test 
+# will be done for this analysis
+
+# Kruskal-Wallis test
+kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
+
+# 	Kruskal-Wallis rank sum test
+
+# data:  data_zn_aov$zn_br and data_zn_aov$AccSpeciesName_cor
+# Kruskal-Wallis chi-squared = 0.99097, df = 2, p-value = 0.6093
+
+# No significant p-value
 
 
 ###### 3. anova of [cd_ba] ~ species ######
