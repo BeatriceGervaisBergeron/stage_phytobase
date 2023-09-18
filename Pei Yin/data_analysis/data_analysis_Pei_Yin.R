@@ -718,170 +718,21 @@ plot(pb_ba ~ LDMC, data = data_pb)
 ### plot TE for different species ####
 
 # accumulation of zn per species
-plot(zn_ba ~ AccSpeciesName_cor, data = data_zn)
-plot(zn_br ~ AccSpeciesName_cor, data = data_zn)
+plot(zn_ba ~ AccSpeciesName_cor, data = data_zn_aov)
+plot(zn_br ~ AccSpeciesName_cor, data = data_zn_aov)
 
 # accumulation of cd per species
-plot(cd_ba ~ AccSpeciesName_cor, data = data_cd)
-plot(cd_br ~ AccSpeciesName_cor, data = data_cd)
+plot(cd_ba ~ AccSpeciesName_cor, data = data_cd_aov)
+plot(cd_br ~ AccSpeciesName_cor, data = data_cd_aov)
 
 # accumulation of pb per species
-plot(pb_ba ~ AccSpeciesName_cor, data = data_pb)
-plot(pb_br ~ AccSpeciesName_cor, data = data_pb)
+plot(pb_ba ~ AccSpeciesName_cor, data = data_pb_aov)
+plot(pb_br ~ AccSpeciesName_cor, data = data_pb_aov)
 
 
 #### Anova of [TE] ####
 
 ##### [TE] ~ species #####
-
-###### 0. bartlett.perm.R function ######
-
-# this is the script to do a Bartlett test by permutation (the function)
-
-
-# Computation of parametric, permutational and bootstrap versions of the
-# Bartlett test of homogeneity of variances.
-#
-# The data are centred to their within-group medians (default) or means 
-# before the tests.
-#
-# Prior to the computation of the test of homogeneity of variances,
-# a Shapiro-Wilk test of normality of residuals is computed. If the residuals
-# are not normally distributed, a warning is issued because this nonnormality
-# influences the type I error of the parametric test, which will very likely 
-# have an incorrect type I error.
-#
-# USAGE
-# bartlett.perm(y, fact, centr, nperm, alpha)
-#
-# ARGUMENTS
-# y       a numeric vector of data values
-# fact    a vector or factor object giving the group for the corresponding
-#         elements of y
-# centr   should the data, within groups, be centred on their medians ("MEDIAN")
-#         or on their means ("MEAN")?
-# nperm   number of permutations
-# alpha   level of rejection of the H0 hypothesis of normality of residuals
-#         in the Shapiro-Wilk test
-#
-# RESULT
-# Bartlett          Bartlett's K-squared test statistic
-# Param.prob        Parametric probability (P-value) of the test
-# Permut.prob       Permutational probability (P-value) of the test
-# Bootstrap.prob    Bootstrap probability (P-value) of the test
-#
-# DETAILS
-#
-# Centring the groups on their median or mean is very important for permutation
-# and bootstrap tests to be correct when the groups do not share the same 
-# position. Permuting groups with unequal mean or median artificially increases 
-# the within-group variances of the permuted data.
-#
-#                         Daniel Borcard
-#                         Universite de Montreal
-#                         1 February 2016
-
-bartlett.perm <- function(y, fact, centr="MEDIAN", nperm=999, alpha=0.05)
-  
-  
-{
-  
-  fact <- as.factor(fact)
-  
-  normal <- shapiro.test(resid(lm(y~fact)))
-  if(normal[2]<=alpha){
-    cat("\n-------------------------------------------------------------------")
-    cat("\nWARNING") 
-    cat("\nThe residuals of the ANOVA model are not normally distributed.")
-    cat("\nThis is likely to change the rate of type I error of the test")
-    cat("\nof homogeneity of variances.")
-    cat("\n-------------------------------------------------------------------")
-    cat("\n")
-  }
-  
-  # Trap for groups with 0 dispersion
-  y.sd <- tapply(y, fact, sd)
-  if(any(y.sd==0)) {
-    cat("\n-------------------------------------------------------------------")
-    cat("\nPROBLEM ENCOUNTERED") 
-    cat("\nOne or more groups have zero variance. Please chek and correct.")
-    cat("\nThe computations are meaningless if a group is made of observations")
-    cat("\nthat all have the same value.")
-    cat("\n-------------------------------------------------------------------")
-    cat("\n")
-    stop
-  }
-  
-  
-  CENTRE <- c("MEDIAN", "MEAN")
-  centr <- match.arg(centr, CENTRE)
-  
-  
-  # Within-group centring of data
-  
-  if(centr == "MEDIAN"){
-    meds <- tapply(y, fact, median, na.rm=TRUE)
-    y.c <- y - meds[fact]
-  }
-  else{
-    means <- tapply(y, fact, mean, na.rm=TRUE)
-    y.c <- y - means[fact]
-  }
-  
-  
-  bart <- bartlett.test(y.c,fact)
-  
-  # Permutation tests
-  
-  cat("\nPermutations running...")
-  cat("\n")
-  
-  compt.perm <- 1
-  
-  for(i in 1:nperm) {
-    
-    yprime <- sample(y.c)
-    
-    bart.perm <- bartlett.test(yprime,fact)
-    if(bart.perm[[1]] >= bart[[1]]){
-      compt.perm=compt.perm+1}
-    
-  }
-  
-  # Bootstrap tests
-  # Difference with permutation test: resampling is done with replacement
-  
-  cat("\nBootstrap running...")
-  cat("\n")
-  cat("\n")
-  
-  compt.boot <- 1
-  
-  for(i in 1:nperm) {
-    
-    yboot <- sample(y.c, replace=TRUE)
-    
-    bart.boot <- bartlett.test(yboot,fact)
-    if(bart.boot[[1]] >= bart[[1]]){
-      compt.boot=compt.boot+1}
-    
-  }
-  
-  
-  Result <- matrix(0,1,4)
-  colnames(Result) <- c("Statistic", "Param.prob", "Permut.prob", "Bootstrap.prob")
-  rownames(Result) <- "Bartlett" 
-  
-  Result[1,1] <- round(bart[[1]],4)
-  Result[1,2] <- round(bart[[3]],4)
-  Result[1,3] <- compt.perm/(nperm+1)
-  Result[1,4] <- compt.boot/(nperm+1)
-  
-  Result
-  
-}
-
-
 
 ###### 1. anova of [zn_ba] ~ species ######
 
@@ -923,7 +774,6 @@ summary(zn_ba.sp.aov)
 
 # doing Tukey's post hoc test to see which it is
 TukeyHSD(zn_ba.sp.aov)
-
 #                                      diff         lwr       upr     p adj
 # Salix gmelinii-Salix alba           3.651947  0.7277690 6.576125 0.0117232
 # Salix viminalis-Salix alba          2.355741 -0.8269357 5.538418 0.1800002
@@ -938,20 +788,33 @@ TukeyHSD(zn_ba.sp.aov)
 # Build the anova model
 zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
 
-
 # Check normality (Shapiro test)
 shapiro.test(resid(zn_br.sp.aov)) 
 # distribution is not normal (p-value = p-value = 4.077e-05)
 
-# Check homogeneity of variances (Bartlett test per permutation)
+# Check homogeneity of variances with Bartlett test per permutation
+source("bartlett.perm.R")
+
 bartlett.perm(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN",
               nperm = 999, alpha = 0.05)
+# Error in if (any(y.sd == 0)) { : missing value where TRUE/FALSE needed
 
 
+# One-way anova with permutation test
+source("anova.1way.R")
+
+anova.1way(zn_br.sp.aov, nperm=999)
+# $anova.table
+#                                 Df     Sum Sq    Mean Sq   F value Prob(param) Prob(perm)
+# data_zn_aov$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.922
+# Residuals                      19 23953239.3 1260696.80        NA          NA         NA
+
+# No significant p-value (0.922)
 
 
-# The sample here (n = 14) is a relatively small one, so Kruskal-Wallis test 
-# will be done for this analysis
+# But since the homogeneity of variances couldn't be verified above,
+# Kruskal-Wallis test will be performed for this analysis
+# especially since the sample (n = 14) is relatively small, so it should also work
 
 # Kruskal-Wallis test
 kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
@@ -966,18 +829,91 @@ kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
 
 ###### 3. anova of [cd_ba] ~ species ######
 
+# View species in database
+data_cd$AccSpeciesName_cor # 39 obs.
 
+#  [1] Salix viminalis Salix viminalis Salix triandra  Salix alba      Salix alba      Salix alba     
+#  [7] Salix alba      Salix alba      Salix alba      Salix alba      Salix gmelinii  Salix gmelinii 
+#  [13] Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix caprea    Salix gmelinii 
+#  [19] Salix gmelinii  Salix viminalis Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
+#  [25] Salix alba      Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
+#  [31] Salix alba      Salix gmelinii  Salix viminalis Salix viminalis Salix viminalis Salix gmelinii 
+#  [37] Salix gmelinii  Salix gmelinii  Salix viminalis
+
+# Need to remove 'Salix triandra' and 'Salix caprea', since there are only 1 obs. of each
+# there are 0 obs. of 'Salix purpurea'
+
+# 'Salix triandra' is in line 3
+# 'Salix caprea' is in line 17
+
+# remove the lines in which Species values are 'Salix triandra' and 'Salix caprea'
+data_cd_aov <- data_cd[-c(3,17), ] 
+# 37 obs. so 2 lines have been removed, good
+
+# Build the anova model
+cd_ba.sp.aov <- aov(data_cd_aov$cd_ba_log10 ~ data_cd_aov$AccSpeciesName_cor)
+
+# Check normality (Shapiro test)
+shapiro.test(resid(cd_ba.sp.aov)) 
+# normal distribution (p-value = 0.7952)
+
+# Check homogeneity of variances (Bartlett test)
+bartlett.test(data_cd_aov$cd_ba_log10, data_cd_aov$AccSpeciesName_cor)
+# homoscedastic (p-value = 0.4526)
+
+summary(cd_ba.sp.aov) 
+# p-value = 0.303
+# No significant p-value
 
 
 ###### 4. anova of [cd_br] ~ species ######
 
+# Build the anova model
+cd_br.sp.aov <- aov(data_cd_aov$cd_br ~ data_cd_aov$AccSpeciesName_cor)
 
+# Check normality (Shapiro test)
+shapiro.test(resid(cd_br.sp.aov)) 
+# distribution is not normal (p-value = p-value = 9.437e-05)
 
+# Cannot check homogeneity of variances with Bartlett test per permutations 
+# (it didn't work previously with the anova of [zn_br] ~ species)
+
+# A Kruskal-Wallis test will be performed here too, 
+# since the sample size is relatively small too (n = 14)
+
+# Kruskal-Wallis test
+kruskal.test(data_cd_aov$cd_br, data_cd_aov$AccSpeciesName_cor)
+# 	  Kruskal-Wallis rank sum test
+
+# data:  data_cd_aov$cd_br and data_cd_aov$AccSpeciesName_cor
+# Kruskal-Wallis chi-squared = 2.9443, df = 2, p-value = 0.2294
+
+# No significant p-value
 
 
 ###### 5. anova of [pb_ba] ~ species ######
 
+# View species in database
+data_pb$AccSpeciesName_cor # 36 obs.
 
+# [1] Salix alba      Salix alba      Salix alba      Salix alba      Salix alba      Salix alba     
+# [7] Salix alba      Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix alba      Salix viminalis
+# [13] Salix viminalis Salix viminalis Salix viminalis Salix viminalis Salix viminalis Salix viminalis
+# [19] Salix viminalis Salix viminalis Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
+# [25] Salix alba      Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
+# [31] Salix alba      Salix gmelinii  Salix viminalis Salix viminalis Salix viminalis Salix gmelinii 
+
+# There are only 'Salix alba', 'Salix gmelinii' and 'Salix viminalis', good
+
+# create a copy for pb database
+data_pb_aov <- data_pb
+
+# Build the anova model
+pb_ba.sp.aov <- aov(data_pb_aov$pb_ba_log10 ~ data_pb_aov$AccSpeciesName_cor)
+
+# Check normality (Shapiro test)
+shapiro.test(resid(cd_ba.sp.aov)) 
+# normal distribution (p-value = 0.7952)
 
 
 
