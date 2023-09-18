@@ -910,11 +910,64 @@ data_pb_aov <- data_pb
 
 # Build the anova model
 pb_ba.sp.aov <- aov(data_pb_aov$pb_ba_log10 ~ data_pb_aov$AccSpeciesName_cor)
+# Error in lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) : 
+# NA/NaN/Inf in 'y'
+
+# Check the data in the x and y variables:
+
+# x variable
+unique(data_pb_aov$AccSpeciesName_cor)
+# [1] Salix alba      Salix gmelinii  Salix viminalis
+# No problem for x variable
+
+# y variable
+unique(data_pb_aov$pb_ba_log10)
+# [1]  1.684526417  1.737771945  1.655237031  1.589970274  0.924859545         -Inf  0.004321374
+# [8]  0.290034611  0.954242509  0.924279286  0.543319906  0.323959956  0.448495872  1.163856803
+# [15]  0.431461983  0.263971176  0.413734276  0.729164790  1.068185862  0.586587305  0.576341350
+# [22]  0.815577748  1.045322979  0.588831726  0.354108439  0.082785370 -0.210419288  0.665580991
+# [29]  0.664641976 -1.096910013 -0.769551079 -0.721246399  0.960946196
+
+# There is an "-Inf" value
+# Need to find which lines it is in, then remove it
+
+data_pb_aov$pb_ba_log10
+# [1]  1.684526417  1.737771945  1.684526417  1.655237031  1.589970274  0.924859545         -Inf
+# [8]  0.004321374  0.290034611  0.290034611  0.954242509  0.924279286  0.543319906  0.323959956
+# [15]  0.448495872  1.163856803  0.431461983  0.263971176  0.263971176  0.413734276  0.729164790
+# [22]  1.068185862  0.586587305  0.576341350  0.815577748  1.045322979  0.588831726  0.354108439
+# [29]  0.082785370 -0.210419288  0.665580991  0.664641976 -1.096910013 -0.769551079 -0.721246399
+# [36]  0.960946196
+
+# So it's the 7th line
+
+# Remove the 7th line
+data_pb_aov <- data_pb_aov[-c(7), ] 
+# 35 obs. now, so one less, good
+
+# Build the anova model again
+pb_ba.sp.aov <- aov(data_pb_aov$pb_ba_log10 ~ data_pb_aov$AccSpeciesName_cor)
 
 # Check normality (Shapiro test)
-shapiro.test(resid(cd_ba.sp.aov)) 
-# normal distribution (p-value = 0.7952)
+shapiro.test(resid(pb_ba.sp.aov)) 
+# normal distribution (p-value = 0.1113)
 
+# Check homogeneity of variances (Bartlett test)
+bartlett.test(data_pb_aov$pb_ba_log10, data_pb_aov$AccSpeciesName_cor)
+# homoscedastic (p-value = 0.1923)
+
+summary(pb_ba.sp.aov) 
+# p-value = 0.00215 **
+# at least 1 group significantly different from 1 other
+
+# doing Tukey's post hoc test to see which it is
+TukeyHSD(pb_ba.sp.aov)
+#                                      diff        lwr        upr     p adj
+# Salix gmelinii-Salix alba      -0.4984603 -1.1140063  0.1170857 0.1310416
+# Salix viminalis-Salix alba     -0.8938256 -1.4614445 -0.3262066 0.0014270
+# Salix viminalis-Salix gmelinii -0.3953653 -0.9786611  0.1879305 0.2338312
+
+# So Salix viminalis is significantly different from Salix alba
 
 
 ###### 6. anova of [pb_br] ~ species ######
