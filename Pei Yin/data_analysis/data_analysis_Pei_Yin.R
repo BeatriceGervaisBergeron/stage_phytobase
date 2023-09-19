@@ -992,10 +992,9 @@ TukeyHSD(pb_br.sp.aov)
 
 
 
-#### 13. Anova of [TE] ~ traits ####
+#### 13. (To re-evaluate) Anova of [TE] ~ traits ####
 
 ##### 13a. anova of [zn_ba] ~ LA #####
-
 
 
 
