@@ -1,53 +1,51 @@
 # Analysis script
 
 
-#### Planing of script ####
+#### 0. Planing of script ####
 
-## Import packages
-## Import data
-## Verify normality of traits in Salix & transform data if needed
-## Linear models (LM)
-#     zn database
-#           Verify normality & transform data if needed
-#           Summary of zn_ba lm analysis
-#           Testing lm.zn_ba_env
-#           Testing lm.zn_ba.1
-#     cd database
-#           Verify normality & transform data if needed
-#           Summary of cd_ba lm analysis
-#           Testing lm.cd_ba_env
-#           Testing lm.cd_ba.1
-#     pb database
-#           Verify normality & transform data if needed
-#           Summary of pb_ba lm analysis
-#           Testing lm.pb_ba_env
-#           Testing lm.pb_ba.1
-## PCA (not working)
-## RDA (not working)
-## Plots
-#     plots of traits & zn_ba
-#     plots of species & TE_concentrations
-## Anova of [TE]
-#     Anova [TE] ~ species
-#           Testing anova [zn_ba] ~ species
-#           Testing anova [zn_br] ~ species
-#           Testing anova [cd_ba] ~ species
-#           Testing anova [cd_br] ~ species
-#           Testing anova [pb_ba] ~ species
-#           Testing anova [pb_br] ~ species
-#     Anova [TE] ~ traits
-#           Testing anova [zn_ba] ~ LA
-#           Testing anova [zn_ba] ~ SLA
-#           Testing anova [zn_ba] ~ LDMC
-#           Testing anova [cd_ba] ~ LA
-#           Testing anova [cd_ba] ~ SLA
-#           Testing anova [cd_ba] ~ LDMC
-#           Testing anova [pb_ba] ~ LA
-#           Testing anova [pb_ba] ~ SLA
-#           Testing anova [pb_ba] ~ LDMC
+# 1. Import packages
+# 2. Import data
+# 3. Verify normality of traits in Salix & transform data if needed
+# 4. Matrix of TE accumulation and environmental factors
+# 5. Linear models (LM) - Zn only database
+#       5a. Verify normality & transform data if needed
+#       5b. Summary of zn_ba lm analysis
+#       5c. Testing lm.zn_ba_env
+#       5d. Testing lm.zn_ba.1
+# 6. Linear models (LM) - Cd only database
+#       6a. Verify normality & transform data if needed
+#       6b. Summary of cd_ba lm analysis
+#       6c. Testing lm.cd_ba_env
+#       6d. Testing lm.cd_ba.1
+# 7. Linear models (LM) - Pb only database
+#       7a. Verify normality & transform data if needed
+#       7b. Summary of pb_ba lm analysis
+#       7c. Testing lm.pb_ba_env
+#       7d. Testing lm.pb_ba.1
+# 8. PCA (not working)
+# 9. RDA (not working)
+# 10. Plots of traits & zn_ba
+# 11. Plots of species & TE_concentrations
+# 12. Anova [TE] ~ species
+#       12a. Testing anova [zn_ba] ~ species
+#       12b. Testing anova [zn_br] ~ species
+#       12c. Testing anova [cd_ba] ~ species
+#       12d. Testing anova [cd_br] ~ species
+#       12e. Testing anova [pb_ba] ~ species
+#       12f. Testing anova [pb_br] ~ species
+# 13. Anova [TE] ~ traits
+#       13a. Testing anova [zn_ba] ~ LA
+#       13b. Testing anova [zn_ba] ~ SLA
+#       13c. Testing anova [zn_ba] ~ LDMC
+#       13d. Testing anova [cd_ba] ~ LA
+#       13e. Testing anova [cd_ba] ~ SLA
+#       13f. Testing anova [cd_ba] ~ LDMC
+#       13g. Testing anova [pb_ba] ~ LA
+#       13h. Testing anova [pb_ba] ~ SLA
+#       13i. Testing anova [pb_ba] ~ LDMC
 
 
-#### Import packages ####
+#### 1. Import packages ####
 library(vegan)
 library(HH)
 library('plotrix')
@@ -59,7 +57,7 @@ library(stringr)
 library('lmerTest')
 
 
-#### Import data ####
+#### 2. Import data ####
 data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
 traits <- readRDS('./complete_data.rds')
 
@@ -89,7 +87,7 @@ unique(data_std_salix$AccSpeciesName_cor)
 # so 6 Salix sp. left in database
 
 
-#### Verify normality of traits in Salix & transform data if needed ####
+#### 3. Verify normality of traits in Salix & transform data if needed ####
 
 # defining a cube root function
 cuberoot = function(x){
@@ -138,7 +136,7 @@ hist(data_std_salix$LDMC^(1/3))
 ## LA trait has being transformed, while SLA and LDMC are relatively normal
 
 
-#### Matrix of TE accumulation and environmental factors ####
+#### 4. Matrix of TE accumulation and environmental factors ####
 
 # matrix of useful variables
 # modified all character variable into factorial
@@ -175,12 +173,10 @@ ni_ba <- na.omit(data_std_salix$ni_ba)
 ni_ba # 22 lines
 
 
-#### Influence of traits and environmental factor on TE accumulation - Linear model (LM) ####
-
-#### zn only database ####
+#### 5. Linear model (LM) - Zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba)) # 38 obs.
 
-##### 0. Verify normality of variables & transform data if needed #####
+##### 5a. Verify normality of variables & transform data if needed #####
 
 # check normality of zn_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -266,7 +262,7 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ## keeping it 
 
 
-##### 0. Summary of zn_ba lm analysis #####
+##### 5b. Summary of zn_ba lm analysis #####
 
 ## Since for the lmer models, either I couldn't test the assumption verification,
 ## either the assumptions weren't ok when I tested them, I used lm instead
@@ -275,7 +271,7 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 # Then see influence of traits on zn_ba (while taking envir. var as control)
 
 
-##### 1. For lm.zn_ba_env ####
+##### 5c. For lm.zn_ba_env ####
 
 ## For lm.zn_ba_env: model for environmental significant variables
 lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn)
@@ -311,7 +307,7 @@ plot(resid(lm.zn_ba_env) ~ fitted(lm.zn_ba_env)) # mostly random points, looks h
 plot(lm.zn_ba_env)
 
 
-##### 2. For lm.zn_ba.1 ####
+##### 5d. For lm.zn_ba.1 ####
 
 ## For lm.zn_ba.1 : model of traits and environmental controls
 lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
@@ -341,10 +337,10 @@ plot(lm.zn_ba.1)
 
 
 
-#### cd only database ####
+#### 6. Linear model (LM) - Cd only database ####
 data_cd <- data_std_salix %>% filter(!is.na(cd_ba)) # 39 obs.
 
-##### 0. Verify normality of variables & transform data if needed #####
+##### 6a. Verify normality of variables & transform data if needed #####
 
 # check normality of cd_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -432,13 +428,13 @@ hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
 ## keeping sand as it is 
 
 
-##### 0. Summary of cd_ba lm analysis #####
+##### 6b. Summary of cd_ba lm analysis #####
 
 # First see influence of envir. variables on cd_ba
 # Then see influence of traits on cd_ba (while taking envir. var as control)
 
 
-##### 1. For lm.cd_ba_env #####
+##### 6c. For lm.cd_ba_env #####
 ## See influence of envir. variables on cd_ba
 
 ## For lm.cd_ba_env: model for environmental significant variables
@@ -474,7 +470,7 @@ plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env))
 plot(lm.cd_ba_env)
 
 
-##### 2. For lm.cd_ba.1 #####
+##### 6d. For lm.cd_ba.1 #####
 ## See influence of traits on cd_ba (with envir controls)
 
 ## For lm.cd_ba.1 : model of traits and environmental controls
@@ -502,10 +498,10 @@ plot(lm.cd_ba.1)
 
 
 
-#### pb only database ####
+#### 7. Linear model (LM) - Pb only database ####
 data_pb <- data_std_salix %>% filter(!is.na(pb_ba)) # 36 obs.
 
-##### 0. Verify normality of variables & transform data if needed #####
+##### 7a.1 Verify normality of variables & transform data if needed #####
 
 # check normality of pb_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -598,13 +594,13 @@ hist(decostand(data_pb_txt$sand, method = 'log', MARGIN = 2))
 ## keeping sand as it is 
 
 
-##### 0. Summary of pb_ba lm analysis #####
+##### 7b. Summary of pb_ba lm analysis #####
 
 # First see influence of envir. variables on pb_ba
 # Then see influence of traits on pb_ba (while taking envir. var as control)
 
 
-##### 1. For lm.pb_ba_env #####
+##### 7c. For lm.pb_ba_env #####
 ## Influence of envir. variables on pb_ba
 
 ## For lm.pb_ba_env: model for environmental significant variables
@@ -639,7 +635,7 @@ plot(lm.pb_ba_env)
 # 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
 
 
-##### 2. For lm.pb_ba.1 #####
+##### 7d. For lm.pb_ba.1 #####
 ## Influence of traits on pb_ba (with envir controls)
 
 ## For lm.pb_ba.1 : model of traits and environmental controls
@@ -669,7 +665,7 @@ plot(lm.pb_ba.1)
 
 
 
-#### PCA of traits vs zn concentrations # NOT WORKING ####
+#### 8. PCA of traits vs zn concentrations # NOT WORKING ####
 
 ## matrix of traits
 # create a matrix only with the functionla traits and without controls (dataCT)
@@ -688,7 +684,7 @@ summary(pca_zn)
 plot(pca_zn)
 ## not really working since only 6 species points
 
-#### RDA of willow traits # NOT WORKING ####
+#### 9. RDA of willow traits # NOT WORKING ####
 
 # matrix of TE in willow
 data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','pb_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
@@ -700,7 +696,7 @@ plot(rda) # too few species for that
 ## not working
 
 
-#### plots of traits and TE ####
+#### 10. plots of traits and TE ####
 
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
@@ -715,7 +711,7 @@ plot(pb_ba ~ SLA, data = data_pb)
 plot(pb_ba ~ LDMC, data = data_pb)
 
 
-### plot TE for different species ####
+#### 11. plot TE for different species ####
 
 # accumulation of zn per species
 plot(zn_ba ~ AccSpeciesName_cor, data = data_zn_aov)
@@ -730,11 +726,9 @@ plot(pb_ba ~ AccSpeciesName_cor, data = data_pb_aov)
 plot(pb_br ~ AccSpeciesName_cor, data = data_pb_aov)
 
 
-#### Anova of [TE] ####
+#### 12. Anova of [TE] ~ species ####
 
-##### [TE] ~ species #####
-
-###### 1. anova of [zn_ba] ~ species ######
+###### 12a. anova of [zn_ba] ~ species ######
 
 # View species in database
 data_zn$AccSpeciesName_cor # 38 obs.
@@ -779,11 +773,11 @@ TukeyHSD(zn_ba.sp.aov)
 # Salix viminalis-Salix alba          2.355741 -0.8269357 5.538418 0.1800002
 # Salix viminalis-Salix gmelinii     -1.296206 -4.3738149 1.781402 0.5614145
 
-# So Salix gmelinii is significantly different from Salix alba
+# So Salix gmelinii is significantly different from Salix alba (p-value = 0.0117232)
 
 
 
-###### 2. anova of [zn_br] ~ species ######
+##### 12b. anova of [zn_br] ~ species #####
 
 # Build the anova model
 zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
@@ -827,7 +821,7 @@ kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
 # No significant p-value
 
 
-###### 3. anova of [cd_ba] ~ species ######
+##### 12c. anova of [cd_ba] ~ species #####
 
 # View species in database
 data_cd$AccSpeciesName_cor # 39 obs.
@@ -866,7 +860,7 @@ summary(cd_ba.sp.aov)
 # No significant p-value
 
 
-###### 4. anova of [cd_br] ~ species ######
+##### 12d. anova of [cd_br] ~ species #####
 
 # Build the anova model
 cd_br.sp.aov <- aov(data_cd_aov$cd_br ~ data_cd_aov$AccSpeciesName_cor)
@@ -891,7 +885,7 @@ kruskal.test(data_cd_aov$cd_br, data_cd_aov$AccSpeciesName_cor)
 # No significant p-value
 
 
-###### 5. anova of [pb_ba] ~ species ######
+##### 12e. anova of [pb_ba] ~ species #####
 
 # View species in database
 data_pb$AccSpeciesName_cor # 36 obs.
@@ -967,47 +961,68 @@ TukeyHSD(pb_ba.sp.aov)
 # Salix viminalis-Salix alba     -0.8938256 -1.4614445 -0.3262066 0.0014270
 # Salix viminalis-Salix gmelinii -0.3953653 -0.9786611  0.1879305 0.2338312
 
-# So Salix viminalis is significantly different from Salix alba
+# So Salix viminalis is significantly different from Salix alba (p-value = 0.0014270)
 
 
-###### 6. anova of [pb_br] ~ species ######
+##### 12f. anova of [pb_br] ~ species #####
+
+# Build the anova model
+pb_br.sp.aov <- aov(data_pb_aov$pb_br ~ data_pb_aov$AccSpeciesName_cor)
+
+# Check normality (Shapiro test)
+shapiro.test(resid(pb_br.sp.aov)) 
+# normal distribution (p-value = p-value = 0.1671)
+
+# Check homogeneity of variances (Bartlett test)
+bartlett.test(data_pb_aov$pb_br, data_pb_aov$AccSpeciesName_cor)
+# homoscedastic (p-value = 0.1934)
+
+summary(pb_br.sp.aov) 
+# p-value = 0.00738 **
+# at least 1 group significantly different from 1 other
+
+# doing Tukey's post hoc test to see which it is
+TukeyHSD(pb_br.sp.aov)
+#                                     diff       lwr       upr     p adj
+# Salix gmelinii-Salix alba        19.2360 -181.2051 219.67710 0.9691737
+# Salix viminalis-Salix alba     -175.7402 -366.3977  14.91736 0.0750283
+# Salix viminalis-Salix gmelinii -194.9762 -346.4954 -43.45693 0.0098024
+
+# So Salix viminalis is significantly different from Salix gmelinii (p-value = 0.0098024)
+
+
+
+#### 13. Anova of [TE] ~ traits ####
+
+##### 13a. anova of [zn_ba] ~ LA #####
 
 
 
 
 
 
-##### [TE] ~ traits #####
-
-###### 1. anova of [zn_ba] ~ LA ######
+##### 13b. anova of [zn_ba] ~ SLA #####
 
 
+##### 13c. anova of [zn_ba] ~ LDMC #####
 
 
+##### 13d. anova of [cd_ba] ~ LA #####
 
 
-###### 2. anova of [zn_ba] ~ SLA ######
+##### 13e. anova of [cd_ba] ~ SLA #####
 
 
-###### 3. anova of [zn_ba] ~ LDMC ######
+##### 13f. anova of [cd_ba] ~ LDMC #####
 
 
-###### 4. anova of [cd_ba] ~ LA ######
+##### 13g. anova of [pb_ba] ~ LA #####
 
 
-###### 5. anova of [cd_ba] ~ SLA ######
+##### 13h. anova of [pb_ba] ~ SLA #####
 
 
-###### 6. anova of [cd_ba] ~ LDMC ######
-
-
-###### 7. anova of [pb_ba] ~ LA ######
-
-
-###### 8. anova of [pb_ba] ~ SLA ######
-
-
-###### 9. anova of [pb_ba] ~ LDMC ######
+##### 13i. anova of [pb_ba] ~ LDMC #####
 
 
 
