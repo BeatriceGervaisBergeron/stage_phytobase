@@ -319,9 +319,22 @@ outliers <- data_std %>%
 ## CONTINU with all the 66 variables
 
 
+#### geolocalization ####
+
+### typos in location names ###
+# remove typos and uniform the name of the country and location
+
+### Longitude and latitude ###
+# Uniform the longitude and latitude format
+
+# extract the unknown long. and lat. from the location
 
 
-#### Add clay and sand % according to textural class of soils###
+#### MAP and MAT ####
+# Extrapolate the MAP and MAT from the long and lat OR location
+
+
+#### Add clay and sand % according to textural class of soils####
 
 # call conversion table
 txt_table <- read.table("./textural_class_average.txt", 
