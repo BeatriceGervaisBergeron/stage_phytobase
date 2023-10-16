@@ -321,17 +321,34 @@ outliers <- data_std %>%
 
 #### geolocalization ####
 
+
 ### typos in location names ###
 # remove typos and uniform the name of the country and location
 
 ### Longitude and latitude ###
 # Uniform the longitude and latitude format
 
+
+
 # extract the unknown long. and lat. from the location
+# package to get access to google map API
+install.packages('ggmap')
+library('ggmap')
+register_google(
+  'AIzaSyCHpQ0BAGzCaqEpu2aGgN5wVK8nPXu6PVw'
+)
+
+# get the whole city list
+city <- c('montreal','Quebec','rimouski')
+# get table of coordinates and address to verify later the data
+coord <-geocode(city, output = 'latlona')
 
 
 #### MAP and MAT ####
 # Extrapolate the MAP and MAT from the long and lat OR location
+
+install.packages('raster')
+
 
 
 #### Add clay and sand % according to textural class of soils####
