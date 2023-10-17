@@ -328,8 +328,12 @@ data_std <- data_std %>%
 # verify
 unique(data_std$organs_ba) # only leaves
 unique(data_std$organs_ba.1) #  only stems 
-unique(data_std$organs_ba.2) # only shoots
+unique(data_std$organs_ba.2) # shoots & an empty space " "
 
+# replace the empty space by NA
+data_std$organs_ba.2[79]<-NA
+# verify
+data_std$organs_ba.2[79] # good
 
 # organs_br
 unique(data_std$organs_br) # "Roots"
@@ -341,12 +345,6 @@ data_std <- data_std %>%
   mutate(organs_br = ifelse(organs_br %in% syn_roots , 'roots', organs_br)) # replace all by roots
 # verify
 unique(data_std$organs_br) # "roots"
-
-### BEA: ici je ne veux pas remplacer tous les coarse roots or fines roots by roots. 
-#Soit tu les élimines de la base de données, puisque on ne les prendra pas en compte, 
-#soit tu les gardes comme ça.Ce ne sont pas les même catégories.
-
-### OK j'ai eliminer les coarse roots, fine roots and stump de la base de donnees
 
 
 #### outliers and errors in numerical data ####
@@ -361,35 +359,6 @@ data_num <- data_std[ , num_cols]  # keep only numerical data, so 77 variables
 # import the data normal range
 num_range <- read.table("./numerical_range_variables.txt", 
                         sep="\t", header=T, stringsAsFactors = F)
-
-
-### to delete lines 366-391: ###
-
-# data types of "data_num"
-str(data_num)
-
-# Transform the data in "data_num" as numeric
-data_num <- data_num %>%
-  mutate(
-    covidence = as.numeric(covidence)
-    , year = as.numeric(year)
-    , n_s = as.numeric(n_s)
-    , n_te_ba = as.numeric(n_te_ba)
-    , n_te_br = as.numeric(n_te_br)
-    , n_te_ba.2 = as.numeric(n_te_ba.2)
-    , n_te_ba.1 = as.numeric(n_te_ba.1))
-
-# verify
-str(data_num)
-
-### BEA: why did you did that? Do you need that for the analysis? the 'int' means integer (nombre entier)
-# so I do not think you have to change it. If you think so, you should have done it at the very beginning with all the other transformation
-
-### OK I added these as.numeric changes to the beginning (lines 61-70)
-
-
-
-# data_num has 64 variables for now
 
 # remove the columns "season_exposure" and "day_exposure", 
 # since no data of "min_value" or "max_value" to compare to, in "num_range" (i.e. no outlier)
@@ -653,9 +622,6 @@ outliers <- data_num %>%
 ### article no 1008 ([cd_br] = 111 and 128 mg/kg in the article, which are a little higher than the range of 0-100 mg/kg)
 ### article no 2514 (4 values, [cd_br] = from 101.9653 to 136.3584 mg/kg, which are also a little higher than the range)
 
-### BEA: moi j'ai 7 observations ici. Encore une fois, as-tu vérifié les outliers?
-### Pour ma part, j'ai eu 6 observations, mais j'ai bel et bien vérifié les outliers
-
 # outliers for list[45] = cu_br
 outliers <- data_num %>% 
   filter(data_num[,45] < num_range$min_value[45] | data_num[,45] > num_range$max_value[45] )
@@ -678,9 +644,6 @@ outliers <- data_num %>%
   filter(data_num[,47] < num_range$min_value[47] | data_num[,47] > num_range$max_value[47] )
 # 1 line/1 obs, so 1 outliers
 ### it's article no 1008 ([zn_br] = 3216 mg/kg in the article, which is slightly above the range of 0-3000 mg/kg)
-
-### BEA: ici j'ai 2 outliers
-### Pour ma part, j'ai toujours 1 outlier ici
 
 # outliers for list[48] = se_br
 outliers <- data_num %>% 
@@ -806,7 +769,7 @@ outliers <- data_num %>%
 # if some lines appear, go see the data and verify in the literature if it is a typo, or if it is the exact number from the literature
 # if the data still appear high, Write a note in the 'journal de bord'
 
-## Repeat with all the 71 variables
+## Repeat with all the 75 variables
 
 
 #### Add clay and sand % values according to textural class of soils ####
@@ -832,6 +795,10 @@ data_std <- data_std %>%
 ### que l'on descend en profondeur dans le sol ?
 ### Si c'est le cas, il y aurait >40-50% de clay, et plus de sand que de silt.
 ### C'est pour cela que j'ai remplacer "Clay sand silt" par "Clay"
+
+### BEA: parfait, c'est bien d'avoir pris la categroie Clay alors. Il faut juste faire attention quans on remplace des categories complete.
+### Ici, cette categorie n'est associée qu'a un article, mais il aurait fallu faire autrement si plusieurs articles avait ce nom de categorie.
+### Bref, c'est simplement pour souligner que cette facon n'est pas généralisable.
 
 # verify the conversion worked
 unique(data_std$texture)
@@ -872,6 +839,7 @@ data_std_textures <- data_std %>%
 
 ### BEA: can you find a way to avoid writing all those line to replace a units? Try with the function Filter
 ### OK I used the replace function for that
+### GREAT job
 
 # create a backup file in case the replacement doesn't work at first
 data_std_textures_b <- data_std_textures
