@@ -50,7 +50,7 @@ data <- data %>%
     , cec_units = as.character(cec_units)
     , N = as.numeric(N)
     , N_units = as.character(N_units)
-    , N_types = as.character(N_types)
+    , N_type = as.character(N_type)
     , P = as.numeric(P)
     , P_units = as.character(P_units)
     , P_type = as.character(P_type)
@@ -72,8 +72,6 @@ data <- data %>%
     , sp = as.character(sp)
     , name = as.character(name)
     , cultivar = as.character(cultivar)
-    , p_density = as.numeric(p_density)
-    , units_density = as.character(units_density)
     , ba_total = as.numeric(ba_total)
     , ba_stem = as.numeric(ba_stem)
     , ba_leaf = as.numeric(ba_leaf)
@@ -160,7 +158,7 @@ data[data == ''] <- NA
 
 #### species names cleaning  ####
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name))
+uni_sp<-as.data.frame(unique(data$name)) #1211 unique species
 colnames(uni_sp) <- c('sp') 
 
 
@@ -168,7 +166,7 @@ colnames(uni_sp) <- c('sp')
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
-to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name'))
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 685 species not on the corrected list, so need to be corrected
 
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
@@ -182,7 +180,7 @@ matches <- match.name %>%
   distinct()
 
 # Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) 
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 632 sp
 colnames(uni_sp_2) <- c('sp')
 
 # which are not included
@@ -204,6 +202,12 @@ matches.all$dupl<-''
 write.table(matches.all,
             "./Inventaires/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
+
+
+
+
+
+
 
 # open the txt file in excel to make manual corrections
 # For all hybrids (with x) both name should be keep
