@@ -113,15 +113,6 @@ Roegneria kamoji	Roegneria kamoji	Roegneria kamoji	0.988
 Viola verecunda	Viola verecunda	Viola verecunda	0.988			
 Chrysanthemum coronarium	Chrysanthemum coronarium	Chrysanthemum coronarium	0.988			
 Fetuca arundinacea	Fetuca arundinacea	Festuca arundinacea	0.75			
-Chenopodium ambrosioides	Chenopodium ambrosioides	Chenopodium ambrosioides	0.988			
-Sambucus chinensis	Sambucus chinensis	Sambucus chinensis	0.988			
-Helianthus tuberosus 	Helianthus tuberosus	Helianthus tuberosus	0.988			
-Aster baccharoides	Aster baccharoides	Aster baccharoides	0.988			
-Fagopyrum dibotrys	Fagopyrum dibotrys	Fagopyrum dibotrys	0.988			
-Patrinia villosa	Patrinia villosa	Patrinia villosa	0.988			
-Eupatorium coelestinum	Eupatorium coelestinum	Eupatorium coelestinum	0.988			
-Pterocypsela indica	Pterocypsela indica	Pterocypsela indica	0.988			
-Polygonum lapathifolium	Polygonum lapathifolium	Polygonum lapathifolium	0.988			
 Neyraudia reynaudian	Neyraudia reynaudian	Neyraudia reynaudiana	0.75			
 Vetiveria zizanioides	Vetiveria zizanioides	Vetiveria zizanioides	0.988			
 Pinus pallasiana	Pinus pallasiana	Pinus pallasiana	0.988			
