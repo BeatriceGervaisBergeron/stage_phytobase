@@ -152,19 +152,26 @@ data <- data %>%
     , organs_ba_3 = as.factor(organs_ba_3)
   )
 
+seuil_hyperaccumulator <- 300
+# Ajouter une nouvelle colonne 'Hyperaccumulator' dans data
+data_cu <- data %>%
+  mutate(Hyperaccumulator = ifelse(cu_ba > seuil_hyperaccumulator | cu_ba_1 > seuil_hyperaccumulator | cu_ba_2 > seuil_hyperaccumulator | cu_ba_3 > seuil_hyperaccumulator, "Oui", "Non"))
+# Visualiser les hyperaccumulatrices
+hyperaccumulators <- data_cu %>% filter(Hyperaccumulator == "Oui")
+hyperaccumulators$AccSpeciesName_cor
 
 ##Standardisation
 numeric_columns <- sapply(data, is.numeric)
 data[numeric_columns] <- scale(data[numeric_columns])
 
 # Analyse linéaire
-model <- lm(cu_ba ~ cu_s, data = data[numeric_columns])
+model <- lm(cu_br ~ cu_s, data = data[numeric_columns])
 model
 summary(model)
 ggplot(data, aes(x = cu_s, y = cu_ba)) +
   geom_point() +
   labs(x = "Cuivre dans le sol (cu_s)", y = "Cuivre dans les plantes (cu_ba)",
-       title = "Relation entre les concentrations de cuivre dans les parties aériennes des plantes et dans le sol") +
+       title = "Relation entre les concentrations de cuivre dans les parties sous-terraines des plantes et dans le sol") +
   scale_x_continuous(limits = c(0, 10)) +   
   scale_y_continuous(limits = c(0, 5)) 
 
@@ -176,26 +183,26 @@ ggplot(data, aes(x = P, y = cu_s)) +
   labs(x = "Phosphore dans le sol (P)", y = "Cuivre dans le sol (cu_s)",
        title = "Relation entre les concentrations de phosphore et de cuivre dans le sol")
 
-# Analyse linéaire
 model <- lm(cu_ba ~ cu_s, data = data[numeric_columns])
 model
 summary(model)
-
 ggplot(data, aes(x = cu_s, y = cu_ba)) +
   geom_point() +
   labs(x = "Cuivre dans le sol (cu_s)", y = "Cuivre dans les plantes (cu_ba)",
        title = "Relation entre les concentrations de cuivre dans les parties aériennes des plantes et dans le sol") +
   scale_x_continuous(limits = c(0, 10)) +   
   scale_y_continuous(limits = c(0, 5)) 
+geom_smooth(method = "lm", se = FALSE)
 
-seuil_hyperaccumulator <- 300
-# Ajouter une nouvelle colonne 'Hyperaccumulator' dans data
-data_cu <- data %>%
-  mutate(Hyperaccumulator = ifelse(cu_ba > seuil_hyperaccumulator | cu_ba_1 > seuil_hyperaccumulator | cu_ba_2 > seuil_hyperaccumulator | cu_ba_3 > seuil_hyperaccumulator, "Oui", "Non"))
-# Visualiser les hyperaccumulatrices
-hyperaccumulators <- data_cu %>% filter(Hyperaccumulator == "Oui")
-hyperaccumulators$AccSpeciesName_cor
-
+model <- lm(cu_ba ~ cu_s, data = data[numeric_columns])
+model
+summary(model)
+ggplot(data, aes(x = cu_s, y = cu_br)) +
+  geom_point() +
+  labs(x = "Cuivre dans le sol (cu_s)", y = "Cuivre dans les plantes (cu_br)",
+       title = "Relation entre les concentrations de cuivre dans les racines des plantes et dans le sol") +
+  scale_x_continuous(limits = c(0, 10)) +   
+  scale_y_continuous(limits = c(0, 5))
 
 # Filtrer les organes que vous souhaitez inclure dans le boxplot
 organes_inclus <- c("leaves", "shoots", "stems")
@@ -218,31 +225,6 @@ summary_data <- aggregate(cu_ba ~ organs_ba, data = data_filtre,
 print(summary_data)
 # Afficher le graphique avec les statistiques sommaires
 print(p)
-
-
-# Filtrer les organes que vous souhaitez inclure dans le boxplot
-organes_inclus <- c("leaves", "roots")
-# Filtrer les données pour inclure uniquement les feuilles et les racines
-data_filtre <- data %>%
-  filter(organs_ba %in% organes_inclus | 
-           organs_ba_1 %in% organes_inclus | 
-           organs_ba_2 %in% organes_inclus | 
-           organs_ba_3 %in% organes_inclus | 
-           organs_br %in% organes_inclus)
-# Créer une nouvelle colonne "Organe" indiquant si c'est une feuille ou une racine
-data_filtre <- data_filtre %>%
-  mutate(Organe = ifelse(organs_ba %in% c("leaves"), "Feuilles", "Racines"))
-# Créer le graphique boxplot
-p <- ggplot(data_filtre, aes(x = Organe, y = cu_ba)) +
-  geom_boxplot() +
-  labs(x = "Organe", y = "Concentration de cuivre (mg/kg)",
-       title = "Comparaison des concentrations de cuivre dans les racines et les feuilles") +
-  theme_minimal() +
-  coord_cartesian(ylim = c(0, 250)) # Ajuster les limites de l'axe y
-print(summary_data)
-# Afficher le graphique
-print(p)
-
 
 # Filtrer les données pour inclure uniquement les racines
 data_roots <- data %>%
@@ -294,9 +276,13 @@ metal_conc_soil <- data[numeric_columns][, c("as_s", "cd_s", "cu_s", "pb_s", "zn
 metal_conc_plants <- data[numeric_columns][, c("as_ba", "cd_ba", "cu_ba", "pb_ba", "zn_ba", "ni_ba", "se_ba", "co_ba", "mn_ba", "cr_ba", "hg_ba")]
 metal_conc_plants_imputed <- apply(metal_conc_plants, 2, function(x) ifelse(is.na(x), mean(x, na.rm = TRUE), x))
 metal_conc_plants_imputed <- as.data.frame(metal_conc_plants_imputed)
-data_complete <- cbind(env_vars, metal_conc_plants_imputed)
+data_complete <- cbind(metal_conc_plants_imputed, env_vars)
 rda_result <- rda(data_complete)
 plot(rda_result)
+summary(rda_result)
+
+rda_result <- rda(data_complete, na.action = na.exclude)
+
 summary(rda_result)
 
 #PCA
