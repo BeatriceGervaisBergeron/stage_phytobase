@@ -17,7 +17,9 @@ library(pracma)
 library(MASS)
 
 #### Import data ####
-data <- read.csv('./Amélie/data_cleaning_final/data_std_cu_cleaned.csv', sep="\t", header = TRUE, dec = '.')
+data <- read.table(file='./Amélie/data_cleaning_final/data_std_cu_cleaned.txt', sep="\t", quote = "", header =T)
+
+
 # Transform data
 data <- data %>%
   mutate(
@@ -281,9 +283,13 @@ rda_result <- rda(data_complete)
 plot(rda_result)
 summary(rda_result)
 
+<<<<<<< HEAD
 rda_result <- rda(data_complete, na.action = na.exclude)
 
 summary(rda_result)
+=======
+###BEA: as-tu réussi a faire la RDA, car je pense que'il n'y a pas de ligne sans Na, donc impossible de faire la RDA avec tout cela
+>>>>>>> 5afd8bbc23ce931f56b936db5cce762bcb640a62
 
 #PCA
 selected_columns <- (data[numeric_columns][,c("cu_s", "pb_s", "zn_s", "se_s", "ni_s", "co_s", "mn_s", "cr_s", "hg_s", "map", "ph", "om", "oc", "clay", "sand", "ec", "cec")])

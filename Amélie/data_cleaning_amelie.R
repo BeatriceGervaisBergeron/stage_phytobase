@@ -1,4 +1,5 @@
-setwd("C:/Users/User/Documents/Scolaire/UDEM/Maîtrise/Hiver 2023/Stage phyto/stage_phytobase")
+#setwd("C:/Users/User/Documents/Scolaire/UDEM/Maîtrise/Hiver 2023/Stage phyto/stage_phytobase")
+
 # DATA CLEANING
 ## LIBRARY
 library(dplyr)
@@ -8,7 +9,7 @@ library(vegan)
 library(readr)
 
 #### call your data  ####
-data <- read.csv('./Amélie/soil_sp_database_Amelie.csv', sep=';',header = T, dec = '.')
+data <- read.csv('./Amélie/soil_sp_database_Amelie.csv', sep=',',header = T, dec = '.')
 
 #### decimals ####
 # make sure there is not comma instead of points
@@ -172,55 +173,58 @@ list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
 to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 124 species not on the corrected list, so need to be corrected
 
-# Resolve the unmatched name with the 4 databases selected:
-# "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
-match.name <- to.be.cor$sp %>%
-  gnr_resolve(data_source_ids = c(1,150,165,167), 
-              with_canonical_ranks=T)
-
-# provide a short summary table
-matches <- match.name %>%
-  select(user_supplied_name,submitted_name, matched_name2, score)%>% #add original value
-  distinct()
-
-# Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 121 sp
-colnames(uni_sp_2) <- c('sp')
-
-# which are not included
-unmatch <- to.be.cor %>% filter(!sp %in% uni_sp_2$sp)
-colnames(unmatch) <- c('user_supplied_name')
-
-# add them to the end of the match list
-matches.all<-bind_rows(matches, unmatch)
-
-# Insert three new columns (change names as you like) and insert text:
-# ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
-# ‘alternative’ - write an alternative name here
-# ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
-matches.all$implement<-''
-matches.all$alternative<-''
-matches.all$dupl<-''
-
-# write it back as a table for manual correction in Excel
-write.table(matches.all,
-            "./Amélie/uni_sp_match_names.txt", 
-            sep="\t", row.names = F, quote = F)
-
-# open the txt file in excel to make manual corrections
-# For all hybrids (with x) both name should be keep
-# Save the corrected names in a txt file name, adding _cor to the name of the document
-# import back the data 
-uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt", 
-                         sep="\t", header=T, stringsAsFactors = F)
-
-# eliminate duplicates
-uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
-uni_sp_cor<-uni_sp_cor %>%  filter(!dupl2 ==T)
 
 
-# Save the final corrected list in an rds object
-saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
+### avoid running this section
+## Resolve the unmatched name with the 4 databases selected:
+## "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
+#match.name <- to.be.cor$sp %>%
+#  gnr_resolve(data_source_ids = c(1,150,165,167), 
+#             with_canonical_ranks=T)
+
+## provide a short summary table
+#matches <- match.name %>%
+#  select(user_supplied_name,submitted_name, matched_name2, score)%>% #add original value
+#  distinct()
+
+## Are all species considered in the correction
+#uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 121 sp
+#colnames(uni_sp_2) <- c('sp')
+
+## which are not included
+#unmatch <- to.be.cor %>% filter(!sp %in% uni_sp_2$sp)
+#colnames(unmatch) <- c('user_supplied_name')
+
+## add them to the end of the match list
+#matches.all<-bind_rows(matches, unmatch)
+
+## Insert three new columns (change names as you like) and insert text:
+## ‘implement’ - should the name suggested by GNR be used? (TRUE/FALSE)?
+## ‘alternative’ - write an alternative name here
+## ‘dupl’ - Is this entry a duplicate with other name in this list (TRUE/FALSE)?
+#matches.all$implement<-''
+#matches.all$alternative<-''
+#matches.all$dupl<-''
+
+## write it back as a table for manual correction in Excel
+#write.table(matches.all,
+#            "./Amélie/uni_sp_match_names.txt", 
+#            sep="\t", row.names = F, quote = F)
+
+## open the txt file in excel to make manual corrections
+## For all hybrids (with x) both name should be keep
+## Save the corrected names in a txt file name, adding _cor to the name of the document
+## import back the data 
+#uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt", 
+#                         sep="\t", header=T, stringsAsFactors = F)
+
+## eliminate duplicates
+#uni_sp_cor$dupl2 <- duplicated(uni_sp_cor$user_supplied_name)
+#uni_sp_cor<-uni_sp_cor %>%  filter(!dupl2 ==T)
+
+
+## Save the final corrected list in an rds object
+#saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
 
 #### Join list of corrected names ####
 # call the newly corrected list
@@ -464,226 +468,53 @@ convert <- c("mg/kg","mg kg","ppm","ug.L-1", "ug g-1","ug g","ug/g","mg dm-3")
 data_std <- data_std %>%
   mutate(
     units_s = ifelse(units_s %in% convert , 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', as_s*1000, as_s)
+    ,cd_s = ifelse(units_s == 'g kg-1', cd_s*1000, cd_s)
+    ,cu_s = ifelse(units_s == 'g kg-1', cu_s*1000, cu_s)
+    ,pb_s = ifelse(units_s == 'g kg-1', pb_s*1000, pb_s)
+    ,zn_s = ifelse(units_s == 'g kg-1', zn_s*1000, zn_s)
+    ,se_s = ifelse(units_s == 'g kg-1', se_s*1000, se_s)
+    ,ni_s = ifelse(units_s == 'g kg-1', ni_s*1000, ni_s)
+    ,co_s = ifelse(units_s == 'g kg-1', co_s*1000, co_s)
+    ,mn_s = ifelse(units_s == 'g kg-1', mn_s*1000, mn_s)
+    ,cr_s = ifelse(units_s == 'g kg-1', cr_s*1000, cr_s)
+    ,hg_s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
     ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', cd_s*1000, cd_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', cu_s*1000, cu_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', pb_s*1000, pb_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', zn_s*1000, zn_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', se_s*1000, se_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', ni_s*1000, ni_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', co_s*1000, co_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', mn_s*1000, mn_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', cr_s*1000, cr_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'g kg-1', hg_s*1000, hg_s)
-    ,units_s = ifelse(units_s == 'g kg-1', 'mg kg-1', units_s)
-    ,s = ifelse(units_s == 'uM/g', NA, cu_s)
-    ,units_s = ifelse(s == 'NA', 'NA', units_s)
   )
+data_std <- filter(data_std, !units_s =='uM/g')# eliminate the uM/g data since we are not able to convert those data
+
 #verify
 unique(data_std$units_s) # only "mg kg-1"
 
 
-#"units_b" 
-unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
-## need to convert to g
-convert <- c("g/plant","g pot-1","g per pot","g plant-1", "g pot -1","g ","g/pot","g plant -1","g plant","g m-2","g FM","g m2")
-data_std <- data_std %>%
-  mutate(
-    units_b = ifelse(units_b %in% convert , 'g', units_b)
-    ,b = ifelse(units_b == 'mg', ba_total/1000, ba_total)
-    ,units_b = ifelse(units_b == 'mg', 'g', units_b)
-    ,b = ifelse(units_b == 'mg', ba_stem/1000, ba_stem)
-    ,units_b = ifelse(units_b == 'mg', 'g', units_b)
-    ,b = ifelse(units_b == 'mg', ba_leaf/1000, ba_leaf)
-    ,units_b = ifelse(units_b == 'mg', 'g', units_b)
-    ,b = ifelse(units_b == 'mg', br/1000, br)
-    ,units_b = ifelse(units_b == 'mg', 'g', units_b)
-    ,b = ifelse(units_b == 'mg plant-1', ba_total/1000, ba_total)
-    ,units_b = ifelse(units_b == 'mg plant-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg plant-1', ba_stem/1000, ba_stem)
-    ,units_b = ifelse(units_b == 'mg plant-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg plant-1', ba_leaf/1000, ba_leaf)
-    ,units_b = ifelse(units_b == 'mg plant-1', 'g', units_b)
-    ,b = ifelse(units_b == 'mg plant-1', br/1000, br)
-    ,units_b = ifelse(units_b == 'mg plant-1', 'g', units_b)
-    ,b = ifelse(units_b == 'kg', ba_total*1000, ba_total)
-    ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-    ,b = ifelse(units_b == 'kg', ba_stem*1000, ba_stem)
-    ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-    ,b = ifelse(units_b == 'kg', ba_leaf*1000, ba_leaf)
-    ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-    ,b = ifelse(units_b == 'kg', br*1000, br)
-    ,units_b = ifelse(units_b == 'kg', 'g', units_b)
-    ,units_b = ifelse(b == 'NA', 'NA', units_b)
-  )
-
-#verify
-unique(data_std$units_b) # only "g"
-
-
-###BEA: Il va falloir que tu mettes les transformation de biomasse après les transformation de concentration car certaines transformation s'appuie sur l'unité des la biomasse. Mets les simplement a la fin.
-### Aussi, pour l'instant lorsque je run tes transformations, je n'obtiens plus aucune unité pour les métaux. Ca te fait ca aussi? Ca ne me faisait pas ca lundi.
-
 
 #"units_te_ba" 
-unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ug kg-1" "ppm/ppb" "kg ha-1"
+unique(units$units_te_ba) # "mg kg-1" "mg m2 year-1" "mg kg" "ug.g-1" "ppm" "ug g" "ug/g" "mg kg " "mg/kg" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" "ppm/ppb" "kg ha-1"
 # need to convert to mg kg-1 
-convert <- c("mg kg","ppm","mg kg ","mg/kg", "mg kg-1 DW","ppm/ppb")
+convert <- c("mg kg","ppm","mg kg ","mg/kg", "mg kg-1 DW","ppm/ppb",'ug.g-1','ug g','ug/g','ug g-1')
 data_std <- data_std %>%
   mutate(
     units_te_ba = ifelse(units_te_ba %in% convert , 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', as_ba/1000, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cd_ba/1000, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cu_ba/1000, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', pb_ba/1000, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', zn_ba/1000, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', se_ba/1000, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', ni_ba/1000, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', co_ba/1000, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', mn_ba/1000, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', cr_ba/1000, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug.g-1', hg_ba/1000, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug.g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', as_ba/1000, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cd_ba/1000, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cu_ba/1000, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', pb_ba/1000, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', zn_ba/1000, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', se_ba/1000, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', ni_ba/1000, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', co_ba/1000, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', mn_ba/1000, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', cr_ba/1000, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g', hg_ba/1000, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', as_ba/1000, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cd_ba/1000, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cu_ba/1000, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', pb_ba/1000, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', zn_ba/1000, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', se_ba/1000, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', ni_ba/1000, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', co_ba/1000, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', mn_ba/1000, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', cr_ba/1000, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug/g', hg_ba/1000, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug/g', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', as_ba/1000, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cd_ba/1000, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cu_ba/1000, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', pb_ba/1000, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', zn_ba/1000, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', se_ba/1000, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', ni_ba/1000, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', co_ba/1000, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', mn_ba/1000, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', cr_ba/1000, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug g-1', hg_ba/1000, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug g-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', as_ba/1000, as_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', cd_ba/1000, cd_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', cu_ba/1000, cu_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', pb_ba/1000, pb_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', zn_ba/1000, zn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', se_ba/1000, se_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', ni_ba/1000, ni_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', co_ba/1000, co_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', mn_ba/1000, mn_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', cr_ba/1000, cr_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'ug kg-1', hg_ba/1000, hg_ba)
-    ,units_te_ba = ifelse(units_te_ba == 'ug kg-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'mg plant-1', cu_ba/ba_total*1000, cu_ba)
+    ,cu_ba = ifelse(units_te_ba == 'mg plant-1', cu_ba/ba_total*1000, cu_ba)
     ,units_te_ba = ifelse(units_te_ba == 'mg plant-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'mg pot-1', cu_ba/ba_total*1000, cu_ba)
-    ,ba = ifelse(units_te_ba == 'mg pot-1', pb_ba/ba_total*1000, pb_ba)
+    ,cu_ba = ifelse(units_te_ba == 'mg pot-1', cu_ba/ba_total*1000, cu_ba)
+    ,pb_ba = ifelse(units_te_ba == 'mg pot-1', pb_ba/ba_total*1000, pb_ba)
     ,units_te_ba = ifelse(units_te_ba == 'mg pot-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', as_ba/ba_leaf*1000000, as_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cu_ba/ba_leaf*1000000, cu_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', pb_ba/ba_leaf*1000000, pb_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', zn_ba/ba_leaf*1000000, zn_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', mn_ba/ba_leaf*1000000, mn_ba)
-    ,ba = ifelse(units_te_ba == 'kg ha-1', cr_ba/ba_leaf*1000000, cr_ba)
+    ,as_ba = ifelse(units_te_ba == 'kg ha-1', as_ba/ba_leaf*1000000, as_ba)
+    ,cu_ba = ifelse(units_te_ba == 'kg ha-1', cu_ba/ba_leaf*1000000, cu_ba)
+    ,pb_ba = ifelse(units_te_ba == 'kg ha-1', pb_ba/ba_leaf*1000000, pb_ba)
+    ,zn_ba = ifelse(units_te_ba == 'kg ha-1', zn_ba/ba_leaf*1000000, zn_ba)
+    ,mn_ba = ifelse(units_te_ba == 'kg ha-1', mn_ba/ba_leaf*1000000, mn_ba)
+    ,cr_ba = ifelse(units_te_ba == 'kg ha-1', cr_ba/ba_leaf*1000000, cr_ba)
     ,units_te_ba = ifelse(units_te_ba == 'kg ha-1', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', as_ba/ba_leaf*1000, as_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', cd_ba/ba_leaf*1000, cd_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', cu_ba/ba_leaf*1000, cu_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', pb_ba/ba_leaf*1000, pb_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', zn_ba/ba_leaf*1000, zn_ba)
-    ,ba = ifelse(units_te_ba == 'mg m-2', se_ba/ba_leaf*1000, se_ba)
+    ,as_ba = ifelse(units_te_ba == 'mg m-2', as_ba/ba_leaf*1000, as_ba)
+    ,cd_ba = ifelse(units_te_ba == 'mg m-2', cd_ba/ba_leaf*1000, cd_ba)
+    ,cu_ba = ifelse(units_te_ba == 'mg m-2', cu_ba/ba_leaf*1000, cu_ba)
+    ,pb_ba = ifelse(units_te_ba == 'mg m-2', pb_ba/ba_leaf*1000, pb_ba)
+    ,zn_ba = ifelse(units_te_ba == 'mg m-2', zn_ba/ba_leaf*1000, zn_ba)
+    ,se_ba = ifelse(units_te_ba == 'mg m-2', se_ba/ba_leaf*1000, se_ba)
     ,units_te_ba = ifelse(units_te_ba == 'mg m-2', 'mg kg-1', units_te_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, as_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cd_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cu_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, pb_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, zn_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, se_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, ni_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, co_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, mn_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, cr_ba)
-    ,ba = ifelse(units_te_ba == 'uM/g DW', NA, hg_ba)
-    ,units_te_ba = ifelse(ba == 'NA', 'NA', units_te_ba)
   )
+
 # verify
 unique(data_std$units_te_ba) # only "mg kg-1"
 
@@ -691,244 +522,34 @@ unique(data_std$units_te_ba) # only "mg kg-1"
 #"units_te_br"   
 unique(units$units_te_br) # "mg kg-1" "mg kg" "ug.g-1" "ug g" "ug/g" "mg plant-1" "mg kg-1 DW" "ug g-1" "mg m-2" "uM/g DW" "mg pot-1" 
 # need to convert to mg kg-1 
-convert <- c("mg kg", "mg kg-1 DW")
+convert <- c("mg kg", "mg kg-1 DW","ug.g-1", "ug g", "ug/g","ug g-1")
 data_std <- data_std %>%
   mutate(
     units_te_br = ifelse(units_te_br %in% convert , 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', as_br*1000, as_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', cd_br*1000, cd_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', cu_br*1000, cu_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', pb_br*1000, pb_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', zn_br*1000, zn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', se_br*1000, se_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', ni_br*1000, ni_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', co_br*1000, co_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', mn_br*1000, mn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', cr_br*1000, cr_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug.g-1', hg_br*1000, hg_br)
-    ,units_te_br = ifelse(units_te_br == 'ug.g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', as_br*1000, as_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', cd_br*1000, cd_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', cu_br*1000, cu_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', pb_br*1000, pb_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', zn_br*1000, zn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', se_br*1000, se_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', ni_br*1000, ni_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', co_br*1000, co_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', mn_br*1000, mn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', cr_br*1000, cr_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g', hg_br*1000, hg_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', as_br*1000, as_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', cd_br*1000, cd_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', cu_br*1000, cu_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', pb_br*1000, pb_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', zn_br*1000, zn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', se_br*1000, se_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', ni_br*1000, ni_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', co_br*1000, co_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', mn_br*1000, mn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', cr_br*1000, cr_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug/g', hg_br*1000, hg_br)
-    ,units_te_br = ifelse(units_te_br == 'ug/g', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', as_br*1000, as_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', cd_br*1000, cd_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', cu_br*1000, cu_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', pb_br*1000, pb_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', zn_br*1000, zn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', se_br*1000, se_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', ni_br*1000, ni_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', co_br*1000, co_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', mn_br*1000, mn_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', cr_br*1000, cr_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'ug g-1', hg_br*1000, hg_br)
-    ,units_te_br = ifelse(units_te_br == 'ug g-1', 'mg kg-1', units_te_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, as_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, cd_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, cu_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, pb_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, zn_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, se_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, ni_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, co_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, mn_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, cr_br)
-    ,br = ifelse(units_te_br == 'uM/g DW', NA, hg_br)
-    ,units_te_br = ifelse(br == 'NA', 'NA', units_te_br)
+    ,cu_br = ifelse(units_te_br == 'mg plant-1', cu_br/br*1000, cu_br)
+    ,units_te_br = ifelse(units_te_br == 'mg plant-1', 'mg kg-1', units_te_br)
+    ,cu_br = ifelse(units_te_br == 'mg pot-1', cu_br/br*1000, cu_br)
+    ,pb_br = ifelse(units_te_br == 'mg pot-1', pb_br/br*1000, pb_br)
+    ,units_te_br = ifelse(units_te_br == 'mg pot-1', 'mg kg-1', units_te_br)
+    ,as_br = ifelse(units_te_br == 'mg m-2', as_br/br*1000, as_br)
+    ,cd_br = ifelse(units_te_br == 'mg m-2', cd_br/br*1000, cd_br)
+    ,cu_br = ifelse(units_te_br == 'mg m-2', cu_br/br*1000, cu_br)
+    ,pb_br = ifelse(units_te_br == 'mg m-2', pb_br/br*1000, pb_br)
+    ,zn_br = ifelse(units_te_br == 'mg m-2', zn_br/br*1000, zn_br)
+    ,se_br = ifelse(units_te_br == 'mg m-2', se_br/br*1000, se_br)
+    ,units_te_br = ifelse(units_te_br == 'mg m-2', 'mg kg-1', units_te_br)
   )
 # verify
 unique(data_std$units_te_br) # only "mg kg-1"
 
 
 #"units_te_ba_1"
-unique(units$units_te_ba_1) # "mg kg-1" "ug.g-1" "ug g" "mg kg" "mg plant-1" "ppm" "uM/g DW" "ug/g" "ug kg-1" "ug g-1"
+unique(units$units_te_ba_1) # "mg kg-1" "ug.g-1" "ug g" "mg kg" "ppm" "uM/g DW" "ug/g"  "ug g-1"
 # need to convert to mg kg-1 
-convert <- c("mg kg","ppm")
+convert <- c("mg kg","ppm","ug.g-1", "ug g","ug/g","ug g-1")
 data_std <- data_std %>%
   mutate(
     units_te_ba_1 = ifelse(units_te_ba_1 %in% convert , 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', as_ba_1*1000, as_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', cd_ba_1*1000, cd_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', cu_ba_1*1000, cu_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', pb_ba_1*1000, pb_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', zn_ba_1*1000, zn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', se_ba_1*1000, se_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', ni_ba_1*1000, ni_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', co_ba_1*1000, co_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', mn_ba_1*1000, mn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', cr_ba_1*1000, cr_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', hg_ba_1*1000, hg_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug.g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', as_ba_1*1000, as_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', cd_ba_1*1000, cd_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', cu_ba_1*1000, cu_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', pb_ba_1*1000, pb_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', zn_ba_1*1000, zn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', se_ba_1*1000, se_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', ni_ba_1*1000, ni_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', co_ba_1*1000, co_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', mn_ba_1*1000, mn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', cr_ba_1*1000, cr_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g', hg_ba_1*1000, hg_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', as_ba_1*1000, as_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', cd_ba_1*1000, cd_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', cu_ba_1*1000, cu_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', pb_ba_1*1000, pb_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', zn_ba_1*1000, zn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', se_ba_1*1000, se_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', ni_ba_1*1000, ni_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', co_ba_1*1000, co_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', mn_ba_1*1000, mn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', cr_ba_1*1000, cr_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug/g', hg_ba_1*1000, hg_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug/g', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', as_ba_1*1000, as_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', cd_ba_1*1000, cd_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', cu_ba_1*1000, cu_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', pb_ba_1*1000, pb_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', zn_ba_1*1000, zn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', se_ba_1*1000, se_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', ni_ba_1*1000, ni_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', co_ba_1*1000, co_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', mn_ba_1*1000, mn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', cr_ba_1*1000, cr_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug g-1', hg_ba_1*1000, hg_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug g-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', as_ba_1/1000, as_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', cd_ba_1/1000, cd_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', cu_ba_1/1000, cu_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', pb_ba_1/1000, pb_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', zn_ba_1/1000, zn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', se_ba_1/1000, se_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', ni_ba_1/1000, ni_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', co_ba_1/1000, co_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', mn_ba_1/1000, mn_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', cr_ba_1/1000, cr_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', hg_ba_1/1000, hg_ba_1)
-    ,units_te_ba_1 = ifelse(units_te_ba_1 == 'ug kg-1', 'mg kg-1', units_te_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, as_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cd_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cu_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, pb_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, zn_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, se_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, ni_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, co_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, mn_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, cr_ba_1)
-    ,ba_1 = ifelse(units_te_ba_1 == 'uM/g DW', NA, hg_ba_1)
-    ,units_te_ba_1 = ifelse(ba_1 == 'NA', 'NA', units_te_ba_1)
   )
 # verify
 unique(data_std$units_te_ba_1) # only "mg kg-1"
@@ -937,31 +558,10 @@ unique(data_std$units_te_ba_1) # only "mg kg-1"
 #"units_te_ba_2"
 unique(units$units_te_ba_2) # "mg kg-1" "ug g"    "mg kg"
 #need to convert to mg kg-1 
-convert <- c("mg kg")
+convert <- c("mg kg", 'ug g')
 data_std <- data_std %>%
   mutate(
     units_te_ba_2 = ifelse(units_te_ba_2 %in% convert , 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', as_ba_2*1000, as_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cd_ba_2*1000, cd_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cu_ba_2*1000, cu_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', pb_ba_2*1000, pb_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', zn_ba_2*1000, zn_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', se_ba_2*1000, se_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', ni_ba_2*1000, ni_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', co_ba_2*1000, co_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', mn_ba_2*1000, mn_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', cr_ba_2*1000, cr_ba_2)
-    ,units_te_ba_2 = ifelse(units_te_ba_2 == 'ug g', 'mg kg-1', units_te_ba_2)
-    ,ba_2 = ifelse(units_te_ba_2 == 'ug g', hg_ba_2*1000, hg_ba_2)
   )
 # verify
 unique(data_std$units_te_ba_2) # only "mg kg-1"    
@@ -969,17 +569,44 @@ unique(data_std$units_te_ba_2) # only "mg kg-1"
 #"units_te_ba_3"
 unique(units$units_te_ba_3) # only "mg kg-1"
 
-#"units_density"
+#"units_b" ## 
+unique(units$units_b) #"g/plant" "g pot-1" "g per pot" "mg" "g" "mg plant-1" "g plant-1" "kg" "kg acre-1" "g pot -1" "g " "%" "mg ha-1" "g m-2" "g/pot" "g plant -1" "g plant" "t ha-1" "g FM" "kg ha-1" "g m2"
+## need to convert to g
+convert <- c("g/plant","g pot-1","g per pot","g plant-1", "g pot -1","g ","g/pot","g plant -1","g plant","g m-2","g m2")
+data_std <- data_std %>%
+  mutate(
+    units_b = ifelse(units_b %in% convert , 'g', units_b)
+    ,ba_total = ifelse(units_b == 'mg', ba_total/1000, ba_total)
+    ,ba_stem = ifelse(units_b == 'mg', ba_stem/1000, ba_stem)
+    ,ba_leaf = ifelse(units_b == 'mg', ba_leaf/1000, ba_leaf)
+    ,br = ifelse(units_b == 'mg', br/1000, br)
+    ,units_b = ifelse(units_b == 'mg', 'g', units_b)
+    ,ba_total = ifelse(units_b == 'mg plant-1', ba_total/1000, ba_total)
+    ,ba_stem = ifelse(units_b == 'mg plant-1', ba_stem/1000, ba_stem)
+    ,ba_leaf = ifelse(units_b == 'mg plant-1', ba_leaf/1000, ba_leaf)
+    ,br = ifelse(units_b == 'mg plant-1', br/1000, br)
+    ,units_b = ifelse(units_b == 'mg plant-1', 'g', units_b)
+    ,ba_total = ifelse(units_b == 'kg', ba_total*1000, ba_total)
+    ,ba_stem = ifelse(units_b == 'kg', ba_stem*1000, ba_stem)
+    ,ba_leaf = ifelse(units_b == 'kg', ba_leaf*1000, ba_leaf)
+    ,br = ifelse(units_b == 'kg', br*1000, br)
+    ,units_b = ifelse(units_b == 'kg', 'g', units_b)
+  )
+
+#verify
+unique(data_std$units_b) # only "g"
+
+###BEA: l'unité FM signifie Fresh mass, donc a éliminé si aucune biomasse sec dans l'Article
+
+#"units_density" 
 unique(data$units_density)# "plants/pot" "plant/pot" "stems/acre" "g cm-3" "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
 convert <- c("plant/pot")
 data_std <- data_std %>%
   mutate(
     units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
-    ,units_density = ifelse(p_density == 'NA', 'NA', units_density)
   )
 # verify
 unique(data_std$units_density) # "plants/pot" "stems/acre" "g cm-3"  "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
-
 
 
 #### standardize categories terms ####
@@ -1050,10 +677,6 @@ unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"   "fruits"
 unique(data_std$organs_ba_3) # only "wood"
 
 
-### BEA: il faudrait vérifier pourquoi tous les espaces sont remplacer. Nomralement, la fonction ne doit remplacer que s'il y a un nom d'organe.
-### c'est réglé?
-
-
 # organs_br
 unique(data$organs_br)
 # conversion
@@ -1111,7 +734,6 @@ outliers
 # no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27ºC])
 # no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27ºC])
 
-###BEA: all ok
 
 # isolate the outliers lines for the variable 'mat'
 outliers <- data_std %>% 
@@ -1119,8 +741,6 @@ outliers <- data_std %>%
 outliers
 # 0 line --> 0 outliers to verify
 
-###BEA: this is not a mean annual temperature, but a summer mean, so you should delete it. tu peux ajouter la note au commentaires
-###AME: ok
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
@@ -1129,11 +749,6 @@ outliers
 # 2 lines --> 2 outliers to verify
 # no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000mm])
 
-###BEA:
-#1195:ok
-#1510: not the annual so must be delete, can be put in the comments
-#3220: not the annual so must be delete, can be put in the comments
-###AME: ok
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
@@ -1155,7 +770,6 @@ outliers
 # no 8345 (ph=8.9, supérieur au range [3.5-8.5])
 # no 3933 (ph=8.54, supérieur au range [3.5-8.5])
 
-##BEA : ok, still plausible data
 
 # isolate the outliers lines for the variable 'om'
 outliers <- data_std %>% 
@@ -1165,7 +779,7 @@ outliers
 # no 1560 (om=15.61%-->Table 3, supérieur au range [0-15%]) # OK
 # no 2248 (om=26.10 dag kg-1, c'est à cause de l'unité) 
 
-###BEA:  De ton côté, la convertion de dag/kg a % est 1? juste confirmer que l'on arrive à la même chose. Le nombre est très élevé, si tu peux ajouter une note dans les commantaires
+###BEA:  De ton côté, la convertion de dag/kg a % est 1? juste confirmer que l'on arrive à la même chose. Le nombre est très élevé, si tu peux ajouter une note dans les commentaires
 
 
 # isolate the outliers lines for the variable 'oc'
@@ -1220,8 +834,6 @@ outliers
 # no 8079 (oc=20.4 g kg-->convertit en 2.04%, inférieur au range [2.4-6%])
 
 
-###BEA: OK
-
 
 # isolate the outliers lines for the variable 'clay'
 outliers <- data_std %>% 
@@ -1237,11 +849,6 @@ outliers
 # no 177 (clay=2%, inférieur au range [5-90%])
 
 
-### BEA:
-#4088: sur des sols de sables, donc OK
-# Es-tu allée vérifier que c'était les bons nombres dans les articles?
-###AME: oui
-
 # isolate the outliers lines for the variable 'sand'
 outliers <- data_std %>% 
   filter(sand < num_range$min_value[num_range$variables == 'sand'] | sand > num_range$max_value[num_range$variables == 'sand'] )
@@ -1250,7 +857,6 @@ outliers
 # no 4088 (sand=945 gkg-1 et 909 gkg-1-->convertit en 94.5% et 90.9%, supérieur au range [5-90%])
 # no 8172 (sand=300 mg kg-1-->convertit en 3%, inférieur au range [5-90%])
 
-###BEA: OK
 
 # isolate the outliers lines for the variable 'ec'
 outliers <- data_std %>% 
@@ -1260,9 +866,6 @@ outliers
 # no 1264 (ec=1.98 dS cm-1, Page 2-->convertit en 198 mS cm-1, supérieur au range [0-16 mS cm-1])
 # no 2218 (ec=0.30 et 0.68 ds cm-1, Table 1-->convertit en 30 et 68 mS cm-1, supérieur au range [0-16 mS cm-1])
 # no 6607 (ec=100, 143 et 65 dS/m, Table 1--> convertit en 100, 143 et 65 ms cm-1, supérieur au range [0-16 mS cm-1])
-
-### BEA: le no 2532 m'ont permis de voir que les transformations d'unités EC étaient erronées. Je les ai changé maintenant. d'autre outliers maintenant apparaissent
-# all outliers are high, but might be plausible. Add a note to identify that they might be error data
 
 
 # isolate the outliers lines for the variable 'cec'
@@ -1280,9 +883,6 @@ outliers
 # no 1011 (cec=7.27 cmol/100g-->convertit en 0.0727 cmolc kg-1, inférieur au range [2-35 cmolc kg-1])
 # no 4063 (cec=6.6 cmolc dm-3-->convertit en 66 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
 
-### BEA: Ok, except for:
-#8669, the % mean directly cmol kg-1 in the study when I checked. SO I change the conversion and now the data are within the range
-#177: the conversion was wrong, mM+ mean milimol, so there is a conversion of /10, I correct teh conversion fonction
 
 # isolate the outliers lines for the variable 'N'
 outliers <- data_std %>% 
@@ -1308,12 +908,6 @@ outliers
 # no 1357 (N=2.35 gkg-->convertit en 2350 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 5467 (N=2.04 gkg, 1.92 gkg-->convertit en 2040 mg kg-1, 1920 mg kg-1, supérieur au range [10-1500 mg kg-1])
 # no 8012 (N=0.19%-->convertit en 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
-
-
-### BEA: ceux qui sont proche sont OK
-#1146: OK, the 1.04% is from commercial agricultural soil, so maybe high in N on purpose.
-# 196: contamination of nutrietn, so normal to have high number
-# 838: OK, justify that the results are high, so ok to keep them
 
 
 # isolate the outliers lines for the variable 'P'
@@ -1379,12 +973,6 @@ outliers
 
 
 
-###BEA:
-#1398:particularly As contaminated soil, so OK
-#1406:mine site, OK
-
-
-
 # isolate the outliers lines for the variable 'cd_s'
 outliers <- data_std %>% 
   filter(cd_s < num_range$min_value[num_range$variables == 'cd_s'] | cd_s > num_range$max_value[num_range$variables == 'cd_s'] )
@@ -1396,9 +984,6 @@ outliers
 # no 1683 (cd_s=109 et 120 mg kg, Table 2 gradients de concentration, supérieur au range [0-100 mg kg])
 # no 8509 (cd_s=150 et 200, supérieur au range [0-100 mg kg])
 
-
-###BEA:
-#3067: mine ok
 
 
 # isolate the outliers lines for the variable 'cu_s'
@@ -1512,6 +1097,8 @@ outliers
 #3029:120 is way too much, in the article is said n = 2 (for plants and) duplicates, need to be change
 ###AME: j'avais mis 120 car ils disent "120 surface soil samples and 60 pine stem wood and pine needles samples were collected from each sampling point"
 #j'ai remplacé pour 2, mais je ne le vois pas dans l'article
+###BEA: je comprends, mais le nombre de replicats signifie le nombre d'échantillons similaires et répliqués, pas le nombre d'échantillon total
+
 # check the other really high number
 
 
@@ -1548,6 +1135,12 @@ outliers
 # 1 line --> 1 outlier to verify
 # no 1041 (as_ba=1050 mg kg, supérieur au range [0-1000 mg kg])
 
+###BEA: comme il y avait des erreurs dans les conversions, les outliers peuvent avoir un peu changés
+# 8772 As of 5390, erreur de transcription de l'article 
+#(la Fig 1 montre des concnetratiosn beauocup plus réaliste. Il y a du avoir un problème de calcul dans l'Article)
+# il faudrait extraire les concnetrations de la figures ou diviser les concentrations actuelles par 10 000 (ce qui semble régler le problème de convertion et donne des chiffres simialire a la Figure 1)
+
+
 # isolate the outliers lines for the variable 'cd_ba'
 outliers <- data_std %>% 
   filter(cd_ba < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba > num_range$max_value[num_range$variables == 'cd_ba'] )
@@ -1557,9 +1150,8 @@ outliers
 # no 3067 (cd_ba=1025 mg kg, Table 3 mine, supérieur au range [0-100 mg kg])
 # no 2289 (cd_ba=100.2 mg kg, smelting site, supérieur au range [0-100 mg kg])
 
-###BEA: Can you verified all the plant concentration or tell me which data you verified and add info if needed
+###BEA: 
 #1195:data verified, ok
-
 
 
 # isolate the outliers lines for the variable 'cu_ba'
@@ -1577,8 +1169,11 @@ outliers
 # no 397 (cu_ba=454.39 mg kg, Table 2 copper mine tailings, supérieur au range [0-300 mg kg])
 # no 1011 (cu_ba=423, 538 et 857 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
 
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
+###BEA: il y en a 20 maintenant
+# 8772: même que en haut
+# 984 verified ok
+# 121 OK
 
 # isolate the outliers lines for the variable 'pb_ba'
 outliers <- data_std %>% 
@@ -1587,6 +1182,9 @@ outliers
 # 2 lines --> 2 outliers to verify
 # no 1146 (pb_ba=2595 mg kg, mine, supérieur au range [0-1000 mg kg])
 # no 3416 (pb_ba=1105 mg kg, smelting area, supérieur au range [0-1000 mg kg])
+
+###BEA: il y en a 2 de plus
+# 8772: même que en haut
 
 # isolate the outliers lines for the variable 'zn_ba'
 outliers <- data_std %>% 
@@ -1598,13 +1196,17 @@ outliers
 # no 3067 (zn_ba=15354 mg kg, mine, supérieur au range [0-3000 mg kg])
 # no 2289 (zn_ba=3054.1 et 5438.7 mg kg, smelting site, supérieur au range [0-3000 mg kg])
 
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
+###BEA: il y en a 2 de plus
+# 8772: même que en haut
 
 # isolate the outliers lines for the variable 'se_ba'
 outliers <- data_std %>% 
   filter(se_ba < num_range$min_value[num_range$variables == 'se_ba'] | se_ba > num_range$max_value[num_range$variables == 'se_ba'] )
 outliers
 # 0 lines --> no apparent outliers
+
+###BEA: 
+# 121: verified, ok
 
 # isolate the outliers lines for the variable 'ni_ba'
 outliers <- data_std %>% 
@@ -1624,11 +1226,17 @@ outliers <- data_std %>%
 outliers
 # 0 lines --> no apparent outliers
 
+###BEA: il y en a 2 de plus
+# 8772: même que en haut
+
 # isolate the outliers lines for the variable 'cr_ba'
 outliers <- data_std %>% 
   filter(cr_ba < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba > num_range$max_value[num_range$variables == 'cr_ba'] )
 outliers
 # 0 lines --> no apparent outliers
+
+###BEA: il y en a 2 de plus
+# 8772: même que en haut
 
 # isolate the outliers lines for the variable 'hg_ba'
 outliers <- data_std %>% 
@@ -1646,7 +1254,7 @@ outliers
 # no 3029 (n_te_ba=60, supérieur au range [0-20])"120 surface soil samples and 60 pine stem wood and pine needles samples"
 # no 6519 (n_te_ba=21, 26, 20, 23, supérieur au range [0-20])
 
-###BEA: Check the most high number to make sure the number is well written and that there is a justification if it is not a mistake
+###BEA: again when want the replicates, not the total amount of samples. You might want to check again
 
 
 # isolate the outliers lines for the variable 'as_br'
@@ -1689,6 +1297,13 @@ outliers
 # no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
 # no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
 
+###BEA: 9 de plus à vérifier
+#8713 
+#1011 
+#6607 
+#3933 
+#4239
+
 # isolate the outliers lines for the variable 'pb_br'
 outliers <- data_std %>% 
   filter(pb_br < num_range$min_value[num_range$variables == 'pb_br'] | pb_br > num_range$max_value[num_range$variables == 'pb_br'] )
@@ -1697,6 +1312,9 @@ outliers
 # no 5793 (pb_br=1515 mg kg, Mine Tailings, supérieur au range [0-1000 mgkg])
 # no 3067 (pb_br=2123, 4915 et 10419 mg kg, mine, supérieur au range [0-1000 mgkg]
 # no 3416 (pb_br=4630 mg kg, zinc smelting area, supérieur au range [0-1000 mgkg]
+
+###BEA: 
+# 984 verified ok
 
 # isolate the outliers lines for the variable 'zn_br'
 outliers <- data_std %>% 
@@ -1711,6 +1329,10 @@ outliers <- data_std %>%
   filter(se_br < num_range$min_value[num_range$variables == 'se_br'] | se_br > num_range$max_value[num_range$variables == 'se_br'] )
 outliers
 # 0 lines --> no apparent outliers
+
+##BEA:
+#121 verified, ok
+
 
 # isolate the outliers lines for the variable 'ni_br'
 outliers <- data_std %>% 
@@ -1834,6 +1456,8 @@ outliers <- data_std %>%
 outliers
 # 5 lines --> 5 outliers to verify
 # no 3029 (n_te_ba_1=60, supérieur au range [0-20]))"120 surface soil samples and 60 pine stem wood and pine needles samples"
+
+###BEA: seems corrected now
 
 # isolate the outliers lines for the variable 'as_ba_2'
 outliers <- data_std %>% 
@@ -1994,9 +1618,11 @@ unique(data$texture)
 data_std <- data_std %>%
   mutate(texture = ifelse(texture == 'Clayey silt loam' , 'Silty clay loam', texture)) %>%
   mutate(texture = ifelse(texture == 'Loamy','Loam', texture)) %>%
-  mutate(texture = ifelse(texture == 'Sandy','Sand', texture)) %>%
-  mutate(texture = ifelse(texture == 'Clayey silt ','Silty clay', texture)) %>%
-  mutate(texture = ifelse(texture == 'Clayey sand ','Sandy clay', texture))
+  mutate(texture = ifelse(texture == 'Sandy','Sandy loam', texture)) %>%
+  mutate(texture = ifelse(texture == 'Sandy ','Sandy loam', texture)) %>%
+  mutate(texture = ifelse(texture == 'Clayey silt','Silty clay', texture)) %>%
+  mutate(texture = ifelse(texture == 'Clayey sand','Sandy clay', texture))
+
 
 # verify
 unique(data_std$texture) 
@@ -2007,44 +1633,48 @@ txt_table <- read.table("./textural_class_average.txt",
 #textural class list
 txt_list <-txt_table$texture
 
-# Add the % if needed
+# Add the % if the texture is available
+# fist with clay
 data_std <- data_std %>%
-  filter(is.na(clay)|is.na(sand)) %>% 
+  filter(is.na(clay)) %>% # keep only the rows with NA in clay or sand columns
   mutate(clay = ifelse(texture == txt_table$texture[1] , txt_table$clay[1], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
   mutate(clay = ifelse(texture == txt_table$texture[2] , txt_table$clay[2], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[3] , txt_table$clay[3], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[4] , txt_table$clay[4], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[5] , txt_table$clay[5], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[6] , txt_table$clay[6], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[7] , txt_table$clay[7], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[8] , txt_table$clay[8], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[9] , txt_table$clay[9], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[10] , txt_table$clay[10], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[11] , txt_table$clay[11], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[12] , txt_table$clay[12], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[13] , txt_table$clay[13], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[14] , txt_table$clay[14], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[15] , txt_table$clay[15], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>%
   mutate(clay = ifelse(texture == txt_table$texture[16] , txt_table$clay[16], clay)) %>% 
-  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>%
-  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
+  mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay))
+ 
+# second with sand to avoid overwriting on data
+data_std <- data_std %>%
+  filter(is.na(sand)) %>% # keep only the rows with NA in sand or sand columns
+  mutate(sand = ifelse(texture == txt_table$texture[1] , txt_table$sand[1], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[2] , txt_table$sand[2], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[3] , txt_table$sand[3], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[4] , txt_table$sand[4], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[5] , txt_table$sand[5], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[6] , txt_table$sand[6], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[7] , txt_table$sand[7], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[8] , txt_table$sand[8], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[9] , txt_table$sand[9], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[10] , txt_table$sand[10], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[11] , txt_table$sand[11], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[12] , txt_table$sand[12], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[13] , txt_table$sand[13], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[14] , txt_table$sand[14], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[15] , txt_table$sand[15], sand)) %>% 
+  mutate(sand = ifelse(texture == txt_table$texture[16] , txt_table$sand[16], sand)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
-  
 
 # Add the % unit if needed
 data_std <- data_std %>%
@@ -2091,7 +1721,7 @@ saveRDS(data_std, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
 # save the final corrected file as csv file and txt file
 write.table(data_std,
             "./Amélie/data_cleaning_final/data_std_cu_cleaned.csv", 
-            sep="\t", row.names = F, quote = F)
+            sep=";", row.names = F, quote = F)
 write.table(data_std,
             "./Amélie/data_cleaning_final/data_std_cu_cleaned.txt", 
             sep="\t", row.names = F, quote = F)
