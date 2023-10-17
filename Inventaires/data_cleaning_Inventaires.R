@@ -153,14 +153,14 @@ data <- data %>%
 # Na were introduced when values were not only numerical.
 
 # Verify the mutation
-str(data)# good
+str(data)
 
 #### all white space to NA ####
 data[data == ''] <- NA
 
 #### species names cleaning  ####
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name)) # 391 unique species
+uni_sp<-as.data.frame(unique(data$name))
 colnames(uni_sp) <- c('sp') 
 
 
@@ -168,7 +168,7 @@ colnames(uni_sp) <- c('sp')
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
-to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 124 species not on the corrected list, so need to be corrected
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name'))
 
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
@@ -182,7 +182,7 @@ matches <- match.name %>%
   distinct()
 
 # Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 121 sp
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) 
 colnames(uni_sp_2) <- c('sp')
 
 # which are not included
@@ -202,14 +202,14 @@ matches.all$dupl<-''
 
 # write it back as a table for manual correction in Excel
 write.table(matches.all,
-            "./Amélie/uni_sp_match_names.txt", 
+            "./Inventaires/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
 
 # open the txt file in excel to make manual corrections
 # For all hybrids (with x) both name should be keep
 # Save the corrected names in a txt file name, adding _cor to the name of the document
 # import back the data 
-uni_sp_cor <- read.table("./Amélie/uni_sp_match_names_cor.txt", 
+uni_sp_cor <- read.table("./Inventaires/uni_sp_match_names_cor.txt", 
                          sep="\t", header=T, stringsAsFactors = F)
 
 # eliminate duplicates
@@ -218,11 +218,11 @@ uni_sp_cor<-uni_sp_cor %>%  filter(!dupl2 ==T)
 
 
 # Save the final corrected list in an rds object
-saveRDS(uni_sp_cor, file='Amélie/cu_sp_cor.rds')
+saveRDS(uni_sp_cor, file='Inventaires/cu_sp_cor.rds')
 
 #### Join list of corrected names ####
 # call the newly corrected list
-cu_sp_cor <- readRDS('Amélie/cu_sp_cor.rds')
+cu_sp_cor <- readRDS('Inventaires/cu_sp_cor.rds')
 
 # Convert the score column in cu_sp_cor to double
 cu_sp_cor$score <- as.numeric(cu_sp_cor$score)
@@ -242,7 +242,15 @@ data <- data %>%
 
 
 # Check number of sp now
-uni_cu_cor <-unique(data$name) # 391 unique species
+uni_cu_cor <-unique(data$name)
+
+
+
+
+
+
+
+
 
 
 #### standardized units ####
@@ -1048,10 +1056,6 @@ unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"   "fruits"
 unique(data_std$organs_ba_3) # only "wood"
 
 
-### BEA: il faudrait vérifier pourquoi tous les espaces sont remplacer. Nomralement, la fonction ne doit remplacer que s'il y a un nom d'organe.
-### c'est réglé?
-
-
 # organs_br
 unique(data$organs_br)
 # conversion
@@ -1084,902 +1088,456 @@ list
 outliers <- data_std %>% 
   filter(covidence < num_range$min_value[num_range$variables == 'covidence'] | covidence > num_range$max_value[num_range$variables == 'covidence'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # you can also write it with number from the list to save time, as follow with Covidence as number 1 in the list
 outliers <- data_std %>% 
   filter(data_num[,1] < num_range$min_value[1] | data_num[,1] > num_range$max_value[1] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'year'
 outliers <- data_std %>% 
   filter(year < num_range$min_value[num_range$variables == 'year'] | year > num_range$max_value[num_range$variables == 'year'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'expe_t'
 outliers <- data_std %>% 
   filter(expe_t < num_range$min_value[num_range$variables == 'expe_t'] | expe_t > num_range$max_value[num_range$variables == 'expe_t'] )
 outliers
-# 36 lines --> 36 outliers to verify
-# no 2973 (expe_t=16.5--> glasshouse minimum temperature 8ºC; maximum temperature 25ºC,inférieur au range [17-27ºC])
-# no 2762 (expe_t=31--> greenhouse was monitored at an average of 31ºC,supérieur au range [17-27ºC])
-# no 2248 (expe_t=28.9--> in the growing environment, the average temperature was 28.9ºC,supérieur au range [17-27ºC])
-# no 218 (expe_t=28--> the chamber temperature was 28ºC,supérieur au range [17-27ºC])
-# no 4239 (expe_t=30-->the temperature was ambient 25–35ºC,supérieur au range [17-27ºC])
-
-###BEA: all ok
 
 # isolate the outliers lines for the variable 'mat'
 outliers <- data_std %>% 
   filter(mat < num_range$min_value[num_range$variables == 'mat'] | mat > num_range$max_value[num_range$variables == 'mat'] )
 outliers
-# 0 line --> 0 outliers to verify
-
-###BEA: this is not a mean annual temperature, but a summer mean, so you should delete it. tu peux ajouter la note au commentaires
-###AME: ok
 
 # isolate the outliers lines for the variable 'map'
 outliers <- data_std %>% 
   filter(map < num_range$min_value[num_range$variables == 'map'] | map > num_range$max_value[num_range$variables == 'map'] )
 outliers
-# 2 lines --> 2 outliers to verify
-# no 1195 (map=1.9--> mean annual rainfall was 1.67–2.13 mm/year,inférieur au range [50-3000mm])
-
-###BEA:
-#1195:ok
-#1510: not the annual so must be delete, can be put in the comments
-#3220: not the annual so must be delete, can be put in the comments
-###AME: ok
 
 # isolate the outliers lines for the variable 'ph'
 outliers <- data_std %>% 
   filter(ph < num_range$min_value[num_range$variables == 'ph'] | ph > num_range$max_value[num_range$variables == 'ph'] )
 outliers
-# 49 lines --> 49 outliers to verify
-# no 8790 (ph=3.25-->Rz ph=2.9-3.6)
-# no 5829 (ph=2.6, inférieur au range [3.5-8.5])
-# no 8521 (ph=2.34, inférieur au range [3.5-8.5])
-# no 5760 (ph=8.6, supérieur au range [3.5-8.5])
-# no 2205 (ph=8.9, supérieur au range [3.5-8.5])
-# no 6873 (ph=2.78 et 2.81-->dans les Supplementary data, inférieur au range [3.5-8.5])
-# no 4193 (ph=8.8, supérieur au range [3.5-8.5])
-# no 8198 (ph=8.65-->moyenne de 6.6 et 6.7 Table 1, supérieur au range [3.5-8.5] )
-# no 7605 (ph=3.05-->inférieur au range [3.5-8.5])
-# no 501 (ph=8.55, supérieur au range [3.5-8.5])
-# no 1225 (ph=8.64 et 8.72, supérieur au range [3.5-8.5])
-# no 1406 (ph=3.01-->Table 3,inférieur au range [3.5-8.5])
-# no 8345 (ph=8.9, supérieur au range [3.5-8.5])
-# no 3933 (ph=8.54, supérieur au range [3.5-8.5])
-
-##BEA : ok, still plausible data
 
 # isolate the outliers lines for the variable 'om'
 outliers <- data_std %>% 
   filter(om < num_range$min_value[num_range$variables == 'om'] | om > num_range$max_value[num_range$variables == 'om'] )
 outliers
-# 16 lines --> 16 outliers to verify
-# no 1560 (om=15.61%-->Table 3, supérieur au range [0-15%]) # OK
-# no 2248 (om=26.10 dag kg-1, c'est à cause de l'unité) 
-
-###BEA:  De ton côté, la convertion de dag/kg a % est 1? juste confirmer que l'on arrive à la même chose. Le nombre est très élevé, si tu peux ajouter une note dans les commantaires
-
 
 # isolate the outliers lines for the variable 'oc'
 outliers <- data_std %>% 
   filter(oc < num_range$min_value[num_range$variables == 'oc'] | oc > num_range$max_value[num_range$variables == 'oc'] )
 outliers
-# 238 lines --> 238 outliers to verify
-# no 1663 (oc=9,7.6,13,6.6 et 9.3 g kg-1-->convertit en 0.9%, 0.76%, 1.3%, 0.66%, 0.93%, inférieur au range [2.4-6%])
-# no 196 (oc=1.48%, inférieur au range [2.4-6%])
-# no 249 (oc=10.7%, supérieur au range [2.4-6%])
-# no 7473 (oc=1.54% et 1.63%, inférieur au range [2.4-6%])
-# no 616 (oc=0.59% et 0.72%, inférieur au range [2.4-6%])
-# no 2187 (oc=0.84%, inférieur au range [2.4-6%])
-# no 4254 (oc=1.82%,1.58%,1.28%,1.63%, inférieur au range [2.4-6%])
-# no 6382 (oc=1.95 g kg-->convertit en 0.195%, inférieur au range [2.4-6%])
-# no 1831 (oc=1.6%,7%, inférieur et supérieur au range [2.4-6%])
-# no 2600 (oc=0.8%, inférieur au range [2.4-6%])
-# no 2011 (oc=1.2%, 1.3%, 1.4%, inférieur au range [2.4-6%])
-# no 4193 (oc=1,03%, inférieur au range [2.4-6%])
-# no 133 (oc=2.04%, 1.74%, 1.67%, 1.50%, inférieur au range [2.4-6%])
-# no 6544 (oc=1.86%, 1.55%, inférieur au range [2.4-6%])
-# no 1356 (oc=0.12%, inférieur au range [2.4-6%])
-# no 7504 (oc=1.2683%, moyenne de 1.54,1.9,0.1,1.3,1.47 et 1.2, inférieur au range [2.4-6%])
-# no 2864 (oc=1.29%, inférieur au range [2.4-6%])
-# no 2289 (oc=1.1%, 1.5%, 8.8%, 11.3%, inférieur et supérieur au range [2.4-6%])
-# no 1675 (oc=14.8 gkg-->convertit en 1.48%, inférieur au range [2.4-6%])
-# no 2695 (oc= 164,146,203,56,176,64,39,44,14 mgkg-1--> convertit en 1.64%, 1.46%, 2.03%, 0.56%, 1.76%, 0.64%, 0.39%, 0.44%, 0.14%, inférieur au range [2.4-6%])
-# no 3510 (oc=1.0455%,inférieur au range [2.4-6%])
-# no 1700 (oc=1.5%,inférieur au range [2.4-6%])
-# no 8669 (oc=0.94%, 0.43%, 0.27%,inférieur au range [2.4-6%])
-# no 168 (oc=0.6420%,inférieur au range [2.4-6%])
-# no 3029 (oc=7.8% (supplementary data),inférieur au range [2.4-6%])
-# no 8172 (oc=56 mg kg-1-->convertit en 0.56%, inférieur au range [2.4-6%])
-# no 43 (oc=6 gkg-->convertit en 0.6%, inférieur au range [2.4-6%])
-# no 2181 (oc=3.9 mg kg-1-->convertit en 0.039%, inférieur au range [2.4-6%])
-# no 6407 (oc=0.8 gkg-->convertit en 0.08%, inférieur au range [2.4-6%])
-# no 7762 (oc=1.33%, inférieur au range [2.4-6%])
-# no 91 (oc=0.3%, inférieur au range [2.4-6%])
-# no 4248 (oc=1.9%, inférieur au range [2.4-6%])
-# no 8509 (oc=0.21%, inférieur au range [2.4-6%])
-# no 7129 (oc=0.21%, inférieur au range [2.4-6%])
-# no 1398 (oc=18.9 g kg-1-->convertit en 1.89%, inférieur au range [2.4-6%])
-# no 1599 (oc=2.22%,1.99%,0.31%,0.32%,6.36%, inférieur au range [2.4-6%])
-# no 397 (oc=0.26%, inférieur au range [2.4-6%])
-# no 3616 (oc=14, 15, 3.7, 15 g kg-1-->convertit en 1.4%,1.5%,0.37%, 1.5% inférieur au range [2.4-6%])
-# no 8196 (oc=65.2 g kg-1-->convertit en 6.52%, inférieur au range [2.4-6%]))
-# no 1249 (oc=11.3 g kg-1-->convertit en 1.13%, inférieur au range [2.4-6%]))
-# no 2129 (oc=0.8%, inférieur au range [2.4-6%])
-# no 1357 (oc=1.79%, 2.31%, inférieur au range [2.4-6%])
-# no 5467 (oc=23.8 g kg-1-->convertit en 2.38%, inférieur au range [2.4-6%])
-# no 177 (oc=9.86 g kg-->convertit en 0.986%, inférieur au range [2.4-6%])
-# no 8079 (oc=20.4 g kg-->convertit en 2.04%, inférieur au range [2.4-6%])
-
-
-###BEA: OK
-
 
 # isolate the outliers lines for the variable 'clay'
 outliers <- data_std %>% 
   filter(clay < num_range$min_value[num_range$variables == 'clay'] | clay > num_range$max_value[num_range$variables == 'clay'] )
 outliers
-# 34 lines --> 34 outliers to verify
-# no 4088 (clay=12 gkg-1 et 40 gkg-1-->convertit en 1.2% et 4%, inférieur au range [5-90%])
-# no 6871 (clay=1.61%, inférieur au range [5-90%])
-# no 8172 (clay=430 mg kg-1-->convertit en 4.3%, inférieur au range [5-90%])
-# no 2890 (clay=30 gkg-->convertit en 3%, inférieur au range [5-90%])
-# no 1599 (clay=0-2%, inférieur au range [5-90%])
-# no 6607 (clay=4.7%, inférieur au range [5-90%])
-# no 177 (clay=2%, inférieur au range [5-90%])
-
-
-### BEA:
-#4088: sur des sols de sables, donc OK
-# Es-tu allée vérifier que c'était les bons nombres dans les articles?
-###AME: oui
 
 # isolate the outliers lines for the variable 'sand'
 outliers <- data_std %>% 
   filter(sand < num_range$min_value[num_range$variables == 'sand'] | sand > num_range$max_value[num_range$variables == 'sand'] )
 outliers
-# 9 lines --> 9 outliers to verify
-# no 4088 (sand=945 gkg-1 et 909 gkg-1-->convertit en 94.5% et 90.9%, supérieur au range [5-90%])
-# no 8172 (sand=300 mg kg-1-->convertit en 3%, inférieur au range [5-90%])
-
-###BEA: OK
 
 # isolate the outliers lines for the variable 'ec'
 outliers <- data_std %>% 
   filter(ec < num_range$min_value[num_range$variables == 'ec'] | ec > num_range$max_value[num_range$variables == 'ec'] )
 outliers
-# 9 lines --> 9 outliers to verify
-# no 1264 (ec=1.98 dS cm-1, Page 2-->convertit en 198 mS cm-1, supérieur au range [0-16 mS cm-1])
-# no 2218 (ec=0.30 et 0.68 ds cm-1, Table 1-->convertit en 30 et 68 mS cm-1, supérieur au range [0-16 mS cm-1])
-# no 6607 (ec=100, 143 et 65 dS/m, Table 1--> convertit en 100, 143 et 65 ms cm-1, supérieur au range [0-16 mS cm-1])
-
-### BEA: le no 2532 m'ont permis de voir que les transformations d'unités EC étaient erronées. Je les ai changé maintenant. d'autre outliers maintenant apparaissent
-# all outliers are high, but might be plausible. Add a note to identify that they might be error data
-
 
 # isolate the outliers lines for the variable 'cec'
 outliers <- data_std %>% 
   filter(cec < num_range$min_value[num_range$variables == 'cec'] | cec > num_range$max_value[num_range$variables == 'cec'] )
 outliers
-# 31 lines --> 31 outliers to verify
-# no 1955 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
-# no 593 (cec=49.77 et 36.93 meq+100-1-->convertit en 49.77 et 36.93 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
-# no 7858 (cec=39.13 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
-# no 1356 (cec=1.52 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
-# no 1675 (cec=1.9 cmol kg-1-->inférieur au range [2-35 cmolc kg-1])
-# no 1239 (cec=36 cmol kg-1-->supérieur au range [2-35 cmolc kg-1])
-# no 1599 (cec=1.71 cmol kg-1-->sinférieur au range [2-35 cmolc kg-1])
-# no 1011 (cec=7.27 cmol/100g-->convertit en 0.0727 cmolc kg-1, inférieur au range [2-35 cmolc kg-1])
-# no 4063 (cec=6.6 cmolc dm-3-->convertit en 66 cmolc kg-1, supérieur au range [2-35 cmolc kg-1])
-
-### BEA: Ok, except for:
-#8669, the % mean directly cmol kg-1 in the study when I checked. SO I change the conversion and now the data are within the range
-#177: the conversion was wrong, mM+ mean milimol, so there is a conversion of /10, I correct teh conversion fonction
 
 # isolate the outliers lines for the variable 'N'
 outliers <- data_std %>% 
   filter(N < num_range$min_value[num_range$variables == 'n'] | N > num_range$max_value[num_range$variables == 'n'] )
 outliers
-# 99 lines --> 99 outliers to verify
-# no 1146 (N=1.04 %, 0.18%, 0.30%--> convertit en 10400 mg kg-1, 1800 mg kg-1, 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 196 (N=1.12%--> convertit en 11200 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 7473 (N=0.3%-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 7974 (N=0.27%, 0.32%-->convertit en 2700 mg kg-1, 3200 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 133 (N=0.19%, 0.16%, 0.18%-->convertit en 1900 mg kg-1, 1600 mg kg-1, 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 2218 (N=0.25%, 0.21%-->convertit en 2500 mg kg-1, 2100 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 2289 (N=0.3%, 0.4%-->convertit en 3000 mg kg-1, 4000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 1675 (N=2.9 gkg-->convertit en 2900 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 2695 (N=5.6 et 4.8 mg kg, inférieur au range [10-1500 mg kg-1])
-# no 3013 (N=0.3% -->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 1683 (N=3 gkg-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 501 (N=6.8 mg kg, inférieur au range [10-1500 mg kg-1])
-# no 2154 (N=0.21%, 0.17%-->convertit en 2100 mg kg-1, 1700 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 6607 (N=0.16%-->convertit en 1600 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 8196 (N=3 gkg-->convertit en 3000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 838 (N=0.8%, 0.64%, 0.20%-->convertit en 8000 mg kg-1, 6400 mg kg-1, 2000 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 1357 (N=2.35 gkg-->convertit en 2350 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 5467 (N=2.04 gkg, 1.92 gkg-->convertit en 2040 mg kg-1, 1920 mg kg-1, supérieur au range [10-1500 mg kg-1])
-# no 8012 (N=0.19%-->convertit en 1900 mg kg-1, supérieur au range [10-1500 mg kg-1])
-
-
-### BEA: ceux qui sont proche sont OK
-#1146: OK, the 1.04% is from commercial agricultural soil, so maybe high in N on purpose.
-# 196: contamination of nutrietn, so normal to have high number
-# 838: OK, justify that the results are high, so ok to keep them
-
 
 # isolate the outliers lines for the variable 'P'
 outliers <- data_std %>% 
   filter(P < num_range$min_value[num_range$variables == 'p'] | P > num_range$max_value[num_range$variables == 'p'] )
 outliers
-# 208 lines --> 208 outliers to verify
-# no 1041 (P=2.91 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 3591 (P=3.6 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 2187 (P=2.5 ug g--> convertit en 2.5 mg kg-1, inférieur au range [5-100 mg kg-1]) 
-# no 6382 (P=0.21 g kg--> convertit en 210 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 1831 (P=118 et 1042 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 271 (P=712 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 2600 (P=180 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 2011 (P=5.5, 11.8, 19.6 et 16.6 mg 100 g−1--> convertit en 0.55, 1.18, 1.96 et 1.66 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 133 (P=13.5, 16.1, 14.7 et 16.2 mg 100 g−1--> convertit en 1.31, 1.61, 1.47 et 1.62 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 7858 (P=2.89 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 1356 (P=2.20 cmol (+)kg−1--> convertit en 2.20 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 218 (P=0.4 mg dm−3--> convertit en 4 mg kg-1, inférieur au range [5-100 mg kg-1]) 
-# no 5338 (P=4.9 mgL-1, c'est à cause de l'unité)
-# no 2864 (P=404 ug g--> convertit en 404 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 1683 (P=0.59 g kg--> convertit en 590 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 2181 (P=4.51 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 96 (P=830 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 1264 (P=0.16 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 1011 (P=0.24%--> convertit en 240 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 3396 (P=1.24 et 0.97 g kg--> convertit en 1240 et 970 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 2089 (P=4.62 et 4.98 mg kg-1, inférieur au range [5-100 mg kg-1])
-# no 1249 (P=1.3, 0.34 et 0.5 g kg--> convertit en 1300, 340 et 500 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 1357 (P=0.73 et 0.87 g kg--> convertit en 730 et 870 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 5467 (P=1.10 et 1.15 g kg--> convertit en 1100 et 1150 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 4239 (P=3.11 g kg--> convertit en 3110 mg kg-1, supérieur au range [5-100 mg kg-1])
-# no 2351 (P=484 mg kg, supérieur au range [5-100 mg kg-1])
-
-
-###BEA: OK,
-# no 2187, la conversion de 2.5 donne 1500?? c'est une erreur de frappe ou de conversion (qui devrait etre 1)?
-# 271: problème de converssion, 2,2 cmol donne 61,94, j'ai conrrigé la conversion
-# 1356: erreur de frappe, c'est en mg/kg, donc OK
-# 2864: 404, erreur de conversion, cela donne 404 mg/kg
-#96: ok, high but from mining, OK
-#3396: data verified, N seems ok, so P might only be really high,OK
-#1249: data verified,  P is high since it is a garden soil, OK
-#1357: data verified,  P might only be really high,OK
-#5467: data verified,  P might only be really high,OK
-#4239:data verified,  P might only be really high,OK
-
-
 
 # isolate the outliers lines for the variable 'as_s'
 outliers <- data_std %>% 
   filter(as_s < num_range$min_value[num_range$variables == 'as_s'] | as_s > num_range$max_value[num_range$variables == 'as_s'] )
 outliers
-# 27 lines --> 27 outliers to verify
-# no 5793 (as_s=350 mg kg, Table 2 Mine Tailings, supérieur au range [0-250 mg kg-1])
-# no 1560 (as_s=348, 577, 551 mg kg, Fig 2 copper smelter, supérieur au range [0-250 mg kg-1])
-# no 6873 (as_s=523, 1247 et 1017 mg kg, Table 1 mining areas, supérieur au range [0-250 mg kg-1])
-# no 3416 (as_s=463, 466, 274, 524, 1600, 360, 1320, 844, 502 mg kg, Table 1 zinc smelting area, supérieur au range [0-250 mg kg-1])
-# no 1398 (as_s=2428 et 860 mg kg, supérieur au range [0-250 mg kg-1])
-# no 5770 (as_s=427 mg kg, supérieur au range [0-250 mg kg-1])
-# no 1225 (as_s=491 et 1304 mg kg, Table 7 mine, supérieur au range [0-250 mg kg-1])
-# no 1406 (as_s=4227 et 21370 mg kg, Table 3 copper and tungsten mine, supérieur au range [0-250 mg kg-1])
-
-
-
-###BEA:
-#1398:particularly As contaminated soil, so OK
-#1406:mine site, OK
-
-
 
 # isolate the outliers lines for the variable 'cd_s'
 outliers <- data_std %>% 
   filter(cd_s < num_range$min_value[num_range$variables == 'cd_s'] | cd_s > num_range$max_value[num_range$variables == 'cd_s'] )
 outliers
-# 15 lines --> 15 outliers to verify
-# no 6873 (cd_s=123, 199 mg kg, Table 1 mining areas, supérieur au range [0-100 mg kg])
-# no 3067 (cd_s=537 mg kg, mine, supérieur au range [0-100 mg kg])
-# no 2289 (cd_s=301.2 et 175.6 mg kg, Table 2 smelting site, supérieur au range [0-100 mg kg])
-# no 1683 (cd_s=109 et 120 mg kg, Table 2 gradients de concentration, supérieur au range [0-100 mg kg])
-# no 8509 (cd_s=150 et 200, supérieur au range [0-100 mg kg])
-
-
-###BEA:
-#3067: mine ok
-
 
 # isolate the outliers lines for the variable 'cu_s'
 outliers <- data_std %>% 
   filter(cu_s < num_range$min_value[num_range$variables == 'cu_s'] | cu_s > num_range$max_value[num_range$variables == 'cu_s'] )
 outliers
-# 44 lines --> 44 outliers to verify
-# no 1663 (cu_s=3732 et 5180 mg kg, Table 1 copper smelter, supérieur au range [0-2500 mgkg])
-# no 3036 (cu_s=2798, 3790, 3507, 4313, 4935, 4423 mg kg, Table 1 copper smelter, supérieur au range [0-2500 mgkg])
-# no 466 (cu_s=3480 mg kg, Table 1 mine polluted area, supérieur au range [0-2500 mgkg])
-# no 1560 (cu_s=3616,5076 et 5343 ug/g=mg kg, Fig 2 copper smelter, supérieur au range [0-2500 mgkg])
-# no 1884 (cu_s=3967, 3320, 5249 mg kg, Table 2 copper smelter,  supérieur au range [0-2500 mgkg])
-# no 2695 (cu_s=5047, 9941, 9125, 6773 mg kg, Table 3 copper mine, supérieur au range [0-2500 mgkg])
-# no 3416 (cu_s=2770 mg kg, Table 1 zinc smelting area, supérieur au range [0-2500 mgkg])
-# no 8669 (cu_s=4968 mg kg, Table 3 copper smelter, supérieur au range [0-2500 mgkg])
-# no 1683 (cu_s=3030, 3330, 2950 et 3290 mg kg, Table 2 gradients de concentration, supérieur au range [0-2500 mgkg])
-# no 1225 (cu_s=7765 et 5865 mg kg, Table 7 mine, supérieur au range [0-2500 mgkg])
-# no 1406 (cu_s=4003 et 3344 mg kg, Table 3 copper and tungsten mine, supérieur au range [0-2500 mgkg])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'pb_s'
 outliers <- data_std %>% 
   filter(pb_s < num_range$min_value[num_range$variables == 'pb_s'] | pb_s > num_range$max_value[num_range$variables == 'pb_s'] )
 outliers
-# 23 lines --> 23 outliers to verify
-# no 5793 (pb_s=5200 mg kg, Table 2 Mine Tailings, supérieur au range [0-5000 mg kg-1])
-# no 1146 (pb_s=19571 mg kg, Table 1 mine, supérieur au range [0-5000 mg kg-1])
-# no 8790 (pb_s=27631, 28847 et 5156 mg kg, Table 1 mining area, supérieur au range [0-5000 mg kg-1])
-# no 3036 (pb_s=5100, 5255 mg kg, Table 1 copper smelter, supérieur au range [0-5000 mg kg-1])
-# no 6873 (pb_s=11 737 mg kg, Table 1 mining areas, supérieur au range [0-5000 mg kg-1])
-# no 3067 (pb_s=8265 et 9712 mg kg, Table 1 mine, supérieur au range [0-5000 mg kg-1])
-# no 3416 (pb_s=9910, 5830, 21400, 9830, 5410, 8000 mg kg, Table 1 zinc smelting area, supérieur au range [0-5000 mg kg-1])
-# no 3377 (pb_s=5101.6 mg kg, Table 1 zinc and lead tailings dump, supérieur au range [0-5000 mg kg-1])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
-
 
 # isolate the outliers lines for the variable 'zn_s'
 outliers <- data_std %>% 
   filter(zn_s < num_range$min_value[num_range$variables == 'zn_s'] | zn_s > num_range$max_value[num_range$variables == 'zn_s'] )
 outliers
-# 29 lines --> 29 outliers to verify
-# no 5793 (zn_s=9100 mg kg, Table 2 Mine Tailings, supérieur au range [0-7500 mg kg-1])
-# no 3067 (zn_s=11498 et 9673 mg kg, Table 1 mine, supérieur au range [0-7500 mg kg-1])
-# no 2289 (zn_s= 8403.3, 70445.8 et 68570.8 mg kg, Table 2 smelting site, supérieur au range [0-7500 mg kg-1])
-# no 3416 (zn_s=36500, 19050, 14000, 29000, 36700, 67600, 15400, 7930 mg kg, Table 1 zinc smelting area, supérieur au range [0-7500 mg kg-1])
-# no 1374 (zn_s=8635 mg kg, Page 3 smelter soil, supérieur au range [0-7500 mg kg-1])
-# no 3377 (zn_s=12443.5 mg kg, Table 1 zinc and lead tailings dump, supérieur au range [0-7500 mg kg-1])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'se_s'
 outliers <- data_std %>% 
   filter(se_s < num_range$min_value[num_range$variables == 'se_s'] | se_s > num_range$max_value[num_range$variables == 'se_s'] )
 outliers
-# 11 lines --> 11 outliers to verify
-# no 6873 (se_s=51.1, 228, 240 mg kg, Table 1 mining areas, supérieur au range [0-50 mg kg])
-# no 121 (se_s=536 mg kg, Table 1 industrial activity, supérieur au range [0-50 mg kg])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'ni_s'
 outliers <- data_std %>% 
   filter(ni_s < num_range$min_value[num_range$variables == 'ni_s'] | ni_s > num_range$max_value[num_range$variables == 'ni_s'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_s'
 outliers <- data_std %>% 
   filter(co_s < num_range$min_value[num_range$variables == 'co_s'] | co_s > num_range$max_value[num_range$variables == 'co_s'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_s'
 outliers <- data_std %>% 
   filter(mn_s < num_range$min_value[num_range$variables == 'mn_s'] | mn_s > num_range$max_value[num_range$variables == 'mn_s'] )
 outliers
-# 1 line --> 1 outlier to verify
-# no 8790 (mn_s=17770 mg kg, Table 1 mining area, supérieur au range [0-11000 mg kg])
 
 # isolate the outliers lines for the variable 'cr_s'
 outliers <- data_std %>% 
   filter(cr_s < num_range$min_value[num_range$variables == 'cr_s'] | cr_s > num_range$max_value[num_range$variables == 'cr_s'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_s'
 outliers <- data_std %>% 
   filter(hg_s < num_range$min_value[num_range$variables == 'hg_s'] | hg_s > num_range$max_value[num_range$variables == 'hg_s'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'n_s'
 outliers <- data_std %>% 
   filter(n_s < num_range$min_value[num_range$variables == 'n_s'] | n_s > num_range$max_value[num_range$variables == 'n_s'] )
 outliers
-# 137 lines --> 137 outliers to verify
-# no 2011 (n_s=98, 105, 79, 48, supérieur au range [0-10])
-# no 6544 (n_s=12, supérieur au range [0-10])
-# no 2532 (n_s=12, supérieur au range [0-10])
-# no 7504 (n_s=12, supérieur au range [0-10])
-# no 2632 (n_s=12, supérieur au range [0-10])
-# no 3029 (n_s=120, supérieur au range [0-10])
-# no 1599 (n_s=36, supérieur au range [0-10])
-# no 6519 (n_s=21, 26, 20, 23, supérieur au range [0-10])
-# no 354 (n_s=76, Table 1, supérieur au range [0-10])
-
-
-###BEA:
-#3029:120 is way too much, in the article is said n = 2 (for plants and) duplicates, need to be change
-###AME: j'avais mis 120 car ils disent "120 surface soil samples and 60 pine stem wood and pine needles samples were collected from each sampling point"
-#j'ai remplacé pour 2, mais je ne le vois pas dans l'article
-# check the other really high number
-
 
 # isolate the outliers lines for the variable 'ba_total'
 outliers <- data_std %>% 
   filter(ba_total < num_range$min_value[num_range$variables == 'ba_total'] | ba_total > num_range$max_value[num_range$variables == 'ba_total'] )
 outliers
-# 0 lines --> no apparent outliers
-
-###BEA: indicates that there is no treshold for now (for all biomass)
 
 # isolate the outliers lines for the variable 'ba_stem'
 outliers <- data_std %>% 
   filter(ba_stem < num_range$min_value[num_range$variables == 'ba_stem'] | ba_stem > num_range$max_value[num_range$variables == 'ba_stem'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ba_leaf'
 outliers <- data_std %>% 
   filter(ba_leaf < num_range$min_value[num_range$variables == 'ba_leaf'] | ba_leaf > num_range$max_value[num_range$variables == 'ba_leaf'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'br'
 outliers <- data_std %>% 
   filter(br < num_range$min_value[num_range$variables == 'br'] | br > num_range$max_value[num_range$variables == 'br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'as_ba'
 outliers <- data_std %>% 
   filter(as_ba < num_range$min_value[num_range$variables == 'as_ba'] | as_ba > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
-# 1 line --> 1 outlier to verify
-# no 1041 (as_ba=1050 mg kg, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'cd_ba'
 outliers <- data_std %>% 
   filter(cd_ba < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
-# 3 lines --> 3 outliers to verify
-# no 1195 (cd_ba=1104 mg kg, Page 6 farm contaminated soil, supérieur au range [0-100 mg kg])
-# no 3067 (cd_ba=1025 mg kg, Table 3 mine, supérieur au range [0-100 mg kg])
-# no 2289 (cd_ba=100.2 mg kg, smelting site, supérieur au range [0-100 mg kg])
-
-###BEA: Can you verified all the plant concentration or tell me which data you verified and add info if needed
-#1195:data verified, ok
-
-
 
 # isolate the outliers lines for the variable 'cu_ba'
 outliers <- data_std %>% 
   filter(cu_ba < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
-# 14 lines --> 14 outliers to verify
-# no 57 (cu_ba=2585.54 mg kg, Table 5 artificial contamination, supérieur au range [0-300 mg kg])
-# no 2972 (cu_ba=790.292493 mg kg, Fig.3, supérieur au range [0-300 mg kg])
-# no 1560 (cu_ba=490 ug/g=mg kg, copper smelter, supérieur au range [0-300 mg kg])
-# no 8669 (cu_ba=321 et 311 mg kg, copper smelter, supérieur au range [0-300 mg kg])
-# no 1264 (cu_ba=593.8698179 et 812.26062 mg kg, Fig.3 spiked, supérieur au range [0-300 mg kg])
-# no 2857 (cu_ba=410 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
-# no 3230 (cu_ba=517 et 684 ug/g=mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
-# no 397 (cu_ba=454.39 mg kg, Table 2 copper mine tailings, supérieur au range [0-300 mg kg])
-# no 1011 (cu_ba=423, 538 et 857 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
-
 
 # isolate the outliers lines for the variable 'pb_ba'
 outliers <- data_std %>% 
   filter(pb_ba < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
-# 2 lines --> 2 outliers to verify
-# no 1146 (pb_ba=2595 mg kg, mine, supérieur au range [0-1000 mg kg])
-# no 3416 (pb_ba=1105 mg kg, smelting area, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'zn_ba'
 outliers <- data_std %>% 
   filter(zn_ba < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
-# 6 lines --> 6 outliers to verify
-# no 1146 (zn_ba=4097 mg kg, mine, supérieur au range [0-3000 mg kg])
-# no 2187 (zn_ba=6041 et 3601 ug/g=mg kg, Table 3 spike, supérieur au range [0-3000 mg kg])
-# no 3067 (zn_ba=15354 mg kg, mine, supérieur au range [0-3000 mg kg])
-# no 2289 (zn_ba=3054.1 et 5438.7 mg kg, smelting site, supérieur au range [0-3000 mg kg])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification, like a mine
 
 # isolate the outliers lines for the variable 'se_ba'
 outliers <- data_std %>% 
   filter(se_ba < num_range$min_value[num_range$variables == 'se_ba'] | se_ba > num_range$max_value[num_range$variables == 'se_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ni_ba'
 outliers <- data_std %>% 
   filter(ni_ba < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba > num_range$max_value[num_range$variables == 'ni_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_ba'
 outliers <- data_std %>% 
   filter(co_ba < num_range$min_value[num_range$variables == 'co_ba'] | co_ba > num_range$max_value[num_range$variables == 'co_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_ba'
 outliers <- data_std %>% 
   filter(mn_ba < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba > num_range$max_value[num_range$variables == 'mn_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cr_ba'
 outliers <- data_std %>% 
   filter(cr_ba < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba > num_range$max_value[num_range$variables == 'cr_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_ba'
 outliers <- data_std %>% 
   filter(hg_ba < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'n_te_ba'
 outliers <- data_std %>% 
   filter(n_te_ba < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
-# 53 lines --> 53 outliers to verify
-# no 2011 (n_te_ba=98, 105, 79, 48, supérieur au range [0-20])"98 samples from acidic soils (group I), 105 samples from slightly acid soils (group II), 79 samples from neutral soils (group II), and 48 samples from alkaline soils (group IV)" 
-# no 7504 (n_te_ba=72, supérieur au range [0-20])" 36 samples of soil and water and 72 samples of vegetables"
-# no 3029 (n_te_ba=60, supérieur au range [0-20])"120 surface soil samples and 60 pine stem wood and pine needles samples"
-# no 6519 (n_te_ba=21, 26, 20, 23, supérieur au range [0-20])
-
-###BEA: Check the most high number to make sure the number is well written and that there is a justification if it is not a mistake
-
 
 # isolate the outliers lines for the variable 'as_br'
 outliers <- data_std %>% 
   filter(as_br < num_range$min_value[num_range$variables == 'as_br'] | as_br > num_range$max_value[num_range$variables == 'as_br'] )
 outliers
-# 1 line --> 1 outlier to verify
-# no 1041 (as_br=1165 mg kg, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'cd_br'
 outliers <- data_std %>% 
   filter(cd_br < num_range$min_value[num_range$variables == 'cd_br'] | cd_br > num_range$max_value[num_range$variables == 'cd_br'] )
 outliers
-# 5 lines --> 5 outliers to verify
-# no 1195 (cd_br= 1178.5 mg kg, Page 6 farm contaminated soil, supérieur au range [0-100 mg kg])
-# no 3067 (cd_br= 565 et 972 mg kg, Table 3 mine, supérieur au range [0-100 mg kg])
-# no 4239 (cd_br=135.59 et 129.49 mg kg, Table 2 ecological park of Nanchang Institute of Technology, supérieur au range [0-100 mg kg])
-
 
 # isolate the outliers lines for the variable 'cu_br'
 outliers <- data_std %>% 
   filter(cu_br < num_range$min_value[num_range$variables == 'cu_br'] | cu_br > num_range$max_value[num_range$variables == 'cu_br'] )
 outliers
-# 62 lines --> 62 outliers to verify
-# no 6402 (cu_br=772.8813614 mg kg, Fig 2 copper mine tailings, supérieur au range [0-300 mg kg])
-# no 1663 (cu_br=707 à 1940 mg kg, Fig 4 copper industry, supérieur au range [0-300 mg kg])
-# no 3591 (cu_br=429.32, 599.64, 385.4, 594.56 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-# no 2973 (cu_br=565 et 979 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
-# no 5760 (cu_br=709.48 mg kg, Table 3 copper mine tailings, supérieur au range [0-300 mg kg])
-# no 218 (cu_br=371.1535512, 1530.523678, 1806.62184 mg kg, Fig 8 spike, supérieur au range [0-300 mg kg])
-# no 7605 (cu_br=404.3, 448.8 et 689.7 mg kg, Table 5 , supérieur au range [0-300 mg kg])
-# no 1833 (cu_br=351.7245979, 696.5519618, 634.4830389 et 962.0690281 mg kg, Fig 5 spike, supérieur au range [0-300 mg kg])
-# no 8713 (cu_br=1514.9, 1725.2, 438.5, 1250.8, 2660.8, 339.1, 2840.9 mg kg, Table 2, supérieur au range [0-300 mg kg])
-# no 6607 (cu_br=196.9226782 et 1261.970198 mg kg, Fig 2 "highly Cu-contaminated soil", supérieur au range [0-300 mg kg])
-# no 3933 (cu_br=307, 417, 681 et 676 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
-# no 4239 (cu_br=1325.66, 465.38, 1215.91 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
-# no 1011 (cu_br=765, 977, 557 et 674 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-# no 8790 (cu_br=345 mg kg, Table 1 mining area, supérieur au range [0-300 mg kg])
-# no 466 (cu_br=717, 687, 773, 307, 550, 368 mg kg, mine polluted area, supérieur au range [0-300 mg kg])
-# no 2857 (cu_br=731, 555, 370, 1165, 916, 410, 365 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
-# no 3230 (cu_br=1233, 389, 556, 3113 et 1150 mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
 
 # isolate the outliers lines for the variable 'pb_br'
 outliers <- data_std %>% 
   filter(pb_br < num_range$min_value[num_range$variables == 'pb_br'] | pb_br > num_range$max_value[num_range$variables == 'pb_br'] )
 outliers
-# 5 lines --> 5 outliers to verify
-# no 5793 (pb_br=1515 mg kg, Mine Tailings, supérieur au range [0-1000 mgkg])
-# no 3067 (pb_br=2123, 4915 et 10419 mg kg, mine, supérieur au range [0-1000 mgkg]
-# no 3416 (pb_br=4630 mg kg, zinc smelting area, supérieur au range [0-1000 mgkg]
 
 # isolate the outliers lines for the variable 'zn_br'
 outliers <- data_std %>% 
   filter(zn_br < num_range$min_value[num_range$variables == 'zn_br'] | zn_br > num_range$max_value[num_range$variables == 'zn_br'] )
 outliers
-# 4 lines --> 4 outliers to verify
-# no 2187 (zn_br=3452 ug/g=mg kg, Table 3 spike, supérieur au range [0-3000 mgkg]
-# no 3067 (zn_br= 6392, 5226, 8171 mg kg, mine, supérieur au range [0-3000 mgkg]
 
 # isolate the outliers lines for the variable 'se_br'
 outliers <- data_std %>% 
   filter(se_br < num_range$min_value[num_range$variables == 'se_br'] | se_br > num_range$max_value[num_range$variables == 'se_br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ni_br'
 outliers <- data_std %>% 
   filter(ni_br < num_range$min_value[num_range$variables == 'ni_br'] | ni_br > num_range$max_value[num_range$variables == 'ni_br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_br'
 outliers <- data_std %>% 
   filter(co_br < num_range$min_value[num_range$variables == 'co_br'] | co_br > num_range$max_value[num_range$variables == 'co_br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_br'
 outliers <- data_std %>% 
   filter(mn_br < num_range$min_value[num_range$variables == 'mn_br'] | mn_br > num_range$max_value[num_range$variables == 'mn_br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cr_br'
 outliers <- data_std %>% 
   filter(cr_br < num_range$min_value[num_range$variables == 'cr_br'] | cr_br > num_range$max_value[num_range$variables == 'cr_br'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_br'
 outliers <- data_std %>% 
   filter(hg_br < num_range$min_value[num_range$variables == 'hg_br'] | hg_br > num_range$max_value[num_range$variables == 'hg_br'] )
 outliers
-# 3 lines --> 3 outliers to verify
-# no 1831 (hg_br=1.34 et 7.39 mg kg, Table 4  industrially contaminated soil, supérieur au range [0-1 mg kg])
-# no 3416 (hg_br=1.59 mg kg, zinc smelting area, supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_br'
 outliers <- data_std %>% 
   filter(n_te_br < num_range$min_value[num_range$variables == 'n_te_br'] | n_te_br > num_range$max_value[num_range$variables == 'n_te_br'] )
 outliers
-# 9 lines --> 9 outliers to verify
-# no 7504 (n_te_br=72, supérieur au range [0-20])" 36 samples of soil and water and 72 samples of vegetables"
-# no 1599 (n_te_br=36, Table 1 n=36, supérieur au range [0-20])
 
 # isolate the outliers lines for the variable 'as_ba_1'
 outliers <- data_std %>% 
   filter(as_ba_1 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_1 > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cd_ba_1'
 outliers <- data_std %>% 
   filter(cd_ba_1 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_1 > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cu_ba_1'
 outliers <- data_std %>% 
   filter(cu_ba_1 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_1 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
-# 17 lines --> 17 outliers to verify
-# no 57 (cu_ba_1=405.72 mg kg, Table 5 spike, supérieur au range [0-300 mg kg])
-# no 3490 (cu_ba_1=678 ug/g=mg kg, Table 3 , supérieur au range [0-300 mg kg])
-# no 2857 (cu_ba_1=790, 591, 374, 456, 478 ug/g=mg kg, Fig.3 mining metallurgical complex, supérieur au range [0-300 mg kg])
-# no 3230 (cu_ba_1=383, 818, 332, 428, 549, 364 ug/g=mg kg, Fig.2 copper smelter, supérieur au range [0-300 mg kg])
-# no 1011 (cu_ba_1=361, 443, 558 mg kg, Table 3 spike, supérieur au range [0-300 mg kg])
-# no 4239 (cu_ba_1=318.06 mg kg, Table 2 spike, supérieur au range [0-300 mg kg])
-
 
 # isolate the outliers lines for the variable 'pb_ba_1'
 outliers <- data_std %>% 
   filter(pb_ba_1 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_1 > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
-# 1 line --> 1 outliers to verify
-# no 3490 (pb_ba_1=1875 ug/g=mg kg, Table 3, supérieur au range [0-1000 mg kg])
 
 # isolate the outliers lines for the variable 'zn_ba_1'
 outliers <- data_std %>% 
   filter(zn_ba_1 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_1 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
-# 1 line --> 1 outliers to verify
-# no 2187 (zn_ba_1= 4333 mg kg, Table 3 spike, supérieur au range [0-3000 mg kg])
 
 # isolate the outliers lines for the variable 'se_ba_1'
 outliers <- data_std %>% 
   filter(se_ba_1 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_1 > num_range$max_value[num_range$variables == 'se_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ni_ba_1'
 outliers <- data_std %>% 
   filter(ni_ba_1 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_1 > num_range$max_value[num_range$variables == 'ni_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_ba_1'
 outliers <- data_std %>% 
   filter(co_ba_1 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_1 > num_range$max_value[num_range$variables == 'co_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_ba_1'
 outliers <- data_std %>% 
   filter(mn_ba_1 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_1 > num_range$max_value[num_range$variables == 'mn_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cr_ba_1'
 outliers <- data_std %>% 
   filter(cr_ba_1 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_1 > num_range$max_value[num_range$variables == 'cr_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_ba_1'
 outliers <- data_std %>% 
   filter(hg_ba_1 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_1 > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
-# 2 lines --> 2 outliers to verify
-# no 7974 (hg_ba_1= 1.5 et 1.8 mg kg, Table 4 , supérieur au range [0-1 mg kg])
 
 # isolate the outliers lines for the variable 'n_te_ba_1'
 outliers <- data_std %>% 
   filter(n_te_ba_1 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_1 > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
-# 5 lines --> 5 outliers to verify
-# no 3029 (n_te_ba_1=60, supérieur au range [0-20]))"120 surface soil samples and 60 pine stem wood and pine needles samples"
 
 # isolate the outliers lines for the variable 'as_ba_2'
 outliers <- data_std %>% 
   filter(as_ba_2 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_2 > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cd_ba_2'
 outliers <- data_std %>% 
   filter(cd_ba_2 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_2 > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cu_ba_2'
 outliers <- data_std %>% 
   filter(cu_ba_2 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_2 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
-# 3 lines --> 3 outliers to verify
-# no 8713 (cu_ba_2= 824.8, 6418.2 et 605.8 mg kg, Table 2, supérieur au range [0-300])
 
 # isolate the outliers lines for the variable 'pb_ba_2'
 outliers <- data_std %>% 
   filter(pb_ba_2 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_2 > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'zn_ba_2'
 outliers <- data_std %>% 
   filter(zn_ba_2 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_2 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
-# 2 lines --> 2 outliers to verify
-# no 2187 (zn_ba_2= 3332 mg kg, Table 3 spike, supérieur au range [0-3000])
-# no 8713 (zn_ba_2= 4699.8 mg kg, Table 2, supérieur au range [0-3000])
 
 # isolate the outliers lines for the variable 'se_ba_2'
 outliers <- data_std %>% 
   filter(se_ba_2 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_2 > num_range$max_value[num_range$variables == 'se_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ni_ba_2'
 outliers <- data_std %>% 
   filter(ni_ba_2 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_2 > num_range$max_value[num_range$variables == 'ni_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_ba_2'
 outliers <- data_std %>% 
   filter(co_ba_2 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_2 > num_range$max_value[num_range$variables == 'co_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_ba_2'
 outliers <- data_std %>% 
   filter(mn_ba_2 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_2 > num_range$max_value[num_range$variables == 'mn_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cr_ba_2'
 outliers <- data_std %>% 
   filter(cr_ba_2 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_2 > num_range$max_value[num_range$variables == 'cr_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_ba_2'
 outliers <- data_std %>% 
   filter(hg_ba_2 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_2 > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'n_te_ba_2'
 outliers <- data_std %>% 
   filter(n_te_ba_2 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_2 > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'as_ba_3'
 outliers <- data_std %>% 
   filter(as_ba_3 < num_range$min_value[num_range$variables == 'as_ba'] | as_ba_3 > num_range$max_value[num_range$variables == 'as_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cd_ba_3'
 outliers <- data_std %>% 
   filter(cd_ba_3 < num_range$min_value[num_range$variables == 'cd_ba'] | cd_ba_3 > num_range$max_value[num_range$variables == 'cd_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cu_ba_3'
 outliers <- data_std %>% 
   filter(cu_ba_3 < num_range$min_value[num_range$variables == 'cu_ba'] | cu_ba_3 > num_range$max_value[num_range$variables == 'cu_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'pb_ba_3'
 outliers <- data_std %>% 
   filter(pb_ba_3 < num_range$min_value[num_range$variables == 'pb_ba'] | pb_ba_3 > num_range$max_value[num_range$variables == 'pb_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'zn_ba_3'
 outliers <- data_std %>% 
   filter(zn_ba_3 < num_range$min_value[num_range$variables == 'zn_ba'] | zn_ba_3 > num_range$max_value[num_range$variables == 'zn_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'se_ba_3'
 outliers <- data_std %>% 
   filter(se_ba_3 < num_range$min_value[num_range$variables == 'se_ba'] | se_ba_3 > num_range$max_value[num_range$variables == 'se_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'ni_ba_3'
 outliers <- data_std %>% 
   filter(ni_ba_3 < num_range$min_value[num_range$variables == 'ni_ba'] | ni_ba_3 > num_range$max_value[num_range$variables == 'ni_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'co_ba_3'
 outliers <- data_std %>% 
   filter(co_ba_3 < num_range$min_value[num_range$variables == 'co_ba'] | co_ba_3 > num_range$max_value[num_range$variables == 'co_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'mn_ba_3'
 outliers <- data_std %>% 
   filter(mn_ba_3 < num_range$min_value[num_range$variables == 'mn_ba'] | mn_ba_3 > num_range$max_value[num_range$variables == 'mn_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'cr_ba_3'
 outliers <- data_std %>% 
   filter(cr_ba_3 < num_range$min_value[num_range$variables == 'cr_ba'] | cr_ba_3 > num_range$max_value[num_range$variables == 'cr_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'hg_ba_3'
 outliers <- data_std %>% 
   filter(hg_ba_3 < num_range$min_value[num_range$variables == 'hg_ba'] | hg_ba_3 > num_range$max_value[num_range$variables == 'hg_ba'] )
 outliers
-# 0 lines --> no apparent outliers
 
 # isolate the outliers lines for the variable 'n_te_ba_3'
 outliers <- data_std %>% 
   filter(n_te_ba_3 < num_range$min_value[num_range$variables == 'n_te_ba'] | n_te_ba_3 > num_range$max_value[num_range$variables == 'n_te_ba'] )
 outliers
-# 0 lines --> no apparent outliers
-
 
 
 
@@ -2084,12 +1642,12 @@ unique(data_std$sand_units) # "%"
 #### Save the final corrected file ####
 
 # Save the final corrected file with textural classes in an rds object
-saveRDS(data_std, file = 'Amélie/data_cleaning_final/data_std_cu_cleaned.rds')
+saveRDS(data_std, file = 'Inventaires/data_cleaning_final/data_std_inv_cleaned.rds')
 
 # save the final corrected file as csv file and txt file
 write.table(data_std,
-            "./Amélie/data_cleaning_final/data_std_cu_cleaned.csv", 
+            "./Inventaires/data_cleaning_final/data_std_inv_cleaned.csv", 
             sep="\t", row.names = F, quote = F)
 write.table(data_std,
-            "./Amélie/data_cleaning_final/data_std_cu_cleaned.txt", 
+            "./Inventaires/data_cleaning_final/data_std_inv_cleaned.txt", 
             sep="\t", row.names = F, quote = F)
