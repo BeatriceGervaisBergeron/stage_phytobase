@@ -370,8 +370,8 @@ data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, '"', " "
 data_std_cleaned$longitude<- str_replace_all(data_std_cleaned$longitude, "'", " ")
 data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, '"', " ")
 # Add - to S and W 
-data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')] <-paste0('-1',data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')])
-data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')] <-paste0('-1',data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')])
+data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')] <-paste0('-',data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')])
+data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')] <-paste0('-',data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')])
 # Delete N and E
 data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, 'N', "")
 data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, 'S', "")
@@ -429,20 +429,26 @@ library('sp')
 r <- getData("worldclim",var="bio",res=2.5)# can adjust the resolution between 10, 5, 2.5, 30 sec
 r <- r[[c(1,12)]]
 names(r) <- c("Temp","Prec")
+## THIS DATABASE TAKE A LOT OF SPACE, SO DELETE IT ONCE FINISH TO AVOID PUSHING IT ON GITHUB
 
 # extract the longitude and latitude of your data
 coords <- data_std_cleaned[,c('lon','lat')]
+coords <- coords %>%
+  mutate(
+    lon = as.numeric(lon),
+    lat = as.numeric(lat))
 
 points <- SpatialPoints(coords, proj4string = r@crs)
 values <- extract(r,points)
 climate <- cbind.data.frame(coordinates(points),values)
+# carefull, the temperature are with a factor of 10
+climate$MAT_cor <- climate$Temp/10
 
 # add column for the worldclim MAP and MAT in the dataset
-data_std_cleaned$MAP_wc <- climate$prec
-data_std_cleaned$MAT_wc <- climate$temp
-
-
-
+data_std_cleaned$MAP_wc <- climate$Prec
+data_std_cleaned$MAT_wc <- climate$MAT_cor
+data_std_cleaned <- data_std_cleaned %>% relocate(c('MAT_wc','MAP_wc'), .after = map..mm.)
+# Correct with the location if needed, like here would be for Hokkaido, japan, as the coordinate seems no precise enought?
 
 
 
