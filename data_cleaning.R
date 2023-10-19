@@ -322,32 +322,131 @@ outliers <- data_std %>%
 #### geolocalization ####
 
 
-### typos in location names ###
-# remove typos and uniform the name of the country and location
+# For unknown coordinate, extract it form location or country
+# access google map via API
+#install.packages('ggmap')
+library('ggmap')
+register_google('AIzaSyCHpQ0BAGzCaqEpu2aGgN5wVK8nPXu6PVw') # Beatrice key, tell me if it does not work for you
+
+# get the country list with no locations
+no_loc <- data_std_cleaned %>% 
+  filter(is.na(location))
+country <- unique(no_loc$country)
+# replace the location by country names
+data_std_cleaned$location[data_std_cleaned$country %in% country & is.na(data_std_cleaned$location)] <- country[country %in% data_std_cleaned$country]
+
+# get the location list with no coordinates
+no_coord <- data_std_cleaned %>% 
+  filter(is.na(latitude))
+location <- unique(no_coord$location)
+
+# get table of coordinates and address 
+coord <-geocode(location, output = 'latlona')
+# remove typos and uniform the name of the locations that does not work
+#replace the old name for the corrected name
+data_std_cleaned$location[data_std_cleaned$location == 'Tavsanli District'] <- c('Tavsanli')
+# more changes if necessary
+
+# Once all corrected, get the location coordinated again
+no_coord <- data_std_cleaned %>% 
+  filter(is.na(latitude))
+location <- unique(no_coord$location)
+# get table of coordinates and address to verify later the data
+coord <-geocode(location, output = 'latlona')
+coord$location <- location
+
+# merge the coordinates to the dataframe
+data_std_cleaned <- merge(data_std_cleaned, coord, by='location', all.x = TRUE)
+# relocate the column to see if the replacement is good
+data_std_cleaned <-data_std_cleaned %>% relocate(location, .after=country)
+data_std_cleaned <-data_std_cleaned %>% relocate(c('lon','lat','address'), .after=longitude)
+
 
 ### Longitude and latitude ###
-# Uniform the longitude and latitude format
+# Uniform the longitude and latitude format to be '## ## ###.##'
+# replace ' and " by empty space
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, "'", " ")
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, '"', " ")
+data_std_cleaned$longitude<- str_replace_all(data_std_cleaned$longitude, "'", " ")
+data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, '"', " ")
+# Add - to S and W 
+data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')] <-paste0('-1',data_std_cleaned[grep('S',data_std_cleaned$latitude),c('latitude')])
+data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')] <-paste0('-1',data_std_cleaned[grep('W',data_std_cleaned$longitude),c('longitude')])
+# Delete N and E
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, 'N', "")
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, 'S', "")
+data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, 'E', "")
+data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, 'W', "")
+# remove space at the end
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, ' $', "")
+data_std_cleaned$latitude <- str_replace_all(data_std_cleaned$latitude, ' $', "")
+data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, ' $', "")
+data_std_cleaned$longitude <- str_replace_all(data_std_cleaned$longitude, ' $', "")
 
+# Convert units
+#install.packages("measurements") 
+library(measurements)
+##LATITUDE
+# isolate the DMS units
+DMS <- unique(data_std_cleaned[grepl('\\d \\d',data_std_cleaned$latitude),c('latitude') ])
+# convert to decimals
+DEC <-lapply(DMS,function(x) conv_unit(x,from = "deg_min_sec", to = "dec_deg" ) )
+# put them together in a dataframe
+latitude <- as.data.frame(DMS)
+latitude$lat_decimal <-unlist(DEC)
+#join all the decimal together
+data_std_cleaned$lat[data_std_cleaned$latitude %in% DMS] <- DEC[match(data_std_cleaned$latitude, DMS, nomatch = 0)]
 
+##LONGITUDE
+# isolate the DMS
+DMSlong <- unique(data_std_cleaned[grepl('\\d \\d',data_std_cleaned$longitude),c('longitude') ])
+# convert to decimals
+DEClong <-lapply(DMSlong,function(x) conv_unit(x,from = "deg_min_sec", to = "dec_deg" ) )
+# put them together in a dataframe
+longitude <- as.data.frame(DMSlong)
+longitude$lat_decimal <-unlist(DEClong)
+#join all the decimal together
+data_std_cleaned$lon[data_std_cleaned$longitude %in% DMSlong] <- DEClong[match(data_std_cleaned$longitude, DMSlong, nomatch = 0)]
+# if want to put them in the original longitude column
+#data_std_cleaned$longitude <- ifelse(is.na(data_std_cleaned$lon), data_std_cleaned$longitude, data_std_cleaned$lon)
 
-# extract the unknown long. and lat. from the location
-# package to get access to google map API
-install.packages('ggmap')
-library('ggmap')
-register_google(
-  'AIzaSyCHpQ0BAGzCaqEpu2aGgN5wVK8nPXu6PVw'
-)
-
-# get the whole city list
-city <- c('montreal','Quebec','rimouski')
-# get table of coordinates and address to verify later the data
-coord <-geocode(city, output = 'latlona')
+# copy the original decimal coordinate in lat and lon column
+data_std_cleaned$lon <- ifelse(is.na(data_std_cleaned$lon), data_std_cleaned$longitude, data_std_cleaned$lon)
+data_std_cleaned$lat <- ifelse(is.na(data_std_cleaned$lat), data_std_cleaned$latitude, data_std_cleaned$lat)
+# now the lon and lat should be all decimal and ready for uniform uses
 
 
 #### MAP and MAT ####
-# Extrapolate the MAP and MAT from the long and lat OR location
+# Extract the MAP and MAT from the lon and lat 
 
-install.packages('raster')
+# install.packages('terra')
+# install.packages('sp')
+# install.packages('raster', dependencies=TRUE, repos='https://CRAN.R-project.org/')
+library(raster)
+library('sp')
+
+# download the climate dataset
+r <- getData("worldclim",var="bio",res=2.5)# can adjust the resolution between 10, 5, 2.5, 30 sec
+r <- r[[c(1,12)]]
+names(r) <- c("Temp","Prec")
+
+# extract the longitude and latitude of your data
+lats <- c(45.50189 , 46.81308, 48.43898)
+lons <- c(-73.56739, -71.20746, -68.53497) 
+coords <- data.frame(x=lons,y=lats)
+# OR
+coords <- data.frame(x=data_std_cleaned$lon,y=data_std_cleaned$lat)
+
+points <- SpatialPoints(coords, proj4string = r@crs)
+values <- extract(r,points)
+climate <- cbind.data.frame(coordinates(points),values)
+
+# import MAP and MAT in the dataset
+data$MAP_wc <- climate$prec
+data$MAT_wc <- climate$temp
+
+
+
 
 
 
