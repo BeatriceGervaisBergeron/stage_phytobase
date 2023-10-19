@@ -360,6 +360,8 @@ data_std_cleaned <- merge(data_std_cleaned, coord, by='location', all.x = TRUE)
 # relocate the column to see if the replacement is good
 data_std_cleaned <-data_std_cleaned %>% relocate(location, .after=country)
 data_std_cleaned <-data_std_cleaned %>% relocate(c('lon','lat','address'), .after=longitude)
+# if want to put them in the original longitude column
+#data_std_cleaned$longitude <- ifelse(is.na(data_std_cleaned$lon), data_std_cleaned$longitude, data_std_cleaned$lon)
 
 
 ### Longitude and latitude ###
@@ -407,8 +409,6 @@ longitude <- as.data.frame(DMSlong)
 longitude$lat_decimal <-unlist(DEClong)
 #join all the decimal together
 data_std_cleaned$lon[data_std_cleaned$longitude %in% DMSlong] <- DEClong[match(data_std_cleaned$longitude, DMSlong, nomatch = 0)]
-# if want to put them in the original longitude column
-#data_std_cleaned$longitude <- ifelse(is.na(data_std_cleaned$lon), data_std_cleaned$longitude, data_std_cleaned$lon)
 
 # copy the original decimal coordinate in lat and lon column
 data_std_cleaned$lon <- ifelse(is.na(data_std_cleaned$lon), data_std_cleaned$longitude, data_std_cleaned$lon)
@@ -460,6 +460,8 @@ txt_table <- read.table("./textural_class_average.txt",
 #textural class list
 txt_list <-txt_table$texture
 
+
+
 # Add the % if needed
 data_std <- data_std %>%
   filter(is.na(clay)|is.na(sand)) %>% 
@@ -498,7 +500,29 @@ data_std <- data_std %>%
   mutate(clay = ifelse(texture == txt_table$texture[17] , txt_table$clay[17], clay)) %>% 
   mutate(sand = ifelse(texture == txt_table$texture[17] , txt_table$sand[17], sand))
 # now all the textural class should be add in % in the clay and sand column
- 
+
+
+# OR optimize this
+
+# standardize textural terms
+data_std <- data_std %>%
+  mutate(texture = ifelse(texture == 'fine sandy loam' , 'Sandy loam', texture)) %>% # replace 'fine sandy loam' by 'Sandy loam'
+  mutate(texture = ifelse(texture == 'Clay sand silt' , 'Clay', texture)) %>% # replace 'Clay sand silt' by 'Clay'
+  mutate(texture = ifelse(texture == 'Loamy' , 'Loam', texture)) %>% # replace 'Loamy' by 'Loam'
+  mutate(texture = ifelse(texture == 'Coarse-textured' , 'Coarse texture', texture)) # replace 'Coarse-textured, low content of clay' by 'Coarse texture'
+
+data_std$clay[data_std$ph ==6.10]<-5
+
+# merge the coordinates to the dataframe
+data_std_t <- merge(data_std, txt_table, by='texture', all.x = TRUE)
+# relocate the column to see if the replacement is good
+data_std_t <-data_std_t %>% relocate(texture, .after=oc_units)
+data_std_t <-data_std_t %>% relocate(c('clay.y','sand.y'), .after=sand_units)
+# if want to put them in the original longitude column
+data_std_t$clay.x[is.na(data_std_t$clay.x)] <- data_std_t$clay.y[is.na(data_std_t$clay.x)]
+# remove the clay.y and sand.y if you want
+
+
 
 #### join the traits to your data ####
 
