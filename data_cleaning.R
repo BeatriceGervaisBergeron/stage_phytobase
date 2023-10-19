@@ -431,19 +431,15 @@ r <- r[[c(1,12)]]
 names(r) <- c("Temp","Prec")
 
 # extract the longitude and latitude of your data
-lats <- c(45.50189 , 46.81308, 48.43898)
-lons <- c(-73.56739, -71.20746, -68.53497) 
-coords <- data.frame(x=lons,y=lats)
-# OR
-coords <- data.frame(x=data_std_cleaned$lon,y=data_std_cleaned$lat)
+coords <- data_std_cleaned[,c('lon','lat')]
 
 points <- SpatialPoints(coords, proj4string = r@crs)
 values <- extract(r,points)
 climate <- cbind.data.frame(coordinates(points),values)
 
-# import MAP and MAT in the dataset
-data$MAP_wc <- climate$prec
-data$MAT_wc <- climate$temp
+# add column for the worldclim MAP and MAT in the dataset
+data_std_cleaned$MAP_wc <- climate$prec
+data_std_cleaned$MAT_wc <- climate$temp
 
 
 
