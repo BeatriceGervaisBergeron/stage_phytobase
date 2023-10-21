@@ -222,21 +222,21 @@ uni_sp_cor<-uni_sp_cor %>%  filter(!dupl2 ==T)
 
 
 # Save the final corrected list in an rds object
-saveRDS(uni_sp_cor, file='Inventaires/cu_sp_cor.rds')
+saveRDS(uni_sp_cor, file='Inventaires/inv_sp_cor.rds')
 
 #### Join list of corrected names ####
 # call the newly corrected list
-cu_sp_cor <- readRDS('Inventaires/cu_sp_cor.rds')
+inv_sp_cor <- readRDS('Inventaires/inv_sp_cor.rds')
 
-# Convert the score column in cu_sp_cor to double
-cu_sp_cor$score <- as.numeric(cu_sp_cor$score)
+# Convert the score column in inv_sp_cor to double
+inv_sp_cor$score <- as.numeric(inv_sp_cor$score)
 
 # Combine the corrected lists
-list_sp_cor_cu <- bind_rows(cu_sp_cor, list_sp_cor)
+list_sp_cor_inv <- bind_rows(inv_sp_cor, list_sp_cor)
 
 # add the corrections to the data
 data <- data %>% 
-  left_join(list_sp_cor_cu, by=c('name'= 'user_supplied_name'))
+  left_join(list_sp_cor_inv, by=c('name'= 'user_supplied_name'))
 
 data <- data %>% 
   mutate(AccSpeciesName_cor = ifelse(implement == T, alternative, submitted_name))
@@ -246,7 +246,7 @@ data <- data %>%
 
 
 # Check number of sp now
-uni_cu_cor <-unique(data$name)
+uni_inv_cor <-unique(data$name)
 
 
 
@@ -265,53 +265,40 @@ units <- data %>%
 # check unit conversion for every unit column
 colnames(units)
 #"om_units"
-unique(units$om_units) # "%" "g kg-1" "g.O2.kg-1" "g.kg-1" "mg kg-1" "g dm-3" "dag kg-1" "g kg" "g kg-3"
+unique(units$om_units) # "%" "g kg-1" "g kg"
 # need to convert to %
 data_std <- data %>%
   mutate(om = ifelse(om_units == 'g kg', om/10, om)
          ,om_units = ifelse(om_units == 'g kg', '%', om_units)
-         ,om = ifelse(om_units == 'g.kg-1', om/10, om)
-         ,om_units = ifelse(om_units == 'g.kg-1', '%', om_units)
          ,om = ifelse(om_units == 'g kg-1', om/10, om)
          ,om_units = ifelse(om_units == 'g kg-1', '%', om_units)
-         ,om = ifelse(om_units == 'g.O2.kg-1', om/10, om)
-         ,om_units = ifelse(om_units == 'g.O2.kg-1', '%', om_units)
-         ,om = ifelse(om_units == 'mg kg-1', om/100, om)
-         ,om_units = ifelse(om_units == 'mg kg-1', '%', om_units)
-         ,om_units = ifelse(om_units == 'dag kg-1', '%', om_units)
   )
 # verify
 unique(data_std$om_units) # only "%" 
 
 #"oc_units" 
-unique(units$oc_units) # "%" "g kg-1" "mgL-1" "mg kg-1" "g kg"
+unique(units$oc_units) # "%" "g kg-1" "mg g-1" "g 100 g-1"
 # need to convert  to %
 data_std <- data_std %>%
   mutate(
-    oc = ifelse(oc_units == 'g kg', oc/10, oc)
-    ,oc_units = ifelse(oc_units == 'g kg', '%', oc_units)
-    ,oc = ifelse(oc_units == 'g kg-1', oc/10, oc)
+    oc = ifelse(oc_units == 'g kg-1', oc/10, oc)
     ,oc_units = ifelse(oc_units == 'g kg-1', '%', oc_units)
-    ,oc = ifelse(oc_units == 'mg kg-1', oc/100, oc)
-    ,oc_units = ifelse(oc_units == 'mg kg-1', '%', oc_units)
-    ,oc = ifelse(oc_units == 'mgL-1', NA, oc)
-    ,oc_units = ifelse(oc == 'NA', 'NA', oc_units)
+    ,oc = ifelse(oc_units == 'mg g-1', oc/10, oc)
+    ,oc_units = ifelse(oc_units == 'mg g-1', '%', oc_units)
+    ,oc = ifelse(oc_units == 'g 100 g-1', oc*100, oc)
+    ,oc_units = ifelse(oc_units == 'g 100 g-1', '%', oc_units)
   )
 # verify
 unique(data_std$oc_units) # only "%"
 
 
 #"clay_units" 
-unique(units$clay_units) #"%" "g kg-1" "mm" "mg kg-1" "g kg"
+unique(units$clay_units) #"%" "g kg-1"
 # need to convert  to %
 data_std <- data_std %>%
   mutate(
-    clay = ifelse(clay_units == 'g kg', clay/10, clay)
-    ,clay_units = ifelse(clay_units == 'g kg', '%', clay_units)
-    ,clay = ifelse(clay_units == 'g kg-1', clay/10, clay)
+    clay = ifelse(clay_units == 'g kg-1', clay/10, clay)
     ,clay_units = ifelse(clay_units == 'g kg-1', '%', clay_units)
-    ,clay = ifelse(clay_units == 'mg kg-1', clay/100, clay)
-    ,clay_units = ifelse(clay_units == 'mg kg-1', '%', clay_units)
     ,clay_units = ifelse(clay == 'NA', 'NA', clay_units)
   )
 # verify
@@ -319,19 +306,15 @@ unique(data_std$clay_units) # only "%"
 
 
 #"sand_units" 
-unique(units$sand_units) #  "%" "g kg-1" "mm" "mg kg-1" "g kg"
-# need to convert  to %
-data_std <- data_std %>%
-  mutate(
-    sand = ifelse(sand_units == 'g kg', sand/10, sand)
-    ,sand_units = ifelse(sand_units == 'g kg', '%', sand_units)
-    ,sand = ifelse(sand_units == 'g kg-1', sand/10, sand)
-    ,sand_units = ifelse(sand_units == 'g kg-1', '%', sand_units)
-    ,sand = ifelse(sand_units == 'mg kg-1', sand/100, sand)
-    ,sand_units = ifelse(sand_units == 'mg kg-1', '%', sand_units)
-  )
-# verify
-unique(data_std$sand_units) # only "%"
+unique(units$sand_units) # only "%"
+
+
+
+
+
+
+
+
 
 
 #"ec_units"
