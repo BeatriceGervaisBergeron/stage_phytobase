@@ -30,8 +30,6 @@ Allium roseum 	Allium roseum	Allium roseum	0.988
 Evax pygma 	Evax pygma	Evax pygmea	0.75			
 Bromus inermis 	Bromus inermis	Bromus inermis	0.988			
 Biscutella didyma 	Biscutella didyma	Biscutella didyma	0.988			
-Ulex	Ulex	Ulex	0.75			
-Rhytidiadelphus 	Rhytidiadelphus	Rhytidiadelphus	0.75			
 Agristis tenuis	Agristis tenuis	Agrostis tenuis	0.75			
 Armeria pubigera	Armeria pubigera	Armeria pubigera	0.988			
 Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra subsp. pruinosa	0.999			
@@ -47,10 +45,8 @@ Chrysanthemum segetum	Chrysanthemum segetum	Chrysanthemum segetum	0.988
 Picris echioides	Picris echioides	Picris echioides	0.988			
 Coronopus squamatus	Coronopus squamatus	Coronopus squamatus	0.988			
 Diplotaxis virgata	Diplotaxis virgata	Diplotaxis virgata	0.988			
-Scorpiurus	Scorpiurus	Scorpiurus	0.75			
 Fumaria agraria	Fumaria agraria	Fumaria agraria	0.988			
 Anagallis arvensis 	Anagallis arvensis	Anagallis arvensis	0.988			
-Reseda	Reseda	Reseda	0.75			
 Solanum nigrum	Solanum nigrum	Solanum nigrum	0.988			
 Amsonia azurea	Amsonia azurea	Amsonia	0.75			
 Hordeum leporinum	Hordeum leporinum	Hordeum leporinum	0.988			
@@ -236,9 +232,7 @@ Tamarix tetragyna	Tamarix tetragyna	Tamarix tetragyna	0.988
 Pinus bruttia	Pinus bruttia	Pinus bruttia	0.988			
 Acacia cyanophylla	Acacia cyanophylla	Acacia cyanophylla	0.988			
 Baccharis mexicana	Baccharis mexicana	Baccharis mexicana	0.988			
-Calea	Calea	Calea	0.75			
 Critoniopsis uniflora	Critoniopsis uniflora	Critoniopsis uniflora	0.988			
-Verbesina	Verbesina	Verbesina	0.75			
 Ipomoea murucoides	Ipomoea murucoides	Ipomoea murucoides	0.988			
 Quercus acutifolia	Quercus acutifolia	Quercus acutifolia	0.988			
 Quercus conzattii	Quercus conzattii	Quercus conzattii	0.988			
@@ -248,10 +242,8 @@ Lippia alba	Lippia alba	Lippia alba	0.988
 Chromolaena odoratum	Chromolaena odoratum	Chromolaena odorata	0.75			
 Cyperus flavidus	Cyperus flavidus	Cyperus flavidus	0.988			
 Equisetum debile	Equisetum debile	Equisetum debile	0.988			
-Eulophia sp.	Eulophia sp.	Eulophia	0.75			
 Imperata cylindica	Imperata cylindica	Imperata cylindrica	0.75			
 Neyraudia reynaudiana	Neyraudia reynaudiana	Neyraudia reynaudiana	0.988			
-Ophioglossum sp.	Ophioglossum sp.	Ophioglossum	0.75			
 Pennisetum polystachyon	Pennisetum polystachyon	Pennisetum polystachyon	0.988			
 Phragmites karka	Phragmites karka	Phragmites karka	0.988			
 Thysanolaena maxima	Thysanolaena maxima	Thysanolaena maxima	0.988			
@@ -307,14 +299,12 @@ Grevia bicolor	Grevia bicolor	Grewia bicolor	0.75
 Solanum panduriforme	Solanum panduriforme	Solanum panduriforme	0.988			
 Aloe marlothii 	Aloe marlothii	Aloe marlothii	0.988			
 Limeum viscosum	Limeum viscosum	Limeum viscosum	0.988			
-Alligator Flag	Alligator flag	Alligator	0.75			
-Castor Bean Plant	Castor bean plant	Castor	0.75			
-Sultana	Sultana	Sultana	0.75			
-Luzula's Cyperus	Luzula's cyperus	Luzula	0.75			
-Lasiandra	Lasiandra	Lasiandra	0.75			
+Cyperus ferax	Cyperus ferax	Cyperus ferax	0.988			
+Stecherus bifidus	Stecherus bifidus	Sticherus bifidus	0.75			
+Calathea lutea	Calathea lutea	Calathea lutea	0.988			
+Phyllanthus niruri	Phyllanthus niruri	Phyllanthus niruri	0.988			
 Agrostis tenuis	Agrostis tenuis	Agrostis tenuis	0.988			
 Betula celtiberica	Betula celtiberica	Betula celtiberica	0.988			
-Taraxacum sp.	Taraxacum sp.	Taraxacum	0.75			
 Minuartia lineata	Minuartia lineata	Minuartia lineata	0.988			
 Convolvulus cantabricus	Convolvulus cantabricus	Convolvulus cantabricus	0.988			
 Trifolium tumens	Trifolium tumens	Trifolium tumens	0.988			
@@ -381,7 +371,6 @@ Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon jwarancusa	0.75
 Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon iwarancusa	0.75			
 Tribulus terestris	Tribulus terestris	Tribulus terrestris	0.75			
 Pyrus domestica	Pyrus domestica	Pyrus domestica	0.988			
-Casuarina sp.	Casuarina sp.	Casuarina	0.75			
 Eichhornia plantagineum	Eichhornia plantagineum	Eichhornia	0.75			
 Tetraclinis articulata  	Tetraclinis articulata  	Tetraclinis articulata	0.988			
 Rhamnus lycioides  	Rhamnus lycioides  	Rhamnus lycioides	0.988			
@@ -395,10 +384,8 @@ Typha dominguensis	Typha dominguensis	Typha dominguensis	0.988
 Centaurea affinis	Centaurea affinis	Centaurea affinis	0.988			
 Centaurea alba	Centaurea alba	Centaurea alba	0.988			
 Centaurea sonchifolia	Centaurea sonchifolia	Centaurea sonchifolia	0.988			
-Cirsium arvense (L.) Scop.	Cirsium arvense (l.) scop.	Cirsium arvense	0.999			
-Cirsium arvense (L.) Scop.	Cirsium arvense (l.) scop.	Cirsium arvense	0.988			
-Cirsium boujartii (Piller&Mitterp.) Sch.Bip.	Cirsium boujartii (piller&mitterp.) sch.bip.	Cirsium boujartii	0.988			
-Cirsium creticum (Lam.) d’Urv.	Cirsium creticum (lam.) d’urv.	Cirsium creticum	0.988			
+Cirsium boujartii	Cirsium boujartii	Cirsium boujartii	0.988			
+Cirsium creticum	Cirsium creticum	Cirsium creticum	0.988			
 Dittrichia viscose	Dittrichia viscose	Dittrichia viscosa	0.75			
 Matricaria trichophylla	Matricaria trichophylla	Matricaria trichophylla	0.988			
 Sonchus crepioides	Sonchus crepioides	Sonchus crepioides	0.988			
@@ -466,7 +453,6 @@ Tanacetum tenuisectum	Tanacetum tenuisectum	Tanacetum tenuisectum	0.988
 Berberis integerrima  	Berberis integerrima	Berberis integerrima	0.988			
 Heliotropium aucheri	Heliotropium aucheri	Heliotropium aucheri	0.988			
 Onosma longiloba  	Onosma longiloba	Onosma longiloba	0.988			
-Paracaryum sp.	Paracaryum sp.	Paracaryum	0.75			
 Aethionema sabzevaricum	Aethionema sabzevaricum	Aethionema sabzevaricum	0.988			
 Alyssum lanceolatum	Alyssum lanceolatum	Alyssum lanceolatum	0.988			
 Cardaria draba	Cardaria draba	Cardaria draba	0.988			
@@ -476,10 +462,8 @@ Moriera spinosa  	Moriera spinosa	Moriera spinosa	0.988
 Sisymbrium altissimum 	Sisymbrium altissimum	Sisymbrium altissimum	0.988			
 Cleome heratensis	Cleome heratensis	Cleome heratensis	0.988			
 Acanthophyllum sordidum	Acanthophyllum sordidum	Acanthophyllum sordidum	0.988			
-Dianthus sp.	Dianthus sp.	Dianthus	0.75			
 Mesostemma kotschyana	Mesostemma kotschyana	Mesostemma kotschyanum	0.75			
 Silene swertiifolia  	Silene swertiifolia	Silene swertiifolia	0.988			
-Chara sp.	Chara sp.	Chara	0.75			
 Scariola orientalis	Scariola orientalis	Scariola orientalis	0.988			
 Convolvulus arvensis 	Convolvulus arvensis	Convolvulus arvensis	0.988			
 Carex divisa Huds.	Carex divisa huds.	Carex divisa	0.999			
@@ -501,7 +485,6 @@ Hymenocrater platystegius	Hymenocrater platystegius	Hymenocrater platystegius	0.
 Lagochilus alutaceus  	Lagochilus alutaceus	Lagochilus alutaceus	0.988			
 Marrubium vulgare 	Marrubium vulgare	Marrubium vulgare	0.988			
 Salvia macrosiphon  	Salvia macrosiphon	Salvia macrosiphon	0.988			
-Teucrium aucheri  	Teucrium aucheri	Teucrium	0.75			
 Bromus tectorum  	Bromus tectorum	Bromus tectorum	0.988			
 Matthiola dumulosa	Matthiola dumulosa	Matthiola dumulosa	0.988			
 Melica jacquemontii 	Melica jacquemontii	Melica jacquemontii	0.988			
@@ -511,7 +494,6 @@ Capparis spinosa  	Capparis spinosa	Capparis spinosa	0.988
 Polygonum afghanicum	Polygonum afghanicum	Polygonum afghanicum	0.988			
 Pteropyrum aucheri	Pteropyrum aucheri	Pteropyrum aucheri	0.988			
 Rheum ribes  	Rheum ribes	Rheum ribes	0.988			
-Delphinium sp.	Delphinium sp.	Delphinium	0.75			
 Amygdalus spinosissima	Amygdalus spinosissima	Amygdalus spinosissima	0.988			
 Asperula trichodes	Asperula trichodes	Asperula trichodes	0.988			
 Galium sp.	Galium sp.	Galium	0.75			
@@ -524,9 +506,7 @@ Hyoscyamus pusillus  	Hyoscyamus pusillus	Hyoscyamus pusillus	0.988
 Lycium kopetdaghi	Lycium kopetdaghi	Lycium kopetdaghi	0.988			
 Dendrostellera lessertii	Dendrostellera lessertii	Dendrostellera lessertii	0.988			
 Acmella oleracea	Acmella oleracea	Acmella oleracea	0.988			
-Cyperus sp.	Cyperus sp.	Cyperus	0.75			
 Cyperus compactus	Cyperus compactus	Cyperus compactus	0.988			
-Brachiaria sp.	Brachiaria sp.	Brachiaria	0.75			
 Microstegium ciliatum	Microstegium ciliatum	Microstegium ciliatum	0.988			
 Phragmites vallatoria	Phragmites vallatoria	Phragmites vallatoria	0.988			
 Cruddasia insignis	Cruddasia insignis	Cruddasia insignis	0.988			
@@ -611,11 +591,11 @@ Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra subvar. pruinosa	0.5
 Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra var. pruinosa	0.54			
 Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra ssp. pruinosa	0.54			
 Bacopa monnieri	Bacopa monnieri	Bacopa monnieri	0.988			
-Impatiens carnea	Impatiens carnea	Impatiens	0.75			
 Lantana Camara	Lantana camara	Lantana camara	0.988			
 Breynia vitisidae	Breynia vitisidae	Breynia vitis-idaea	0.75			
 Colocasia esculenta	Colocasia esculenta	Colocasia esculenta	0.988			
-Paspalidium spp	Paspalidium spp	Paspalidium	0.75			
+Croton bonplandianus	Croton bonplandianus	Croton bonplandianus	0.988			
+Selaginella ciliaris	Selaginella ciliaris	Selaginella ciliaris	0.988			
 Rosa cinnamomea	Rosa cinnamomea	Rosa cinnamomea	0.988			
 Elytrigia repens	Elytrigia repens	Elytrigia repens	0.988			
 Taenitis blechnoides	Taenitis blechnoides	Taenitis blechnoides	0.988			
@@ -628,7 +608,6 @@ Diospyros lanceifolia	Diospyros lanceifolia	Diospyros lanceifolia	0.988
 Croton griffithii	Croton griffithii	Croton griffithii	0.988			
 Drypetes caesia	Drypetes caesia	Drypetes caesia	0.988			
 Dalbergia beccarii	Dalbergia beccarii	Dalbergia beccarii	0.988			
-Norrisia sp. 1	Norrisia sp. 1	Norrisia	0.75			
 Syzygium cf. pterophera	Syzygium cf. pterophera	Syzygium pterophorum	0.75			
 Syzygium clavatum	Syzygium clavatum	Syzygium clavatum	0.988			
 Aporosa chalarocarpa	Aporosa chalarocarpa	Aporosa chalarocarpa	0.988			
@@ -645,17 +624,12 @@ Pfaffia sarcophylla	Pfaffia sarcophylla	Pfaffia sarcophylla	0.988
 Vernonia holosericea	Vernonia holosericea	Vernonia holosericea	0.988			
 Zeyheria digitalis	Zeyheria digitalis	Zeyheria digitalis	0.988			
 Zeyheria montana	Zeyheria montana	Zeyheria montana	0.988			
-Jacquemontia sp.	Jacquemontia sp.	Jacquemontia	0.75			
 Drosera montana	Drosera montana	Drosera montana	0.988			
 Euphorbia selloi	Euphorbia selloi	Euphorbia selloi	0.988			
-Phyllanthus sp.	Phyllanthus sp.	Phyllanthus	0.75			
 Sisyrinchium luzula	Sisyrinchium luzula	Sisyrinchium luzula	0.988			
 Hypenia macrantha	Hypenia macrantha	Hypenia macrantha	0.988			
 Lippia aff. geminata	Lippia aff. geminata	Lippia	0.75			
-Lippia sp.	Lippia sp.	Lippia	0.75			
-Pterolepis sp. nov.	Pterolepis sp. nov.	Pterolepis	0.75			
 Piriqueta duarteana	Piriqueta duarteana	Piriqueta duarteana	0.988			
-Piriqueta sp.	Piriqueta sp.	Piriqueta	0.75			
 Turnera melochioides	Turnera melochioides	Turnera melochioides	0.988			
 Strobilanthes cusia	Strobilanthes cusia	Strobilanthes cusia	0.988			
 Cerastium caespitosum	Cerastium caespitosum	Cerastium caespitosum	0.988			
@@ -673,7 +647,6 @@ Morus australis Poir.	Morus australis poir.	Morus australis	0.988
 Thlaspi goesingense	Thlaspi goesingense	Thlaspi goesingense	0.988			
 Thlaspi rotundifolium ssp. cepaeifolium	Thlaspi rotundifolium ssp. cepaeifolium	Thlaspi rotundifolium subsp. cepaeifolium	0.999			
 Silene cucubalus	Silene cucubalus	Silene cucubalus	0.988			
-Poa spec.	Poa spec.	Poa	0.75			
 Cardaminopsis halleri	Cardaminopsis halleri	Cardaminopsis halleri	0.988			
 Hieracium piloselloides	Hieracium piloselloides	Hieracium piloselloides	0.988			
 Alternanthera philoxeroides	Alternanthera philoxeroides	Alternanthera philoxeroides	0.988			
@@ -701,25 +674,6 @@ Adiantun capillus-veneris	Adiantun capillus-veneris	Adiantum capillaris-veneris	
 Fargesia dura	Fargesia dura	Fargesia dura	0.988			
 Artemisia lancangensis	Artemisia lancangensis	Artemisia	0.75			
 Sambucus chinensis	Sambucus chinensis	Sambucus chinensis	0.988			
-Physic Nut	NA	NA	NA			
-Black Pepper Plant	NA	NA	NA			
-Reed Sedge	NA	NA	NA			
-Calomel Fern	NA	NA	NA			
-Bell Pepper / Chili Pepper	NA	NA	NA			
-Spanish Thyme	NA	NA	NA			
-West Indian Elm	NA	NA	NA			
-Candle Bush	NA	NA	NA			
-Pink Trumpet Tree	NA	NA	NA			
-Creeping Spike Rush	NA	NA	NA			
-Trumpet Tree	NA	NA	NA			
-Cuban Sawgrass	NA	NA	NA			
-Chanca Piedra	NA	NA	NA			
-Guava	NA	NA	NA			
-Kapok Tree / Silk Cotton Tree	NA	NA	NA			
-Strawberry Tree	NA	NA	NA			
-Spur Flower	NA	NA	NA			
-Broadleaf Ludwigia	NA	NA	NA			
-Ice Cream Bean Tree	NA	NA	NA			
  Equisetum ramosissimum	NA	NA	NA			
  Pteridium aquilinum	NA	NA	NA			
  Athyrium filix-femina	NA	NA	NA			
@@ -746,11 +700,7 @@ Dichantum annulatum	NA	NA	NA
 Arva javanica	NA	NA	NA			
 Onopordon acanthium	NA	NA	NA			
 H. suaeulance	NA	NA	NA			
-A. indica	NA	NA	NA			
-C. bunplandianus	NA	NA	NA			
-S. celearis	NA	NA	NA			
 Setairaviridis	NA	NA	NA			
 Anemone Vitifolia	NA	NA	NA			
-Garden burnet	NA	NA	NA			
 Llex plyneura	NA	NA	NA			
 Trifdium repensl	NA	NA	NA			
