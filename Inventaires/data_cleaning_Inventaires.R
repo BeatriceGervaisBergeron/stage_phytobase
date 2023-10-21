@@ -308,55 +308,52 @@ unique(data_std$clay_units) # only "%"
 #"sand_units" 
 unique(units$sand_units) # only "%"
 
-
-
-
-
-
-
-
-
-
 #"ec_units"
-unique(units$ec_units) # "uScm-1" "dSm-1" "ms cm-1" "mS/cm" "uS cm" "mS m-1" "uS cm-1" "us/m" "dS/m" "dS cm-1" "mS cm-1" "uS" "us cm" "us cm-1" "uS/cm" "dS m-1" "mS/m" "dS m"
+unique(units$ec_units) # "ds m-1" "us cm" "us cm-1" "ds m" "us/cm" "dS m-1" "dS/m" "%" "mmh os/cm" "ms m-1" "ucm/cm" "ms cm" "us" "dsm-1" "umohs/cm " "ms cm-1"
 #need to convert  to mS cm-1
-convert <- c("ms cm-1","mS/cm","mS cm-1")
+convert <- c("ms cm","mS/cm","ms cm-1")
 data_std <- data_std %>%
   mutate(
     ec_units = ifelse(ec_units %in% convert , 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uScm-1', ec/1000, ec)
-    ,ec_units = ifelse(ec_units == 'uScm-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uS cm-1', ec/1000, ec)
-    ,ec_units = ifelse(ec_units == 'uS cm-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'us cm-1', ec/1000, ec)
     ,ec_units = ifelse(ec_units == 'us cm-1', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'us/cm', ec/1000, ec)
+    ,ec_units = ifelse(ec_units == 'us/cm', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'us cm', ec/1000, ec)
     ,ec_units = ifelse(ec_units == 'us cm', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uS cm', ec/1000, ec)
-    ,ec_units = ifelse(ec_units == 'uS cm', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uS/cm', ec/1000, ec)
-    ,ec_units = ifelse(ec_units == 'uS/cm', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dSm-1', ec, ec)
-    ,ec_units = ifelse(ec_units == 'dSm-1', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'ds m-1', ec, ec)
+    ,ec_units = ifelse(ec_units == 'ds m-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'dS/m', ec, ec)
     ,ec_units = ifelse(ec_units == 'dS/m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS m', ec, ec)
-    ,ec_units = ifelse(ec_units == 'dS m', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'dS m-1', ec, ec)
     ,ec_units = ifelse(ec_units == 'dS m-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'dS cm-1', ec*100, ec)
-    ,ec_units = ifelse(ec_units == 'dS cm-1', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'mS m-1', ec/100, ec)
-    ,ec_units = ifelse(ec_units == 'mS m-1', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'ds m', ec, ec)
+    ,ec_units = ifelse(ec_units == 'ds m', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'dsm-1', ec, ec)
+    ,ec_units = ifelse(ec_units == 'dsm-1', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'mmh os/cm', ec, ec)
+    ,ec_units = ifelse(ec_units == 'mmh os/cm', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'umohs/cm ', ec*1000, ec)
+    ,ec_units = ifelse(ec_units == 'umohs/cm ', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'ms m-1', ec/100, ec)
+    ,ec_units = ifelse(ec_units == 'ms m-1', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'mS/m', ec/100, ec)
     ,ec_units = ifelse(ec_units == 'mS/m', 'mS cm−1', ec_units)
     ,ec = ifelse(ec_units == 'us/m', ec/100000, ec)
     ,ec_units = ifelse(ec_units == 'us/m', 'mS cm−1', ec_units)
-    ,ec = ifelse(ec_units == 'uS', ec/1000, ec)# we assume the unit is uS/cm to make sense of the data
-    ,ec_units = ifelse(ec_units == 'uS', 'mS cm−1', ec_units)
+    ,ec = ifelse(ec_units == 'us', ec/1000, ec)# we assume the unit is uS/cm to make sense of the data
+    ,ec_units = ifelse(ec_units == 'us', 'mS cm−1', ec_units)
   )
 # verify
-unique(data_std$ec_units) # only "mS cm−1" 
+unique(data_std$ec_units) # "mS cm−1" "%" "ucm/cm"
+
+
+
+
+
+
+
+
 
 
 #"cec_units"
