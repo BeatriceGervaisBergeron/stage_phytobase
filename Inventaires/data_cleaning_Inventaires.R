@@ -158,7 +158,7 @@ data[data == ''] <- NA
 
 #### species names cleaning  ####
 # check unique sp list in your database
-uni_sp<-as.data.frame(unique(data$name)) #1211 unique species
+uni_sp<-as.data.frame(unique(data$name)) #1182 unique species
 colnames(uni_sp) <- c('sp') 
 
 
@@ -166,7 +166,7 @@ colnames(uni_sp) <- c('sp')
 # list_sp_cor already corrected
 list_sp_cor <-readRDS('list_sp_cor.rds')
 # sp not present in the list
-to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 685 species not on the corrected list, so need to be corrected
+to.be.cor <- anti_join(uni_sp, list_sp_cor, by=c('sp'='user_supplied_name')) # 636 species not on the corrected list, so need to be corrected
 
 # Resolve the unmatched name with the 4 databases selected:
 # "The International Plant Names Index",'USDA NRCS PLANTS Database',"Tropicos - Missouri Botanical Garden", 'Catalogue of Life'
@@ -180,7 +180,7 @@ matches <- match.name %>%
   distinct()
 
 # Are all species considered in the correction
-uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 632 sp
+uni_sp_2<- as.data.frame(unique(match.name$user_supplied_name)) # 606 sp
 colnames(uni_sp_2) <- c('sp')
 
 # which are not included
