@@ -1,190 +1,189 @@
 user_supplied_name	submitted_name	matched_name2	score	implement	alternative	dupl
-Brickellia veronicifoli	Brickellia veronicifoli	Brickellia veronicifolia	0.75	TRUE	Brickellia veronicifolia	FALSE	
-Purshia mexican	Purshia mexican	Purshia mexicana	0.75	TRUE	Purshia mexicana	FALSE						
-Gymposperma glutinosum 	Gymposperma glutinosum	Gymnosperma glutinosum	0.75	TRUE	Gymnosperma glutinosum	FALSE			
-Gymposperma glutinosum 	Gymposperma glutinosum	Gymnosperma glutinosa	0.75	TRUE	Gymnosperma glutinosum	FALSE					
-Hirshfeldia incana 	Hirshfeldia incana	Hirschfeldia incana	0.75	TRUE	Hirschfeldia incana	FALSE			
-Scrofularia canina 	Scrofularia canina	Scrophularia canina	0.75	TRUE	Scrophularia canina	FALSE					
-Gallium verum 	Gallium verum	Galium verum	0.75	TRUE	Galium verum	FALSE			
-Ampelodesma mauritanien 	Ampelodesma mauritanien	Ampelodesmos mauritanicus	0.75	TRUE	Ampelodesmos mauritanicus	FALSE			
-Ecbalium elaterium 	Ecbalium elaterium	Ecballium elaterium	0.75	TRUE	Ecballium elaterium	FALSE				
-Galactite tomentosa 	Galactite tomentosa	Galactites tomentosa	0.75	TRUE	Galactites tomentosa	FALSE			
-Galactite tomentosa 	Galactite tomentosa	Galactites tomentosus	0.75	TRUE	Galactites tomentosa	FALSE			
-Bacopa monnierie 	Bacopa monnierie	Bacopa monnieri	0.75	TRUE	Bacopa monnieri	FALSE			
-Bacopa monnierie 	Bacopa monnierie	Bacopa monnieria	0.75	TRUE	Bacopa monnieri	FALSE			
-Bacopa monnierie 	Bacopa monnierie	Bacopa monniera	0.75	TRUE	Bacopa monnieri	FALSE			
-Hiershfeldia incana 	Hiershfeldia incana	Hirschfeldia incana	0.75	TRUE	Hirschfeldia incana	FALSE					
-Evax pygma 	Evax pygma	Evax pygmea	0.75	TRUE	Evax pygmaea	FALSE										
-Agristis tenuis	Agristis tenuis	Agrostis tenuis	0.75	TRUE	Agrostis tenuis	FALSE					
-Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra subsp. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE	
-Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra subvar. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE	
-Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra var. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE	
-Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra ssp. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE	
-Barcleyanthus salicifolius	Barcleyanthus salicifolius	Barkleyanthus salicifolius	0.75	TRUE	Barkleyanthus salicifolius	FALSE			
-Asclepia linaria	Asclepia linaria	Asclepias linaria	0.75	TRUE	Asclepias linaria	FALSE			
-Amsonia azurea	Amsonia azurea	Amsonia	0.75	TRUE	Anchusa azurea	FALSE			
-Piptaterium milliaceum	Piptaterium milliaceum	Piptatherum miliaceum	0.75	TRUE	Piptatherum miliaceum	FALSE			
+Brickellia veronicifoli	Brickellia veronicifoli	Brickellia veronicifolia	0.75	TRUE	Brickellia veronicifolia	FALSE
+Purshia mexican	Purshia mexican	Purshia mexicana	0.75	TRUE	Purshia mexicana	FALSE
+Gymposperma glutinosum 	Gymposperma glutinosum	Gymnosperma glutinosum	0.75	TRUE	Gymnosperma glutinosum	FALSE
+Gymposperma glutinosum 	Gymposperma glutinosum	Gymnosperma glutinosa	0.75	TRUE	Gymnosperma glutinosum	FALSE
+Hirshfeldia incana 	Hirshfeldia incana	Hirschfeldia incana	0.75	TRUE	Hirschfeldia incana	FALSE
+Scrofularia canina 	Scrofularia canina	Scrophularia canina	0.75	TRUE	Scrophularia canina	FALSE
+Gallium verum 	Gallium verum	Galium verum	0.75	TRUE	Galium verum	FALSE
+Ampelodesma mauritanien 	Ampelodesma mauritanien	Ampelodesmos mauritanicus	0.75	TRUE	Ampelodesmos mauritanicus	FALSE
+Ecbalium elaterium 	Ecbalium elaterium	Ecballium elaterium	0.75	TRUE	Ecballium elaterium	FALSE
+Galactite tomentosa 	Galactite tomentosa	Galactites tomentosa	0.75	TRUE	Galactites tomentosa	FALSE
+Galactite tomentosa 	Galactite tomentosa	Galactites tomentosus	0.75	TRUE	Galactites tomentosa	FALSE
+Bacopa monnierie 	Bacopa monnierie	Bacopa monnieri	0.75	TRUE	Bacopa monnieri	FALSE
+Bacopa monnierie 	Bacopa monnierie	Bacopa monnieria	0.75	TRUE	Bacopa monnieri	FALSE
+Bacopa monnierie 	Bacopa monnierie	Bacopa monniera	0.75	TRUE	Bacopa monnieri	FALSE
+Hiershfeldia incana 	Hiershfeldia incana	Hirschfeldia incana	0.75	TRUE	Hirschfeldia incana	FALSE
+Evax pygma 	Evax pygma	Evax pygmea	0.75	TRUE	Evax pygmaea	FALSE
+Agristis tenuis	Agristis tenuis	Agrostis tenuis	0.75	TRUE	Agrostis tenuis	FALSE
+Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra subsp. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra subvar. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra var. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinosa	Festuca rubra pruinosa	Festuca rubra ssp. pruinosa	0.999	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Barcleyanthus salicifolius	Barcleyanthus salicifolius	Barkleyanthus salicifolius	0.75	TRUE	Barkleyanthus salicifolius	FALSE
+Asclepia linaria	Asclepia linaria	Asclepias linaria	0.75	TRUE	Asclepias linaria	FALSE
+Amsonia azurea	Amsonia azurea	Amsonia	0.75	TRUE	Anchusa azurea	FALSE
+Piptaterium milliaceum	Piptaterium milliaceum	Piptatherum miliaceum	0.75	TRUE	Piptatherum miliaceum	FALSE
 Capsella bursapastoris	Capsella bursapastoris	Capsella bursa-pastoris	0.75	TRUE	Capsella bursapastoris	FALSE
-Lotus tetraphylus	Lotus tetraphylus	Lotus tetraphyllus	0.75	TRUE	Lotus tetraphyllus	FALSE			
-Alyssum mural	Alyssum mural	Alyssum murale	0.75	TRUE	Alyssum murale	FALSE	
-Cardamine draba	Cardamine draba	Cardamine	0.75	TRUE	Cardaria draba	FALSE			
-Erysimum subsrtigosum	Erysimum subsrtigosum	Erysimum substrigosum	0.75	TRUE	Erysimum substrigosum	FALSE		
-Lepidum ruderale	Lepidum ruderale	Lepidium ruderale	0.75	TRUE	Lepidium ruderale	FALSE		
-Croton bonplandianum 	Croton bonplandianum	Croton bonplandianus	0.75	TRUE	Croton bonplandianus	FALSE		
-Emex spinosus	Emex spinosus	Emex	0.75	TRUE	Emex spinosum	FALSE			
-Jasione crispa subsp. serpentinitica	Jasione crispa subsp. serpentinitica	Jasione crispa subsp. serpentinica	0.54 	TRUE	Jasione crispa subsp. serpentinica	FALSE	
-Plantgo lanceolata	Plantgo lanceolata	Plantago lanceolata	0.75 	TRUE	Plantago lanceolata	FALSE			
-Seseli peixotianum	Seseli peixotianum	Seseli peixoteanum	0.75 	TRUE	Seseli peixoteanum	FALSE
-Seseli peixotianum	Seseli peixotianum	Seseli peixotoanum	0.75 	TRUE	Seseli peixoteanum	FALSE		
-Geranium purpurem	Geranium purpurem	Geranium purpureum	0.75 	TRUE	Geranium purpureum	FALSE
-
-			
-Anthyllis stoechas	Anthyllis stoechas	Anthyllis	0.75
-
-		
-
-Sedum forsteranum	Sedum forsteranum	Sedum forsterianum	0.75 	TRUE	Sedum forsterianum	FALSE				
-Portulaca oleraceae subsp. oleraceae	Portulaca oleraceae subsp. oleraceae	Portulaca oleracea subsp. oleracea	0.54 	TRUE	Portulaca oleracea subsp. oleracea	FALSE
-Portulaca oleraceae subsp. oleraceae	Portulaca oleraceae subsp. oleraceae	Portulaca oleracea var. oleracea	0.54 	TRUE	Portulaca oleracea subsp. oleracea	FALSE	
-Festuca pseudotricophylla	Festuca pseudotricophylla	Festuca pseudotrichophylla	0.75 	TRUE	Festuca pseudotrichophylla	FALSE					
-Odontites tenuifolia	Odontites tenuifolia	Odontites tenuifolius	0.75 	TRUE	Odontites tenuifolius	FALSE		
-Cistus salvifolius	Cistus salvifolius	Cistus salviifolius	0.75 	TRUE	Cistus salviifolius	FALSE
-Cistus salvifolius	Cistus salvifolius	Cistus salicifolius	0.75 	TRUE	Cistus salviifolius	FALSE						
-Silene muscipola	Silene muscipola	Silene muscipula	0.75 	TRUE	Silene muscipula	FALSE			
-Silene muscipola	Silene muscipola	Silene muscipala	0.75 	TRUE	Silene muscipula	FALSE			
-Silene scabriflora subsp. scabriflora	Silene scabriflora subsp. scabriflora	Silene scabriflora subsp. scabriflora	0.999		
-Dianthus laricifolius subsp. marizi	Dianthus laricifolius subsp. marizi	Dianthus laricifolius subsp. marizii	0.54 	TRUE	Dianthus laricifolius subsp. marizii	FALSE
-Petrorhagia nanteuellii	Petrorhagia nanteuellii	Petrorhagia nanteuilii	0.75 	TRUE	Petrorhagia nanteuilii	FALSE			
-Arenaria querioides subsp. fontequeri	Arenaria querioides subsp. fontequeri	Arenaria querioides subsp. fontiqueri	0.54 	TRUE	Arenaria querioides subsp. fontiqueri	FALSE	
-Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalon subsp. sphaerocephalon	0.54 	TRUE	Allium sphaerocephalon subsp. sphaerocephalon	FALSE			
-Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalum subsp. sphaerocephalum	0.54 	TRUE	Allium sphaerocephalon subsp. sphaerocephalon	FALSE			
-Anagalis monelli var. linifolia	Anagalis monelli var. linifolia	Anagallis monelli subsp. linifolia	0.54 	TRUE	Anagallis monelli var. linifolia	FALSE			
-Anagalis monelli var. linifolia	Anagalis monelli var. linifolia	Anagallis monelli var. linifolia	0.54 	TRUE	Anagallis monelli var. linifolia	FALSE			
-Alternenthera pungens	Alternenthera pungens	Alternanthera pungens	0.75 	TRUE	Alternanthera pungens	FALSE						
-Baccharis pingraea fma. angustissima	Baccharis pingraea fma. angustissima	Baccharis	0.75 	TRUE	Baccharis pingraea var. angustissima	FALSE				
-Poligonum aviculare	Poligonum aviculare	Polygonum aviculare	0.75 	TRUE	Polygonum aviculare	FALSE			
-Piptatherum milliaceum	Piptatherum milliaceum	Piptatherum miliaceum	0.75 	TRUE	Piptatherum miliaceum	FALSE						
-Eucalyptus camadulensis	Eucalyptus camadulensis	Eucalyptus camaldulensis	0.75 	TRUE	Eucalyptus camaldulensis	FALSE				
-Chromolaena odoratum	Chromolaena odoratum	Chromolaena odorata	0.75 	TRUE	Chromolaena odorata	FALSE								
-Imperata cylindica	Imperata cylindica	Imperata cylindrica	0.75 	TRUE	Imperata cylindrica	FALSE						
-Dicranopteris dichodoma	Dicranopteris dichodoma	Dicranopteris dichotoma	0.75 	TRUE	Dicranopteris dichotoma	FALSE					
-Artemisia capillaries	Artemisia capillaries	Artemisia capillaris	0.75 	TRUE	Artemisia capillaris	FALSE			
-Azanza garkeana	Azanza garkeana	Azanza garckeana	0.75 	TRUE	Azanza garckeana	FALSE						
-Commiphera glandulosa	Commiphera glandulosa	Commiphora glandulosa	0.75 	TRUE	Commiphora glandulosa	FALSE			
-Dichrostachys cinereal	Dichrostachys cinereal	Dichrostachys cinerea	0.75 	TRUE	Dichrostachys cinerea	FALSE			
-Grevia bicolor	Grevia bicolor	Grewia bicolor	0.75 	TRUE	Grewia bicolor	FALSE						
-Trifolium triocephalum	Trifolium triocephalum	Trifolium eriocephalum	0.75 	TRUE	Trifolium eriocephalum	FALSE			
-Trifolium triocephalum	Trifolium triocephalum	Trifolium trichocephalum	0.75 	TRUE	Trifolium eriocephalum	FALSE					
-Potentila repens	Potentila repens	Potentilla repens	0.75 	TRUE	Potentilla repens	FALSE			
-Adenocarpus complicates 	Adenocarpus complicates	Adenocarpus complicatus	0.75 	TRUE	Adenocarpus complicatus	FALSE				
-Heteropogon conturtus	Heteropogon conturtus	Heteropogon contortus	0.75 	TRUE	Heteropogon contortus	FALSE						
-Berberis lyceum  	Berberis lyceum	Berberis lycium	0.75 	TRUE	Berberis lycium Royle	FALSE						
-Daphne mucronata  	Daphne mucronata 	Daphne	0.75 	TRUE	Daphne mucronata	FALSE			
-Debregeasia salicifolia  	Debregeasia salicifolia 	Debregeasia	0.75 	TRUE	Debregeasia salicifolia	FALSE					
-Fimbristylis dichotoma  	Fimbristylis dichotoma 	Fimbristylis	0.75 	TRUE	Fimbristylis dichotoma	FALSE			
-Heteropogon contortus  	Heteropogon contortus 	Heteropogon	0.75 	TRUE	Heteropogon contortus	FALSE			
-Indigofera gerardiana  	Indigofera gerardiana 	Indigofera	0.75 	TRUE	Indigofera gerardiana	FALSE			
-Olea ferruginea  	Olea ferruginea 	Olea	0.75 	TRUE	Olea ferruginea	FALSE		
-Sacharum griffithii	Sacharum griffithii	Saccharum griffithii	0.75 	TRUE	Saccharum griffithii	FALSE					
-Rhazya stracta	Rhazya stracta	Rhazya stricta	0.75 	TRUE	Rhazya stricta	FALSE	
-
-
-
-		
-Isodon roguses	Isodon roguses	Isodon	0.75
-
-
-		
-Xanthoxylem armatum	Xanthoxylem armatum	Zanthoxylum armatum	0.75 	TRUE	Zanthoxylum armatum	FALSE						
-Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon jwarancusa	0.75 	TRUE	Cymbopogon jwarancusa	FALSE			
-Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon iwarancusa	0.75 	TRUE	Cymbopogon jwarancusa	FALSE			
-Tribulus terestris	Tribulus terestris	Tribulus terrestris	0.75 	TRUE	Tribulus terrestris	FALSE					
-Eichhornia plantagineum	Eichhornia plantagineum	Eichhornia	0.75 	TRUE	Echium plantagineum	FALSE						
-Olea europea  	Olea europea  	Olea europaea	0.75 	TRUE	Olea europaea	FALSE					
-Dittrichia viscose	Dittrichia viscose	Dittrichia viscosa	0.75 	TRUE	Dittrichia viscosa	FALSE
-Mentha aquatic	Mentha aquatic	Mentha aquatica	0.75 	TRUE	Mentha aquatica	FALSE					
-Artemisis japonica	Artemisis japonica	Artemisia japonica	0.75 	TRUE	Artemisia japonica	FALSE			
-Aster prorerus	Aster prorerus	Aster procerus	0.75 	TRUE	Aster procerus	FALSE			
-Aster prorerus	Aster prorerus	Aster proteus	0.75 	TRUE	Aster procerus	FALSE					
-Sanguisorba officinalis 	Sanguisorba officinalis 	Sanguisorba	0.75 	TRUE	Sanguisorba officinalis	FALSE					
-Valeriana officinalis 	Valeriana officinalis 	Valeriana	0.75 	TRUE	Valeriana officinalis	FALSE					
-Mimosa caesalpineafolia 	Mimosa caesalpineafolia	Mimosa caesalpiniifolia	0.75 	TRUE	Mimosa caesalpiniaefolia	FALSE				
-Andryala integrifoli 	Andryala integrifoli	Andryala integrifolia	0.75 	TRUE	Andryala integrifolia	FALSE						
-Anarhinum bellidifolium	Anarhinum bellidifolium	Anarrhinum bellidifolium	0.75 	TRUE	Anarrhinum bellidifolium	FALSE					
-Mesostemma kotschyana	Mesostemma kotschyana	Mesostemma kotschyanum	0.75 	TRUE	Mesostemma kotschyana	FALSE						
-Poa balbusa  	Poa balbusa	Poa bulbosa	0.75 	TRUE	Poa bulbosa	FALSE						
-Galium sp.	Galium sp.	Galium	0.75 	TRUE	Anarrhinum bellidifolium	FALSE			
-Salix SP.	Salix sp.	Salix	0.75 	TRUE	Anarrhinum bellidifolium	FALSE
-Solanaceae Solanum nigrum	Solanaceae solanum nigrum	Solanum nigrum	0.75 	TRUE	Solanum nigrum	FALSE			
-Croton bonplandianum	Croton bonplandianum	Croton bonplandianus	0.75 	TRUE	Croton bonplandianus	FALSE			
-Cyanodon dactylon 	Cyanodon dactylon	Cynodon dactylon	0.75 	TRUE	Cynodon dactylon	FALSE			
-Casia occidentalis	Casia occidentalis	Caesia occidentalis	0.75 	TRUE	Caesia occidentalis	FALSE			
-Casia occidentalis	Casia occidentalis	Casca occidentalis	0.75 	TRUE	Caesia occidentalis	FALSE			
-Casia occidentalis	Casia occidentalis	Cassia occidentalis	0.75 	TRUE	Caesia occidentalis	FALSE			
-Achyranthus aspera	Achyranthus aspera	Achyranthes aspera	0.75 	TRUE	Achyranthes aspera	FALSE			
-Tephrosia perpurea	Tephrosia perpurea	Tephrosia purpurea	0.75 	TRUE		Tephrosia purpurea	FALSE
-Gentista hassertiana	Gentista hassertiana	Genista hassertiana	0.75 	TRUE		Genista hassertiana	FALSE					
-Alyssum alysoides	Alyssum alysoides	Alyssum alyssoides	0.75 	TRUE		Alyssum alyssoides	FALSE			
-Melisa ciliate 	Melisa ciliate	Melica ciliata	0.75 	TRUE		Melica ciliata	FALSE						
-Anthylis aurea	Anthylis aurea	Anthyllis aurea	0.75 	TRUE		Anthyllis aurea	FALSE				
-Melica ciliate	Melica ciliate	Melica ciliata	0.75 	TRUE		Melica ciliata	FALSE			
-Anthylis vulneraria	Anthylis vulneraria	Anthyllis vulneraria	0.75 	TRUE		Anthyllis vulneraria	FALSE				
-Astragalus glaucanthus	Astragalus glaucanthus	Astragalus glaucacanthos	0.75 	TRUE		Astragalus glaucacanthos	FALSE			
-Glausium oxylobum	Glausium oxylobum	Glaucium oxylobum	0.75 	TRUE		Glaucium oxylobum	FALSE				
-Artemisia siebri	Artemisia siebri	Artemisia sieberi	0.75 	TRUE		Artemisia sieberi	FALSE		
-Stachys inflate	Stachys inflate	Stachys inflata	0.75 	TRUE		Stachys inflata	FALSE			
-Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra subsp. pruinosa	0.54 	TRUE		Festuca rubra subsp. pruinosa	FALSE			
-Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra subvar. pruinosa	0.54 	TRUE		Festuca rubra subsp. pruinosa	FALSE			
-Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra var. pruinosa	0.54 	TRUE		Festuca rubra subsp. pruinosa	FALSE			
-Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra ssp. pruinosa	0.54 	TRUE		Festuca rubra subsp. pruinosa	FALSE						
-Breynia vitisidae	Breynia vitisidae	Breynia vitis-idaea	0.75 	TRUE		Breynia vitis-idaea	FALSE					
-Syzygium cf. pterophera	Syzygium cf. pterophera	Syzygium pterophorum	0.75 	TRUE		Syzygium pterophorum	FALSE				
-Agrostemma cf. hameliifolium	Agrostemma cf. hameliifolium	Argostemma hameliifolium	0.75 	TRUE		Argostemma hameliifolium	FALSE			
-Urophyllum cf. marcophyllum	Urophyllum cf. marcophyllum	Urophyllum macrophyllum	0.75 	TRUE		Urophyllum macrophyllum	FALSE			
-Urophyllum cf. marcophyllum	Urophyllum cf. marcophyllum	Urophyllum microphyllum	0.75 	TRUE		Urophyllum macrophyllum	FALSE						
-Lippia aff. geminata	Lippia aff. geminata	Lippia geminata	0.75 	TRUE		Lippia geminata	FALSE			
-Polystichum disjurctam	Polystichum disjurctam	Polystichum disjunctum	0.75 	TRUE		Polystichum disjunctum	FALSE		
-Adiantun capillus-veneris	Adiantun capillus-veneris	Adiantum capillus-veneris	0.75 	TRUE		Adiantum capillus-veneris	FALSE			
-Adiantun capillus-veneris	Adiantun capillus-veneris	Adiantum capillaris-veneris	0.75 	TRUE		Adiantum capillus-veneris	FALSE			
-
-
-		
-Artemisia lancangensis	Artemisia lancangensis	Artemisia	0.75
-
-
-Equisetum ramosissimum	NA	NA	Equisetum ramosissimum	0.75 	TRUE		Equisetum ramosissimum	FALSE			
-Pteridium aquilinum	NA	NA	Pteridium aquilinum 	TRUE		Pteridium aquilinum	FALSE			
-Athyrium filix-femina	NA	NA	Athyrium filix-femina 	TRUE		Athyrium filix-femina	FALSE			
-Centaurea nigra	NA	NA	Centaurea nigra 	TRUE		Centaurea nigra	FALSE			
-Hypericum perforatum	NA	NA	Hypericum perforatum 	TRUE		Hypericum perforatum	FALSE			
-Digitalis thapsi	NA	NA	Digitalis thapsi 	TRUE		Digitalis thapsi	FALSE			
-Aira caryophyllea	NA	NA	Aira caryophyllea 	TRUE		Aira caryophyllea	FALSE			
-Glyceria fluitans	NA	NA	Glyceria fluitans 	TRUE		Glyceria fluitans	FALSE			
-Diplotaxis erucoides	NA	NA	Diplotaxis erucoides 	TRUE		Diplotaxis erucoides	FALSE			
-Daucus carota	NA	NA	Daucus carota 	TRUE		Daucus carota	FALSE			
-Silene latifolia	NA	NA	Silene latifolia 	TRUE		Silene latifolia	FALSE			
-Cytisus scoparius	NA	NA	Cytisus scoparius 	TRUE		Cytisus scoparius	FALSE			
-Cytisus oromediterraneus	NA	NA	Cytisus oromediterraneus 	TRUE		Cytisus oromediterraneus	FALSE			
-Genista cinerascens	NA	NA	Genista cinerascens 	TRUE		Genista cinerascens	FALSE			
-Adenocarpus complicatus	NA	NA	Adenocarpus complicatus 	TRUE		Adenocarpus complicatus	FALSE			
-Thymus mastichina	NA	NA	Thymus mastichina 	TRUE		Thymus mastichina	FALSE			
-Santolina rosmarinifolia	NA	NA	Santolina rosmarinifolia 	TRUE		Santolina rosmarinifolia	FALSE			
-Frangula alnus	NA	NA	Frangula alnus 	TRUE		Frangula alnus	FALSE			
-Betula pendula	NA	NA	Betula pendula 	TRUE		Betula pendula	FALSE			
-Erica arborea	NA	NA	Erica arborea 	TRUE		Erica arborea	FALSE			
-Salix atrocinerea	NA	NA	Salix atrocinerea 	TRUE		Salix atrocinerea	FALSE			
-Convolvus arvensis	NA	NA	Convolvulus arvensis 	TRUE		Convolvulus arvensis	FALSE			
-Dichantum annulatum	NA	NA	Dichanthium annulatum 	TRUE		Dichanthium annulatum	FALSE			
-Arva javanica	NA	NA	Aerva javanica 	TRUE		Aerva javanica	FALSE			
-Onopordon acanthium	NA	NA	Onopordum acanthium 	TRUE		Onopordum acanthium	FALSE	
-
-
-		
-H. suaeulance	NA	NA	NA
-
-
-			
-Setairaviridis	NA	NA	Setaria viridis 	TRUE		Setaria viridis	FALSE			
-Anemone Vitifolia	NA	NA	Eriocapitella vitifolia 	TRUE		Eriocapitella vitifolia	FALSE						
-Llex plyneura	NA	NA	Ilex polyneura 	TRUE		Ilex polyneura	FALSE			
-Trifdium repensl	NA	NA	Trifolium repens 	TRUE		Trifolium repens	FALSE
+Lotus tetraphylus	Lotus tetraphylus	Lotus tetraphyllus	0.75	TRUE	Lotus tetraphyllus	FALSE
+Alyssum mural	Alyssum mural	Alyssum murale	0.75	TRUE	Alyssum murale	FALSE
+Cardamine draba	Cardamine draba	Cardamine	0.75	TRUE	Cardaria draba	FALSE
+Erysimum subsrtigosum	Erysimum subsrtigosum	Erysimum substrigosum	0.75	TRUE	Erysimum substrigosum	FALSE
+Lepidum ruderale	Lepidum ruderale	Lepidium ruderale	0.75	TRUE	Lepidium ruderale	FALSE
+Croton bonplandianum 	Croton bonplandianum	Croton bonplandianus	0.75	TRUE	Croton bonplandianus	FALSE
+Emex spinosus	Emex spinosus	Emex	0.75	TRUE	Emex spinosum	FALSE
+Jasione crispa subsp. serpentinitica	Jasione crispa subsp. serpentinitica	Jasione crispa subsp. serpentinica	0.54	TRUE	Jasione crispa subsp. serpentinica	FALSE
+Plantgo lanceolata	Plantgo lanceolata	Plantago lanceolata	0.75	TRUE	Plantago lanceolata	FALSE
+Seseli peixotianum	Seseli peixotianum	Seseli peixoteanum	0.75	TRUE	Seseli peixoteanum	FALSE
+Seseli peixotianum	Seseli peixotianum	Seseli peixotoanum	0.75	TRUE	Seseli peixoteanum	FALSE
+Geranium purpurem	Geranium purpurem	Geranium purpureum	0.75	TRUE	Geranium purpureum	FALSE
+						
+						
+Anthyllis stoechas	Anthyllis stoechas	Anthyllis	0.75			
+						
+						
+						
+Sedum forsteranum	Sedum forsteranum	Sedum forsterianum	0.75	TRUE	Sedum forsterianum	FALSE
+Portulaca oleraceae subsp. oleraceae	Portulaca oleraceae subsp. oleraceae	Portulaca oleracea subsp. oleracea	0.54	TRUE	Portulaca oleracea subsp. oleracea	FALSE
+Portulaca oleraceae subsp. oleraceae	Portulaca oleraceae subsp. oleraceae	Portulaca oleracea var. oleracea	0.54	TRUE	Portulaca oleracea subsp. oleracea	FALSE
+Festuca pseudotricophylla	Festuca pseudotricophylla	Festuca pseudotrichophylla	0.75	TRUE	Festuca pseudotrichophylla	FALSE
+Odontites tenuifolia	Odontites tenuifolia	Odontites tenuifolius	0.75	TRUE	Odontites tenuifolius	FALSE
+Cistus salvifolius	Cistus salvifolius	Cistus salviifolius	0.75	TRUE	Cistus salviifolius	FALSE
+Cistus salvifolius	Cistus salvifolius	Cistus salicifolius	0.75	TRUE	Cistus salviifolius	FALSE
+Silene muscipola	Silene muscipola	Silene muscipula	0.75	TRUE	Silene muscipula	FALSE
+Silene muscipola	Silene muscipola	Silene muscipala	0.75	TRUE	Silene muscipula	FALSE
+Dianthus laricifolius subsp. marizi	Dianthus laricifolius subsp. marizi	Dianthus laricifolius subsp. marizii	0.54	TRUE	Dianthus laricifolius subsp. marizii	FALSE
+Petrorhagia nanteuellii	Petrorhagia nanteuellii	Petrorhagia nanteuilii	0.75	TRUE	Petrorhagia nanteuilii	FALSE
+Arenaria querioides subsp. fontequeri	Arenaria querioides subsp. fontequeri	Arenaria querioides subsp. fontiqueri	0.54	TRUE	Arenaria querioides subsp. fontiqueri	FALSE
+Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalon subsp. sphaerocephalon	0.54	TRUE	Allium sphaerocephalon subsp. sphaerocephalon	FALSE
+Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalos subsp. sphaerocephalos	Allium sphaerocephalum subsp. sphaerocephalum	0.54	TRUE	Allium sphaerocephalon subsp. sphaerocephalon	FALSE
+Anagalis monelli var. linifolia	Anagalis monelli var. linifolia	Anagallis monelli subsp. linifolia	0.54	TRUE	Anagallis monelli var. linifolia	FALSE
+Anagalis monelli var. linifolia	Anagalis monelli var. linifolia	Anagallis monelli var. linifolia	0.54	TRUE	Anagallis monelli var. linifolia	FALSE
+Alternenthera pungens	Alternenthera pungens	Alternanthera pungens	0.75	TRUE	Alternanthera pungens	FALSE
+Baccharis pingraea fma. angustissima	Baccharis pingraea fma. angustissima	Baccharis	0.75	TRUE	Baccharis pingraea var. angustissima	FALSE
+Poligonum aviculare	Poligonum aviculare	Polygonum aviculare	0.75	TRUE	Polygonum aviculare	FALSE
+Piptatherum milliaceum	Piptatherum milliaceum	Piptatherum miliaceum	0.75	TRUE	Piptatherum miliaceum	FALSE
+Eucalyptus camadulensis	Eucalyptus camadulensis	Eucalyptus camaldulensis	0.75	TRUE	Eucalyptus camaldulensis	FALSE
+Chromolaena odoratum	Chromolaena odoratum	Chromolaena odorata	0.75	TRUE	Chromolaena odorata	FALSE
+Imperata cylindica	Imperata cylindica	Imperata cylindrica	0.75	TRUE	Imperata cylindrica	FALSE
+Dicranopteris dichodoma	Dicranopteris dichodoma	Dicranopteris dichotoma	0.75	TRUE	Dicranopteris dichotoma	FALSE
+Artemisia capillaries	Artemisia capillaries	Artemisia capillaris	0.75	TRUE	Artemisia capillaris	FALSE
+Azanza garkeana	Azanza garkeana	Azanza garckeana	0.75	TRUE	Azanza garckeana	FALSE
+Commiphera glandulosa	Commiphera glandulosa	Commiphora glandulosa	0.75	TRUE	Commiphora glandulosa	FALSE
+Dichrostachys cinereal	Dichrostachys cinereal	Dichrostachys cinerea	0.75	TRUE	Dichrostachys cinerea	FALSE
+Grevia bicolor	Grevia bicolor	Grewia bicolor	0.75	TRUE	Grewia bicolor	FALSE
+Trifolium triocephalum	Trifolium triocephalum	Trifolium eriocephalum	0.75	TRUE	Trifolium eriocephalum	FALSE
+Trifolium triocephalum	Trifolium triocephalum	Trifolium trichocephalum	0.75	TRUE	Trifolium eriocephalum	FALSE
+Potentila repens	Potentila repens	Potentilla repens	0.75	TRUE	Potentilla repens	FALSE
+Adenocarpus complicates 	Adenocarpus complicates	Adenocarpus complicatus	0.75	TRUE	Adenocarpus complicatus	FALSE
+Heteropogon conturtus	Heteropogon conturtus	Heteropogon contortus	0.75	TRUE	Heteropogon contortus	FALSE
+Berberis lyceum  	Berberis lyceum	Berberis lycium	0.75	TRUE	Berberis lycium Royle	FALSE
+Daphne mucronata  	Daphne mucronata 	Daphne	0.75	TRUE	Daphne mucronata	FALSE
+Debregeasia salicifolia  	Debregeasia salicifolia 	Debregeasia	0.75	TRUE	Debregeasia salicifolia	FALSE
+Fimbristylis dichotoma  	Fimbristylis dichotoma 	Fimbristylis	0.75	TRUE	Fimbristylis dichotoma	FALSE
+Heteropogon contortus  	Heteropogon contortus 	Heteropogon	0.75	TRUE	Heteropogon contortus	FALSE
+Indigofera gerardiana  	Indigofera gerardiana 	Indigofera	0.75	TRUE	Indigofera gerardiana	FALSE
+Olea ferruginea  	Olea ferruginea 	Olea	0.75	TRUE	Olea ferruginea	FALSE
+Sacharum griffithii	Sacharum griffithii	Saccharum griffithii	0.75	TRUE	Saccharum griffithii	FALSE
+Rhazya stracta	Rhazya stracta	Rhazya stricta	0.75	TRUE	Rhazya stricta	FALSE
+						
+						
+						
+						
+Isodon roguses	Isodon roguses	Isodon	0.75			
+						
+						
+						
+Xanthoxylem armatum	Xanthoxylem armatum	Zanthoxylum armatum	0.75	TRUE	Zanthoxylum armatum	FALSE
+Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon jwarancusa	0.75	TRUE	Cymbopogon jwarancusa	FALSE
+Cymbopgon jwarancusa	Cymbopgon jwarancusa	Cymbopogon iwarancusa	0.75	TRUE	Cymbopogon jwarancusa	FALSE
+Tribulus terestris	Tribulus terestris	Tribulus terrestris	0.75	TRUE	Tribulus terrestris	FALSE
+Eichhornia plantagineum	Eichhornia plantagineum	Eichhornia	0.75	TRUE	Echium plantagineum	FALSE
+Olea europea  	Olea europea  	Olea europaea	0.75	TRUE	Olea europaea	FALSE
+Dittrichia viscose	Dittrichia viscose	Dittrichia viscosa	0.75	TRUE	Dittrichia viscosa	FALSE
+Mentha aquatic	Mentha aquatic	Mentha aquatica	0.75	TRUE	Mentha aquatica	FALSE
+Artemisis japonica	Artemisis japonica	Artemisia japonica	0.75	TRUE	Artemisia japonica	FALSE
+Aster prorerus	Aster prorerus	Aster procerus	0.75	TRUE	Aster procerus	FALSE
+Aster prorerus	Aster prorerus	Aster proteus	0.75	TRUE	Aster procerus	FALSE
+Sanguisorba officinalis 	Sanguisorba officinalis 	Sanguisorba	0.75	TRUE	Sanguisorba officinalis	FALSE
+Valeriana officinalis 	Valeriana officinalis 	Valeriana	0.75	TRUE	Valeriana officinalis	FALSE
+Mimosa caesalpineafolia 	Mimosa caesalpineafolia	Mimosa caesalpiniifolia	0.75	TRUE	Mimosa caesalpiniaefolia	FALSE
+Andryala integrifoli 	Andryala integrifoli	Andryala integrifolia	0.75	TRUE	Andryala integrifolia	FALSE
+Anarhinum bellidifolium	Anarhinum bellidifolium	Anarrhinum bellidifolium	0.75	TRUE	Anarrhinum bellidifolium	FALSE
+Mesostemma kotschyana	Mesostemma kotschyana	Mesostemma kotschyanum	0.75	TRUE	Mesostemma kotschyana	FALSE
+Poa balbusa  	Poa balbusa	Poa bulbosa	0.75	TRUE	Poa bulbosa	FALSE
+Galium sp.	Galium sp.	Galium	0.75	TRUE	Anarrhinum bellidifolium	FALSE
+Salix SP.	Salix sp.	Salix	0.75	TRUE	Anarrhinum bellidifolium	FALSE
+Solanaceae Solanum nigrum	Solanaceae solanum nigrum	Solanum nigrum	0.75	TRUE	Solanum nigrum	FALSE
+Croton bonplandianum	Croton bonplandianum	Croton bonplandianus	0.75	TRUE	Croton bonplandianus	FALSE
+Cyanodon dactylon 	Cyanodon dactylon	Cynodon dactylon	0.75	TRUE	Cynodon dactylon	FALSE
+Casia occidentalis	Casia occidentalis	Caesia occidentalis	0.75	TRUE	Caesia occidentalis	FALSE
+Casia occidentalis	Casia occidentalis	Casca occidentalis	0.75	TRUE	Caesia occidentalis	FALSE
+Casia occidentalis	Casia occidentalis	Cassia occidentalis	0.75	TRUE	Caesia occidentalis	FALSE
+Achyranthus aspera	Achyranthus aspera	Achyranthes aspera	0.75	TRUE	Achyranthes aspera	FALSE
+Tephrosia perpurea	Tephrosia perpurea	Tephrosia purpurea	0.75	TRUE	Tephrosia purpurea	FALSE
+Gentista hassertiana	Gentista hassertiana	Genista hassertiana	0.75	TRUE	Genista hassertiana	FALSE
+Alyssum alysoides	Alyssum alysoides	Alyssum alyssoides	0.75	TRUE	Alyssum alyssoides	FALSE
+Melisa ciliate 	Melisa ciliate	Melica ciliata	0.75	TRUE	Melica ciliata	FALSE
+Anthylis aurea	Anthylis aurea	Anthyllis aurea	0.75	TRUE	Anthyllis aurea	FALSE
+Melica ciliate	Melica ciliate	Melica ciliata	0.75	TRUE	Melica ciliata	FALSE
+Anthylis vulneraria	Anthylis vulneraria	Anthyllis vulneraria	0.75	TRUE	Anthyllis vulneraria	FALSE
+Astragalus glaucanthus	Astragalus glaucanthus	Astragalus glaucacanthos	0.75	TRUE	Astragalus glaucacanthos	FALSE
+Glausium oxylobum	Glausium oxylobum	Glaucium oxylobum	0.75	TRUE	Glaucium oxylobum	FALSE
+Artemisia siebri	Artemisia siebri	Artemisia sieberi	0.75	TRUE	Artemisia sieberi	FALSE
+Stachys inflate	Stachys inflate	Stachys inflata	0.75	TRUE	Stachys inflata	FALSE
+Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra subsp. pruinosa	0.54	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra subvar. pruinosa	0.54	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra var. pruinosa	0.54	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Festuca rubra pruinose	Festuca rubra pruinose	Festuca rubra ssp. pruinosa	0.54	TRUE	Festuca rubra subsp. pruinosa	FALSE
+Breynia vitisidae	Breynia vitisidae	Breynia vitis-idaea	0.75	TRUE	Breynia vitis-idaea	FALSE
+Syzygium cf. pterophera	Syzygium cf. pterophera	Syzygium pterophorum	0.75	TRUE	Syzygium pterophorum	FALSE
+Agrostemma cf. hameliifolium	Agrostemma cf. hameliifolium	Argostemma hameliifolium	0.75	TRUE	Argostemma hameliifolium	FALSE
+Urophyllum cf. marcophyllum	Urophyllum cf. marcophyllum	Urophyllum macrophyllum	0.75	TRUE	Urophyllum macrophyllum	FALSE
+Urophyllum cf. marcophyllum	Urophyllum cf. marcophyllum	Urophyllum microphyllum	0.75	TRUE	Urophyllum macrophyllum	FALSE
+Lippia aff. geminata	Lippia aff. geminata	Lippia geminata	0.75	TRUE	Lippia geminata	FALSE
+Polystichum disjurctam	Polystichum disjurctam	Polystichum disjunctum	0.75	TRUE	Polystichum disjunctum	FALSE
+Adiantun capillus-veneris	Adiantun capillus-veneris	Adiantum capillus-veneris	0.75	TRUE	Adiantum capillus-veneris	FALSE
+Adiantun capillus-veneris	Adiantun capillus-veneris	Adiantum capillaris-veneris	0.75	TRUE	Adiantum capillus-veneris	FALSE
+						
+						
+						
+Artemisia lancangensis	Artemisia lancangensis	Artemisia	0.75			
+						
+						
+Equisetum ramosissimum	NA	NA	Equisetum ramosissimum	0.75	TRUE	
+Pteridium aquilinum	NA	NA	Pteridium aquilinum 	TRUE		Pteridium aquilinum
+Athyrium filix-femina	NA	NA	Athyrium filix-femina 	TRUE		Athyrium filix-femina
+Centaurea nigra	NA	NA	Centaurea nigra 	TRUE		Centaurea nigra
+Hypericum perforatum	NA	NA	Hypericum perforatum 	TRUE		Hypericum perforatum
+Digitalis thapsi	NA	NA	Digitalis thapsi 	TRUE		Digitalis thapsi
+Aira caryophyllea	NA	NA	Aira caryophyllea 	TRUE		Aira caryophyllea
+Glyceria fluitans	NA	NA	Glyceria fluitans 	TRUE		Glyceria fluitans
+Diplotaxis erucoides	NA	NA	Diplotaxis erucoides 	TRUE		Diplotaxis erucoides
+Daucus carota	NA	NA	Daucus carota 	TRUE		Daucus carota
+Silene latifolia	NA	NA	Silene latifolia 	TRUE		Silene latifolia
+Cytisus scoparius	NA	NA	Cytisus scoparius 	TRUE		Cytisus scoparius
+Cytisus oromediterraneus	NA	NA	Cytisus oromediterraneus 	TRUE		Cytisus oromediterraneus
+Genista cinerascens	NA	NA	Genista cinerascens 	TRUE		Genista cinerascens
+Adenocarpus complicatus	NA	NA	Adenocarpus complicatus 	TRUE		Adenocarpus complicatus
+Thymus mastichina	NA	NA	Thymus mastichina 	TRUE		Thymus mastichina
+Santolina rosmarinifolia	NA	NA	Santolina rosmarinifolia 	TRUE		Santolina rosmarinifolia
+Frangula alnus	NA	NA	Frangula alnus 	TRUE		Frangula alnus
+Betula pendula	NA	NA	Betula pendula 	TRUE		Betula pendula
+Erica arborea	NA	NA	Erica arborea 	TRUE		Erica arborea
+Salix atrocinerea	NA	NA	Salix atrocinerea 	TRUE		Salix atrocinerea
+Convolvus arvensis	NA	NA	Convolvulus arvensis 	TRUE		Convolvulus arvensis
+Dichantum annulatum	NA	NA	Dichanthium annulatum 	TRUE		Dichanthium annulatum
+Arva javanica	NA	NA	Aerva javanica 	TRUE		Aerva javanica
+Onopordon acanthium	NA	NA	Onopordum acanthium 	TRUE		Onopordum acanthium
+						
+						
+						
+H. suaeulance	NA	NA	NA			
+						
+						
+						
+Setairaviridis	NA	NA	Setaria viridis 	TRUE		Setaria viridis
+Anemone Vitifolia	NA	NA	Eriocapitella vitifolia 	TRUE		Eriocapitella vitifolia
+Llex plyneura	NA	NA	Ilex polyneura 	TRUE		Ilex polyneura
+Trifdium repensl	NA	NA	Trifolium repens 	TRUE		Trifolium repens
