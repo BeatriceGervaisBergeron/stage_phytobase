@@ -203,12 +203,6 @@ write.table(matches.all,
             "./Inventaires/uni_sp_match_names.txt", 
             sep="\t", row.names = F, quote = F)
 
-
-
-
-
-
-
 # open the txt file in excel to make manual corrections
 # For all hybrids (with x) both name should be keep
 # Save the corrected names in a txt file name, adding _cor to the name of the document
@@ -347,24 +341,17 @@ data_std <- data_std %>%
 # verify
 unique(data_std$ec_units) # "mS cm−1" "%" "ucm/cm"
 
-
-
-
-
-
-
-
-
-
 #"cec_units"
 unique(units$cec_units) # "cmol kg-1" "cmolc kg-1" "meq 100-1" "meq 100 g-1" "cmolc/kg" "cmol/kg" "meq 100g-1" "mmolc dm-3" "cmol+ kg-1" "cmol(+)kg-1" "meq/100g" "molc kg-1" "%" "mmol kg-1" "cmol kg" "cmol+ kg" "cmol/100g soil" "cmolc dm-3" "mM(+)/kg DM" 
 # need to convert to cmolc kg-1
-convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg")
+convert <- c("meq 100-1","meq 100g-1","meq/100g","meq 100 g−3","cmolc/kg","meq 100 g-1","me/100 g","cmol/kg","cmol kg","cmol kg-1","molc kg-1","cmol(+)kg-1","cmol+ kg-1","cmol+ kg","cmol(+)kg","cmol+/kg")
 data_std <- data_std %>%
   mutate(
     cec_units = ifelse(cec_units %in% convert , 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'mmol kg-1', cec/10, cec)
     ,cec_units = ifelse(cec_units == 'mmol kg-1', 'cmolc kg-1', cec_units)
+    ,cec = ifelse(cec_units == 'mmol(+) kg-1', cec/10, cec)
+    ,cec_units = ifelse(cec_units == 'mmol(+) kg-1', 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'cmolc dm-3', cec*10, cec)
     ,cec_units = ifelse(cec_units == 'cmolc dm-3', 'cmolc kg-1', cec_units)
     ,cec = ifelse(cec_units == 'mmolc dm-3', cec/10, cec)
@@ -379,13 +366,13 @@ data_std <- data_std %>%
     
   )
 #verify
-unique(data_std$cec_units) # only "cmolc kg-1"
+unique(data_std$cec_units) # "cmolc kg-1", "mmolc/100"
 
 
 #"N_units" 
 unique(units$N_units) # "mg kg-1" "g kg-1" "%" "mg/g" "g.kg-1" "mg/kg" "mg g-1" "g kg dw-1" "g kg" "kg ha-1" "mg kg"
 # need to convert to mg kg−1
-convert <- c("mg/kg","mg kg","mg kg-1")
+convert <- c("mg/kg","mg kg","mg kg-1","ppm")
 data_std <- data_std %>%
   mutate(
     N_units = ifelse(N_units %in% convert , 'mg kg−1', N_units)
@@ -403,11 +390,11 @@ data_std <- data_std %>%
     ,N_units = ifelse(N_units == 'g kg', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
-    ,N = ifelse(N_units == 'kg ha-1', NA, N)
+    ,N = ifelse(N_units == 'kg/ha', NA, N)
     ,N_units = ifelse(N == 'NA', 'NA', N_units)
   )
 #verify
-unique(data_std$N_units) # only "mg kg-1"
+unique(data_std$N_units) # "mg kg-1","mg l-1","g 100 g-1","mg/100g"
 
 
 #"P_units"   
@@ -427,8 +414,8 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'g kg dw-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'mg 100 g-1', P/10, P)
     ,P_units = ifelse(P_units == 'mg 100 g-1', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'mg 100g-1', P/10, P)
-    ,P_units = ifelse(P_units == 'mg 100g-1', 'mg kg-1', P_units)
+    ,P = ifelse(P_units == 'mg/100g', P/10, P)
+    ,P_units = ifelse(P_units == 'mg/100g', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'mg dm-3', P*10, P)
     ,P_units = ifelse(P_units == 'mg dm-3', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'g kg', P*1000, P)
@@ -439,12 +426,12 @@ data_std <- data_std %>%
     ,P_units = ifelse(P_units == 'g P2O5 kg-1', 'mg kg-1', P_units)
     ,P = ifelse(P_units == 'meq/100g', P*(30.974/5)*10, P)
     ,P_units = ifelse(P_units == 'meq/100g', 'mg kg-1', P_units)
-    ,P = ifelse(P_units == 'kg ha-1', NA, P)
+    ,P = ifelse(P_units == 'kg/ha', NA, P)
     ,P = ifelse(P_units == 'mg L-1', NA, P)
     ,P_units = ifelse(P == 'NA', 'NA', P_units)
   )
 #verify
-unique(data_std$P_units)# only "mg kg-1"
+unique(data_std$P_units)# "mg kg-1","g 100 g-1"
 
 
 #"units_s"   
@@ -519,10 +506,6 @@ data_std <- data_std %>%
 
 #verify
 unique(data_std$units_b) # only "g"
-
-
-###BEA: Il va falloir que tu mettes les transformation de biomasse après les transformation de concentration car certaines transformation s'appuie sur l'unité des la biomasse. Mets les simplement a la fin.
-### Aussi, pour l'instant lorsque je run tes transformations, je n'obtiens plus aucune unité pour les métaux. Ca te fait ca aussi? Ca ne me faisait pas ca lundi.
 
 
 #"units_te_ba" 
@@ -960,16 +943,7 @@ unique(data_std$units_te_ba_2) # only "mg kg-1"
 unique(units$units_te_ba_3) # only "mg kg-1"
 
 #"units_density"
-unique(data$units_density)# "plants/pot" "plant/pot" "stems/acre" "g cm-3" "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
-convert <- c("plant/pot")
-data_std <- data_std %>%
-  mutate(
-    units_density = ifelse(units_density %in% convert , 'plants/pot', units_density)
-    ,units_density = ifelse(p_density == 'NA', 'NA', units_density)
-  )
-# verify
-unique(data_std$units_density) # "plants/pot" "stems/acre" "g cm-3"  "g/pot" "plants/plot" "seeds/0.75m2" "plants/rhizobox" "plants ha−1"
-
+unique(data$units_density)# "g/m3"
 
 
 #### standardize categories terms ####
@@ -991,17 +965,17 @@ unique(data$organs_ba_1)
 unique(data$organs_ba_2)
 unique(data$organs_ba_3)
 # conversion
-syn_shoots <- c("Shoots","shoots","Shoot","shoot","overground organs","leaves+stems", "stems + leaves", "stems+leaves", 
+syn_shoots <- c("Shoots","flowering shoots","shoots","Shoot","shoot","Shoot ","Shoots ","overground organs","leaves+stems", "stems + leaves", "stems+leaves", 
                 "Stems, leaves and flowers", "Whole top part", "Leaves +stems","Above-ground parts", "Above ground parts", 
-                "Aboveground parts", "Aerial part", "Aerial parts", "Stems and leaves"  )
+                "Aboveground parts","Shoots/leaves", "Aerial part", "Aerial parts", "Stems and leaves", "Leaves and stems"  )
 syn_stems <- c("Stalks","Twigs","Stems","stems","stem","Stem","stalk","Twig","Branch","branch","branches","Branches",
-               "Lower stems","Culms","Stubble","stalks")
-syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leafs","Foliage","Aciculum", "Unwashed leaves","Needle", "Lower leaves",
+               "Lower stems","Culms","Stubble","stalks","stem and flowers")
+syn_leaves <- c("leaf","Leaf","Leaves","leaves","Leave","Leafs","Foliage","Aciculum", "Unwashed leaves","Needle", "Lower leaves",
                 "Washed leaves", "Leaf/Needle")
-syn_flowers <- c("flowers","Heads","Head","Spikelets","head")
-syn_fruits <- c("Berry","Edible parts")
+syn_flowers <- c("flowers","Heads","Head","Spikelets","head","Flowers","Inflorescence")
+syn_fruits <- c("Berry","Edible parts", "infructescence","Fruit")
 syn_wood <- c("wood","Woody","Trunk wood", "Bark","Trunk" )
-syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant" )                
+syn_whole<- c("leaves + roots","whole sample (leaves+stems+roots)", "whole plant","Whole plant" )                
 
 data_std <- data_std %>%
   mutate(organs_ba = ifelse(organs_ba %in% syn_shoots , 'shoots', organs_ba)) %>% 
@@ -1034,16 +1008,16 @@ data_std <- data_std %>%
   mutate(organs_ba_3 = ifelse(organs_ba_3 %in% syn_whole , 'whole', organs_ba_3))
 
 # verify
-unique(data_std$organs_ba) # "leaves"  "shoots"  "whole"   "stems" "wood"    "fruits"
-unique(data_std$organs_ba_1) # "stems"   "shoots"  "leaves"  "flowers" "wood"
-unique(data_std$organs_ba_2) # "flowers" "stems"   "wood"   "fruits"
-unique(data_std$organs_ba_3) # only "wood"
+unique(data_std$organs_ba) # "leaves"  "shoots"  "whole"   "stems" "wood" "fruits" "flowers" ###"Bulb"
+unique(data_std$organs_ba_1) # "stems"   "shoots"  "leaves"  "fruits" "wood"
+unique(data_std$organs_ba_2) # "flowers" fruits"
+unique(data_std$organs_ba_3) # only "fruits"
 
 
 # organs_br
 unique(data$organs_br)
 # conversion
-syn_roots <- c("root","roots ","rhizomes")
+syn_roots <- c("root","roots ","rhizomes","Root","Roots")
 data_std <- data_std %>%
   mutate(organs_br = ifelse(organs_br %in% syn_roots , 'roots', organs_br))
 # verify
