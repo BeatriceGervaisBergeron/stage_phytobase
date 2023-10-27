@@ -242,15 +242,6 @@ data <- data %>%
 # Check number of sp now
 uni_inv_cor <-unique(data$name)
 
-
-
-
-
-
-
-
-
-
 #### standardized units ####
 # Select all the units column
 units <- data %>%
