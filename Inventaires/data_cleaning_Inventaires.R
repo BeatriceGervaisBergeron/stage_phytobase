@@ -381,12 +381,15 @@ data_std <- data_std %>%
     ,N_units = ifelse(N_units == 'g kg', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'g kg dw-1', N*1000, N)
     ,N_units = ifelse(N_units == 'g kg dw-1', 'mg kg−1', N_units)
+    ,N = ifelse(N_units == 'mg/100g', N*10, N)
+    ,N_units = ifelse(N_units == 'mg/100g', 'mg kg−1', N_units)
+    ,N = ifelse(N_units == 'g 100 g-1', N*10000, N)
+    ,N_units = ifelse(N_units == 'g 100 g-1', 'mg kg−1', N_units)
     ,N = ifelse(N_units == 'kg/ha', NA, N)
     ,N_units = ifelse(N == 'NA', 'NA', N_units)
   )
 #verify
-unique(data_std$N_units) # "mg kg-1","mg l-1","g 100 g-1","mg/100g"
-
+unique(data_std$N_units) # "mg kg-1","mg l-1"
 
 #"P_units"   
 unique(units$P_units) # "mg kg-1" "kg ha-1" "mg kg" "P2O5" "g.kg-1" "g kg-1" "mg/kg" "ug g-1" "g kg dw-1" "mg kg-1 (P2O5)" "mg 100 g-1" "%" "mg 100g-1" "mg dm-3" "mg g-1" "ppm" "meq/100g" "mg L-1" "g kg" "g P2O5 kg-1""mg P/kg
