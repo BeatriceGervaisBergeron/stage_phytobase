@@ -683,6 +683,7 @@ plot(pca)
 
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
+# Simple/basic plots
 plot(zn_ba ~ LA_log, data = data_zn)
 plot(zn_ba ~ SLA, data = data_zn)
 plot(zn_ba ~ LDMC, data = data_zn)
@@ -692,6 +693,93 @@ plot(cd_ba ~ LDMC, data = data_cd)
 plot(pb_ba ~ LA_log, data = data_pb)
 plot(pb_ba ~ SLA, data = data_pb)
 plot(pb_ba ~ LDMC, data = data_pb)
+
+##### 10a. Plot (zn_ba ~ LA_log) with ggplot2 #####
+ggplot(data = data_zn) + # database of zn
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = LA_log, # x axis
+                 y = zn_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "log(LA)", # x axis name
+       y = "[Zn] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10b. Plot (zn_ba ~ SLA) with ggplot2 #####
+ggplot(data = data_zn) + # database of zn
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = SLA, # x axis
+                 y = zn_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "SLA", # x axis name
+       y = "[Zn] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10c. Plot (zn_ba ~ LDMC) with ggplot2 #####
+ggplot(data = data_zn) + # database of zn
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = LDMC, # x axis
+                 y = zn_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "LDMC", # x axis name
+       y = "[Zn] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10d. Plot (cd_ba ~ LA_log) with ggplot2 #####
+ggplot(data = data_cd) + # database of cd
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = LA_log, # x axis
+                 y = cd_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "log(LA)", # x axis name
+       y = "[Cd] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10e. Plot (cd_ba ~ SLA) with ggplot2 #####
+ggplot(data = data_cd) + # database of cd
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = SLA, # x axis
+                 y = cd_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "SLA", # x axis name
+       y = "[Cd] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10f. Plot (cd_ba ~ LDMC) with ggplot2 #####
+ggplot(data = data_cd) + # database of cd
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = LDMC, # x axis
+                 y = cd_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "LDMC", # x axis name
+       y = "[Cd] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
+##### 10g. Sauvegarder les graphiques #####
+
+# Format PDF
+ggsave("barplot_comm.pdf", # nom du fichier 
+       barplot_comm, # quel graphique à sauvegarder
+       height = 8.5, width = 11, # dimensions souhaitées en pouces
+       units = "in") # unité en pouce
+
+# Format PNG
+ggsave("barplot_comm.png", # nom du fichier 
+       barplot_comm, # quel graphique à sauvegarder
+       width = 11, # largeur en pouces
+       height = 8.5, # hauteur en pouces
+       dpi = 1000) # résolution en pixels par pouce
 
 
 #### 11. plot TE for different species ####
