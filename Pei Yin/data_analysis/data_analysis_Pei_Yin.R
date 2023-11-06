@@ -663,6 +663,7 @@ summary(pca_zn)
 plot(pca_zn)
 ## not really working since only 6 species points
 
+
 #### 9. RDA of willow traits # NOT WORKING ####
 
 # matrix of TE in willow
@@ -679,6 +680,7 @@ pca <-rda(data_zn[,c('zn_ba','SLA', 'LA_log','LDMC')], scale=TRUE)
 plot(pca)
 # mieux de visualizer un par un
 
+
 #### 10. plots of traits and TE ####
 
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -693,6 +695,7 @@ plot(cd_ba ~ LDMC, data = data_cd)
 plot(pb_ba ~ LA_log, data = data_pb)
 plot(pb_ba ~ SLA, data = data_pb)
 plot(pb_ba ~ LDMC, data = data_pb)
+
 
 ##### 10a. Plot (zn_ba ~ LA_log) with ggplot2 #####
 ggplot(data = data_zn) + # database of zn
