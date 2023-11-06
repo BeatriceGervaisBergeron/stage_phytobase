@@ -33,16 +33,6 @@
 #       12d. Testing anova [cd_br] ~ species
 #       12e. Testing anova [pb_ba] ~ species
 #       12f. Testing anova [pb_br] ~ species
-# 13. Anova [TE] ~ traits
-#       13a. Testing anova [zn_ba] ~ LA
-#       13b. Testing anova [zn_ba] ~ SLA
-#       13c. Testing anova [zn_ba] ~ LDMC
-#       13d. Testing anova [cd_ba] ~ LA
-#       13e. Testing anova [cd_ba] ~ SLA
-#       13f. Testing anova [cd_ba] ~ LDMC
-#       13g. Testing anova [pb_ba] ~ LA
-#       13h. Testing anova [pb_ba] ~ SLA
-#       13i. Testing anova [pb_ba] ~ LDMC
 
 
 #### 1. Import packages ####
@@ -173,7 +163,7 @@ ni_ba <- na.omit(data_std_salix$ni_ba)
 ni_ba # 22 lines
 
 
-#### 5. Linear model (LM) - Zn only database ####
+#### 5. Linear mixed model (LMM) - Zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba)) # 38 obs.
 
 ##### 5a. Verify normality of variables & transform data if needed #####
@@ -262,76 +252,62 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ## keeping it 
 
 
-##### 5b. Summary of zn_ba lm analysis #####
-
-## Since for the lmer models, either I couldn't test the assumption verification,
-## either the assumptions weren't ok when I tested them, I used lm instead
+##### 5b. Summary of zn_ba lmer analysis #####
 
 # First see influence of envir. variables on zn_ba
 # Then see influence of traits on zn_ba (while taking envir. var as control)
 
 
-##### 5c. For lm.zn_ba_env ####
+##### 5c. For lmer.zn_ba_env ####
 
-## For lm.zn_ba_env: model for environmental significant variables
-lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10  + ph + sand + clay_log2 + (1|covidence), data = data_zn)
-# 16 lines
-
-# significant p-value ?
-anova(lm.zn_ba_env)
-# zn_s, sand and clay are significant
-summary(lm.zn_ba_env) # Adjusted R-squared:  0.6998 
+## For lmer.zn_ba_env: model for environmental significant variables
+lmer.zn_ba_env <- lmer(data_zn$zn_ba_cuberoot ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
+summary(lmer.zn_ba_env)
+r.squaredGLMM(lmer.zn_ba_env)
+# zn_s_log10 is significant (p-value = 0.000371 ***)
+# R2 0.185
 
 # remove non significant variable from the model (i.e. ph)
-lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
-# 16 lines
+# lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 # significant p-value ?
-anova(lm.zn_ba_env)
+# anova(lm.zn_ba_env)
 # zn_s, sand and clay are significant
-summary(lm.zn_ba_env) # Adjusted R-squared:  0.6535 
+# summary(lm.zn_ba_env) # Adjusted R-squared:  0.6535
 
-library('lmerTest')
-lmer.zn <- lmer(data_zn$zn_ba_cuberoot ~ zn_s_log10 +ph+ sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
-summary(lmer.zn)
-
-# Assumptions verification for lm.zn_ba_env
+library('MuMIn')
+# Assumptions verification for lmer.zn_ba_env
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba_env)) # normal distribution (p-value = 0.06662)
+shapiro.test(resid(lmer.zn_ba_env)) # normal distribution (p-value = 0.1852)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
 # Number of obs: 14
 # then 20% of total obs. is 2.8 (around 3), so fraction = 3 in gqtest()
-gqtest(lm.zn_ba_env, order.by = ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence), data = data_zn, fraction = 3)
+gqtest(lmer.zn_ba_env, order.by = ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn, fraction = 3)
 # distribution is homoscedastic (p-value = 0.4077)
 
-plot(resid(lm.zn_ba_env) ~ fitted(lm.zn_ba_env)) # mostly random points, looks homoscedastic
+plot(resid(lmer.zn_ba_env) ~ fitted(lmer.zn_ba_env))
 # check the model assumptions
-plot(lm.zn_ba_env)
+plot(lmer.zn_ba_env) # mostly random points, looks homoscedastic
+
+#bartlett.test(resid(lmer.zn_ba_env))
 
 
-##### 5d. For lm.zn_ba.1 ####
+##### 5d. For lmer.zn_ba ####
 
-## For lm.zn_ba.1 : model of traits and environmental controls
-lm.zn_ba.1 <- lm(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn)
-
-# significant p-value ?
-anova(lm.zn_ba.1)
-## the significant p-values are:
-# SLA_log.1:    p-value = 0.01051 *
-
-summary(lm.zn_ba.1) # Adjusted R-squared:  0.1643
-
-
-lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|zn_s_log10) + (1|covidence)+ (1|AccSpeciesName_cor), data = data_zn)
+## For lmer.zn_ba: model of traits and environmental controls
+lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + log(SLA) log(LDMC) + (1|ph) + (1|zn_s_log10) + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 summary(lmer.zn_ba)
+r.squaredGLMM(lmer.zn_ba)
+## the significant p-values are:
+# SLA:    p-value = 0.0492 *
 
 
-# Assumptions verification for lm.zn_ba.1
+# Assumptions verification for lmer.zn_ba
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.2601)
+shapiro.test(resid(lmer.zn_ba)) # normal distribution (p-value = 0.7236)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
@@ -340,13 +316,13 @@ shapiro.test(resid(lm.zn_ba.1)) # normal distribution (p-value = 0.2601)
 gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 2)
 # distribution is heteroscedastic (p-value = 0.02671)
 
-plot(resid(lm.zn_ba.1) ~ fitted(lm.zn_ba.1))
+plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba))
 # check the model assumptions
-plot(lm.zn_ba.1)
+plot(lmer.zn_ba) # funnel shape, seems heteroscedastic 
 
 
 
-#### 6. Linear model (LM) - Cd only database ####
+#### 6. Linear Mixed Model (LMM) - Cd only database ####
 data_cd <- data_std_salix %>% filter(!is.na(cd_ba)) # 39 obs.
 
 ##### 6a. Verify normality of variables & transform data if needed #####
@@ -437,35 +413,30 @@ hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
 ## keeping sand as it is 
 
 
-##### 6b. Summary of cd_ba lm analysis #####
+##### 6b. Summary of cd_ba lmer analysis #####
 
 # First see influence of envir. variables on cd_ba
 # Then see influence of traits on cd_ba (while taking envir. var as control)
 
 
-##### 6c. For lm.cd_ba_env #####
+##### 6c. For lmer.cd_ba_env #####
 ## See influence of envir. variables on cd_ba
 
-## For lm.cd_ba_env: model for environmental significant variables
-lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + sand + clay + (1|covidence), data = data_cd)
-# 17 lines
+## For lmer.cd_ba_env: model for environmental significant variables
+lmer.cd_ba_env <- lmer(data_cd$cd_ba_log10 ~ cd_s_log10 + log(ph) + log(sand) + log(clay) + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
+summary(lmer.cd_ba_env)
+# the significant p-values are:
+# cd_s_log10  2.38e-05 ***
+# ph          0.00486 **
 
-# significant p-value ?
-anova(lm.cd_ba_env)
-# only sand is significant 
-summary(lm.cd_ba_env) # Adjusted R-squared:  0.3378 
+# remove non significant variable from the model (i.e. clay and sand)
+lmer.cd_ba_env <- lmer(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
+summary(lmer.cd_ba_env)
 
-# remove non significant variable from the model (i.e. clay and ph)
-lm.cd_ba_env <- lm(data_cd$cd_ba_log10 ~ cd_s_log10 + sand + (1|covidence), data = data_cd)
-# 17 lines
-# significant p-value ?
-anova(lm.cd_ba_env) # sand is significant
-summary(lm.cd_ba_env) # sand and cd_s are significant
-
-# Assumptions verification for lm.cd_ba_env
+# Assumptions verification for lmer.cd_ba_env
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.cd_ba_env)) # normal distribution (p-value = 0.8956)
+shapiro.test(resid(lmer.cd_ba_env)) # not normal distribution (p-value = 0.04552)
 
 # Homoscedasticity (Goldfeld–Quandt test)
 
@@ -474,26 +445,25 @@ shapiro.test(resid(lm.cd_ba_env)) # normal distribution (p-value = 0.8956)
 gqtest(lm.cd_ba_env, order.by = ~ cd_s_log10 + sand + (1|covidence), data = data_cd, fraction = 3)
 # distribution is homoscedastic (p-value = 0.3115)
 
-plot(resid(lm.cd_ba_env) ~ fitted(lm.cd_ba_env))
+plot(resid((lmer.cd_ba_env)) ~ fitted((lmer.cd_ba_env)))
 # check the model assumptions
-plot(lm.cd_ba_env)
+plot((lmer.cd_ba_env)) # seems like random points, homoscedastic
 
 
-##### 6d. For lm.cd_ba.1 #####
+##### 6d. For lmer.cd_ba #####
 ## See influence of traits on cd_ba (with envir controls)
 
-## For lm.cd_ba.1 : model of traits and environmental controls
-lm.cd_ba.1 <- lm(data_cd$cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|sand) + (1|covidence), data = data_cd)
+## For lmer.cd_ba : model of traits and environmental controls
+data_cd$ph_log <-log(data_cd$ph)
+data_cd_out <- data_cd[-39,]
+lmer.cd_ba <- lmer(cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|ph) + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd_out)
+summary(lmer.cd_ba) # no significant p-values
 
-# significant p-value ?
-anova(lm.cd_ba.1) # no significant p-values
-summary(lm.cd_ba.1) # no significant p-values
-
-# Assumptions verification for lm.cd_ba.1
+# Assumptions verification for lmer.cd_ba
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.cd_ba.1)) # normal distribution (p-value = 0.8459)
-
+shapiro.test(resid(lmer.cd_ba)) # normal distribution (p-value = 0.000106)
+hist(resid(lmer.cd_ba))
 # Homoscedasticity (Goldfeld–Quandt test) 
 
 # Number of obs: 39 (see summary of lmer.zn_ba.1 in lmer section)
@@ -501,9 +471,9 @@ shapiro.test(resid(lm.cd_ba.1)) # normal distribution (p-value = 0.8459)
 gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|sand) + (1|covidence), data = data_cd, fraction = 8)
 # distribution is homoscedastic (p-value = 0.4639)
 
-plot(resid(lm.cd_ba.1) ~ fitted(lm.cd_ba.1))
+plot(resid(lmer.cd_ba) ~ fitted(lmer.cd_ba))
 # check the model assumptions
-plot(lm.cd_ba.1)
+plot(lmer.cd_ba) # funnel shape, seems heteroscedastic
 
 
 
