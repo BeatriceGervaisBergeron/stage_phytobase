@@ -40,11 +40,12 @@ library(vegan)
 library(HH)
 library('plotrix')
 library(lmtest)
-library(lmerTest)
+library('lmerTest')
 library(dplyr)
 library(tidyr)
 library(stringr)
-library('lmerTest')
+library('MuMIn')
+library('ggpubr')
 
 
 #### 2. Import data ####
@@ -698,7 +699,7 @@ plot(pb_ba ~ LDMC, data = data_pb)
 
 
 ##### 10a. Plot (zn_ba ~ LA_log) with ggplot2 #####
-ggplot(data = data_zn) + # database of zn
+plot_1 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LA_log, # x axis
                  y = zn_ba)) + # y axis
@@ -706,11 +707,11 @@ ggplot(data = data_zn) + # database of zn
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
 ##### 10b. Plot (zn_ba ~ SLA) with ggplot2 #####
-ggplot(data = data_zn) + # database of zn
+plot_2 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = SLA, # x axis
                  y = zn_ba)) + # y axis
@@ -718,11 +719,11 @@ ggplot(data = data_zn) + # database of zn
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
 ##### 10c. Plot (zn_ba ~ LDMC) with ggplot2 #####
-ggplot(data = data_zn) + # database of zn
+plot_3 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LDMC, # x axis
                  y = zn_ba)) + # y axis
@@ -730,11 +731,11 @@ ggplot(data = data_zn) + # database of zn
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
 ##### 10d. Plot (cd_ba ~ LA_log) with ggplot2 #####
-ggplot(data = data_cd) + # database of cd
+plot_4 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LA_log, # x axis
                  y = cd_ba)) + # y axis
@@ -742,11 +743,11 @@ ggplot(data = data_cd) + # database of cd
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
        y = "[Cd] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
 ##### 10e. Plot (cd_ba ~ SLA) with ggplot2 #####
-ggplot(data = data_cd) + # database of cd
+plot_5 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = SLA, # x axis
                  y = cd_ba)) + # y axis
@@ -754,11 +755,11 @@ ggplot(data = data_cd) + # database of cd
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
        y = "[Cd] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
 ##### 10f. Plot (cd_ba ~ LDMC) with ggplot2 #####
-ggplot(data = data_cd) + # database of cd
+plot_6 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LDMC, # x axis
                  y = cd_ba)) + # y axis
@@ -766,10 +767,23 @@ ggplot(data = data_cd) + # database of cd
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
        y = "[Cd] dans les parties aériennes") + # y axis name
-  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+  theme(legend.position="none") # remove legend
 
 
-##### 10g. Sauvegarder les graphiques #####
+##### 10g. Combine the plots on one figure #####
+
+plot_combined <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6,
+                    labels = c("a", "b", "c", "d", "e", "f", "g"),
+                    ncol = 3, nrow = 2,
+                    common.legend = TRUE, 
+                    legend = "bottom",
+                    legend.title = "Espèces")
+
+plot_combined
+
+# guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+##### 10h. Saving the plots #####
 
 # Format PDF
 ggsave("barplot_comm.pdf", # nom du fichier 
