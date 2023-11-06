@@ -283,12 +283,16 @@ anova(lm.zn_ba_env)
 summary(lm.zn_ba_env) # Adjusted R-squared:  0.6998 
 
 # remove non significant variable from the model (i.e. ph)
-lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence), data = data_zn)
+lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 # 16 lines
 # significant p-value ?
 anova(lm.zn_ba_env)
 # zn_s, sand and clay are significant
 summary(lm.zn_ba_env) # Adjusted R-squared:  0.6535 
+
+library('lmerTest')
+lmer.zn <- lmer(data_zn$zn_ba_cuberoot ~ zn_s_log10 +ph+ sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
+summary(lmer.zn)
 
 # Assumptions verification for lm.zn_ba_env
 
@@ -318,6 +322,11 @@ anova(lm.zn_ba.1)
 # SLA_log.1:    p-value = 0.01051 *
 
 summary(lm.zn_ba.1) # Adjusted R-squared:  0.1643
+
+
+lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|zn_s_log10) + (1|covidence)+ (1|AccSpeciesName_cor), data = data_zn)
+summary(lmer.zn_ba)
+
 
 # Assumptions verification for lm.zn_ba.1
 
@@ -695,6 +704,10 @@ rda <- rda(TE_salix ~ LA + SLA + LDMC + Condition(covidence), data = data_clean)
 plot(rda) # too few species for that
 ## not working
 
+# ajout
+pca <-rda(data_zn[,c('zn_ba','SLA', 'LA_log','LDMC')], scale=TRUE)
+plot(pca)
+# mieux de visualizer un par un
 
 #### 10. plots of traits and TE ####
 
@@ -989,39 +1002,6 @@ TukeyHSD(pb_br.sp.aov)
 # Salix viminalis-Salix gmelinii -194.9762 -346.4954 -43.45693 0.0098024
 
 # So Salix viminalis is significantly different from Salix gmelinii (p-value = 0.0098024)
-
-
-
-#### 13. (To re-evaluate) Anova of [TE] ~ traits ####
-
-##### 13a. anova of [zn_ba] ~ LA #####
-
-
-
-
-
-##### 13b. anova of [zn_ba] ~ SLA #####
-
-
-##### 13c. anova of [zn_ba] ~ LDMC #####
-
-
-##### 13d. anova of [cd_ba] ~ LA #####
-
-
-##### 13e. anova of [cd_ba] ~ SLA #####
-
-
-##### 13f. anova of [cd_ba] ~ LDMC #####
-
-
-##### 13g. anova of [pb_ba] ~ LA #####
-
-
-##### 13h. anova of [pb_ba] ~ SLA #####
-
-
-##### 13i. anova of [pb_ba] ~ LDMC #####
 
 
 
