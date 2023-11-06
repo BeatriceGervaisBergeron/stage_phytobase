@@ -778,7 +778,8 @@ plot_combined <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6,
                     labels = c("a", "b", "c", "d", "e", "f", "g"),
                     ncol = 3, nrow = 2,
                     common.legend = TRUE, 
-                    legend = "bottom")
+                    legend = "bottom",
+                    legend.title = "Espèces")
 
 plot_combined
 
@@ -787,14 +788,14 @@ plot_combined
 ##### 10h. Saving the plots #####
 
 # Format PDF
-ggsave("barplot_comm.pdf", # nom du fichier 
-       barplot_comm, # quel graphique à sauvegarder
+ggsave("plot_combined", # nom du fichier 
+       plot_combined, # quel graphique à sauvegarder
        height = 8.5, width = 11, # dimensions souhaitées en pouces
        units = "in") # unité en pouce
 
 # Format PNG
-ggsave("barplot_comm.png", # nom du fichier 
-       barplot_comm, # quel graphique à sauvegarder
+ggsave("plot_combined.png", # nom du fichier 
+       plot_combined, # quel graphique à sauvegarder
        width = 11, # largeur en pouces
        height = 8.5, # hauteur en pouces
        dpi = 1000) # résolution en pixels par pouce
