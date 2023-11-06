@@ -683,6 +683,19 @@ plot(pca)
 
 dev.new(noRStudioGD = TRUE) # opening a new window
 par(mfrow = c(2,3))
+
+# Plot (zn_ba ~ LA_log) with ggplot2
+ggplot(data = data_zn) + # 
+  geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
+                 x = LA_log, # x axis
+                 y = zn_ba)) + # y axis
+  scale_color_brewer(palette = "Dark2") + # colour palette
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "log(LA)", # x axis name
+       y = "[Zn] dans les parties aériennes") + # y axis name
+  guides(color = guide_legend(title = "Espèces de saules")) # legend name
+
+
 plot(zn_ba ~ LA_log, data = data_zn)
 plot(zn_ba ~ SLA, data = data_zn)
 plot(zn_ba ~ LDMC, data = data_zn)
