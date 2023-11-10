@@ -392,30 +392,22 @@ hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
 ## See influence of envir. variables on cd_ba
 
 ## For lmer.cd_ba_env: model for environmental significant variables
-lmer.cd_ba_env <- lmer(data_cd$cd_ba_log10 ~ cd_s_log10 + log(ph) + log(sand) + log(clay) + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
+lmer.cd_ba_env <- lmer(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + sand + clay + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
 summary(lmer.cd_ba_env)
 # the significant p-values are:
 # cd_s_log10  2.38e-05 ***
 # ph          0.00486 **
+r.squaredGLMM(lmer.cd_ba_env)
+# R2 = 0.315
 
-# remove non significant variable from the model (i.e. clay and sand)
-lmer.cd_ba_env <- lmer(data_cd$cd_ba_log10 ~ cd_s_log10 + ph + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
-summary(lmer.cd_ba_env)
 
 # Assumptions verification for lmer.cd_ba_env
 
 # Normality (Shapiro-Wilk test)
 shapiro.test(resid(lmer.cd_ba_env)) # not normal distribution (p-value = 0.04552)
 
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 17
-# then 20% of total obs. is 3.4 (around 3), so fraction = 3 in gqtest()
-gqtest(lm.cd_ba_env, order.by = ~ cd_s_log10 + sand + (1|covidence), data = data_cd, fraction = 3)
-# distribution is homoscedastic (p-value = 0.3115)
-
+# Homoscedasticity (verify pattern in plot)
 plot(resid((lmer.cd_ba_env)) ~ fitted((lmer.cd_ba_env)))
-# check the model assumptions
 plot((lmer.cd_ba_env)) # seems like random points, homoscedastic
 
 
@@ -423,193 +415,20 @@ plot((lmer.cd_ba_env)) # seems like random points, homoscedastic
 ## See influence of traits on cd_ba (with envir controls)
 
 ## For lmer.cd_ba : model of traits and environmental controls
-data_cd$ph_log <-log(data_cd$ph)
-data_cd_out <- data_cd[-39,]
-lmer.cd_ba <- lmer(cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|ph) + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd_out)
-summary(lmer.cd_ba) # no significant p-values
+lmer.cd_ba <- lmer(cd_ba_log10 ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|ph) + (1|covidence) + (1|AccSpeciesName_cor), data = data_cd)
+summary(lmer.cd_ba) # no significant p-values (SLA: p-value = 0.0651)
+r.squaredGLMM(lmer.cd_ba)
+# R2 = 0.020
 
 # Assumptions verification for lmer.cd_ba
 
 # Normality (Shapiro-Wilk test)
 shapiro.test(resid(lmer.cd_ba)) # normal distribution (p-value = 0.000106)
 hist(resid(lmer.cd_ba))
-# Homoscedasticity (Goldfeld–Quandt test) 
 
-# Number of obs: 39 (see summary of lmer.zn_ba.1 in lmer section)
-# then 20% of total obs. is 7.8 (around 8), so fraction = 8 in gqtest()
-gqtest(lm.cd_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|cd_s_log10) + (1|sand) + (1|covidence), data = data_cd, fraction = 8)
-# distribution is homoscedastic (p-value = 0.4639)
-
+# Homoscedasticity (verify pattern of plot) 
 plot(resid(lmer.cd_ba) ~ fitted(lmer.cd_ba))
-# check the model assumptions
-plot(lmer.cd_ba) # funnel shape, seems heteroscedastic
-
-
-
-#### 7. Linear model (LM) - Pb only database ####
-data_pb <- data_std_salix %>% filter(!is.na(pb_ba)) # 36 obs.
-
-##### 7a.1 Verify normality of variables & transform data if needed #####
-
-# check normality of pb_ba
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_cd$pb_ba) # original histogram 
-hist(log(data_cd$pb_ba))  ## best transformation ##
-hist(log10(data_cd$pb_ba)) ## second best ##
-hist(log2(data_cd$pb_ba))
-hist(logit(data_cd$pb_ba))
-hist(sqrt(data_cd$pb_ba))
-hist(data_cd$pb_ba^(1/3)) ## keeping this transfo too, seems ok ##
-
-# log and log10 were the best transformations
-# add log and log10 transformations in column
-data_pb$pb_ba_log10 <- log10(data_pb$pb_ba)
-data_pb$pb_ba_log2 <- log2(data_pb$pb_ba)
-# add cuberoot transformation also
-data_pb$pb_ba_cuberoot <- cuberoot(data_pb$pb_ba)
-
-# check normality of pb_s
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_pb$pb_s) # original histogram
-hist(log(data_pb$pb_s))
-hist(log10(data_pb$pb_s)) 
-hist(log2(data_pb$pb_s)) ## best transformation ##
-hist(logit(data_pb$pb_s))
-hist(sqrt(data_pb$pb_s))
-hist(data_pb$pb_s^(1/3))
-hist(asin(sqrt(data_pb$pb_s)))
-hist(decostand(data_pb$pb_s, method = 'log', MARGIN = 2))
-
-# log2 was the best transformation
-# add log2 transformation in column
-data_pb$pb_s_log2 <- log2(data_pb$pb_s)
-
-
-# check normality of ph
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_pb$ph) # original histogram
-hist(log(data_pb$ph))
-hist(log10(data_pb$ph)) ## keep this transformation ##
-hist(log2(data_pb$ph)) 
-hist(logit(data_pb$ph))
-hist(sqrt(data_pb$ph))
-hist(data_pb$ph^(1/3))
-hist(asin(sqrt(data_pb$ph)))
-hist(decostand(data_pb$ph, method = 'log', MARGIN = 2))
-
-## the transformations didn't really make the data more normal
-## except maybe log10
-# add log10 transformation in column
-data_pb$ph_log10 <- log10(data_pb$ph)
-
-
-# check normality of clay
-data_pb_txt <- data_pb %>% filter(!is.na(clay)) # 12 obs
-
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_pb_txt$clay) # original histogram
-hist(log(data_pb_txt$clay))
-hist(log10(data_pb_txt$clay)) 
-hist(log2(data_pb_txt$clay))
-hist(logit(data_pb_txt$clay))
-hist(sqrt(data_pb_txt$clay))
-hist(data_pb_txt$clay^(1/3))
-hist(asin(sqrt(data_pb_txt$clay)))
-hist(decostand(data_pb_txt$clay, method = 'log', MARGIN = 2))
-
-## the transformations didn't really make the data more normal
-## keeping clay as it is
-
-
-# check normality of sand
-dev.new(noRStudioGD = TRUE) # opening a new window
-par(mfrow = c(2,3))
-hist(data_pb_txt$sand) # original histogram
-hist(log(data_pb_txt$sand))
-hist(log10(data_pb_txt$sand)) 
-hist(log2(data_pb_txt$sand))
-hist(logit(data_pb_txt$sand))
-hist(sqrt(data_pb_txt$sand))
-hist(data_pb_txt$sand^(1/3))
-hist(asin(sqrt(data_pb_txt$sand)))
-hist(decostand(data_pb_txt$sand, method = 'log', MARGIN = 2))
-
-## the transformations didn't really make the data more normal
-## keeping sand as it is 
-
-
-##### 7b. Summary of pb_ba lm analysis #####
-
-# First see influence of envir. variables on pb_ba
-# Then see influence of traits on pb_ba (while taking envir. var as control)
-
-
-##### 7c. For lm.pb_ba_env #####
-## Influence of envir. variables on pb_ba
-
-## For lm.pb_ba_env: model for environmental significant variables
-lm.pb_ba_env <- lm(data_pb$pb_ba_cuberoot ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb)
-# 14 lines
-# the variable needs to be pb_ba_cuberoot (with cuberoot)
-# since the 2 other transfo (log10 & log2) have an '-Inf' value in them
-# which makes the model not work (error)
-
-# significant p-value ?
-anova(lm.pb_ba_env)
-# sand, clay & pb_s are significant (so ph not significant)
-summary(lm.pb_ba_env) # Adjusted R-squared:  0.8713
-
-# Assumptions verification for lm.pb_ba_env
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.pb_ba_env)) # normal distribution (p-value = 0.8846)
-
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 36
-# then 20% of total obs. is 7.2 (around 7), so fraction = 7 in gqtest()
-gqtest(lm.pb_ba_env, order.by = ~ pb_s_log2 + ph + sand + clay + (1|covidence), data = data_pb, fraction = 7)
-# Error: inadmissable breakpoint/too many central observations omitted
-
-plot(resid(lm.pb_ba_env) ~ fitted(lm.pb_ba_env)) # 
-# check the model assumptions
-plot(lm.pb_ba_env)
-# Warning messages for the last plot:
-# 1: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
-# 2: In sqrt(crit * p * (1 - hh)/hh) : NaNs produced
-
-
-##### 7d. For lm.pb_ba.1 #####
-## Influence of traits on pb_ba (with envir controls)
-
-## For lm.pb_ba.1 : model of traits and environmental controls
-lm.pb_ba.1 <- lm(data_pb$pb_ba_cuberoot ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, na.action = na.exclude)
-
-# significant p-value ?
-anova(lm.pb_ba.1)
-## the significant p-values are:
-# LA_log :  p-value = 0.006372 **
-summary(lm.pb_ba.1) # Adjusted R-squared:  0.1938 
-
-# Assumptions verification for lm.pb_ba.1
-
-# Normality (Shapiro-Wilk test)
-shapiro.test(resid(lm.pb_ba.1)) # normal distribution (p-value = 0.2073)
-
-# Homoscedasticity (Goldfeld–Quandt test) 
-
-# Number of obs: 13 (see summary of lmer.zn_ba.1 in lmer section)
-# then 20% of total obs. is 2.6 (around 2), so fraction = 2 in gqtest()
-gqtest(lm.pb_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay) +(1|pb_s_log2) + (1|covidence), data = data_pb, fraction = 2)
-# distribution is homoscedastic (p-value = 0.9897)
-
-plot(resid(lm.pb_ba.1) ~ fitted(lm.pb_ba.1))
-# check the model assumptions
-plot(lm.pb_ba.1)
+plot(lmer.cd_ba) # looks like a funnel shape, seems heteroscedastic
 
 
 
@@ -637,7 +456,7 @@ plot(pca_zn)
 
 # matrix of TE in willow
 data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','pb_ba','LA' , 'SLA' ,'LDMC' , 'ph' ,'AccSpeciesName_cor', 'covidence')])
-#23 obser
+# 23 obser
 TE_salix <- data_clean[,c('cd_ba','zn_ba', 'pb_ba')]
 
 rda <- rda(TE_salix ~ LA + SLA + LDMC + Condition(covidence), data = data_clean)
@@ -671,11 +490,13 @@ plot_1 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LA_log, # x axis
                  y = zn_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
   theme(legend.position = "none") # remove legend
+
+plot_1 # show plot
 
 
 ##### 10b. Plot (zn_ba ~ SLA) with ggplot2 #####
@@ -683,11 +504,13 @@ plot_2 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = SLA, # x axis
                  y = zn_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
   theme(legend.position = "none") # remove legend
+
+plot_2 # show plot
 
 
 ##### 10c. Plot (zn_ba ~ LDMC) with ggplot2 #####
@@ -695,11 +518,13 @@ plot_3 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LDMC, # x axis
                  y = zn_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
        y = "[Zn] dans les parties aériennes") + # y axis name
   theme(legend.position = "none") # remove legend
+
+plot_3 # show plot
 
 
 ##### 10d. Plot (cd_ba ~ LA_log) with ggplot2 #####
@@ -707,11 +532,13 @@ plot_4 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LA_log, # x axis
                  y = cd_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
        y = "[Cd] dans les parties aériennes") + # y axis name
   theme(legend.position = "none") # remove legend
+
+plot_4 # show plot
 
 
 ##### 10e. Plot (cd_ba ~ SLA) with ggplot2 #####
@@ -719,11 +546,13 @@ plot_5 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = SLA, # x axis
                  y = cd_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
        y = "[Cd] dans les parties aériennes") + # y axis name
   theme(legend.position = "none") # remove legend
+
+plot_5 # show plot
 
 
 ##### 10f. Plot (cd_ba ~ LDMC) with ggplot2 #####
@@ -731,13 +560,13 @@ plot_6 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
                  x = LDMC, # x axis
                  y = cd_ba)) + # y axis
-  scale_color_brewer(palette = "Dark2") + # colour palette
+  theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
        y = "[Cd] dans les parties aériennes", # y axis name
-       color = "Espèces") + # legend name
-  theme(legend.title = element_text("Espèces"),
-        legend.text = element_text("Espèces"))
+       color = "Espèces") # legend name
+
+plot_6 # show plot
 
 
 ##### 10g. Combine the plots on one figure #####
@@ -745,13 +574,13 @@ plot_6 <- ggplot(data = data_cd) + # database of cd
 plot_combined <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6,
                     labels = c("a", "b", "c", "d", "e", "f", "g"),
                     ncol = 3, nrow = 2,
-                    common.legend = TRUE, 
-                    legend = "bottom",
-                    legend.title = "Espèces")
+                    common.legend = TRUE)
 
-plot_combined
+plot_combined # show plot
 
 # guides(color = guide_legend(title = "Espèces de saules")) # legend name
+# legend = "bottom",
+# legend.title = "Espèces"
 
 ##### 10h. Saving the plots #####
 
