@@ -588,13 +588,13 @@ plot_combined # show plot
 ##### 10h. Saving the plots #####
 
 # Format PDF
-ggsave("plot_combined", # nom du fichier 
+ggsave("./Pei Yin/data_analysis/figures/plot_combined.pdf", # nom du fichier 
        plot_combined, # quel graphique à sauvegarder
        height = 8.5, width = 11, # dimensions souhaitées en pouces
        units = "in") # unité en pouce
 
 # Format PNG
-ggsave("plot_combined.png", # nom du fichier 
+ggsave("./Pei Yin/data_analysis/figures/plot_combined.png", # nom du fichier 
        plot_combined, # quel graphique à sauvegarder
        width = 11, # largeur en pouces
        height = 8.5, # hauteur en pouces
