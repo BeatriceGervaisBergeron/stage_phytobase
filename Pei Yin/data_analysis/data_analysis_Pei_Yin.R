@@ -582,6 +582,7 @@ plot_combined # show plot
 # legend = "bottom",
 # legend.title = "Espèces"
 
+
 ##### 10h. Saving the plots #####
 
 # Format PDF
