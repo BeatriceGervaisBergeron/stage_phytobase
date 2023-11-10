@@ -1,7 +1,7 @@
 # Analysis script
 
 
-#### 0. Planing of script ####
+#### Planing of script ####
 
 # 1. Import packages
 # 2. Import data
@@ -78,7 +78,7 @@ unique(data_std_salix$AccSpeciesName_cor)
 # so 6 Salix sp. left in database
 
 
-#### 3. Verify normality of traits in Salix & transform data if needed ####
+#### 3. Verify normality of Salix traits & transform data if needed ####
 
 # defining a cube root function
 cuberoot = function(x){
@@ -144,8 +144,7 @@ data_clean <- na.omit(data_std_salix[,c('cd_ba','zn_ba','LA' , 'SLA' ,'LDMC' , '
 TE_leaves <- data_clean[,c('cd_ba', 'zn_ba')]
 
 
-
-# check how many lines of data there are for some TE (cd, zn, pb and ni)
+# check how many lines of data there are for some TE (cd, zn)
 # cd_ba
 cd_ba <- na.omit(data_std_salix$cd_ba)
 cd_ba # 39 lines
@@ -154,20 +153,12 @@ cd_ba # 39 lines
 zn_ba <- na.omit(data_std_salix$zn_ba)
 zn_ba # 38 lines
 
-# pb_ba
-pb_ba <- na.omit(data_std_salix$pb_ba)
-pb_ba # 36 lines
-# so pb is also one of the most abundant metals tested
-
-# ni_ba
-ni_ba <- na.omit(data_std_salix$ni_ba)
-ni_ba # 22 lines
 
 
 #### 5. Linear mixed model (LMM) - Zn only database ####
 data_zn <- data_std_salix %>% filter(!is.na(zn_ba)) # 38 obs.
 
-##### 5a. Verify normality of variables & transform data if needed #####
+##### 5a. Verify normality of env. variables and [Zn TE], & transform data if needed #####
 
 # check normality of zn_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -256,7 +247,7 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ##### 5b. Summary of zn_ba lmer analysis #####
 
 # First see influence of envir. variables on zn_ba
-# Then see influence of traits on zn_ba (while taking envir. var as control)
+# Then see influence of traits on zn_ba (while taking envir. variables as control)
 
 
 ##### 5c. For lmer.zn_ba_env ####
@@ -264,61 +255,39 @@ hist(decostand(data_zn_txt$sand, method = 'log', MARGIN = 2))
 ## For lmer.zn_ba_env: model for environmental significant variables
 lmer.zn_ba_env <- lmer(data_zn$zn_ba_cuberoot ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 summary(lmer.zn_ba_env)
-r.squaredGLMM(lmer.zn_ba_env)
 # zn_s_log10 is significant (p-value = 0.000371 ***)
-# R2 0.185
+r.squaredGLMM(lmer.zn_ba_env)
+# R2 = 0.185
 
-# remove non significant variable from the model (i.e. ph)
-# lm.zn_ba_env <- lm(data_zn$zn_ba_cuberoot ~ zn_s_log10 + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
-# significant p-value ?
-# anova(lm.zn_ba_env)
-# zn_s, sand and clay are significant
-# summary(lm.zn_ba_env) # Adjusted R-squared:  0.6535
 
-library('MuMIn')
 # Assumptions verification for lmer.zn_ba_env
 
 # Normality (Shapiro-Wilk test)
 shapiro.test(resid(lmer.zn_ba_env)) # normal distribution (p-value = 0.1852)
 
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 14
-# then 20% of total obs. is 2.8 (around 3), so fraction = 3 in gqtest()
-gqtest(lmer.zn_ba_env, order.by = ~ zn_s_log10 + ph + sand + clay_log2 + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn, fraction = 3)
-# distribution is homoscedastic (p-value = 0.4077)
-
+# Homoscedasticity (verify pattern in plot)
 plot(resid(lmer.zn_ba_env) ~ fitted(lmer.zn_ba_env))
-# check the model assumptions
 plot(lmer.zn_ba_env) # mostly random points, looks homoscedastic
 
-#bartlett.test(resid(lmer.zn_ba_env))
 
 
 ##### 5d. For lmer.zn_ba ####
 
 ## For lmer.zn_ba: model of traits and environmental controls
-lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + log(SLA) log(LDMC) + (1|ph) + (1|zn_s_log10) + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
+lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|ph) + (1|zn_s_log10) + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 summary(lmer.zn_ba)
-r.squaredGLMM(lmer.zn_ba)
 ## the significant p-values are:
 # SLA:    p-value = 0.0492 *
-
+r.squaredGLMM(lmer.zn_ba)
+# R2 = 0.024
 
 # Assumptions verification for lmer.zn_ba
 
 # Normality (Shapiro-Wilk test)
 shapiro.test(resid(lmer.zn_ba)) # normal distribution (p-value = 0.7236)
 
-# Homoscedasticity (Goldfeld–Quandt test)
-
-# Number of obs: 13
-# then 20% of total obs. is 2.6 (around 2), so fraction = 2 in gqtest()
-gqtest(lm.zn_ba.1, order.by = ~ LA_log + SLA + LDMC + (1|sand) + (1|clay_log2) + (1|zn_s_log10) + (1|covidence), data = data_zn, fraction = 2)
-# distribution is heteroscedastic (p-value = 0.02671)
-
+# Homoscedasticity (verify pattern in plot)
 plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba))
-# check the model assumptions
 plot(lmer.zn_ba) # funnel shape, seems heteroscedastic 
 
 
@@ -326,7 +295,7 @@ plot(lmer.zn_ba) # funnel shape, seems heteroscedastic
 #### 6. Linear Mixed Model (LMM) - Cd only database ####
 data_cd <- data_std_salix %>% filter(!is.na(cd_ba)) # 39 obs.
 
-##### 6a. Verify normality of variables & transform data if needed #####
+##### 6a. Verify normality of env. variables and [Cd TE], & transform data if needed #####
 
 # check normality of cd_ba
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -342,7 +311,6 @@ hist(data_cd$cd_ba^(1/3))
 # log10 was the best transformation
 # add log10 transformation in column
 data_cd$cd_ba_log10 <- log10(data_cd$cd_ba)
-data_cd$cd_ba_log2 <- log2(data_cd$cd_ba)
 
 # check normality of cd_s
 dev.new(noRStudioGD = TRUE) # opening a new window
@@ -417,7 +385,7 @@ hist(decostand(data_cd_txt$sand, method = 'log', MARGIN = 2))
 ##### 6b. Summary of cd_ba lmer analysis #####
 
 # First see influence of envir. variables on cd_ba
-# Then see influence of traits on cd_ba (while taking envir. var as control)
+# Then see influence of traits on cd_ba (while taking envir. variables as control)
 
 
 ##### 6c. For lmer.cd_ba_env #####
