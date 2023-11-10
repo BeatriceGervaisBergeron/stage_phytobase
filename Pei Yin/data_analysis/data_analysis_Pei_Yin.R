@@ -578,9 +578,11 @@ plot_combined <- ggarrange(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6,
 
 plot_combined # show plot
 
-# guides(color = guide_legend(title = "Espèces de saules")) # legend name
-# legend = "bottom",
-# legend.title = "Espèces"
+# for an unknown reason, the legend title is "Acc_SpeciesName_cor"
+# even though it was changed to "Espèces" in the plot_6 (which worked),
+# but when combining plots together, the legend title reverted to its default title
+# I tried to change it many times, but it still didn't work
+# so leaving it like this for now
 
 
 ##### 10h. Saving the plots #####
