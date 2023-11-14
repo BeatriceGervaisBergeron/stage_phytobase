@@ -49,7 +49,7 @@ library('ggpubr')
 
 
 #### 2. Import data ####
-data_std <- read.csv('./Pei yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
+data_std <- read.csv('./Pei Yin/data_cleaning_final/data_std_cleaned.csv', sep=',',header = T, dec = '.')
 traits <- readRDS('./complete_data.rds')
 
 # identify the willow on the global range (to add the LA, SLA & LDMC traits to database)
@@ -679,41 +679,31 @@ zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
 
 # Check normality (Shapiro test)
 shapiro.test(resid(zn_br.sp.aov)) 
-# distribution is not normal (p-value = p-value = 4.077e-05)
+# distribution is not normal (p-value = 4.077e-05)
 
 # Check homogeneity of variances with Bartlett test per permutation
-source("bartlett.perm.R")
+source("./Pei Yin/data_analysis/bartlett.perm.R")
 
 bartlett.perm(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN",
               nperm = 999, alpha = 0.05)
-# Error in if (any(y.sd == 0)) { : missing value where TRUE/FALSE needed
+#          Statistic Param.prob Permut.prob Bootstrap.prob
+# Bartlett     0.916     0.6325        0.61          0.584
+
+# so distribution is homoscedastic (p-value = 0.61)
+# we can do a One-way anova with permutation then
 
 
 # One-way anova with permutation test
-source("anova.1way.R")
+source("./Pei Yin/data_analysis/anova.1way.R")
 
 anova.1way(zn_br.sp.aov, nperm=999)
 # $anova.table
 #                                 Df     Sum Sq    Mean Sq   F value Prob(param) Prob(perm)
-# data_zn_aov$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.922
+# data_zn_aov$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.933
 # Residuals                      19 23953239.3 1260696.80        NA          NA         NA
 
-# No significant p-value (0.922)
+# No significant p-value (0.933)
 
-
-# But since the homogeneity of variances couldn't be verified above,
-# Kruskal-Wallis test will be performed for this analysis
-# especially since the sample (n = 14) is relatively small, so it should also work
-
-# Kruskal-Wallis test
-kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
-
-# 	Kruskal-Wallis rank sum test
-
-# data:  data_zn_aov$zn_br and data_zn_aov$AccSpeciesName_cor
-# Kruskal-Wallis chi-squared = 0.99097, df = 2, p-value = 0.6093
-
-# No significant p-value
 
 
 ##### 11c. anova of [cd_ba] ~ species #####
