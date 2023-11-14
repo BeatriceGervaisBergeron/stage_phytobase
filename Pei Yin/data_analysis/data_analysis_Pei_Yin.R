@@ -632,12 +632,18 @@ levels(data_zn_aov$AccSpeciesName_cor)
 # [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
 # [6] "Salix viminalis"
 
-# change levels (to remove Salix triandra & Salix caprea)
+# change species factors into characters (to remove Salix triandra & Salix caprea)
 data_zn_aov <- data_zn_aov %>%
-  mutate(AccSpeciesName_cor = factor(AccSpeciesName_cor, 
-                                                  levels = c("Salix alba", 
-                                                             "Salix gmelinii", 
-                                                             "Salix viminalis")))
+  mutate(AccSpeciesName_cor = as.character(AccSpeciesName_cor))
+
+# change species factors into characters
+data_zn_aov <- data_zn_aov %>%
+  mutate(AccSpeciesName_cor = as.factor(AccSpeciesName_cor))
+
+# see levels of Species (verify that only Salix alba, Salix gmelinii & Salix viminalis are left)
+levels(data_zn_aov$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix gmelinii"  "Salix viminalis"
+# it has been changed, good
 
 
 # Build the anova model
