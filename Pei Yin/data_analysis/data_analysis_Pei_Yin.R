@@ -423,7 +423,7 @@ r.squaredGLMM(lmer.cd_ba)
 # Assumptions verification for lmer.cd_ba
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lmer.cd_ba)) # normal distribution (p-value = 0.000106)
+shapiro.test(resid(lmer.cd_ba)) # not normal distribution (p-value = 0.000106)
 hist(resid(lmer.cd_ba))
 
 # Homoscedasticity (verify pattern of plot) 
