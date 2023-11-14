@@ -601,24 +601,10 @@ ggsave("./Pei Yin/data_analysis/figures/plot_combined.png", # nom du fichier
        dpi = 1000) # résolution en pixels par pouce
 
 
-#### 11. plot TE for different species ####
 
-# accumulation of zn per species
-plot(zn_ba ~ AccSpeciesName_cor, data = data_zn_aov)
-plot(zn_br ~ AccSpeciesName_cor, data = data_zn_aov)
+#### 11. Anova of [TE] ~ species ####
 
-# accumulation of cd per species
-plot(cd_ba ~ AccSpeciesName_cor, data = data_cd_aov)
-plot(cd_br ~ AccSpeciesName_cor, data = data_cd_aov)
-
-# accumulation of pb per species
-plot(pb_ba ~ AccSpeciesName_cor, data = data_pb_aov)
-plot(pb_br ~ AccSpeciesName_cor, data = data_pb_aov)
-
-
-#### 12. Anova of [TE] ~ species ####
-
-###### 12a. anova of [zn_ba] ~ species ######
+###### 11a. anova of [zn_ba] ~ species ######
 
 # View species in database
 data_zn$AccSpeciesName_cor # 38 obs.
@@ -640,6 +626,19 @@ data_zn$AccSpeciesName_cor # 38 obs.
 # remove the lines in which Species values are 'Salix triandra' and 'Salix caprea'
 data_zn_aov <- data_zn[-c(3,14), ] 
 # 36 obs. so 2 lines have been removed, good
+
+# see levels of Species
+levels(data_zn_aov$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
+# [6] "Salix viminalis"
+
+# change levels (to remove Salix triandra & Salix caprea)
+data_zn_aov <- data_zn_aov %>%
+  mutate(AccSpeciesName_cor = factor(AccSpeciesName_cor, 
+                                                  levels = c("Salix alba", 
+                                                             "Salix gmelinii", 
+                                                             "Salix viminalis")))
+
 
 # Build the anova model
 zn_ba.sp.aov <- aov(data_zn_aov$zn_ba_cuberoot ~ data_zn_aov$AccSpeciesName_cor)
@@ -667,7 +666,7 @@ TukeyHSD(zn_ba.sp.aov)
 
 
 
-##### 12b. anova of [zn_br] ~ species #####
+##### 11b. anova of [zn_br] ~ species #####
 
 # Build the anova model
 zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
@@ -711,7 +710,7 @@ kruskal.test(data_zn_aov$zn_br, data_zn_aov$AccSpeciesName_cor)
 # No significant p-value
 
 
-##### 12c. anova of [cd_ba] ~ species #####
+##### 11c. anova of [cd_ba] ~ species #####
 
 # View species in database
 data_cd$AccSpeciesName_cor # 39 obs.
@@ -750,7 +749,7 @@ summary(cd_ba.sp.aov)
 # No significant p-value
 
 
-##### 12d. anova of [cd_br] ~ species #####
+##### 11d. anova of [cd_br] ~ species #####
 
 # Build the anova model
 cd_br.sp.aov <- aov(data_cd_aov$cd_br ~ data_cd_aov$AccSpeciesName_cor)
@@ -775,7 +774,7 @@ kruskal.test(data_cd_aov$cd_br, data_cd_aov$AccSpeciesName_cor)
 # No significant p-value
 
 
-##### 12e. anova of [pb_ba] ~ species #####
+##### 11e. anova of [pb_ba] ~ species #####
 
 # View species in database
 data_pb$AccSpeciesName_cor # 36 obs.
@@ -854,7 +853,7 @@ TukeyHSD(pb_ba.sp.aov)
 # So Salix viminalis is significantly different from Salix alba (p-value = 0.0014270)
 
 
-##### 12f. anova of [pb_br] ~ species #####
+##### 11f. anova of [pb_br] ~ species #####
 
 # Build the anova model
 pb_br.sp.aov <- aov(data_pb_aov$pb_br ~ data_pb_aov$AccSpeciesName_cor)
@@ -881,4 +880,18 @@ TukeyHSD(pb_br.sp.aov)
 # So Salix viminalis is significantly different from Salix gmelinii (p-value = 0.0098024)
 
 
+
+#### 12. plot TE for different species ####
+
+# accumulation of zn per species
+plot(zn_ba ~ AccSpeciesName_cor, data = data_zn_aov)
+plot(zn_br ~ AccSpeciesName_cor, data = data_zn_aov)
+
+# accumulation of cd per species
+plot(cd_ba ~ AccSpeciesName_cor, data = data_cd_aov)
+plot(cd_br ~ AccSpeciesName_cor, data = data_cd_aov)
+
+# accumulation of pb per species
+plot(pb_ba ~ AccSpeciesName_cor, data = data_pb_aov)
+plot(pb_br ~ AccSpeciesName_cor, data = data_pb_aov)
 
