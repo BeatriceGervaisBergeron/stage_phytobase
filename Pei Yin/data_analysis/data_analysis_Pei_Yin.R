@@ -632,11 +632,11 @@ levels(data_zn_aov$AccSpeciesName_cor)
 # [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
 # [6] "Salix viminalis"
 
-# change species factors into characters (to remove Salix triandra & Salix caprea)
+# change species factors into characters (to remove Salix triandra, Salix purpurea & Salix caprea)
 data_zn_aov <- data_zn_aov %>%
   mutate(AccSpeciesName_cor = as.character(AccSpeciesName_cor))
 
-# change species factors into characters
+# change species characters back into factors
 data_zn_aov <- data_zn_aov %>%
   mutate(AccSpeciesName_cor = as.factor(AccSpeciesName_cor))
 
@@ -644,6 +644,7 @@ data_zn_aov <- data_zn_aov %>%
 levels(data_zn_aov$AccSpeciesName_cor)
 # [1] "Salix alba"      "Salix gmelinii"  "Salix viminalis"
 # it has been changed, good
+# there are 36 obs. in data_zn_aov
 
 
 # Build the anova model
@@ -674,8 +675,32 @@ TukeyHSD(zn_ba.sp.aov)
 
 ##### 11b. anova of [zn_br] ~ species #####
 
+# remove data lines with NAs in zn_br
+# to build data_zn_br database
+data_zn_br <- data_std_salix %>% filter(!is.na(zn_br)) # 22 obs.
+
+# see levels of Species
+levels(data_zn_br$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
+# [6] "Salix viminalis"
+
+# change species factors into characters (to remove Salix triandra, Salix purpurea & Salix caprea)
+data_zn_br <- data_zn_br %>%
+  mutate(AccSpeciesName_cor = as.character(AccSpeciesName_cor))
+
+# change species characters back into factors
+data_zn_br <- data_zn_br %>%
+  mutate(AccSpeciesName_cor = as.factor(AccSpeciesName_cor))
+
+# see levels of Species (verify that only Salix alba, Salix gmelinii & Salix viminalis are left)
+levels(data_zn_br$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix gmelinii"  "Salix viminalis"
+# it has been changed, good
+# there are 22 obs. in data_zn_br
+
+
 # Build the anova model
-zn_br.sp.aov <- aov(data_zn_aov$zn_br ~ data_zn_aov$AccSpeciesName_cor)
+zn_br.sp.aov <- aov(data_zn_br$zn_br ~ data_zn_br$AccSpeciesName_cor)
 
 # Check normality (Shapiro test)
 shapiro.test(resid(zn_br.sp.aov)) 
@@ -684,25 +709,21 @@ shapiro.test(resid(zn_br.sp.aov))
 # Check homogeneity of variances with Bartlett test per permutation
 source("./Pei Yin/data_analysis/bartlett.perm.R")
 
-bartlett.perm(data_zn_aov$zn_ba_cuberoot, data_zn_aov$AccSpeciesName_cor, centr = "MEDIAN",
+bartlett.perm(data_zn_br$zn_br, data_zn_br$AccSpeciesName_cor, centr = "MEDIAN",
               nperm = 999, alpha = 0.05)
 #          Statistic Param.prob Permut.prob Bootstrap.prob
-# Bartlett     0.916     0.6325        0.61          0.584
+# Bartlett    0.5703     0.7519       0.611          0.625
 
-# so distribution is homoscedastic (p-value = 0.61)
-# we can do a One-way anova with permutation then
-
+# variances are homogeneous (p-value = 0.625)
+# so a One-way anova with permutation can be executed
 
 # One-way anova with permutation test
-source("./Pei Yin/data_analysis/anova.1way.R")
-
 anova.1way(zn_br.sp.aov, nperm=999)
-# $anova.table
-#                                 Df     Sum Sq    Mean Sq   F value Prob(param) Prob(perm)
-# data_zn_aov$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.933
-# Residuals                      19 23953239.3 1260696.80        NA          NA         NA
+#                               Df     Sum Sq    Mean Sq   F value Prob(param) Prob(perm)
+# data_zn_br$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.929
+# Residuals                     19 23953239.3 1260696.80        NA          NA         NA
 
-# No significant p-value (0.933)
+# no significant p-value (p-value = 0.929)
 
 
 
@@ -729,6 +750,26 @@ data_cd$AccSpeciesName_cor # 39 obs.
 data_cd_aov <- data_cd[-c(3,17), ] 
 # 37 obs. so 2 lines have been removed, good
 
+# see levels of Species
+levels(data_cd_aov$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
+# [6] "Salix viminalis"
+
+# change species factors into characters (to remove Salix triandra, Salix purpurea & Salix caprea)
+data_cd_aov <- data_cd_aov %>%
+  mutate(AccSpeciesName_cor = as.character(AccSpeciesName_cor))
+
+# change species characters back into factors
+data_cd_aov <- data_cd_aov %>%
+  mutate(AccSpeciesName_cor = as.factor(AccSpeciesName_cor))
+
+# see levels of Species (verify that only Salix alba, Salix gmelinii & Salix viminalis are left)
+levels(data_cd_aov$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix gmelinii"  "Salix viminalis"
+# it has been changed, good
+# there are 37 obs. in data_cd_aov
+
+
 # Build the anova model
 cd_ba.sp.aov <- aov(data_cd_aov$cd_ba_log10 ~ data_cd_aov$AccSpeciesName_cor)
 
@@ -741,33 +782,66 @@ bartlett.test(data_cd_aov$cd_ba_log10, data_cd_aov$AccSpeciesName_cor)
 # homoscedastic (p-value = 0.4526)
 
 summary(cd_ba.sp.aov) 
-# p-value = 0.303
-# No significant p-value
+#                                 Df Sum Sq Mean Sq F value Pr(>F)
+# data_cd_aov$AccSpeciesName_cor  2  1.252  0.6262   1.235  0.303
+# Residuals                      34 17.238  0.5070               
+
+# No significant p-value (p-value = 0.303)
+
 
 
 ##### 11d. anova of [cd_br] ~ species #####
 
+# remove data lines with NAs in zn_br
+# to build data_zn_br database
+data_cd_br <- data_std_salix %>% filter(!is.na(cd_br)) # 23 obs.
+
+# see levels of Species
+levels(data_cd_br$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix caprea"    "Salix gmelinii"  "Salix purpurea"  "Salix triandra" 
+# [6] "Salix viminalis"
+
+# change species factors into characters (to remove Salix triandra, Salix purpurea & Salix caprea)
+data_cd_br <- data_cd_br %>%
+  mutate(AccSpeciesName_cor = as.character(AccSpeciesName_cor))
+
+# change species characters back into factors
+data_cd_br <- data_cd_br %>%
+  mutate(AccSpeciesName_cor = as.factor(AccSpeciesName_cor))
+
+# see levels of Species (verify that only Salix alba, Salix gmelinii & Salix viminalis are left)
+levels(data_cd_br$AccSpeciesName_cor)
+# [1] "Salix alba"      "Salix gmelinii"  "Salix viminalis"
+# it has been changed, good
+# there are 23 obs. in data_cd_br
+
+
 # Build the anova model
-cd_br.sp.aov <- aov(data_cd_aov$cd_br ~ data_cd_aov$AccSpeciesName_cor)
+cd_br.sp.aov <- aov(data_cd_br$cd_br ~ data_cd_br$AccSpeciesName_cor)
 
 # Check normality (Shapiro test)
 shapiro.test(resid(cd_br.sp.aov)) 
 # distribution is not normal (p-value = p-value = 9.437e-05)
 
-# Cannot check homogeneity of variances with Bartlett test per permutations 
-# (it didn't work previously with the anova of [zn_br] ~ species)
+# Check homogeneity of variances with Bartlett test per permutation
+bartlett.perm(data_cd_br$cd_br, data_cd_br$AccSpeciesName_cor, centr = "MEDIAN",
+              nperm = 999, alpha = 0.05)
+#          Statistic Param.prob Permut.prob Bootstrap.prob
+# Bartlett    0.0047     0.9976       0.998          0.994
 
-# A Kruskal-Wallis test will be performed here too, 
-# since the sample size is relatively small too (n = 14)
+# variances are homogeneous (p-value = 0.994)
+# so an One-way anova with permutation can be executed
 
-# Kruskal-Wallis test
-kruskal.test(data_cd_aov$cd_br, data_cd_aov$AccSpeciesName_cor)
-# 	  Kruskal-Wallis rank sum test
 
-# data:  data_cd_aov$cd_br and data_cd_aov$AccSpeciesName_cor
-# Kruskal-Wallis chi-squared = 2.9443, df = 2, p-value = 0.2294
+# One-way anova with permutation test
+anova.1way(cd_br.sp.aov, nperm=999)
+# $anova.table
+#                               Df    Sum Sq   Mean Sq   F value Prob(param) Prob(perm)
+# data_cd_br$AccSpeciesName_cor  2  1229.175  614.5876 0.4372453   0.6518401      0.654
+# Residuals                     20 28111.799 1405.5900        NA          NA         NA
 
-# No significant p-value
+# No significant p-value (p-value = 0.654)
+
 
 
 ##### 11e. anova of [pb_ba] ~ species #####
