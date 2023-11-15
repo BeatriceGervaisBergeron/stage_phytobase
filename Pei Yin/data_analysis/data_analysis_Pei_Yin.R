@@ -585,20 +585,20 @@ plot_combined # show plot
 # so leaving it like this for now
 
 
-##### 10h. Saving the plots #####
+##### 10h. Save the combined plot #####
 
 # Format PDF
-ggsave("./Pei Yin/data_analysis/figures/plot_combined.pdf", # nom du fichier 
-       plot_combined, # quel graphique à sauvegarder
-       height = 8.5, width = 11, # dimensions souhaitées en pouces
-       units = "in") # unité en pouce
+ggsave("./Pei Yin/data_analysis/figures/plot_combined.pdf", # file name 
+       plot_combined, # object name in R to save
+       height = 8.5, width = 11, # size
+       units = "in") # unit in inches
 
 # Format PNG
-ggsave("./Pei Yin/data_analysis/figures/plot_combined.png", # nom du fichier 
-       plot_combined, # quel graphique à sauvegarder
-       width = 11, # largeur en pouces
-       height = 8.5, # hauteur en pouces
-       dpi = 1000) # résolution en pixels par pouce
+ggsave("./Pei Yin/data_analysis/figures/plot_combined.png", # file name 
+       plot_combined, # object name in R to save
+       width = 11, # width in inches
+       height = 8.5, # heigth in inches
+       dpi = 1000) # resolution
 
 
 
@@ -844,124 +844,93 @@ anova.1way(cd_br.sp.aov, nperm=999)
 
 
 
-##### 11e. anova of [pb_ba] ~ species #####
+#### 12. barplots of species and TE ####
 
-# View species in database
-data_pb$AccSpeciesName_cor # 36 obs.
+##### 12a. Simple barplots #####
 
-# [1] Salix alba      Salix alba      Salix alba      Salix alba      Salix alba      Salix alba     
-# [7] Salix alba      Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix alba      Salix viminalis
-# [13] Salix viminalis Salix viminalis Salix viminalis Salix viminalis Salix viminalis Salix viminalis
-# [19] Salix viminalis Salix viminalis Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
-# [25] Salix alba      Salix gmelinii  Salix gmelinii  Salix gmelinii  Salix viminalis Salix alba     
-# [31] Salix alba      Salix gmelinii  Salix viminalis Salix viminalis Salix viminalis Salix gmelinii 
-
-# There are only 'Salix alba', 'Salix gmelinii' and 'Salix viminalis', good
-
-# create a copy for pb database
-data_pb_aov <- data_pb
-
-# Build the anova model
-pb_ba.sp.aov <- aov(data_pb_aov$pb_ba_log10 ~ data_pb_aov$AccSpeciesName_cor)
-# Error in lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) : 
-# NA/NaN/Inf in 'y'
-
-# Check the data in the x and y variables:
-
-# x variable
-unique(data_pb_aov$AccSpeciesName_cor)
-# [1] Salix alba      Salix gmelinii  Salix viminalis
-# No problem for x variable
-
-# y variable
-unique(data_pb_aov$pb_ba_log10)
-# [1]  1.684526417  1.737771945  1.655237031  1.589970274  0.924859545         -Inf  0.004321374
-# [8]  0.290034611  0.954242509  0.924279286  0.543319906  0.323959956  0.448495872  1.163856803
-# [15]  0.431461983  0.263971176  0.413734276  0.729164790  1.068185862  0.586587305  0.576341350
-# [22]  0.815577748  1.045322979  0.588831726  0.354108439  0.082785370 -0.210419288  0.665580991
-# [29]  0.664641976 -1.096910013 -0.769551079 -0.721246399  0.960946196
-
-# There is an "-Inf" value
-# Need to find which lines it is in, then remove it
-
-data_pb_aov$pb_ba_log10
-# [1]  1.684526417  1.737771945  1.684526417  1.655237031  1.589970274  0.924859545         -Inf
-# [8]  0.004321374  0.290034611  0.290034611  0.954242509  0.924279286  0.543319906  0.323959956
-# [15]  0.448495872  1.163856803  0.431461983  0.263971176  0.263971176  0.413734276  0.729164790
-# [22]  1.068185862  0.586587305  0.576341350  0.815577748  1.045322979  0.588831726  0.354108439
-# [29]  0.082785370 -0.210419288  0.665580991  0.664641976 -1.096910013 -0.769551079 -0.721246399
-# [36]  0.960946196
-
-# So it's the 7th line
-
-# Remove the 7th line
-data_pb_aov <- data_pb_aov[-c(7), ] 
-# 35 obs. now, so one less, good
-
-# Build the anova model again
-pb_ba.sp.aov <- aov(data_pb_aov$pb_ba_log10 ~ data_pb_aov$AccSpeciesName_cor)
-
-# Check normality (Shapiro test)
-shapiro.test(resid(pb_ba.sp.aov)) 
-# normal distribution (p-value = 0.1113)
-
-# Check homogeneity of variances (Bartlett test)
-bartlett.test(data_pb_aov$pb_ba_log10, data_pb_aov$AccSpeciesName_cor)
-# homoscedastic (p-value = 0.1923)
-
-summary(pb_ba.sp.aov) 
-# p-value = 0.00215 **
-# at least 1 group significantly different from 1 other
-
-# doing Tukey's post hoc test to see which it is
-TukeyHSD(pb_ba.sp.aov)
-#                                      diff        lwr        upr     p adj
-# Salix gmelinii-Salix alba      -0.4984603 -1.1140063  0.1170857 0.1310416
-# Salix viminalis-Salix alba     -0.8938256 -1.4614445 -0.3262066 0.0014270
-# Salix viminalis-Salix gmelinii -0.3953653 -0.9786611  0.1879305 0.2338312
-
-# So Salix viminalis is significantly different from Salix alba (p-value = 0.0014270)
-
-
-##### 11f. anova of [pb_br] ~ species #####
-
-# Build the anova model
-pb_br.sp.aov <- aov(data_pb_aov$pb_br ~ data_pb_aov$AccSpeciesName_cor)
-
-# Check normality (Shapiro test)
-shapiro.test(resid(pb_br.sp.aov)) 
-# normal distribution (p-value = p-value = 0.1671)
-
-# Check homogeneity of variances (Bartlett test)
-bartlett.test(data_pb_aov$pb_br, data_pb_aov$AccSpeciesName_cor)
-# homoscedastic (p-value = 0.1934)
-
-summary(pb_br.sp.aov) 
-# p-value = 0.00738 **
-# at least 1 group significantly different from 1 other
-
-# doing Tukey's post hoc test to see which it is
-TukeyHSD(pb_br.sp.aov)
-#                                     diff       lwr       upr     p adj
-# Salix gmelinii-Salix alba        19.2360 -181.2051 219.67710 0.9691737
-# Salix viminalis-Salix alba     -175.7402 -366.3977  14.91736 0.0750283
-# Salix viminalis-Salix gmelinii -194.9762 -346.4954 -43.45693 0.0098024
-
-# So Salix viminalis is significantly different from Salix gmelinii (p-value = 0.0098024)
-
-
-
-#### 12. plot TE for different species ####
+# settings for new window
+dev.new(noRStudioGD = TRUE) # opening a new window
+par(mfrow = c(2,2))
 
 # accumulation of zn per species
 plot(zn_ba ~ AccSpeciesName_cor, data = data_zn_aov)
-plot(zn_br ~ AccSpeciesName_cor, data = data_zn_aov)
+plot(zn_br ~ AccSpeciesName_cor, data = data_zn_br)
 
 # accumulation of cd per species
 plot(cd_ba ~ AccSpeciesName_cor, data = data_cd_aov)
-plot(cd_br ~ AccSpeciesName_cor, data = data_cd_aov)
+plot(cd_br ~ AccSpeciesName_cor, data = data_cd_br)
 
-# accumulation of pb per species
-plot(pb_ba ~ AccSpeciesName_cor, data = data_pb_aov)
-plot(pb_br ~ AccSpeciesName_cor, data = data_pb_aov)
+
+##### 12b. Barplot of [zn_ba] ~ species #####
+
+barplot_1 <- ggplot(data = data_zn_aov, aes(x = AccSpeciesName_cor, y = zn_ba)) + # data
+  geom_boxplot() + # boxplot
+  theme_bw() + # white background and gray grid lines
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "Espèces", # x axis name
+       y = "[Zn] dans les parties aériennes") # y axis name
+
+barplot_1 # view barplot
+
+
+##### 12c. Barplot of [zn_br] ~ species #####
+
+barplot_2 <- ggplot(data = data_zn_br, aes(x = AccSpeciesName_cor, y = zn_br)) + # data
+  geom_boxplot() + # boxplot
+  theme_bw() + # white background and gray grid lines
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "Espèces", # x axis name
+       y = "[Zn] dans les parties aériennes") # y axis name
+
+barplot_2 # view barplot
+
+
+##### 12d. Barplot of [cd_ba] ~ species #####
+
+barplot_3 <- ggplot(data = data_cd_aov, aes(x = AccSpeciesName_cor, y = cd_ba)) + # data
+  geom_boxplot() + # boxplot
+  theme_bw() + # white background and gray grid lines
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "Espèces", # x axis name
+       y = "[Cd] dans les parties aériennes") # y axis name
+
+barplot_3 # view barplot
+
+
+##### 12e. Barplot of [cd_br] ~ species #####
+
+barplot_4 <- ggplot(data = data_cd_br, aes(x = AccSpeciesName_cor, y = cd_br)) + # data
+  geom_boxplot() + # boxplot
+  theme_bw() + # white background and gray grid lines
+  labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
+       x = "Espèces", # x axis name
+       y = "[Cd] dans les parties aériennes") # y axis name
+
+barplot_4 # view barplot
+
+
+##### 12f. Combine barplots in one image #####
+
+barplot_combined <- ggarrange(barplot_1, barplot_2, barplot_3, barplot_4,
+                           labels = c("a", "b", "c", "d"),
+                           ncol = 2, nrow = 2)
+
+barplot_combined # show barplot
+
+
+##### 12g. Save the combined barplot #####
+
+# Format PDF
+ggsave("./Pei Yin/data_analysis/figures/barplot_combined.pdf", # file name 
+       barplot_combined, # object name in R to save
+       height = 8.5, width = 11, # size
+       units = "in") # unit in inches
+
+# Format PNG
+ggsave("./Pei Yin/data_analysis/figures/barplot_combined.png", # file name 
+       barplot_combined, # object name in R to save
+       width = 11, # width in inches
+       height = 8.5, # height in inches
+       dpi = 1000) # resolution
+
 
