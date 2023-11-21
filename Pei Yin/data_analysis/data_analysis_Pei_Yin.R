@@ -493,7 +493,7 @@ plot_1 <- ggplot(data = data_zn) + # database of zn
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
-       y = "[Zn] dans les parties aériennes") + # y axis name
+       y = "[Zn] dans les feuilles") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_1 # show plot
@@ -507,7 +507,7 @@ plot_2 <- ggplot(data = data_zn) + # database of zn
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
-       y = "[Zn] dans les parties aériennes") + # y axis name
+       y = "[Zn] dans les feuilles") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_2 # show plot
@@ -521,7 +521,7 @@ plot_3 <- ggplot(data = data_zn) + # database of zn
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
-       y = "[Zn] dans les parties aériennes") + # y axis name
+       y = "[Zn] dans les feuilles") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_3 # show plot
@@ -535,7 +535,7 @@ plot_4 <- ggplot(data = data_cd) + # database of cd
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "log(LA)", # x axis name
-       y = "[Cd] dans les parties aériennes") + # y axis name
+       y = "[Cd] dans les feuilles") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_4 # show plot
@@ -549,7 +549,7 @@ plot_5 <- ggplot(data = data_cd) + # database of cd
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
-       y = "[Cd] dans les parties aériennes") + # y axis name
+       y = "[Cd] dans les feuilles") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_5 # show plot
@@ -563,7 +563,7 @@ plot_6 <- ggplot(data = data_cd) + # database of cd
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
-       y = "[Cd] dans les parties aériennes", # y axis name
+       y = "[Cd] dans les feuilles", # y axis name
        color = "Espèces") # legend name
 
 plot_6 # show plot
