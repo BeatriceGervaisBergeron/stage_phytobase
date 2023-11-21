@@ -274,17 +274,17 @@ plot(lmer.zn_ba_env) # mostly random points, looks homoscedastic
 ##### 5d. For lmer.zn_ba ####
 
 ## For lmer.zn_ba: model of traits and environmental controls
-lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|ph) + (1|zn_s_log10) + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
+lmer.zn_ba <- lmer(data_zn$zn_ba_cuberoot ~ LA_log + SLA + LDMC + (1|zn_s_log10) + (1|covidence) + (1|AccSpeciesName_cor), data = data_zn)
 summary(lmer.zn_ba)
 ## the significant p-values are:
 # SLA:    p-value = 0.0492 *
 r.squaredGLMM(lmer.zn_ba)
-# R2 = 0.024
+# R2 = 0.0213
 
 # Assumptions verification for lmer.zn_ba
 
 # Normality (Shapiro-Wilk test)
-shapiro.test(resid(lmer.zn_ba)) # normal distribution (p-value = 0.7236)
+shapiro.test(resid(lmer.zn_ba)) # normal distribution (p-value = 0.307)
 
 # Homoscedasticity (verify pattern in plot)
 plot(resid(lmer.zn_ba) ~ fitted(lmer.zn_ba))
