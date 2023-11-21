@@ -718,6 +718,8 @@ bartlett.perm(data_zn_br$zn_br, data_zn_br$AccSpeciesName_cor, centr = "MEDIAN",
 # so a One-way anova with permutation can be executed
 
 # One-way anova with permutation test
+source("./Pei Yin/data_analysis/anova.1way.R")
+
 anova.1way(zn_br.sp.aov, nperm=999)
 #                               Df     Sum Sq    Mean Sq   F value Prob(param) Prob(perm)
 # data_zn_br$AccSpeciesName_cor  2   191036.7   95518.34 0.0757663   0.9273115      0.929
@@ -868,7 +870,7 @@ barplot_1 <- ggplot(data = data_zn_aov, aes(x = AccSpeciesName_cor, y = zn_ba)) 
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Zn] dans les parties aériennes") # y axis name
+       y = "[Zn] dans les feuilles") # y axis name
 
 barplot_1 # view barplot
 
@@ -880,7 +882,7 @@ barplot_2 <- ggplot(data = data_zn_br, aes(x = AccSpeciesName_cor, y = zn_br)) +
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Zn] dans les parties aériennes") # y axis name
+       y = "[Zn] dans les racines") # y axis name
 
 barplot_2 # view barplot
 
@@ -892,7 +894,7 @@ barplot_3 <- ggplot(data = data_cd_aov, aes(x = AccSpeciesName_cor, y = cd_ba)) 
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Cd] dans les parties aériennes") # y axis name
+       y = "[Cd] dans les feuilles") # y axis name
 
 barplot_3 # view barplot
 
@@ -904,7 +906,7 @@ barplot_4 <- ggplot(data = data_cd_br, aes(x = AccSpeciesName_cor, y = cd_br)) +
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Cd] dans les parties aériennes") # y axis name
+       y = "[Cd] dans les racines") # y axis name
 
 barplot_4 # view barplot
 
