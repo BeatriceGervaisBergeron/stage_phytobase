@@ -488,12 +488,12 @@ plot(pb_ba ~ LDMC, data = data_pb)
 ##### 10a. Plot (zn_ba ~ LA_log) with ggplot2 #####
 plot_1 <- ggplot(data = data_zn) + # database of zn
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
-                 x = LA_log, # x axis
+                 x = LA, # x axis
                  y = zn_ba)) + # y axis
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
-       x = "log(LA)", # x axis name
-       y = "[Zn] dans les feuilles") + # y axis name
+       x = "LA", # x axis name
+       y = "[Zn] dans les feuilles (mg/kg)") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_1 # show plot
@@ -507,7 +507,7 @@ plot_2 <- ggplot(data = data_zn) + # database of zn
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
-       y = "[Zn] dans les feuilles") + # y axis name
+       y = "[Zn] dans les feuilles (mg/kg)") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_2 # show plot
@@ -521,7 +521,7 @@ plot_3 <- ggplot(data = data_zn) + # database of zn
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
-       y = "[Zn] dans les feuilles") + # y axis name
+       y = "[Zn] dans les feuilles (mg/kg)") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_3 # show plot
@@ -530,12 +530,12 @@ plot_3 # show plot
 ##### 10d. Plot (cd_ba ~ LA_log) with ggplot2 #####
 plot_4 <- ggplot(data = data_cd) + # database of cd
   geom_point(aes(color = AccSpeciesName_cor, # légende de couleurs selon les spp.
-                 x = LA_log, # x axis
+                 x = LA, # x axis
                  y = cd_ba)) + # y axis
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
-       x = "log(LA)", # x axis name
-       y = "[Cd] dans les feuilles") + # y axis name
+       x = "LA", # x axis name
+       y = "[Cd] dans les feuilles (mg/kg)") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_4 # show plot
@@ -549,7 +549,7 @@ plot_5 <- ggplot(data = data_cd) + # database of cd
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "SLA", # x axis name
-       y = "[Cd] dans les feuilles") + # y axis name
+       y = "[Cd] dans les feuilles (mg/kg)") + # y axis name
   theme(legend.position = "none") # remove legend
 
 plot_5 # show plot
@@ -563,7 +563,7 @@ plot_6 <- ggplot(data = data_cd) + # database of cd
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "LDMC", # x axis name
-       y = "[Cd] dans les feuilles", # y axis name
+       y = "[Cd] dans les feuilles (mg/kg)", # y axis name
        color = "Espèces") # legend name
 
 plot_6 # show plot
@@ -870,7 +870,7 @@ barplot_1 <- ggplot(data = data_zn_aov, aes(x = AccSpeciesName_cor, y = zn_ba)) 
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Zn] dans les feuilles") # y axis name
+       y = "[Zn] dans les feuilles (mg/kg)") # y axis name
 
 barplot_1 # view barplot
 
@@ -882,7 +882,7 @@ barplot_2 <- ggplot(data = data_zn_br, aes(x = AccSpeciesName_cor, y = zn_br)) +
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Zn] dans les racines") # y axis name
+       y = "[Zn] dans les racines (mg/kg)") # y axis name
 
 barplot_2 # view barplot
 
@@ -894,7 +894,7 @@ barplot_3 <- ggplot(data = data_cd_aov, aes(x = AccSpeciesName_cor, y = cd_ba)) 
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Cd] dans les feuilles") # y axis name
+       y = "[Cd] dans les feuilles (mg/kg)") # y axis name
 
 barplot_3 # view barplot
 
@@ -906,7 +906,7 @@ barplot_4 <- ggplot(data = data_cd_br, aes(x = AccSpeciesName_cor, y = cd_br)) +
   theme_bw() + # white background and gray grid lines
   labs(titre = NULL, # remove title in the plot, since in the report, the title will be written with Word
        x = "Espèces", # x axis name
-       y = "[Cd] dans les racines") # y axis name
+       y = "[Cd] dans les racines (mg/kg)") # y axis name
 
 barplot_4 # view barplot
 
